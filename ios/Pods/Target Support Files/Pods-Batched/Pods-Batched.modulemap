@@ -1,0 +1,6 @@
+module Pods_Batched {
+  umbrella header "Pods-Batched-umbrella.h"
+
+  export *
+  module * { export * }
+}
