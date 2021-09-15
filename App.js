@@ -7,40 +7,48 @@
  */
 
 import React from 'react';
-import type {Node} from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
   StatusBar,
-  StyleSheet,
-  Text,
   useColorScheme,
-  View,
 } from 'react-native';
 
 import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
+  Colors
 } from 'react-native/Libraries/NewAppScreen';
 import { NavigationContainer } from '@react-navigation/native';
-import AppNavigator from '@navigation/index';
-
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import AppNavigation from '@navigation/index';
+import { Provider } from 'react-redux'
+import store from '@store/configureStore';
+ 
+const MyTheme = {
+  dark: false,
+  colors: {
+    primary: 'rgb(255, 45, 85)',
+    background: 'rgb(242, 242, 242)',
+    card: 'rgb(255, 255, 255)',
+    text: 'rgb(28, 28, 30)',
+    border: 'rgb(199, 199, 204)',
+    notification: 'rgb(255, 69, 58)',
+  },
+};
 
 export default function App() {
   const isDarkMode = useColorScheme() === 'dark';
  
    const backgroundStyle = {
-     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+     backgroundColor: isDarkMode ? Colors.darker : Colors.white,
    };
   return (
-    <SafeAreaView style={backgroundStyle}>
-       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <AppNavigator>
-       </AppNavigator>
-     </SafeAreaView>
+    
+    <SafeAreaProvider style={backgroundStyle}>
+       <StatusBar barStyle={isDarkMode ? 'white-content' : 'dark-content'} />
+       <Provider store={store}>
+       <NavigationContainer theme={MyTheme}>
+        <AppNavigation/>
+       </NavigationContainer>
+       </Provider>
+     </SafeAreaProvider>
     
   );
 }

@@ -1,53 +1,62 @@
-import React, { useEffect } from 'react';
-import Styles from '@navigation/styles';
+import React from 'react';
 import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
+  Text
 } from 'react-native';
-const DrawerAware = Navigator => {
-  const _DrawerAware = () => {
-    const isDarkMode = useColorScheme() === 'dark';
- 
-   const backgroundStyle = {
-     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-   };
-    return (
-      <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-    );
-  };
 
-  return _DrawerAware;
+import {
+  DrawerContentScrollView,
+  DrawerItem
+} from '@react-navigation/drawer';
+import Animated from 'react-native-reanimated';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Styles from './styles';
+
+const {
+  interpolate,
+  Extrapolate
+} = Animated;
+
+const CustomDrawer = props => {
+  const { state, progress, navigation } = props;
+  const { index, routes } = state;
+
+  const opacity = interpolate(props.progress, {
+    inputRange: [0, 0.5, 1],
+    outputRange: [0, 0.1, 1],
+    extrapolate: Extrapolate.CLAMP
+  });
+
+  return (
+    <Animated.View style={[
+      Styles.containerSideMenu]}>
+      <SafeAreaView style={Styles.imageContainer} edges={['top']}>
+      <DrawerContentScrollView {...props} contentContainerStyle={Styles.drawerContentContainerStyle}>
+        {routes.map((route, position) => {
+          const isFocused = (index === position);
+
+          return (
+            <DrawerItem
+              key={route.key}
+              label={({ focused }) => {
+                return (
+                  <Text style={focused ? Styles.activeText : Styles.inactiveText}>
+                    {route.name}
+                  </Text>
+                )
+              }}
+              style={isFocused ? Styles.activeContainer : Styles.inActiveContainer}
+              onPress={() => navigation.navigate(`${route.name}`)}
+              focused={isFocused}
+              activeBackgroundColor='transparent'
+            />
+          )
+        })}
+      </DrawerContentScrollView>
+      </SafeAreaView>
+    </Animated.View>
+  )
 };
 
-export default DrawerAware;
+export default CustomDrawer;
+
+
