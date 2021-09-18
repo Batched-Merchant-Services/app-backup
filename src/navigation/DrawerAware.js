@@ -33,7 +33,6 @@ const CustomDrawer = props => {
       <DrawerContentScrollView {...props} contentContainerStyle={Styles.drawerContentContainerStyle}>
         {routes.map((route, position) => {
           const isFocused = (index === position);
-
           return (
             <DrawerItem
               key={route.key}

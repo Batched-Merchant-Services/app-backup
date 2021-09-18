@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React from 'react';
+import React,{ useEffect } from 'react';
 import {
   StatusBar,
   useColorScheme,
@@ -20,6 +20,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppNavigation from '@navigation/index';
 import { Provider } from 'react-redux'
 import store from '@store/configureStore';
+import SplashScreen from "react-native-lottie-splash-screen";
  
 const MyTheme = {
   dark: false,
@@ -34,13 +35,20 @@ const MyTheme = {
 };
 
 export default function App() {
+
+  useEffect(() => {
+    console.log('SplashScreen',SplashScreen);
+    SplashScreen.hide(); // here
+  }, []);
+
+
   const isDarkMode = useColorScheme() === 'dark';
  
    const backgroundStyle = {
      backgroundColor: isDarkMode ? Colors.darker : Colors.white,
    };
   return (
-    
+   
     <SafeAreaProvider style={backgroundStyle}>
        <StatusBar barStyle={isDarkMode ? 'white-content' : 'dark-content'} />
        <Provider store={store}>
