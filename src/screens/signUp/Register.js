@@ -35,7 +35,7 @@ const Register = ({ navigation }) => {
          <Text>Hello, I am your Register!</Text>
          <Button
             title="Open drawer"
-            onPress={() => navigation.openDrawer()} // We added an onPress event which would navigate to the About screen
+            onPress={() => navigation.navigate('Dashboard')} // We added an onPress event which would navigate to the About screen
           />
       </View>
     </SafeAreaView>
@@ -43,18 +43,6 @@ const Register = ({ navigation }) => {
     
   );
 }
-const mapStateToProps = state => {
-  return {
-      dataTvMaze: state.data
-  }
-}
 
-const mapDispatchToProps = dispatch => {
-  return {
-      fetchData: () => {
-          return dispatch(fetchData())
-      }
-  }
-}
 
 export default Register;

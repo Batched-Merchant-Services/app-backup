@@ -2,6 +2,7 @@
 import React from "react";
 import {Animated} from "react-native"
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { signInScreens, signOutScreens } from './registerScreens';
 import CustomDrawer from "./DrawerAware";
 const {
@@ -9,7 +10,7 @@ const {
   Extrapolate
 } = Animated;
 
-const Drawer = createDrawerNavigator();
+const Stack = createNativeStackNavigator();
 
 const screenOptionStyle = {
   headerStyle: {
@@ -22,19 +23,10 @@ const screenOptionStyle = {
 
 const AppNavigation = () => {
   return (
-    <Drawer.Navigator
-       drawerContent={(props) => <CustomDrawer {...props} />}>
-      <Drawer.Screen name="Sign In"  options={{
-            headerShown: false,
-            icon: 'tachometer-alt',
-            category: 'dashboard',
-          }} component={signInScreens} />
-      <Drawer.Screen name="Sign Out" options={{
-            headerShown: false,
-            icon: 'tachometer-alt',
-            category: 'dashboard',
-          }} component={signOutScreens} />
-    </Drawer.Navigator>
+  <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}> 
+      <Stack.Screen name="Login" component={signOutScreens} />
+      <Stack.Screen name="Dashboard" component={signInScreens} />
+    </Stack.Navigator>
   );
 }
 

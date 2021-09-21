@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React,{ useEffect } from 'react';
+import React,{ useEffect,useState } from 'react';
 import {
   StatusBar,
   useColorScheme,
@@ -21,7 +21,11 @@ import AppNavigation from '@navigation/index';
 import { Provider } from 'react-redux'
 import store from '@store/configureStore';
 import SplashScreen from "react-native-lottie-splash-screen";
- 
+import makeApolloClient from '@utils/api/apollo'; 
+import { 
+  ApolloProvider,
+} from "@apollo/client";
+
 const MyTheme = {
   dark: false,
   colors: {
@@ -35,10 +39,20 @@ const MyTheme = {
 };
 
 export default function App() {
+  
+  const [client, setClient] = useState(null);
+
+  const fetchSession = async () => {
+    const client = makeApolloClient('1289449djdhjchfbhfbfhbdjdi8494802027');
+    console.log('client',client);
+    setClient(client);
+  }
+
 
   useEffect(() => {
     console.log('SplashScreen',SplashScreen);
     SplashScreen.hide(); // here
+    fetchSession();
   }, []);
 
 
@@ -51,11 +65,13 @@ export default function App() {
    
     <SafeAreaProvider style={backgroundStyle}>
        <StatusBar barStyle={isDarkMode ? 'white-content' : 'dark-content'} />
-       <Provider store={store}>
-       <NavigationContainer theme={MyTheme}>
-        <AppNavigation/>
-       </NavigationContainer>
-       </Provider>
+       <ApolloProvider client={client}>
+        <Provider store={store}>
+        <NavigationContainer theme={MyTheme}>
+          <AppNavigation/>
+        </NavigationContainer>
+        </Provider>
+       </ApolloProvider>
      </SafeAreaProvider>
     
   );

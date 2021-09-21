@@ -1,37 +1,27 @@
-const red = '#FA3776';
-const green = '#00C79B';
-const primary = '#F7CE51';/**/
-const bgOrange02 = '#FF9522';/**/
-const orange = '#FFB800';
-const textGray = '#D0D7E1';
-const bgGray = '#EDEFF2';
-const card = '#FFFFFF';
-const bgBlue06 = '#6990FC'; 
-const bgBlue07 = '#775EFF';
-const textBlueDark = '#4B5ACD';
-const textBlue01 = '#3C48A2';
-const bgBlue01 = '#232E65';
-const bgBlue02 = '#303A6D';
-const disabled = '#7D81AF';
-const title =  '#8DAEE8';
+const error = '#F02842';
+const success = '#23C9D3';
+const warning = '#F5A834';
+const background = '#242C4C';
+const white = '#FFFFFF';
+const blue01 = '#DAF3FF';
+const blue02 = '#00A9FF';
+const blue03 = '#2E3A6E';
+const blue04 = '#3F529E';
+const green = '#24BFAC'
+
+
 
 const Colors = {
-  red,
-  primary,
-  bgOrange02,
-  textBlueDark,
-  textGray,
-  card,
-  orange,
-  textBlue01,
-  disabled,
-  title,
-  bgBlue02,
-  bgBlue06,
-  bgGray,
-  bgBlue01,
-  bgBlue07,
-  green, 
+  error,
+  success,
+  warning,
+  background,
+  white,
+  blue01,
+  blue02,
+  blue03,
+  blue04,
+  green,
   get: value => {
     if (Colors[value]) {
       const returnValue = { color: Colors[value] };
