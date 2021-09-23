@@ -1,14 +1,19 @@
 import Text from '@components/Text';
 import View from '@components/View';
-import FloatingLabelInput from '@components/FloatingLabelInput';
+import FloatingInput from '@components/FloatingLabelInput';
 import ButtonRounded from '@components/ButtonRounded';
-
-
+import Divider from '@components/Divider';
+import ImageResize from '@components/ImageResize';
+import BackgroundWrapper from '@components/BackgroundWrapper';
 
 
 export {
-  FloatingLabelInput,
   Text,
   View,
-  ButtonRounded
+  Divider,
+  ImageResize,
+  ButtonRounded,
+  BackgroundWrapper,
+  FloatingInput,
+  
 };

@@ -1,24 +1,21 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import Ripple from 'react-native-material-ripple';
-import { Bubbles } from 'react-native-loader';
 import { scale } from 'react-native-size-matters';
 import Colors from '@styles/Colors';
-import View from '@components/View';
+import { View } from '@components';
 import { useSelector} from 'react-redux';
-import Styles from '@components/ButtonRounded/styles';
+import Styles from './styles';
+import { TouchableOpacity } from 'react-native';
 
 const ButtonRounded = ({
   size = 'sm',
   blue,
-  inactive,
-  darkBlue,
+  dark,
   disabled,
   children,
-  containerStyle = {},
   style = {},
   isLoading,
-  white,
+  containerStyle ={},
   ...props
 }) => {
   const redux = useSelector(state => state);
@@ -29,69 +26,59 @@ const ButtonRounded = ({
   const btnSize = { width: getBtnSize(size) };
 
   const blueColor = disabled
-    ? [brandTheme.bgBlue06??Colors.bgBlue06, brandTheme.textBlueDark??Colors.textBlueDark]
-    : [brandTheme.bgBlue06??Colors.bgBlue06, brandTheme.bgBlue06??Colors.bgBlue06];
+    ? [brandTheme?.blue01??Colors.blue01, brandTheme?.blue01??Colors.blue01]
+    : [brandTheme?.blue02??Colors.blue02, brandTheme?.blue02??Colors.blue02];
 
-  const inactiveColor = disabled
-    ? [brandTheme.bgBlue06??Colors.bgBlue06, brandTheme.textBlueDark??Colors.textBlueDark]
-    : [brandTheme.disabled??Colors.disabled , brandTheme.disabled??Colors.disabled ];
+  const linearColorBlue = disabled
+    ? [brandTheme?.blue02??Colors.blue02 , brandTheme?.blue04??Colors.blue04]
+    : [brandTheme?.blue02??Colors.blue02 , brandTheme?.blue04??Colors.blue04 ];
 
-  const darkBlueColor = disabled
-    ? [brandTheme.bgBlue02??Colors.bgBlue02, brandTheme.textBlueDark??Colors.textBlueDark]
-    : [brandTheme.bgBlue02??Colors.bgBlue02, brandTheme.bgBlue02??Colors.bgBlue02];
-
-  const orangeColor = disabled
-    ? [brandTheme.bgBlue06??Colors.bgBlue06, brandTheme.bgBlue06??Colors.bgBlue06]
-    : [brandTheme.bgOrange02??Colors.bgOrange02, brandTheme.orange??Colors.orange];
- 
-  const whiteColor = disabled
-    ? [brandTheme.white??Colors.white, brandTheme.white??Colors.white]
-    : [brandTheme.white??Colors.white, brandTheme.white??Colors.white];
+  const darkBlue = disabled
+    ? ['transparent', 'rgba(0, 0, 0, 0.5)']
+    : ['transparent', 'rgba(0, 0, 0, 0.5)'];
 
 
 
 
-  let color;
+  let backgroundGradient;
+  let colorText;
   switch (true) {
-  case inactive:
-    color = inactiveColor;
+  case linearColorBlue:
+    backgroundGradient = linearColorBlue;
+    colorText = Colors.white
     break;
   case blue:
-    color = blueColor;
+    backgroundGradient = blueColor;
+    colorText = Colors.white
     break;
-  case darkBlue:
-    color = darkBlueColor;
-    break;
-  case white:
-    color = whiteColor;
+  case dark:
+    backgroundGradient = darkBlue;
+    colorText = Colors.blue02
     break;
   default:
-    color = orangeColor;
+    backgroundGradient = linearColorBlue;
+    colorText = Colors.white
   }
-
   return (
-    <Ripple disabled={disabled} {...props}>
       <LinearGradient
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
-        colors={color}
+        colors={backgroundGradient}
         style={[Styles.wrapper, style,btnSize]}
       >
-        <View style={[Styles.wrapper, btnSize, containerStyle]} {...props}>
-          {isLoading ? <Bubbles size={5} color={brandTheme.white??Colors.white} /> : children}
-        </View>
+       <TouchableOpacity style={[Styles.wrapper, btnSize, containerStyle]} {...props}>
+          {/* {isLoading ? <Bubbles size={5} color={brandTheme.white??Colors.white} /> : children} */}
+          { children }
+      </TouchableOpacity>
       </LinearGradient>
-    </Ripple>
   );
 };
 
 function getBtnSize(size) {
   const sizes = {
-    lg : scale(200),
-    sm : scale(145),
-    md : scale(200),
-    sml: scale(140),
-    msm: scale(70)
+    lg : scale(320),
+    md : scale(250),
+    sm : scale(15),
   };
   return sizes[size];
 }

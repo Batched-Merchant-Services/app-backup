@@ -1,11 +1,12 @@
 import { scale, verticalScale } from 'react-native-size-matters';
 
 const Font = {
-  Montserrat: {
-    REGULAR : 'Montserrat-Regular',
-    MEDIUM  : 'Montserrat-Medium',
-    SEMIBOLD: 'Montserrat-SemiBold',
-    BOLD    : 'Montserrat-Bold'
+  BaiJamjuree: {
+    REGULAR : 'BaiJamjuree-Regular',
+    MEDIUM  : 'BaiJamjuree-Medium',
+    SEMIBOLD: 'BaiJamjuree-SemiBold',
+    BOLD    : 'BaiJamjuree-Bold',
+    LIGHT   : 'BaiJamjuree-Light'
   }
 };
 
@@ -36,7 +37,7 @@ export const Typography = {
       if (size) {
         return {
           ...size,
-          fontFamily: Font.Montserrat.REGULAR,
+          fontFamily: Font.BaiJamjuree.REGULAR,
           color     : '#fff'
         };
       }
@@ -46,16 +47,19 @@ export const Typography = {
 
   weight: {
     regular: {
-      fontFamily: Font.Montserrat.REGULAR
+      fontFamily: Font.BaiJamjuree.REGULAR
     },
     medium: {
-      fontFamily: Font.Montserrat.MEDIUM
+      fontFamily: Font.BaiJamjuree.MEDIUM
     },
     semibold: {
-      fontFamily: Font.Montserrat.SEMIBOLD
+      fontFamily: Font.BaiJamjuree.SEMIBOLD
     },
     bold: {
-      fontFamily: Font.Montserrat.BOLD
+      fontFamily: Font.BaiJamjuree.BOLD
+    },
+    light: {
+      fontFamily: Font.BaiJamjuree.LIGHT
     },
     get: key => (Typography.weight[key] ? Typography.weight[key] : null)
   }

@@ -17,11 +17,6 @@ const Styles = StyleSheet.create({
   input: {
     ...Typography.weight.regular,
     ...Typography.sizes.h18,
-    flex        : 1,
-    padding     : 0,
-    margin      : 0,
-    borderWidth : 0,
-    marginBottom: moderateScale(3, 0.2),
     height      : '100%'
   },
   inputSecure: {
@@ -45,20 +40,17 @@ const Styles = StyleSheet.create({
     ...Typography.weight.regular,
     ...Typography.sizes.h11,
     left: moderateScale(2, 0.2),
-    top : moderateScale(5, 0.2),
+    top : moderateScale(2, 0.2),
   },
   imagePass: {
     width : verticalScale(24),
     height: verticalScale(24),
 
   },
-  containerImagePass:{
-    position: 'absolute', 
-    top     : verticalScale(80), 
-    bottom  : verticalScale(0), 
-    right   : verticalScale(30),
-    width   : scale(24),
-    height  : verticalScale(24),
+  validations:{
+   
+    alignItems:'center',
+    justifyContent:'center'
   },
   containerShow:{
     width   : verticalScale(23),

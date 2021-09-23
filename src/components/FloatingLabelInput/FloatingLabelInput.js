@@ -1,21 +1,22 @@
 import React, { Fragment, useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { TextInput, TouchableHighlight,TouchableOpacity,Image,Platform } from 'react-native';
-import {  verticalScale } from 'react-native-size-matters';
+import { TextInput, TouchableHighlight,TouchableOpacity,Platform } from 'react-native';
+import { scale as RnScale,verticalScale } from 'react-native-size-matters';
+import { View,Text,ImageResize,Divider } from '@components';
 import { useTimingValue } from '@hooks/animation-hooks';
 import InputWrapper from '@components/FloatingLabelInput/InputWrapper';
 import InputError from '@components/FloatingLabelInput/InputError';
+import InputIconError from '@components/FloatingLabelInput/InputIconError';
+import InputIconSuccess from '@components/FloatingLabelInput/InputIconSuccess';
 import FloatingLabel from '@components/FloatingLabelInput/FloatingLabel';
-import View from '@components/View';
-import Text from '@components/Text';
+
 import Colors from '@styles/Colors';
 import Styles from '@components/FloatingLabelInput/styles';
-import iconShowPass from '@assets/icons/showPass.png';
-
-import iconHidePass from '@assets/icons/hidePass.png';
 import { useSelector } from 'react-redux';
-import IconShowPassword from '../../utils/iconSVG/IconShowPassword';
-import IconHidePassword from '../../utils/iconSVG/IconHidePassword';
+import hidePassword from '@assets/icons/hidePassword.png';
+
+
+
 
 const FloatingLabelInput = ({
   label,
@@ -42,12 +43,14 @@ const FloatingLabelInput = ({
   const [showPass, setShowPass] = useState(secureTextEntry);
   const inputRef = useRef(null);
   // On mount if theres a value, label should be up
+  
   useEffect(() => {
     value && toMax({ immediately: true });
   }, []);
 
   // Focus handler
   const handleFocus = () => {
+
     setIsFocused(true);
     toMax();
     onFocus && onFocus();
@@ -71,7 +74,7 @@ const FloatingLabelInput = ({
   if (value) {
     toMax();
   }
-
+  console.log('error',error)
   return (
     <>
         <TouchableHighlight onPress={focusInput} underlayColor={'transparent'}>
@@ -81,44 +84,11 @@ const FloatingLabelInput = ({
               numberOfLines={numberOfLines}
               multiInput={multiInput}
               isFocused={isFocused}
-              hasError={!!error}
+              hasError={error}
               borderLight={borderLight}
               multiline={multiline}
             >
-              {Platform.OS === 'android' && showPass && (
-                <View style={Styles.secureTextWrapper}>
-                  <Text
-                    white
-                    style={Styles.secureText}
-                    numberOfLines={1}
-                  >
-                    {value.replace(/./g, '*')}
-                  </Text>
-                </View>
-              )}
               <FloatingLabel label={label} scale={scale} />
-              {!secureTextEntry && (
-                <TextInput
-                  {...props}
-                  onChangeText={onChangeText}
-                  ref={inputRef}
-                  blurOnSubmit
-                  onBlur={handleBlur}
-                  onFocus={handleFocus}
-                  selectionColor={brandTheme.white??Colors.white}
-                  style={[
-                    Styles.input,{color: brandTheme.white??Colors.white},
-                    ...(Platform.OS === 'android'?showPass ? [Styles.inputSecure] : []:[]),
-                    style
-                  ]}
-                  secureTextEntry={showPass}
-                  value={value}
-                  multiline={multiline}
-                  numberOfLines={numberOfLines}
-                  
-                />
-              )}
-              {secureTextEntry && (
                 <View row>
                   <View flex-1>
                     <TextInput
@@ -128,10 +98,9 @@ const FloatingLabelInput = ({
                       blurOnSubmit
                       onBlur={handleBlur}
                       onFocus={handleFocus}
-                      selectionColor={brandTheme.white??Colors.white}
+                      selectionColor={brandTheme?.white??Colors.white}
                       style={[
-                        Styles.input,{color: brandTheme.white??Colors.white},
-                        ...(Platform.OS === 'android'? showPass ? [Styles.inputSecure] : []:[]),
+                        Styles.input,{color: brandTheme?.white??Colors.white},
                         style
                       ]}
                       secureTextEntry={showPass}
@@ -140,20 +109,36 @@ const FloatingLabelInput = ({
                       numberOfLines={numberOfLines}
                     />
                   </View>
-                  <View paddingB-9 >
-                    {secureTextEntry && (
+                  <View row paddingB-9 >
+                     {secureTextEntry && (
                       <TouchableOpacity
                         onPress={handleChangePass}
                         style={Styles.containerShow}
                       >
                         {showPass ? 
-                          <IconShowPassword width={21} height={21}  fill={brandTheme?.bgBlue06??Colors?.bgBlue06}/>: 
-                          <IconHidePassword width={21} height={21}  fill={brandTheme?.bgBlue06??Colors?.bgBlue06}/>
+                          <ImageResize
+                            source={hidePassword}
+                            height={verticalScale(12)}
+                            width={RnScale(16)}
+                          />:
+                          <ImageResize
+                            source={hidePassword}
+                            height={verticalScale(12)}
+                            width={RnScale(16)}
+                          />
                         }
-                      </TouchableOpacity>)}
+                      </TouchableOpacity>)} 
+                      <Divider width-5 />
+                      {error&& error !== 'pending' &&(
+                        <InputIconError error={error} />
+                      )}
+                      
+                      {!error&& error !== 'pending' &&(
+                        <InputIconSuccess error={error} />
+                      )}
                   </View>
                 </View>
-              )}
+               
             </InputWrapper>
             <InputError error={error} />
           </Fragment>

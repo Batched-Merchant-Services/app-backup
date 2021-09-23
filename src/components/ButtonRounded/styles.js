@@ -1,13 +1,14 @@
 import { StyleSheet } from 'react-native';
-import {  verticalScale } from 'react-native-size-matters';
+import {  scale,verticalScale } from 'react-native-size-matters';
 
 const Styles = StyleSheet.create({
   wrapper: {
-    height        : verticalScale(30),
+    height        : scale(40),
     alignItems    : 'center',
     justifyContent: 'center',
-    borderRadius  : verticalScale(30)
-  }
+    borderRadius  : scale(2)
+  },
+
 });
 
 export default Styles;

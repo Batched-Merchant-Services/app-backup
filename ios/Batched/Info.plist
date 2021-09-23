@@ -2,6 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>BaiJamjuree-Bold.otf</string>
+		<string>BaiJamjuree-Medium.otf</string>
+		<string>BaiJamjuree-Regular.otf</string>
+		<string>BaiJamjuree-SemiBold.otf</string>
+		<string>BaiJamjuree-Light.otf</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>

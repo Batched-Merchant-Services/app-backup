@@ -141,8 +141,8 @@ const StyleHelper = {
 
   extractColorValue: (props,theme) => {
 
-    //const themeObj = Object?.keys(theme??[]);
-    const colors = Object?.keys(Colors);
+    const themeObj = Object?.keys(theme??[]);
+    const colors = Object?.keys(themeObj.length !== 0 ? theme : Colors);
     const lastProp = getLastProp(colors, props);
     const propsKeys = colors?.filter(key => key.includes(lastProp));
     return themeObj.length !== 0  ? { color: theme[propsKeys]?? 'white' } : Colors.get(lastProp);

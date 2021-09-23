@@ -9,19 +9,20 @@ const InputWrapper = ({ multiInput, numberOfLines, children, isFocused, hasError
   const redux = useSelector(state => state);
   const appData = redux.user;
   const brandTheme = appData?.Theme?.colors;
-
+  console.log('hasError',hasError);
   return (
     <View
       {...props}
       row
       bottom
       style={[
-        Styles.wrapper,{borderColor: brandTheme.bgBlue06??Colors.bgBlue06},
-        ...(borderLight ?[{ borderColor: brandTheme.bgBlue06??Colors?.bgBlue06 }]:[]),
+        Styles.wrapper,{borderColor: brandTheme?.blue02??Colors.blue02},
+        ...(borderLight ?[{ borderColor: brandTheme?.blue02??Colors?.blue02 }]:[]),
         ...(multiInput ? [{height: 50 * (numberOfLines || 2)}] : []),
         ...(multiline ? [{height: 80 }] : []),
-        ...(isFocused ? [{ backgroundColor: brandTheme.textBlueDark??Colors.textBlueDark,borderColor: brandTheme.bgBlue06?? Colors.bgBlue06}] : []),
-        ...(hasError ? [{borderColor: brandTheme.red??Colors.red}] : []),
+        ...(isFocused ? [{ backgroundColor:'transparent',borderColor: brandTheme?.blue02?? Colors.blue02}] : []),
+        ...(hasError  === 'pending' ? [] : hasError ? [{borderColor: brandTheme?.error??Colors.error}] : [{borderColor: brandTheme?.success??Colors.success}]),
+        
       ]}
     >
       {children}

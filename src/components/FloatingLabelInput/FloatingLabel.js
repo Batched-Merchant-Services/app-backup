@@ -22,7 +22,7 @@ const FloatingLabel = ({ label, scale }) => {
     }),
     color: scale.interpolate({
       inputRange : [0, 1],
-      outputRange: [brandTheme.textGray??Colors.textGray, brandTheme.white??Colors.white]
+      outputRange: [brandTheme?.blue02??Colors.blue02, brandTheme?.white??Colors.white]
     })
   };
 
