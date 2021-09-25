@@ -4,9 +4,8 @@ import Colors from '@styles/Colors';
 const styles = StyleSheet.create({
   linearGradient: {
     flex: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderRadius: 5
+    paddingLeft: 20,
+    paddingRight: 20
   },
   fonts:{
     fontFamily: 'BaiJamjuree-SemiBold',

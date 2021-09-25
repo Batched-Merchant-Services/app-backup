@@ -3,7 +3,6 @@ import Validators  from './validators';
 import Validations from './validations';
 
 const Validate = (fieldName, value, confirm = '') => {
-  console.log('Validations',Validations)
  
   if (Validations?.hasOwnProperty(fieldName)  ) {
     const object = Validations[fieldName];

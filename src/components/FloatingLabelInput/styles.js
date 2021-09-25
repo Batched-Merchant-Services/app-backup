@@ -1,6 +1,7 @@
 import { Platform, StyleSheet } from 'react-native';
 import { scale,verticalScale,moderateScale } from 'react-native-size-matters';
 import { Typography } from '@styles/Typography';
+import Colors from '@styles/Colors';
 
 const Styles = StyleSheet.create({
   wrapper: {
@@ -23,13 +24,6 @@ const Styles = StyleSheet.create({
     color        : 'transparent',
     fontSize     : moderateScale(Platform.OS === 'ios' ? 16 : 20, 0.2),
     letterSpacing: 3
-  },
-  secureTextWrapper: {
-    width   : '100%',
-    position: 'absolute',
-    left    : moderateScale(10, 0.2),
-    bottom  : moderateScale(5, 0.2),
-    color   : 'transparent'
   },
   secureText: {
     letterSpacing: moderateScale(3, 0.2),
@@ -55,7 +49,7 @@ const Styles = StyleSheet.create({
   containerShow:{
     width   : verticalScale(23),
     height  : verticalScale(23),
-    backgroundColor:'white',
+    backgroundColor:Colors.blue02,
     borderRadius:verticalScale(30), 
     alignItems:'center',
     justifyContent:'center'

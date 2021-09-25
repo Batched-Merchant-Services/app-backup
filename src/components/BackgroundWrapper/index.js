@@ -31,7 +31,7 @@ const BackgroundWrapper = ({
     >
       <SafeAreaView style={backgroundStyle}>
         <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
-        <Divider/>
+        <Divider height-10/>
         {children}
       </SafeAreaView>
     </LinearGradient>

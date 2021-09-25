@@ -5,6 +5,7 @@ import CustomDrawer from "./DrawerAware";
 import Login from '@screens/signIn/Login';
 import Register from '@screens/signUp/Register';
 import Dashboard  from '@screens/home/Dashboard';
+import ConfirmationCodeSms  from '@screens/signUp/ConfirmationCodeSms';
 
 const screenOptionStyle = {
   headerStyle: {
@@ -36,6 +37,7 @@ const signOutScreens = () => {
     <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
+      <Stack.Screen name="confirmationSms" component={ConfirmationCodeSms} />
     </Stack.Navigator>
   );
 }

@@ -28,6 +28,7 @@ const HEADERS = [
   'h17',
   'h10',
   'h7',
+  'h5',
 ];
 const FONT_WEIGHTS = ['regular', 'medium', 'semibold', 'bold'];
 const TEXT_ALIGNMENTS = ['center', 'left', 'right'];
@@ -227,7 +228,6 @@ const StyleHelper = {
         }
       }
     }
-
     return alignments;
   },
 
