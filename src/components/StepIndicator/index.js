@@ -11,14 +11,14 @@ const renderLine = (index, step) => {
 const renderCircles = (totalSteps, step) => {
 	let circles = [];
 
-	for (let index = 0; index < totalSteps; index++) {
+	for (let index = 1; index < totalSteps; index++) {
 		circles.push(
 			<View row centerV key={index}>
 				<View width-10 height-10 centerH centerV
-					style={index < step ? styles.circle : styles.circleDisable}
+					style={index === step ? styles.circle : styles.circleDisable}
 				>
 				</View>
-				{index < totalSteps - 1 ? renderLine(index, step) : null}
+				{index < totalSteps ? renderLine(index, step) : null}
 			</View>
 		);
 	}

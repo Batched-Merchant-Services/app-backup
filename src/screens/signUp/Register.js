@@ -23,7 +23,13 @@ const Register = ({ navigation }) => {
   const redux = useSelector(state => state);
   const email = useValidatedInput('email', '');
   const password = useValidatedInput('password', '');
-
+  const answer = useValidatedInput('', {name: ''}, {
+    changeHandlerSelect: 'onSelect'
+  });
+  const [items, setItems] = useState([
+    {id: '1', value: 'apple',name:'Apple'},
+    {id: '2', value: 'banana',name:'Banana'}
+  ]);
 
   useEffect(() => {
     console.log('redux', redux)
@@ -41,22 +47,14 @@ const Register = ({ navigation }) => {
   //   console.log('loading');
   // }
 
-
-
   return (
     <BackgroundWrapper>
       <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
       <Divider height-15 />
       <StepButton navigation={navigation}/>
       <Divider height-15 />
-      <Text h18 blue02>Welcome!</Text>
+      <Text h18 blue02>Welcome to Batched!</Text>
       <Divider height-25 />
-      <FloatingInput
-        {...email}
-        label={'Reference Code'}
-        keyboardType={'number-pad'}
-        autoCapitalize={'none'}
-      />
        <Divider height-5 />
       <FloatingInput
         {...password}
@@ -64,15 +62,21 @@ const Register = ({ navigation }) => {
         autoCapitalize={'none'}
       />
        <Divider height-5 />
-       <DropDown/>
-      {/* <Divider height-5 />
+       <DropDown
+          {...answer}
+          label={'Country'}
+          options={items}
+          size="sm"
+          //onFill={(code)=> filterPays(code)}
+       />
+      <Divider height-5 />
       <FloatingInput
         {...password}
-        label={'Email Address '}
+        label={'Phone'}
         autoCapitalize={'none'}
-      /> */}
+      />
       <Divider height-15 />
-      <StepIndicator step={1} totalSteps={4} />
+      <StepIndicator step={1} totalSteps={5} />
       <Divider height-35 />
       <ButtonRounded
         onPress={() => navigation.navigate("confirmationSms")}

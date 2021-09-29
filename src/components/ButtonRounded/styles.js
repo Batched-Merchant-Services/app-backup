@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import {  scale,verticalScale } from 'react-native-size-matters';
+import Colors from '@styles/Colors';
 
 const Styles = StyleSheet.create({
   wrapper: {
@@ -8,6 +9,10 @@ const Styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius  : scale(2)
   },
+  borderDark:{
+    borderColor:Colors.blue02,
+    borderWidth:1
+  }
 
 });
 
