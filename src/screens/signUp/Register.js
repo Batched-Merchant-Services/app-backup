@@ -7,18 +7,20 @@ import {
   View,
   Link,
   Divider,
+  LinksTerms,
   ButtonRounded,
   FloatingInput,
+  DropDownPicker,
   BackgroundWrapper
 } from '@components';
 import StepButton from './components/StepsButton';
 import { useQuery } from '@apollo/client';
 import { FETCH_TODOS } from '@utils/api/queries/example';
-import Styles from './styles'
 import Logo from '@assets/brandBatched/logo.svg';
 import { useSelector } from 'react-redux';
-import DropDown from '../../components/DropDownPicker';
 import StepIndicator from '../../components/StepIndicator';
+
+
 const Register = ({ navigation }) => {
   const redux = useSelector(state => state);
   const email = useValidatedInput('email', '');
@@ -62,7 +64,7 @@ const Register = ({ navigation }) => {
         autoCapitalize={'none'}
       />
        <Divider height-5 />
-       <DropDown
+       <DropDownPicker
           {...answer}
           label={'Country'}
           options={items}
@@ -78,27 +80,18 @@ const Register = ({ navigation }) => {
       <Divider height-15 />
       <StepIndicator step={1} totalSteps={5} />
       <Divider height-35 />
-      <ButtonRounded
-        onPress={() => navigation.navigate("confirmationSms")}
-        disabled={false}
-        blue
-        size='lg'
-      >
-        <Text h14 semibold>
-          Next
-        </Text>
-      </ButtonRounded>
-      <Divider height-15 />
-      <View flex-1 row bottom>
-        <Link>
-          <Text h12 white>Terms and Conditionsd</Text>
-        </Link>
-        <Divider width-10 />
-        <Link>
-          <Text h12 white>Privacy Policy</Text>
-        </Link>
+      <View flex-1 bottom>
+        <ButtonRounded
+          onPress={() => navigation.navigate("ConfirmationSms")}
+          disabled={false}
+          blue
+          size='lg'
+        >
+          <Text h14 semibold>
+            Next
+          </Text>
+        </ButtonRounded>
       </View>
-      <Divider height-15 />
     </BackgroundWrapper>
   );
 }

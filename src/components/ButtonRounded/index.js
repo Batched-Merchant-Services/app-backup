@@ -11,6 +11,7 @@ const ButtonRounded = ({
   size = 'sm',
   blue,
   dark,
+  success,
   disabled,
   children,
   style = {},
@@ -33,6 +34,10 @@ const ButtonRounded = ({
     ? [brandTheme?.blue02??Colors.blue02 , brandTheme?.blue04??Colors.blue04]
     : [brandTheme?.blue02??Colors.blue02 , brandTheme?.blue04??Colors.blue04 ];
 
+  const successButton = disabled
+    ? [brandTheme?.blue02??Colors.blue02 , brandTheme?.blue04??Colors.blue04]
+    : [brandTheme?.blue02??Colors.blue02 , brandTheme?.blue04??Colors.blue04 ];
+
   const darkBlue = disabled
     ? ['transparent', 'rgba(0, 0, 0, 0.1)']
     : ['transparent', 'rgba(0, 0, 0, 0.0)'];
@@ -50,6 +55,9 @@ const ButtonRounded = ({
     break;
   case dark:
     backgroundGradient = darkBlue;
+    break;
+  case success:
+    backgroundGradient = successButton;
     break;
   default:
     backgroundGradient = linearColorBlue;
@@ -71,7 +79,7 @@ const ButtonRounded = ({
 
 function getBtnSize(size) {
   const sizes = {
-    lg : scale(320),
+    lg : scale(310),
     md : scale(250),
     sm : scale(150),
   };

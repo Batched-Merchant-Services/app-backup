@@ -25,6 +25,26 @@ const Validations = {
       message: i18n.t('validations.passwordFormat')
     }
   },
+  agree:{
+    presence: {
+      message: i18n.t('validations.agree')
+    },
+  },
+  secretAnswers:{
+    presence: {
+      message: i18n.t('validations.agree')
+    },
+  },
+  secretAnswerConfirm:{
+    presence: {
+      message: i18n.t('validations.agree')
+    },
+  },
+  referenceCode:{
+    presence: {
+      message: i18n.t('validations.agree')
+    },
+  }
 };
 
 export default Validations;

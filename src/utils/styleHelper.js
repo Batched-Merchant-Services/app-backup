@@ -9,6 +9,7 @@ const PADDING_KEY_PATTERN = /^padding[LTRBHV]?(-\d*)?$/;
 const MARGIN_KEY_PATTERN = /^margin[LTRBHV]?(-\d*)?$/;
 
 const HEADERS = [
+  'h50',
   'h32',
   'h30',
   'h28',
@@ -30,7 +31,7 @@ const HEADERS = [
   'h7',
   'h5',
 ];
-const FONT_WEIGHTS = ['regular', 'medium', 'semibold', 'bold'];
+const FONT_WEIGHTS = ['regular', 'medium', 'semibold', 'bold','light'];
 const TEXT_ALIGNMENTS = ['center', 'left', 'right'];
 
 const PADDING_VARIATIONS = {

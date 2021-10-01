@@ -4,13 +4,17 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from "react-native-linear-gradient";
 import Colors from "@styles/Colors";
 import { useSelector } from "react-redux";
-import { StatusBar,useColorScheme,TextInput } from 'react-native';
+import { StatusBar, useColorScheme, ScrollView,Dimensions } from 'react-native';
 import Styles from './styles'
-import { Divider } from "@components";
+import { Divider, Text, LinksTerms, NavigationBar,View } from "@components";
 const BackgroundWrapper = ({
   children,
   forceInset,
   keyboardAware = true,
+  navigation,
+  showNavigation = false,
+  childrenLeft = false, 
+  childrenRight = false,
   ...props
 }) => {
   const redux = useSelector((state) => state);
@@ -31,8 +35,13 @@ const BackgroundWrapper = ({
     >
       <SafeAreaView style={backgroundStyle}>
         <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
-        <Divider height-10/>
-        {children}
+        <NavigationBar showNavigation={showNavigation} childrenLeft={childrenLeft} childrenRight={childrenRight}  navigation={navigation}/>
+        <ScrollView style={{ flex:1 }}>
+          <Divider height-10 />
+          {children}
+        </ScrollView>
+        <Divider height-30 />
+        <LinksTerms />
       </SafeAreaView>
     </LinearGradient>
   );

@@ -12,6 +12,7 @@ const Font = {
 
 export const Typography = {
   sizes: {
+    h50: { fontSize: verticalScale(50) },
     h32: { fontSize: verticalScale(32) },
     h30: { fontSize: verticalScale(30) },
     h28: { fontSize: verticalScale(28) },

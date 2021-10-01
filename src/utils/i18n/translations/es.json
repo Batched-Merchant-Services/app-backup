@@ -2,6 +2,7 @@
   "translation": {
     "validations": {
       "dropdownSelect": "Please select one option",
+      "agree": "Please select one option",
       "namePresence": "Please enter your name",
       "conceptPresence": "Please enter concept",
       "codePresence": "Please enter code the user",

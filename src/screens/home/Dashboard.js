@@ -1,7 +1,18 @@
-import React,{useEffect} from 'react';
-import { Text,View,Button } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useSelector,useDispatch } from 'react-redux';
+import React, { useEffect } from 'react';
+import { scale, verticalScale } from 'react-native-size-matters';
+import {
+  Text,
+  View,
+  Link,
+  Divider,
+  LinksTerms,
+  ButtonRounded,
+  FloatingInput,
+  StepIndicator,
+  BackgroundWrapper
+} from '@components';
+import { useSelector, useDispatch } from 'react-redux';
+import Logo from '@assets/brandBatched/logo.svg';
 import {
   StatusBar,
   useColorScheme,
@@ -13,7 +24,7 @@ const Dashboard = ({ navigation }) => {
   const redux = useSelector(state => state);
 
   useEffect(() => {
-    console.log('redux',redux)
+    console.log('redux', redux)
   }, [])
 
 
@@ -21,26 +32,28 @@ const Dashboard = ({ navigation }) => {
 
   const { colors } = useTheme();
   const isDarkMode = useColorScheme() === 'dark';
- 
+
   const backgroundStyle = {
     backgroundColor: colors.white,
-    flex:1
-  }; 
+    flex: 1
+  };
   return (
-    <SafeAreaView
-      style={backgroundStyle}
-    >
-    <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <View style={{flex:1,alignItems:'center'}}>
-         <Text>Hello, I am your Dashboard!</Text>
-         <Button
-            title="Open drawer"
-            onPress={() => navigation.openDrawer()} // We added an onPress event which would navigate to the About screen
-          />
-      </View>
-    </SafeAreaView>
-    
-    
+    <BackgroundWrapper>
+      <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
+      <Text>Hello, I am your Dashboard!</Text>
+      <ButtonRounded
+        onPress={() => navigation.openDrawer()}
+        disabled={false}
+        dark
+        size='sm'
+      >
+        <Text h14 semibold blue02>
+          Open drawer
+        </Text>
+      </ButtonRounded>
+    </BackgroundWrapper>
+
+
   );
 }
 

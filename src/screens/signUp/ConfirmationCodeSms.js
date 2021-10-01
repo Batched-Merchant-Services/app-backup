@@ -5,7 +5,6 @@ import { scale, verticalScale } from 'react-native-size-matters';
 import {
   Text,
   View,
-  Link,
   Divider,
   ButtonRounded,
   FloatingInput,
@@ -15,11 +14,11 @@ import {
 import StepButton from './components/StepsButton';
 import { useQuery } from '@apollo/client';
 import { FETCH_TODOS } from '@utils/api/queries/example';
-import Styles from './styles'
 import Logo from '@assets/brandBatched/logo.svg';
 import { useSelector } from 'react-redux';
-import DropDown from '../../components/DropDownPicker';
-const Register = ({ navigation }) => {
+
+
+const Register = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
   const email = useValidatedInput('email', '');
   const password = useValidatedInput('password', '');
@@ -59,13 +58,13 @@ const Register = ({ navigation }) => {
         autoCapitalize={'none'}
       />
       <Divider height-5 />
-      <StepIndicator step={2} totalSteps={5} />
+      <StepIndicator step={3} totalSteps={5} />
       <Divider height-10 />
       <Text h12 white left>If several minutes have passed and you have not received it, check your email in the SPAM section. If you still don't receive it, press the "back" button and try again.</Text>
       <Divider height-35 />
-      <View flex-1 row >
+      <View flex-1 row bottom >
         <ButtonRounded
-          onPress={() => navigation.navigate("Dashboard")}
+          onPress={() => goBack()}
           disabled={false}
           dark
           size='sm'
@@ -75,29 +74,17 @@ const Register = ({ navigation }) => {
           </Text>
         </ButtonRounded>
         <Divider width-10 />
-        <ButtonRounded
-          onPress={() => navigation.navigate("Dashboard")}
-          disabled={false}
-          blue
-          size='sm'
-        >
-          <Text h14 semibold>
-            Next
-          </Text>
-        </ButtonRounded>
+          <ButtonRounded
+            onPress={() => navigation.navigate("SecretAnswer")}
+            disabled={false}
+            blue
+            size='sm'
+          >
+            <Text h14 semibold>
+              Next
+            </Text>
+          </ButtonRounded>
       </View>
-
-      <Divider height-15 />
-      <View flex-1 row bottom>
-        <Link>
-          <Text h12 white>Terms and Conditionsd</Text>
-        </Link>
-        <Divider width-10 />
-        <Link>
-          <Text h12 white>Privacy Policy</Text>
-        </Link>
-      </View>
-      <Divider height-15 />
     </BackgroundWrapper>
   );
 }
