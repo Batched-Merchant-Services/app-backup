@@ -17,7 +17,7 @@ import Styles from './styles'
 
 const ConfirmationLicenses = ({ navigation,navigation: { goBack }  }) => {
   const redux = useSelector(state => state);
-  const referenceCode = useValidatedInput('referenceCode', '');
+  const referenceCode = useValidatedInput('sms', '');
 
   
   useEffect(() => {
@@ -26,7 +26,7 @@ const ConfirmationLicenses = ({ navigation,navigation: { goBack }  }) => {
 
 
   return (
-    <BackgroundWrapper showNavigation={true} >
+    <BackgroundWrapper showNavigation={true} navigation={navigation}>
       <Text h18 regular blue02>QR code for transaction</Text>
       <Divider height-10 />
       <Text h12 white light>Scan the following QR code from your crypto wallet to make the transfer.</Text>

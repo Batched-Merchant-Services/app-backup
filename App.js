@@ -6,7 +6,7 @@
  * @flow strict-local
  */
 
-import React,{ useEffect,useState } from 'react';
+import React,{ useEffect,useState,useRef } from 'react';
 import {
   StatusBar,
   useColorScheme,
@@ -15,16 +15,19 @@ import {
 import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
-import { NavigationContainer } from '@react-navigation/native';
+import NavigationService from './NavigationService';
+import { NavigationContainer,NavigationContainerRef } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppNavigation from '@navigation/index';
 import { Provider } from 'react-redux'
 import store from '@store/configureStore';
 import SplashScreen from "react-native-lottie-splash-screen";
 import makeApolloClient from '@utils/api/apollo'; 
+
 import { 
   ApolloProvider,
 } from "@apollo/client";
+
 
 const MyTheme = {
   dark: false,
@@ -67,8 +70,8 @@ export default function App() {
        <StatusBar barStyle={isDarkMode ? 'white-content' : 'dark-content'} />
        <ApolloProvider client={client}>
         <Provider store={store}>
-        <NavigationContainer theme={MyTheme}>
-          <AppNavigation/>
+        <NavigationContainer theme={MyTheme} independent={true}>
+          <AppNavigation  ref={navigatorRef => { NavigationService.setTopLevelNavigator(navigatorRef);}}/>
         </NavigationContainer>
         </Provider>
        </ApolloProvider>

@@ -27,7 +27,7 @@ const ButtonRounded = ({
   const btnSize = { width: getBtnSize(size) };
 
   const blueColor = disabled
-    ? [brandTheme?.blue01??Colors.blue01, brandTheme?.blue01??Colors.blue01]
+    ? [brandTheme?.blue02??Colors.blue02, brandTheme?.blue02??Colors.blue02]
     : [brandTheme?.blue02??Colors.blue02, brandTheme?.blue02??Colors.blue02];
 
   const linearColorBlue = disabled
@@ -68,9 +68,10 @@ const ButtonRounded = ({
         end={{ x: 1, y: 0 }}
         colors={backgroundGradient}
         style={[Styles.wrapper, style,btnSize,
-        dark?Styles.borderDark:[]]}
+        dark?Styles.borderDark:[],
+        disabled?Styles.disableColor:[]]}
       >
-      <TouchableOpacity style={[Styles.wrapper,btnSize, containerStyle]}  {...props}>
+      <TouchableOpacity disabled={disabled} style={[Styles.wrapper,btnSize, containerStyle]}  {...props}>
         { children }
       </TouchableOpacity>
       </LinearGradient>

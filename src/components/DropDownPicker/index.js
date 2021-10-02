@@ -19,7 +19,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
   const brandTheme = appData?.Theme?.colors;
   const brandThemeImages = appData?.Theme?.images;
 
-
+  console.log('error',error);
   const handleSelect = index => {
     onSelect(options[index]);
     if (onFill) {
@@ -46,7 +46,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
     } else {
       style.height = verticalScale(1 * options.length + 65, 0.40);
       style.left = style.left - verticalScale(7, 0);
-      style.top = Platform.OS === 'ios' ? style.top = style.top - verticalScale(-17, 0.3) : style.top + style.height - verticalScale(135);
+      style.top = Platform.OS === 'ios' ? style.top = style.top - verticalScale(-14, 0.3) : style.top + style.height - verticalScale(135);
     }
     return style;
   };
@@ -69,7 +69,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
   const renderButtonText = (rowData) => {
     const { name, value } = rowData;
     return (
-      <View marginL-2 marginB-4 style={{borderColor:'red',borderWidth:1}}>
+      <View width-300 marginL-2 marginB-4>
         <Text h13 white>{name}</Text>
       </View>
      
@@ -100,6 +100,8 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
           textStyle={{ color: brandTheme?.white ?? Colors.white,fontSize:14 }}
           renderRow={(rowData) => dropdownRenderRow(rowData)}
           dropdownStyle={[Styles.dropdownContainer, { backgroundColor: styleBackground, borderColor: styleBorder }]}
+          isFullWidth={true}
+          keyboardShouldPersistTaps={'always'}
         />
         <Text blue02 h14 style={{ position: 'absolute', right: 10, top: 16 }}>▼</Text>
       </View>

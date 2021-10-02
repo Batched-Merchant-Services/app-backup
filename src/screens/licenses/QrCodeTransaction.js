@@ -22,7 +22,7 @@ const QrCodeTransaction = ({ navigation,navigation: { goBack }  }) => {
 
 
   return (
-    <BackgroundWrapper showNavigation={true} childrenLeft={true}>
+    <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
       <Text h18 regular blue02>QR code for transaction</Text>
       <Divider height-10 />
       <Text h12 white light>Scan the following QR code from your crypto wallet to make the transfer.</Text>

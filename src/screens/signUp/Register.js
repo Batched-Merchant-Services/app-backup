@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from 'react';
 import { useColorScheme,TouchableOpacity,Picker } from 'react-native';
-import { useValidatedInput } from '@hooks/validation-hooks';
+import { useValidatedInput,isFormValid } from '@hooks/validation-hooks';
 import { scale,verticalScale } from 'react-native-size-matters';
 import {
   Text,
@@ -24,20 +24,26 @@ import StepIndicator from '../../components/StepIndicator';
 const Register = ({ navigation }) => {
   const redux = useSelector(state => state);
   const email = useValidatedInput('email', '');
-  const password = useValidatedInput('password', '');
-  const answer = useValidatedInput('', {name: ''}, {
+  const phone = useValidatedInput('phone', '');
+  const answer = useValidatedInput('select', {
     changeHandlerSelect: 'onSelect'
   });
+  const userToTransfer = useValidatedInput('select',{
+    changeHandlerSelect: 'onSelect'
+  });
+
   const [items, setItems] = useState([
     {id: '1', value: 'apple',name:'Apple'},
     {id: '2', value: 'banana',name:'Banana'}
   ]);
+  const isValid = isFormValid(email,phone,answer);
+
 
   useEffect(() => {
     console.log('redux', redux)
   }, [])
 
-
+ 
   const { data, error, loading } = useQuery(FETCH_TODOS);
   //console.log('data', data, error, loading)
 
@@ -50,7 +56,7 @@ const Register = ({ navigation }) => {
   // }
 
   return (
-    <BackgroundWrapper>
+    <BackgroundWrapper navigation={navigation}>
       <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
       <Divider height-15 />
       <StepButton navigation={navigation}/>
@@ -59,7 +65,7 @@ const Register = ({ navigation }) => {
       <Divider height-25 />
        <Divider height-5 />
       <FloatingInput
-        {...password}
+        {...email}
         label={'Email Address '}
         autoCapitalize={'none'}
       />
@@ -73,17 +79,17 @@ const Register = ({ navigation }) => {
        />
       <Divider height-5 />
       <FloatingInput
-        {...password}
+        {...phone}
         label={'Phone'}
         autoCapitalize={'none'}
       />
       <Divider height-15 />
-      <StepIndicator step={1} totalSteps={5} />
+      <StepIndicator step={1} totalSteps={4} />
       <Divider height-35 />
       <View flex-1 bottom>
         <ButtonRounded
           onPress={() => navigation.navigate("ConfirmationSms")}
-          disabled={false}
+          disabled={!isValid}
           blue
           size='lg'
         >

@@ -23,7 +23,7 @@ const GetLicenses = ({ navigation }) => {
 
 
   return (
-    <BackgroundWrapper showNavigation={true} >
+    <BackgroundWrapper showNavigation={true} navigation={navigation}>
       <Text h16 regular blue02>Get your licences.</Text>
       <Text h12 white light>Your licenses will give you access to participate in earning daily rewards points.</Text>
       <Divider height-15 />

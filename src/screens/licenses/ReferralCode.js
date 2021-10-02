@@ -11,7 +11,7 @@ import {
 } from '@components';
 import { useSelector } from 'react-redux';
 import { NativeModules } from 'react-native';
-import { useValidatedInput } from '@hooks/validation-hooks';
+import { useValidatedInput,isFormValid } from '@hooks/validation-hooks';
 import check from '@assets/icons/white-check.png';
 
 import {
@@ -27,6 +27,9 @@ const ReferralCode = ({ navigation }) => {
   const referenceCode = useValidatedInput('referenceCode', '');
   const redux = useSelector(state => state);
   const [statusBar, setStatusBar] = useState(0);
+  const isValid = isFormValid(referenceCode);
+
+
 
   useEffect(() => {
     StatusBarManager.getHeight(({height}) =>setStatusBar(height));
@@ -44,7 +47,7 @@ const ReferralCode = ({ navigation }) => {
     flex: 1
   };
   return (
-    <BackgroundWrapper showNavigation={true} childrenLeft={true}>
+    <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
       <Divider height-10 />
       <Text h16 regular blue02>Do you have a refferal code?</Text>
       <Text h14 white light>Whoever referred you will get a bonus and you will receive full benefits,<Text white semibold> everyone wins!</Text></Text>
@@ -83,7 +86,7 @@ const ReferralCode = ({ navigation }) => {
       <Divider height-20 />
       <ButtonRounded
         onPress={() => navigation.navigate("GetLicenses")}
-        disabled={false}
+        disabled={!isValid}
         blue
         size='lg'
       >

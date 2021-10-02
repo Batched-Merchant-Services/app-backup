@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useColorScheme, TouchableOpacity, Dimensions,StatusBar,NativeModules } from 'react-native';
-import { useValidatedInput } from '@hooks/validation-hooks';
+import React from 'react';
+import { Dimensions } from 'react-native';
+import { useValidatedInput,isFormValid } from '@hooks/validation-hooks';
 import { scale, verticalScale } from 'react-native-size-matters';
 import {
   Text,
@@ -13,19 +13,15 @@ import {
 } from '@components';
 import { useQuery } from '@apollo/client';
 import { FETCH_TODOS } from '@utils/api/queries/example';
-import Styles from './styles'
 import Logo from '@assets/brandBatched/logo.svg';
 import StepButton from '../signUp/components/StepsButton';
-import defaults from 'defaults';
+
 const Login = ({ navigation }) => {
-  const [loginButtonActive, setLoginButtonActive] = useState(false);
-  const [registerButtonActive, setRegisterButtonActive] = useState(false);
-  const [statusBar, setStatusBar] = useState(0);
   const email = useValidatedInput('email', '');
   const password = useValidatedInput('password', '');
-  useEffect(() => {
-    StatusBarManager.getHeight(({height}) =>setStatusBar(height));
-  }, [])
+  const isValid = isFormValid(email,password);
+
+
 
   const { data, error, loading } = useQuery(FETCH_TODOS);
   //console.log('data', data, error, loading)
@@ -41,19 +37,7 @@ const Login = ({ navigation }) => {
   const backgroundStyle = {
     flex: 1
   };
-  function handleLoginActiveButton() {
-    setLoginButtonActive(true)
-    setRegisterButtonActive(false)
-  }
-  function handleRegisterActiveButton() {
-    navigation.navigate("Register")
-    setLoginButtonActive(false)
-    setRegisterButtonActive(true)
-  }
-
-
-const { StatusBarManager } = NativeModules; 
-
+ 
   return (
     <BackgroundWrapper showNavigation={false}  navigation={navigation}>
      <View style={{height: Dimensions.get('window').height - verticalScale(130)}} >
@@ -86,7 +70,7 @@ const { StatusBarManager } = NativeModules;
         <View flex-1 bottom>
           <ButtonRounded
             onPress={() => navigation.navigate("ReferralCode")}
-            disabled={false}
+            disabled={!isValid}
             size='lg'
           >
             <Text h14 semibold>

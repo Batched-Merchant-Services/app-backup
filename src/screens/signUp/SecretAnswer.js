@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useValidatedInput } from '@hooks/validation-hooks';
+import { useValidatedInput,isFormValid } from '@hooks/validation-hooks';
 import { scale, verticalScale } from 'react-native-size-matters';
 import {
   Text,
@@ -16,8 +16,7 @@ import { useQuery } from '@apollo/client';
 import { FETCH_TODOS } from '@utils/api/queries/example';
 import Logo from '@assets/brandBatched/logo.svg';
 import { useSelector } from 'react-redux';
-import Styles from './styles'
-import LinksTerms from './components/LinksTerms';
+
 
 const SecretAnswer = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -26,12 +25,16 @@ const SecretAnswer = ({ navigation, navigation: { goBack } }) => {
     {id: '2', value: 'Name',name:'name'},
     {id: '3', value: 'Your years',name:'years'}
   ]);
-  const answer = useValidatedInput('', {name: ''}, {
+  const answer = useValidatedInput('select', {
     changeHandlerSelect: 'onSelect'
   });
   const secretAnswers = useValidatedInput('secretAnswers', '');
-  const secretAnswerConfirm = useValidatedInput('secretAnswerConfirm', '');
-  
+  const secretAnswerConfirm = useValidatedInput('secretAnswerConfirm', '',{
+    validationParams: [secretAnswers.value]
+  });
+  const isValid = isFormValid(answer,secretAnswers,secretAnswerConfirm);
+
+
   useEffect(() => {
     console.log('redux', redux)
   }, [])
@@ -94,7 +97,7 @@ const SecretAnswer = ({ navigation, navigation: { goBack } }) => {
         <Divider width-10 />
         <ButtonRounded
           onPress={() => navigation.navigate("TermConditions")}
-          disabled={false}
+          disabled={!isValid}
           blue
           size='sm'
         >

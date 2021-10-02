@@ -74,7 +74,7 @@ const FloatingLabelInput = ({
   if (value) {
     toMax();
   }
-  console.log('error',error)
+
   return (
     <>
         <TouchableHighlight onPress={focusInput} underlayColor={'transparent'}>

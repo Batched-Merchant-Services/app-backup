@@ -18,8 +18,7 @@ export const useValidatedInput = (
   const [value, setValue] = useState(initialValue);
   const [error, setError] = useState(null);
   const [touched, setTouched] = useState(false);
-  console.log('initialValue',value
-  )
+
 
   useEffect(() => {
     if (value === '') setError('pending');
@@ -45,7 +44,6 @@ export const useValidatedInput = (
 
   function onBlur() {
     setTouched(true);
-    console.log('onblur',Validate(name, value));
     setError(Validate(name, value, ...validationParams));
   }
 

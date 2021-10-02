@@ -12,10 +12,10 @@ import Styles from '../styles'
 
 const StepButton = ({ navigation }) => {
   const route = useRoute();
-  const [loginButtonActive, setLoginButtonActive] = useState(route.name === 'Login'?true:false);
-  const [registerButtonActive, setRegisterButtonActive] = useState(route.name === 'Login'?false:true);
+  const [loginButtonActive] = useState(route.name === 'Login'?true:false);
+  const [registerButtonActive] = useState(route.name === 'Login'?false:true);
  
-  console.log('route.name',route.name);
+
 
   function handleLoginActiveButton() {
     navigation.navigate("Login");

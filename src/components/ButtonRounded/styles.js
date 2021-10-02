@@ -12,6 +12,9 @@ const Styles = StyleSheet.create({
   borderDark:{
     borderColor:Colors.blue02,
     borderWidth:1
+  },
+  disableColor:{
+    opacity:0.5
   }
 
 });

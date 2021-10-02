@@ -35,7 +35,7 @@ const TransferCryptoCurrency = ({ navigation }) => {
 
 
   return (
-    <BackgroundWrapper showNavigation={true} childrenLeft={true} >
+    <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
       <NavigationBar childrenLeft navigation={navigation} />
       <Divider height-10 />
       <Text h16 regular blue02>Acquire licenses to increase</Text>

@@ -66,6 +66,7 @@ const TermAndConditions = ({ navigation, navigation: { goBack } }) => {
       <Checkbox {...term2} label='I agree with the Terms and Conditions.*' />
       <Divider height-20 />
       <Text h12 white light>* Required fields</Text>
+      <Divider height-20 />
       <View flex-1 bottom>
         <ButtonRounded
             onPress={() => navigation.navigate("Dashboard")}

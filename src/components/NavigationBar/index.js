@@ -5,11 +5,8 @@ import { scale, verticalScale } from 'react-native-size-matters';
 import { Text, ImageResize, View, Divider } from '@components';
 import { useSelector } from 'react-redux';
 import Colors from '@styles/Colors';
-
-const Back = require('@assets/icons/backBlue.png');
-// const BackWhite = require('@assets/icons/back-white.png');
 import Logo from '@assets/brandBatched/logo.svg';
-
+const Back = require('@assets/icons/backBlue.png');
 
 
 const RenderBack = ({ onPressRight, Style, brandTheme, right, left }) => {
@@ -26,11 +23,11 @@ const RenderBack = ({ onPressRight, Style, brandTheme, right, left }) => {
       }, Style]}
       onPress={onPressRight}
     >
-      <ImageResize source={right ? right : left ? left : Back} height={verticalScale(20)} width={scale(20)} />
-
+    <ImageResize source={right ? right : left ? left : Back} height={verticalScale(20)} width={scale(20)} />
     </TouchableOpacity>
   );
 };
+
 
 const RenderBody = ({ body }) => {
   return (
@@ -41,32 +38,29 @@ const RenderBody = ({ body }) => {
       {!body && (
         <Logo width={scale(120)} height={verticalScale(17)} fill="green" />
       )}
-
     </View>
   );
 };
 
 
-
-
 const NavigationBar = ({ navigation, onPressRight, body, childrenLeft, childrenRight, showNavigation, ...props }) => {
+
   const redux = useSelector(state => state);
   const appData = redux.user;
   const brandTheme = appData?.Theme?.colors;
-  console.log('showNavigation',showNavigation)
-  return (
 
+  return (
     <Fragment>
       {showNavigation === true && (
         <View>
           <View row {...props}>
             <View flex-1 row centerV>
               {childrenLeft && (
-                <RenderBack left={childrenLeft} onPress={() => navigation.goBack()} />
+                <RenderBack left={childrenLeft} onPressRight={() => navigation.goBack()} />
               )}
               <RenderBody body={body} />
               {childrenRight && (
-                <RenderBack right={childrenRight} onPress={onPressRight} />
+                <RenderBack right={childrenRight} onPressRight={onPressRight} />
               )}
             </View>
           </View>
@@ -74,7 +68,6 @@ const NavigationBar = ({ navigation, onPressRight, body, childrenLeft, childrenR
         </View>
       )}
     </Fragment>
-
   );
 };
 

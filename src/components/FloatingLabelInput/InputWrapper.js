@@ -9,7 +9,7 @@ const InputWrapper = ({ multiInput, numberOfLines, children, isFocused, hasError
   const redux = useSelector(state => state);
   const appData = redux.user;
   const brandTheme = appData?.Theme?.colors;
-  console.log('hasError',hasError);
+
   return (
     <View
       {...props}

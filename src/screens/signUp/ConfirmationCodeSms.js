@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useColorScheme, TouchableOpacity, Picker } from 'react-native';
-import { useValidatedInput } from '@hooks/validation-hooks';
+import { useValidatedInput,isFormValid } from '@hooks/validation-hooks';
 import { scale, verticalScale } from 'react-native-size-matters';
 import {
   Text,
@@ -20,9 +20,8 @@ import { useSelector } from 'react-redux';
 
 const Register = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
-  const email = useValidatedInput('email', '');
-  const password = useValidatedInput('password', '');
-
+  const codeSms = useValidatedInput('sms', '');
+  const isValid = isFormValid(codeSms);
 
   useEffect(() => {
     console.log('redux', redux)
@@ -52,13 +51,13 @@ const Register = ({ navigation, navigation: { goBack } }) => {
       <Text h12 white>You will receive the code in less than 5 minutes, check your inbox emails and keep an eye on messages via SMS received on your mobile.</Text>
       <Divider height-25 />
       <FloatingInput
-        {...email}
-        label={'Reference Code'}
+        {...codeSms}
+        label={'Confirmation code (6 digits)'}
         keyboardType={'number-pad'}
         autoCapitalize={'none'}
       />
       <Divider height-5 />
-      <StepIndicator step={3} totalSteps={5} />
+      <StepIndicator step={2} totalSteps={4} />
       <Divider height-10 />
       <Text h12 white left>If several minutes have passed and you have not received it, check your email in the SPAM section. If you still don't receive it, press the "back" button and try again.</Text>
       <Divider height-35 />
@@ -76,7 +75,7 @@ const Register = ({ navigation, navigation: { goBack } }) => {
         <Divider width-10 />
           <ButtonRounded
             onPress={() => navigation.navigate("SecretAnswer")}
-            disabled={false}
+            disabled={!isValid}
             blue
             size='sm'
           >

@@ -7,7 +7,7 @@ const blue01 = '#DAF3FF';
 const blue02 = '#00A9FF';
 const blue03 = '#2E3A6E';
 const blue04 = '#3F529E';
-const green = '#24BFAC'
+const green = '#24BFAC';
 
  
 
