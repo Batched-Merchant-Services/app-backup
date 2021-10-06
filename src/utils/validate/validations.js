@@ -71,7 +71,35 @@ const Validations = {
       message: i18n.t('validations.secretAnswersEquality')
     }
   },
-  
+  pinCode: {
+    presence: {
+      message: i18n.t('validations.loginCode')
+    },
+    format: {
+      pattern: /^[0-9]{6}$/,
+      message: i18n.t('validations.loginCodeFormat')
+    }
+  },
+  firstName:{
+    presence: {
+      message: i18n.t('validations.firstName')
+    },
+  },
+  lastName:{
+    presence: {
+      message: i18n.t('validations.lastName')
+    },
+  },
+  ssn:{
+    presence: {
+      message: i18n.t('validations.ssn')
+    },
+  },
+  birthDay:{
+    presence: {
+      message: i18n.t('validations.birthDay')
+    },
+  },
 
 };
 

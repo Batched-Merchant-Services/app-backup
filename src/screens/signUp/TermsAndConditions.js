@@ -69,7 +69,7 @@ const TermAndConditions = ({ navigation, navigation: { goBack } }) => {
       <Divider height-20 />
       <View flex-1 bottom>
         <ButtonRounded
-            onPress={() => navigation.navigate("Dashboard")}
+            onPress={() => navigation.navigate("AccountConfirmation")}
             disabled={false}
             blue
             size='lg'

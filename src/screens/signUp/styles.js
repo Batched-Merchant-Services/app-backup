@@ -25,7 +25,16 @@ const styles = StyleSheet.create({
   },
   btnActive: {
    color:Colors.white
-  }
+  },
+  container: {
+    flex: 1,
+    justifyContent: "space-between",
+  },
+  image: {
+
+    justifyContent: "center",
+    alignItems:'center'
+  },
 });
 
 export default styles;

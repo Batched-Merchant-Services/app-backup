@@ -12,6 +12,7 @@ import DropDownPicker from '@components/DropDownPicker';
 import LinksTerms from '@components/LinksTerms';
 import NavigationBar from '@components/NavigationBar';
 import UploadFile from '@components/UploadFile';
+import PinInput from '@components/PinInput';
 
 export {
   Text,
@@ -19,6 +20,7 @@ export {
   Link,
   Divider,
   Checkbox,
+  PinInput,
   UploadFile,
   LinksTerms,
   ImageResize,

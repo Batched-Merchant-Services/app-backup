@@ -16,8 +16,8 @@ const Styles = StyleSheet.create({
     position: 'absolute',
   },
   input: {
-    ...Typography.weight.regular,
-    ...Typography.sizes.h18,
+    ...Typography.weight.medium,
+    ...Typography.sizes.h14,
     height      : '100%'
   },
   inputSecure: {

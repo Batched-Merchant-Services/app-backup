@@ -57,7 +57,14 @@ const Register = ({ navigation }) => {
 
   return (
     <BackgroundWrapper navigation={navigation}>
-      <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
+      <View row>
+        <View flex-1>
+          <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
+        </View>
+        <View flex-1 right centerV>
+        <StepIndicator step={1} totalSteps={4} />
+        </View>
+      </View>
       <Divider height-15 />
       <StepButton navigation={navigation}/>
       <Divider height-15 />
@@ -70,25 +77,30 @@ const Register = ({ navigation }) => {
         autoCapitalize={'none'}
       />
        <Divider height-5 />
-       <DropDownPicker
-          {...answer}
-          label={'Country'}
-          options={items}
-          size="sm"
-          //onFill={(code)=> filterPays(code)}
-       />
-      <Divider height-5 />
-      <FloatingInput
-        {...phone}
-        label={'Phone'}
-        autoCapitalize={'none'}
-      />
-      <Divider height-15 />
-      <StepIndicator step={1} totalSteps={4} />
+       <View row>
+        <View flex-1>
+          <DropDownPicker
+            {...answer}
+            label={'Country'}
+            options={items}
+            size="sm"
+            //onFill={(code)=> filterPays(code)}
+          />
+        </View>
+        <Divider width-8 />
+        <View flex-1 right centerV>
+          <FloatingInput
+          {...phone}
+          label={'Phone'}
+          autoCapitalize={'none'}
+          />
+        </View>
+      </View>
+     
       <Divider height-35 />
       <View flex-1 bottom>
         <ButtonRounded
-          onPress={() => navigation.navigate("ConfirmationSms")}
+          onPress={() => navigation.navigate("CodeSms")}
           disabled={!isValid}
           blue
           size='lg'

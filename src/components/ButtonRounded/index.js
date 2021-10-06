@@ -11,6 +11,7 @@ const ButtonRounded = ({
   size = 'sm',
   blue,
   dark,
+  green,
   success,
   disabled,
   children,
@@ -38,6 +39,12 @@ const ButtonRounded = ({
     ? [brandTheme?.blue02??Colors.blue02 , brandTheme?.blue04??Colors.blue04]
     : [brandTheme?.blue02??Colors.blue02 , brandTheme?.blue04??Colors.blue04 ];
 
+
+  const greenButton = disabled
+  ? ['transparent', 'rgba(0, 0, 0, 0.1)']
+  : ['transparent', 'rgba(0, 0, 0, 0.0)'];
+
+
   const darkBlue = disabled
     ? ['transparent', 'rgba(0, 0, 0, 0.1)']
     : ['transparent', 'rgba(0, 0, 0, 0.0)'];
@@ -59,6 +66,9 @@ const ButtonRounded = ({
   case success:
     backgroundGradient = successButton;
     break;
+  case green:
+    backgroundGradient = greenButton;
+    break;
   default:
     backgroundGradient = linearColorBlue;
   }
@@ -69,7 +79,8 @@ const ButtonRounded = ({
         colors={backgroundGradient}
         style={[Styles.wrapper, style,btnSize,
         dark?Styles.borderDark:[],
-        disabled?Styles.disableColor:[]]}
+        disabled?Styles.disableColor:[],
+        green?Styles.greenBorder:[] ]}
       >
       <TouchableOpacity disabled={disabled} style={[Styles.wrapper,btnSize, containerStyle]}  {...props}>
         { children }

@@ -14,7 +14,13 @@
       "smsLength":"El codigo debe contener 6 digitos",
       "secretAnswers":"Ingresa respuesta secreta",
       "secretAnswerConfirm":"Ingresa la confirmarespuesta secreta",
-      "secretAnswersEquality":"La respuesta no coincide"
+      "secretAnswersEquality":"La respuesta no coincide",
+      "loginCode":"Please enter a code",
+      "loginCodeFormat":"The code must be 6 digits",
+      "firstName":"Please enter a firstName",
+      "lastName":"Please enter a lastName",
+      "ssn":"Please enter a Social Security Number",
+      "birthDay":"Please select birth day"
     }
   }
 }

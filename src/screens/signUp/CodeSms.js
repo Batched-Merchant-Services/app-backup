@@ -18,7 +18,7 @@ import Logo from '@assets/brandBatched/logo.svg';
 import { useSelector } from 'react-redux';
 
 
-const Register = ({ navigation, navigation: { goBack } }) => {
+const CodeSms = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
   const codeSms = useValidatedInput('sms', '');
   const isValid = isFormValid(codeSms);
@@ -43,11 +43,19 @@ const Register = ({ navigation, navigation: { goBack } }) => {
 
   return (
     <BackgroundWrapper>
-      <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
+      <View row>
+        <View flex-1>
+          <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
+        </View>
+        <View flex-1 right centerV>
+        <StepIndicator step={1} totalSteps={4} />
+        </View>
+      </View>
       <Divider height-15 />
       <StepButton navigation={navigation} />
       <Divider height-15 />
       <Text h16 blue02>We have sent you a confirmation code to your email and a text message to your phone number.</Text>
+      <Divider height-15 />
       <Text h12 white>You will receive the code in less than 5 minutes, check your inbox emails and keep an eye on messages via SMS received on your mobile.</Text>
       <Divider height-25 />
       <FloatingInput
@@ -56,8 +64,6 @@ const Register = ({ navigation, navigation: { goBack } }) => {
         keyboardType={'number-pad'}
         autoCapitalize={'none'}
       />
-      <Divider height-5 />
-      <StepIndicator step={2} totalSteps={4} />
       <Divider height-10 />
       <Text h12 white left>If several minutes have passed and you have not received it, check your email in the SPAM section. If you still don't receive it, press the "back" button and try again.</Text>
       <Divider height-35 />
@@ -74,7 +80,7 @@ const Register = ({ navigation, navigation: { goBack } }) => {
         </ButtonRounded>
         <Divider width-10 />
           <ButtonRounded
-            onPress={() => navigation.navigate("SecretAnswer")}
+            onPress={() => navigation.navigate("RegisterProfileBasic")}
             disabled={!isValid}
             blue
             size='sm'
@@ -89,4 +95,4 @@ const Register = ({ navigation, navigation: { goBack } }) => {
 }
 
 
-export default Register;
+export default CodeSms;

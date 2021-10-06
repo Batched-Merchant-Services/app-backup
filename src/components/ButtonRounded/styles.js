@@ -15,6 +15,10 @@ const Styles = StyleSheet.create({
   },
   disableColor:{
     opacity:0.5
+  },
+  greenBorder:{
+    borderColor:Colors.green,
+    borderWidth:1
   }
 
 });

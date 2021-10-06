@@ -6,10 +6,21 @@ import { Text, ImageResize, View, Divider } from '@components';
 import { useSelector } from 'react-redux';
 import Colors from '@styles/Colors';
 import Logo from '@assets/brandBatched/logo.svg';
-const Back = require('@assets/icons/backBlue.png');
+import Menu from '@assets/icons/hamburgerMenu.png';
+import Back from '@assets/icons/backBlue.png';
 
 
-const RenderBack = ({ onPressRight, Style, brandTheme, right, left }) => {
+
+const RenderLeftBack = ({ navigation,onPressRight,onPressLeft, Style, brandTheme, left,menu }) => {
+
+  function handleBack() {
+    navigation.goBack();
+  }
+
+  function handleOpenMenuDrawer() {
+    navigation.openDrawer();
+  }
+
   return (
     <TouchableOpacity
       style={[{
@@ -19,15 +30,34 @@ const RenderBack = ({ onPressRight, Style, brandTheme, right, left }) => {
         alignItems: 'center',
         zIndex: 1e3,
         borderColor: brandTheme?.textBlueDark ?? Colors?.blue02,
-        borderWidth: 1
+        borderWidth: menu? 0:1
       }, Style]}
-      onPress={onPressRight}
+      onPress={onPressLeft?onPressLeft:menu? handleOpenMenuDrawer:handleBack}
     >
-    <ImageResize source={right ? right : left ? left : Back} height={verticalScale(20)} width={scale(20)} />
+    <ImageResize source={left ? left : Back} height={verticalScale(menu?28:20)} width={scale(menu?28:20)} />
     </TouchableOpacity>
   );
 };
 
+const RenderRightBack = ({ navigation,onPressRight, Style, brandTheme, right,menu }) => {
+
+  return (
+    <TouchableOpacity
+      style={[{
+        width: scale(32),
+        height: verticalScale(32),
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 1e3,
+        borderColor: brandTheme?.textBlueDark ?? Colors?.blue02,
+        borderWidth: menu? 0:1
+      }, Style]}
+      onPress={onPressRight}
+    >
+    <ImageResize source={right} height={verticalScale(20)} width={scale(20)} />
+    </TouchableOpacity>
+  );
+};
 
 const RenderBody = ({ body }) => {
   return (
@@ -43,7 +73,7 @@ const RenderBody = ({ body }) => {
 };
 
 
-const NavigationBar = ({ navigation, onPressRight, body, childrenLeft, childrenRight, showNavigation, ...props }) => {
+const NavigationBar = ({ navigation, onPressLeft,onPressRight, body, childrenLeft, childrenRight,menu,showNavigation, ...props }) => {
 
   const redux = useSelector(state => state);
   const appData = redux.user;
@@ -56,11 +86,13 @@ const NavigationBar = ({ navigation, onPressRight, body, childrenLeft, childrenR
           <View row {...props}>
             <View flex-1 row centerV>
               {childrenLeft && (
-                <RenderBack left={childrenLeft} onPressRight={() => navigation.goBack()} />
+                <RenderLeftBack left={childrenLeft} onPressLeft={onPressLeft} menu={menu} navigation={navigation}/>
               )}
+              
               <RenderBody body={body} />
+
               {childrenRight && (
-                <RenderBack right={childrenRight} onPressRight={onPressRight} />
+                <RenderRightBack right={childrenRight} onPressRight={onPressRight} navigation={navigation}/>
               )}
             </View>
           </View>

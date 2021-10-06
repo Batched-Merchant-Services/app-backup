@@ -70,7 +70,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
     const { name, value } = rowData;
     return (
       <View width-300 marginL-2 marginB-4>
-        <Text h13 white>{name}</Text>
+        <Text h12 white>{name}</Text>
       </View>
      
     );
@@ -78,9 +78,6 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
 
   return (
     <View onLayout={handleWrapperLayout}>
-      {/* <View marginL-2 marginB-4>
-      <Text h12 white>{label}</Text>
-      </View> */}
       <View flex-1 style={[
         Styles.dropDown, { borderColor: styleBorder },
         ...(error ? [{ borderColor: brandTheme?.error ?? Colors.error }] : [])
