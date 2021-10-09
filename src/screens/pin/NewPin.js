@@ -24,7 +24,7 @@ const NewPin = ({ navigation,navigation: { goBack }  }) => {
 
   const onComplete= async (inputtedPin, clear) =>{
     const PinConfirm = inputtedPin;
-    navigation.navigate("PinConfirmation")
+    navigation.navigate("PinConfirmation",{page:'newPin'})
    
   };
   const isDarkMode = useColorScheme() === 'dark';

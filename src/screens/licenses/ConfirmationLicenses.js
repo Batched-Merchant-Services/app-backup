@@ -47,7 +47,7 @@ const ConfirmationLicenses = ({ navigation,navigation: { goBack }  }) => {
 and the liquidation of the assets is carried out.</Text> </Text>
       <Divider height-120 />
       <ButtonRounded
-        onPress={() => navigation.navigate("ReferralCode")}
+        onPress={() => navigation.navigate("Dashboard")}
         disabled={false}
         blue
         size='lg'

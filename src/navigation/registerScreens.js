@@ -4,32 +4,28 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import CustomDrawer from "./DrawerAware";
 import Login from '@screens/signIn/Login';
 import Register from '@screens/signUp/Register';
-import CodeSms  from '@screens/signUp/CodeSms';
-import TermsAndConditions  from '@screens/signUp/TermsAndConditions';
+import CodeSms from '@screens/signUp/CodeSms';
+import TermsAndConditions from '@screens/signUp/TermsAndConditions';
 import SecretAnswer from '@screens/signUp/SecretAnswer';
-import Dashboard  from '@screens/home/Dashboard';
-import ReferralCode  from '@screens/licenses/ReferralCode';
-import GetLicenses  from '@screens/licenses/GetLicenses';
-import SelectTypeLicense  from '@screens/licenses/SelectTypeLicense';
-import TransferCryptoCurrency  from '@screens/licenses/TransferCryptoCurrency';
-import QrCodeTransaction  from '@screens/licenses/QrCodeTransaction';
-import ConfirmationLicenses  from '@screens/licenses/ConfirmationLicenses';
-import LoginCode  from '@screens/signUp/LoginCode';
-import RegisterProfileBasic  from '@screens/signUp/RegisterProfileBasic';
-import CreateNewPassword  from '@screens/signUp/CreateNewPassword';
-import AccountConfirmation  from '@screens/signUp/AccountConfirmation';
-import NewPin  from '@screens/pin/NewPin';
-import PinConfirmation  from '@screens/pin/PinConfirmation';
+import ReferralCode from '@screens/licenses/ReferralCode';
+import GetLicenses from '@screens/licenses/GetLicenses';
+import SelectTypeLicense from '@screens/licenses/SelectTypeLicense';
+import TransferCryptoCurrency from '@screens/licenses/TransferCryptoCurrency';
+import QrCodeTransaction from '@screens/licenses/QrCodeTransaction';
+import ConfirmationLicenses from '@screens/licenses/ConfirmationLicenses';
+import LoginCode from '@screens/signUp/LoginCode';
+import RegisterProfileBasic from '@screens/signUp/RegisterProfileBasic';
+import CreateNewPassword from '@screens/signUp/CreateNewPassword';
+import AccountConfirmation from '@screens/signUp/AccountConfirmation';
+import NewPin from '@screens/pin/NewPin';
+import PinConfirmation from '@screens/pin/PinConfirmation';
+import NewPassword from '@screens/forgotPassword/NewPassword';
+import EmailConfirm from '@screens/forgotPassword/EmailConfirm';
+import Confirmation from '@screens/forgotPassword/Confirmation';
+//Home
+import Dashboard from '@screens/home/Dashboard';
+import ActivationConfirmation from '@screens/home/ActivationConfirmation';
 
-
-
-const screenOptionStyle = {
-  headerStyle: {
-    backgroundColor: "#9AC4F8",
-  },
-  headerTintColor: "white",
-  headerBackTitle: "Back",
-};
 
 
 const Drawer = createDrawerNavigator();
@@ -38,27 +34,25 @@ const Stack = createNativeStackNavigator();
 const signInScreens = () => {
   return (
     <Drawer.Navigator initialRouteName="Dashboard" drawerContent={(props) => <CustomDrawer {...props} />}>
-      <Drawer.Screen name="Dashboard"  options={{
-            headerShown: false,
-            icon: 'tachometer-alt',
-            category: 'dashboard',
-          }} component={Dashboard} />
-      {/* <Drawer.Screen name="ReferralCode"  options={{
+      <Drawer.Screen name="Dashboard" options={{
         headerShown: false,
-      }} component={ReferralCode} />
-      <Drawer.Screen name="GetLicenses"  options={{
+        icon: 'tachometer-alt',
+        category: 'dashboard',
+      }} component={Dashboard} />
+      <Drawer.Screen options={{
         headerShown: false,
-      }} component={GetLicenses} />
-      <Drawer.Screen name="SelectLicense"  options={{
-        headerShown: false,
-      }} component={SelectTypeLicense} /> */}
+        icon: 'tachometer-alt',
+        category: 'dashboard',
+      }} name="ActivationConfirmation" component={ActivationConfirmation} screenOptions={{ headerShown: false }} />
+
     </Drawer.Navigator>
+
   );
 }
 
 const signOutScreens = () => {
   return (
-    <Stack.Navigator initialRouteName="AccountConfirmation" screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="CodeSms" component={CodeSms} />
@@ -76,10 +70,9 @@ const signOutScreens = () => {
       <Stack.Screen name="NewPin" component={NewPin} />
       <Stack.Screen name="PinConfirmation" component={PinConfirmation} />
       <Stack.Screen name="AccountConfirmation" component={AccountConfirmation} />
-      
-      
-      
-      
+      <Stack.Screen name="NewPassword" component={NewPassword} />
+      <Stack.Screen name="EmailConfirm" component={EmailConfirm} />
+      <Stack.Screen name="ConfirmationForgot" component={Confirmation} />
     </Stack.Navigator>
   );
 }

@@ -21,6 +21,60 @@
       "lastName":"Please enter a lastName",
       "ssn":"Please enter a Social Security Number",
       "birthDay":"Please select birth day"
+    },
+    "General":{
+      "linkTermsAndConditions":"Terms and Conditions",
+      "linkPrivacyPolicy":"Privacy Policy",
+      "textRequiredFields":"* Required fields",
+      "buttonBack":"Back",
+      "buttonNext":"Next",
+      "buttonSave":"Save",
+      "buttonBackToLogin":"Back to Login"
+    },
+    "Login":{
+      "textAnIncredible":"An incredible investment proposal",
+      "textInRewardPoints":"In reward points with the best daily renovable benefits.",
+      "linkLogin":"Login",
+      "linkRegister":"Register",
+      "textIfYouHave":"If you have a",
+      "textUulalaRegistration":"Uulala registration",
+      "textYouCanAccess":"you can access with your phone number and password.",
+      "inputEmail":"Email",
+      "inputPassword":"Password",
+      "linkIForgotMyPassword":"I forgot my password",
+      "buttonLogin":"Login"
+    },
+    "Register":{
+      "textWelcomeTo":"Welcome to Batched!",
+      "textInputEmail":"Email Address",
+      "textDropDown":"Country",
+      "inputPhone":"Phone"
+    },
+    "ForgotPassword":{
+      "textRecoverYourPassword":"Recover your password",
+      "textEmailConfirm":"Email confirm",
+      "textEnterYourRegistration":"Enter your registration email",
+      "buttonSendCode":"Send Code",
+      "inputSixDigits":"6 Digits code*",
+      "textYourCodeIsValid":"Your code is valid for",
+      "textFiveMin":"5 minutes",
+      "textIfYouCantFind":" if you can't find it in your received emails, look in the spam section. If the 5 minutes have passed you can resend the code, the previous one will be invalidated.",
+      "inputEmail":"Email Address",
+      "textDropDown":"Country",
+      "inputPhone":"Phone",
+      "textDefineYourNew":"Define your new password",
+      "textAtLeast":"At least",
+      "textEightCharacters":"8 characters",
+      "textWithNonConsecutive":"with non-consecutive letters and numbers",
+      "inputDefineYourPassword":"Define your password (8 Digits code)*",
+      "inputRepeatYourPassword":"Repeat your password (8 Digits code)*",
+      "confirmation":{
+        "textPasswordActualized":"Password actualized",
+        "textIfYouWantToMake":"If you want to make adjustments such as change of confirmation PIN or change of secret answer, you can access your settings in the",
+        "textMyProfile":"'My profile'",
+        "textSectionFrom":"section from the side menu."
+
+      }
     }
   }
 }

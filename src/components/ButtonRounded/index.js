@@ -8,7 +8,7 @@ import Styles from './styles';
 import { TouchableOpacity } from 'react-native';
 
 const ButtonRounded = ({
-  size = 'sm',
+  size,
   blue,
   dark,
   green,
@@ -82,7 +82,7 @@ const ButtonRounded = ({
         disabled?Styles.disableColor:[],
         green?Styles.greenBorder:[] ]}
       >
-      <TouchableOpacity disabled={disabled} style={[Styles.wrapper,btnSize, containerStyle]}  {...props}>
+      <TouchableOpacity disabled={disabled} style={[Styles.wrapper, containerStyle,{width:'100%'}]}  {...props}>
         { children }
       </TouchableOpacity>
       </LinearGradient>

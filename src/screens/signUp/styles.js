@@ -1,12 +1,14 @@
 import { StyleSheet } from 'react-native';
 import Colors from '@styles/Colors';
+import { scale, verticalScale } from 'react-native-size-matters';
+
 
 const styles = StyleSheet.create({
   linearGradient: {
     flex: 1,
-    paddingLeft: 15,
-    paddingRight: 15,
-    borderRadius: 5
+    paddingLeft: verticalScale(15),
+    paddingRight: verticalScale(15),
+    borderRadius: verticalScale(5)
   },
   fonts:{
     fontFamily: 'BaiJamjuree-SemiBold',
@@ -14,10 +16,10 @@ const styles = StyleSheet.create({
     color:'white'
   },
   input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
+    height: verticalScale(40),
+    margin: verticalScale(12),
+    borderWidth: verticalScale(1),
+    padding: verticalScale(10),
   },
   btn: {
     color:Colors.blue02,
@@ -35,6 +37,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems:'center'
   },
+
 });
 
 export default styles;

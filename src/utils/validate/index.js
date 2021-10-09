@@ -3,16 +3,13 @@ import Validators  from './validators';
 import Validations from './validations';
 
 const Validate = (fieldName, value, confirm = '') => {
- 
   if (Validations?.hasOwnProperty(fieldName)  ) {
     const object = Validations[fieldName];
-   
     if (object.hasOwnProperty('presence')) {
       if (Validators.presence(value)) {
         return object.presence.message;
       }
     }else{
-      console.log('presence')
       return false; 
     }
 

@@ -17,14 +17,22 @@ import Colors from '@styles/Colors';
 import Back from '@assets/icons/backBlue.png';
 
 
-const PinConfirmation = ({ navigation,navigation: { goBack }  }) => {
+const PinConfirmation = ({ navigation,navigation: { goBack },route  }) => {
+  const { page } = route?.params;
+  const newPinPage = page === 'newPin'?true:false;
+  console.log('route',route)
   const redux = useSelector(state => state);
   const userData = redux?.user;
   const brandTheme = userData?.Theme?.colors;
 
   const onComplete= async (inputtedPin, clear) =>{
     const PinConfirm = inputtedPin;
-    navigation.navigate("TermConditions")
+    if (page === 'newPin') {
+      navigation.navigate("TermConditions");
+    } else if(page === 'forgotPassword') {
+      navigation.navigate("NewPassword");
+    }
+   
    
   };
   const isDarkMode = useColorScheme() === 'dark';
@@ -50,7 +58,7 @@ const PinConfirmation = ({ navigation,navigation: { goBack }  }) => {
           </TouchableOpacity>
           <Divider width-30 />
           <View style={{ width: '75%'}}>
-            <Text h18 blue04 medium center>Confirm your PIN</Text>
+            <Text h18 blue04 medium center>{newPinPage? 'Confirm your PIN':'Enter your confirmation PIN'}</Text>
           </View>
         </View>
         <Divider height-20/>

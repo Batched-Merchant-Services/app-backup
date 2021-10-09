@@ -53,7 +53,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
 
   const dropdownRenderRow = ({ name, value }) => {
     return (
-      <View centerV style={{ height: 45}}>
+      <View centerV height-40>
         <Text h13 white>{name}</Text>
       </View>
 
@@ -93,7 +93,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
           renderSeparator={(rowID) => renderSeparator(rowID)}
           renderButtonText={(rowData) => renderButtonText(rowData)}
           adjustFrame={handleAdjustFrame}
-          style={{ flex: 1, height: '100%', }}
+          style={{ flex: 1}}
           textStyle={{ color: brandTheme?.white ?? Colors.white,fontSize:14 }}
           renderRow={(rowData) => dropdownRenderRow(rowData)}
           dropdownStyle={[Styles.dropdownContainer, { backgroundColor: styleBackground, borderColor: styleBorder }]}

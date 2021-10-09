@@ -13,6 +13,8 @@ import LinksTerms from '@components/LinksTerms';
 import NavigationBar from '@components/NavigationBar';
 import UploadFile from '@components/UploadFile';
 import PinInput from '@components/PinInput';
+import DatePicker from '@components/DatePicker';
+
 
 export {
   Text,
@@ -21,6 +23,7 @@ export {
   Divider,
   Checkbox,
   PinInput,
+  DatePicker,
   UploadFile,
   LinksTerms,
   ImageResize,

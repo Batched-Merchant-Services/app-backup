@@ -40,7 +40,7 @@ const AccountConfirmation = ({ navigation, navigation: { goBack } }) => {
       <Text h18 regular blue02>created </Text>
       <Divider height-20 />
       <View blue01 width-36 height-1/>
-      <Divider height-20 />
+      <Divider height-20/>
       <Text h12 white light>You can login with the information of the account you just created.</Text>
         <View flex-1 bottom>
           <ButtonRounded

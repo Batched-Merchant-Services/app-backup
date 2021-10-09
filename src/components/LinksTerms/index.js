@@ -5,6 +5,7 @@ import {
   View,
   Divider
 } from '@components';
+import i18n from '@utils/i18n';
 
 const LinksTerms = ({ navigation,onPressTerm, onPressPrivacy, ...props }) => {
   
@@ -12,11 +13,11 @@ const LinksTerms = ({ navigation,onPressTerm, onPressPrivacy, ...props }) => {
     <Fragment>
       <View row bottom>
         <Link onPress={onPressTerm}>
-          <Text h12 white>Terms and Conditionsd</Text>
+          <Text h12 white>{i18n.t('General.linkTermsAndConditions')}</Text>
         </Link>
         <Divider width-10 />
         <Link onPress={onPressPrivacy}>
-          <Text h12 white>Privacy Policy</Text>
+          <Text h12 white>{i18n.t('General.linkPrivacyPolicy')}</Text>
         </Link>
       </View>
       <Divider height-10/>

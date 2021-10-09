@@ -15,6 +15,7 @@ import { useQuery } from '@apollo/client';
 import { FETCH_TODOS } from '@utils/api/queries/example';
 import Logo from '@assets/brandBatched/logo.svg';
 import StepButton from '../signUp/components/StepsButton';
+import i18n from '@utils/i18n';
 
 const Login = ({ navigation }) => {
   const email = useValidatedInput('email', '');
@@ -43,28 +44,28 @@ const Login = ({ navigation }) => {
      <View style={{height: Dimensions.get('window').height - verticalScale(130)}} >
         <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
         <Divider height-30 />
-        <Text h18 blue02>An incredible investment proposal in reward <Text white>points with the best daily renovable benefits.</Text></Text>
+        <Text h18 blue02>{i18n.t('Login.textAnIncredible')}{' '}<Text white>{i18n.t('Login.textInRewardPoints')}</Text></Text>
         <Divider height-15 />
         <StepButton navigation={navigation} />
         <Divider height-15 />
-        <Text h10 white>Si cuentas con <Text white bold>registro en Uulala</Text>puedes acceder con tu Número de teléfono y contraseña.</Text>
+        <Text h10 white>{i18n.t('Login.textIfYouHave')}{' '}<Text white bold>{i18n.t('Login.textUulalaRegistration')}{' '}</Text>{i18n.t('Login.textYouCanAccess')}</Text>
         <Divider height-25 />
         <FloatingInput
           {...email}
-          label={'email'}
+          label={i18n.t('Login.inputEmail')}
           keyboardType={'number-pad'}
           autoCapitalize={'none'}
         />
         <Divider height-5 />
         <FloatingInput
           {...password}
-          label={'password'}
+          label={i18n.t('Login.inputPassword')}
           autoCapitalize={'none'}
           secureTextEntry
         />
         <Divider height-10 />
-        <Link>
-          <Text h12 blue02 left>I forgot my password</Text>
+        <Link onPress={() => navigation.navigate("EmailConfirm")}>
+          <Text h12 blue02 left>{i18n.t('Login.linkIForgotMyPassword')}</Text>
         </Link>
         <Divider height-35 />
         <View flex-1 bottom>
@@ -74,7 +75,7 @@ const Login = ({ navigation }) => {
             size='lg'
           >
             <Text h14 semibold>
-              Login
+              {i18n.t('Login.buttonLogin')}
             </Text>
           </ButtonRounded>
         </View>

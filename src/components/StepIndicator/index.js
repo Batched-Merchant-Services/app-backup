@@ -11,7 +11,7 @@ const renderCircles = (totalSteps, step) => {
 		circles.push(
 			<View row centerV key={index}>
 				<View width-10 height-10 centerH centerV
-					style={index === step ? styles.circle : styles.circleDisable}
+					style={index <= step ? styles.circle : styles.circleDisable}
 				>
 				</View>
 				<Divider width-6/>

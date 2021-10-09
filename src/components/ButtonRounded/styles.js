@@ -4,10 +4,10 @@ import Colors from '@styles/Colors';
 
 const Styles = StyleSheet.create({
   wrapper: {
-    height        : scale(40),
+    height        : verticalScale(40),
     alignItems    : 'center',
     justifyContent: 'center',
-    borderRadius  : scale(2)
+    borderRadius  : verticalScale(2),
   },
   borderDark:{
     borderColor:Colors.blue02,

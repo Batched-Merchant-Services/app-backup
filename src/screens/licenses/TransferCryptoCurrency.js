@@ -57,7 +57,7 @@ const TransferCryptoCurrency = ({ navigation }) => {
         autoCapitalize={'none'}
       />
       <Divider height-10 />
-      <View flex-1 row bottom >
+      <View row  >
         <ButtonRounded
           onPress={() => goBack()}
           disabled={false}
@@ -80,7 +80,7 @@ const TransferCryptoCurrency = ({ navigation }) => {
           </Text>
         </ButtonRounded>
       </View>
-      <Divider height-10 />
+      <Divider height-20 />
       <Text h12 white>3. Submit a screenshot of the transfer receipt.</Text>
       <Divider height-10 />
       <UploadFile 

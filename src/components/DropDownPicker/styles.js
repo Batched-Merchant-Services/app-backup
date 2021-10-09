@@ -5,7 +5,7 @@ export default StyleSheet.create({
   dropDown: {
     width                  : '100%',
     borderWidth            : moderateScale(1, 0.3),
-    height                 : verticalScale(45),
+    height                 : verticalScale(42),
     alignItems             : 'flex-start',
     justifyContent         : 'center',
     borderRadius           : verticalScale(6),
@@ -18,7 +18,7 @@ export default StyleSheet.create({
   },
   dropdownContainer: {
     width:'100%',
-    borderWidth            : moderateScale(1, 0.3),
+    borderWidth            : verticalScale(1, 0.3),
     paddingLeft            : verticalScale(6)
   },
 
@@ -32,5 +32,5 @@ export default StyleSheet.create({
     backgroundColor: 'red'
   },
 
-  arrow: { position: 'absolute', bottom: moderateScale(12, 0.3), right: moderateScale(10, 0.3) },
+  arrow: { position: 'absolute', bottom: verticalScale(12, 0.3), right: verticalScale(10, 0.3) },
 });

@@ -21,6 +21,53 @@
       "lastName":"Please enter a lastName",
       "ssn":"Please enter a Social Security Number",
       "birthDay":"Please select birth day"
+    },
+    "General":{
+      "linkTermsAndConditions":"Terms and Conditions",
+      "linkPrivacyPolicy":"Privacy Policy",
+      "textRequiredFields":"* Required fields",
+      "buttonBack":"Back",
+      "buttonSave":"Save",
+      "buttonBackToLogin":"Back to Login"
+    },
+    "Login":{
+      "textAnIncredible":"An incredible investment proposal",
+      "textInRewardPoints":"In reward points with the best daily renovable benefits.",
+      "linkLogin":"Login",
+      "linkRegister":"Register",
+      "textIfYouHave":"Si cuentas con",
+      "textUulalaRegistration":"registro en Uulala",
+      "textYouCanAccess":"puedes acceder con tu Número de teléfono y contraseña.",
+      "inputEmail":"Email",
+      "inputPassword":"Password",
+      "linkIForgotMyPassword":"I forgot my password",
+      "buttonLogin":"Login"
+    },
+    "Register":{
+      "textWelcomeTo":"Welcome to Batched!",
+      "textInputEmail":"Email Address",
+      "textDropDown":"Country",
+      "inputPhone":"Phone",
+      "buttonNext":"Next"
+    },
+    "ForgotPassword":{
+      "textRecoverYourPassword":"Recover your password",
+      "textEmailConfirm":"Email confirm",
+      "textEnterYourRegistration":"Enter your registration email",
+      "buttonSendCode":"Send Code",
+      "inputSixDigits":"6 Digits code*",
+      "textYourCodeIsValid":"Your code is valid for",
+      "textFiveMin":"5 minutes",
+      "textIfYouCantFind":" if you can't find it in your received emails, look in the spam section. If the 5 minutes have passed you can resend the code, the previous one will be invalidated.",
+      "inputEmail":"Email Address",
+      "textDropDown":"Country",
+      "inputPhone":"Phone",
+      "textDefineYourNew":"Define your new password",
+      "textAtLeast":"At least",
+      "textEightCharacters":"8 characters",
+      "textWithNonConsecutive":"with non-consecutive letters and numbers",
+      "inputDefineYourPassword":"Define your password (8 Digits code)*",
+      "inputRepeatYourPassword":"Repeat your password (8 Digits code)*"
     }
   }
 }

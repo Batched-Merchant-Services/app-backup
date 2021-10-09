@@ -39,7 +39,6 @@ const BackgroundWrapper = ({
         <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
         <NavigationBar showNavigation={showNavigation} childrenLeft={childrenLeft} menu={menu} onPressLeft={onPressLeft} childrenRight={childrenRight} navigation={navigation} />
         <ScrollView contentContainerStyle={{flexGrow: 1}} style={{flex: 1}}>
-            <Divider height-10 />
             {children}
         </ScrollView>
         <Divider height-30 />

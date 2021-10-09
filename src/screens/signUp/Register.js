@@ -1,13 +1,10 @@
 import React, { useEffect,useState } from 'react';
-import { useColorScheme,TouchableOpacity,Picker } from 'react-native';
 import { useValidatedInput,isFormValid } from '@hooks/validation-hooks';
 import { scale,verticalScale } from 'react-native-size-matters';
 import {
   Text,
   View,
-  Link,
   Divider,
-  LinksTerms,
   ButtonRounded,
   FloatingInput,
   DropDownPicker,
@@ -19,7 +16,7 @@ import { FETCH_TODOS } from '@utils/api/queries/example';
 import Logo from '@assets/brandBatched/logo.svg';
 import { useSelector } from 'react-redux';
 import StepIndicator from '../../components/StepIndicator';
-
+import i18n from '@utils/i18n';
 
 const Register = ({ navigation }) => {
   const redux = useSelector(state => state);
@@ -68,12 +65,12 @@ const Register = ({ navigation }) => {
       <Divider height-15 />
       <StepButton navigation={navigation}/>
       <Divider height-15 />
-      <Text h18 blue02>Welcome to Batched!</Text>
+      <Text h18 blue02>{i18n.t('Register.textWelcomeTo')}</Text>
       <Divider height-25 />
        <Divider height-5 />
       <FloatingInput
         {...email}
-        label={'Email Address '}
+        label={i18n.t('Register.textInputEmail')}
         autoCapitalize={'none'}
       />
        <Divider height-5 />
@@ -81,7 +78,7 @@ const Register = ({ navigation }) => {
         <View flex-1>
           <DropDownPicker
             {...answer}
-            label={'Country'}
+            label={i18n.t('Register.textDropDown')}
             options={items}
             size="sm"
             //onFill={(code)=> filterPays(code)}
@@ -91,7 +88,7 @@ const Register = ({ navigation }) => {
         <View flex-1 right centerV>
           <FloatingInput
           {...phone}
-          label={'Phone'}
+          label={i18n.t('Register.inputPhone')}
           autoCapitalize={'none'}
           />
         </View>
@@ -106,7 +103,7 @@ const Register = ({ navigation }) => {
           size='lg'
         >
           <Text h14 semibold>
-            Next
+            {i18n.t('Register.buttonNext')}
           </Text>
         </ButtonRounded>
       </View>

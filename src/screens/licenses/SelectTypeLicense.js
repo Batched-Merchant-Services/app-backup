@@ -39,7 +39,7 @@ const SelectTypeLicense = ({ navigation }) => {
       <Text h16 regular blue02>Acquire licenses to increase</Text>
       <Text h16 bold blue02>reward points</Text>
       <Divider height-10 />
-      <View flex-1 row>
+      <View row>
       <View flex-1 >
         <Text h12 regular blue02>Price per license</Text>
         <Text h16 regular white>900USD</Text>
@@ -53,7 +53,7 @@ const SelectTypeLicense = ({ navigation }) => {
         <Text h16 regular white>0</Text>
       </View>
       </View>
-      <Divider height-10 />
+      <Divider height-20 />
       <Text h12 white light>Select the <Text white semibold>number of Licenses</Text> and <Text white semibold>the cryptocurrency</Text> with which you want to make the payment.</Text>
       <Divider height-10 />
       <DropDownPicker
@@ -72,7 +72,7 @@ const SelectTypeLicense = ({ navigation }) => {
         //onFill={(code)=> filterPays(code)}
        />
       <Divider height-5 />
-      <View flex-1 >
+      <View flex-1  bottom>
       <ButtonRounded
         onPress={() => navigation.navigate("TransferCryptoCurrency")}
         disabled={false}

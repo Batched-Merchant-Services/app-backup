@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
+import { TouchableOpacity } from 'react-native';
 import { scale, verticalScale } from 'react-native-size-matters';
 import {
   Text,
   View,
   Divider,
+  DatePicker,
   ButtonRounded,
   FloatingInput,
   DropDownPicker,
@@ -18,22 +20,24 @@ import StepIndicator from '../../components/StepIndicator';
 import Styles from './styles';
 
 
-const RegisterProfileBasic = ({ navigation,navigation: { goBack } }) => {
+const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
   const firstName = useValidatedInput('firstName', '');
   const mediumName = useValidatedInput('', '');
   const lastName = useValidatedInput('lastName', '');
   const ssn = useValidatedInput('ssn', '');
-  const birthDay = useValidatedInput('birthDay', '');
-  const gender = useValidatedInput('select', {
-    changeHandlerSelect: 'onSelect'
-  });
-
-
+  const [showModalDates, setShowModalDates] = useState(false);
   const [items, setItems] = useState([
     { id: '1', value: 'apple', name: 'Apple' },
     { id: '2', value: 'banana', name: 'Banana' }
   ]);
+  const gender = useValidatedInput('select', {
+    changeHandlerSelect: 'onSelect'
+  });
+  const birthDay = useValidatedInput('select', {
+    changeHandlerSelect: 'onSelect'
+  });
+
   const isValid = isFormValid(firstName, mediumName, lastName, ssn, gender, birthDay);
 
 
@@ -49,9 +53,7 @@ const RegisterProfileBasic = ({ navigation,navigation: { goBack } }) => {
     console.error(error);
   }
 
-  // if (loading) {
-  //   console.log('loading');
-  // }
+ console.log('birthDay',birthDay)
 
   return (
     <BackgroundWrapper navigation={navigation}>
@@ -60,7 +62,7 @@ const RegisterProfileBasic = ({ navigation,navigation: { goBack } }) => {
           <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
         </View>
         <View flex-1 right centerV>
-          <StepIndicator step={1} totalSteps={4} />
+          <StepIndicator step={3} totalSteps={4} />
         </View>
       </View>
       <Divider height-15 />
@@ -99,10 +101,9 @@ const RegisterProfileBasic = ({ navigation,navigation: { goBack } }) => {
         //onFill={(code)=> filterPays(code)}
         />
         <Divider height-5 />
-        <FloatingInput
+        <DatePicker 
           {...birthDay}
           label={'Date of birth'}
-          autoCapitalize={'none'}
         />
       </View>
       <Divider height-10 />
@@ -131,7 +132,6 @@ const RegisterProfileBasic = ({ navigation,navigation: { goBack } }) => {
           </Text>
         </ButtonRounded>
       </View>
-
     </BackgroundWrapper>
   );
 }
