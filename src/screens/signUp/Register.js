@@ -75,15 +75,14 @@ const Register = ({ navigation }) => {
       />
        <Divider height-5 />
        <View row>
-        <View flex-1>
           <DropDownPicker
             {...answer}
             label={i18n.t('Register.textDropDown')}
             options={items}
-            size="sm"
+            size='sm'
             //onFill={(code)=> filterPays(code)}
           />
-        </View>
+   
         <Divider width-8 />
         <View flex-1 right centerV>
           <FloatingInput
@@ -103,7 +102,7 @@ const Register = ({ navigation }) => {
           size='lg'
         >
           <Text h14 semibold>
-            {i18n.t('Register.buttonNext')}
+            {i18n.t('General.buttonNext')}
           </Text>
         </ButtonRounded>
       </View>

@@ -71,7 +71,7 @@ export default function App() {
        <ApolloProvider client={client}>
         <Provider store={store}>
         <NavigationContainer theme={MyTheme} independent={true}>
-          <AppNavigation  ref={navigatorRef => { NavigationService.setTopLevelNavigator(navigatorRef);}}/>
+          <AppNavigation />
         </NavigationContainer>
         </Provider>
        </ApolloProvider>

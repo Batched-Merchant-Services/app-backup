@@ -7,6 +7,7 @@ import {
   ImageResize
 } from '@components';
 import ReactNativePinView from "react-native-pin-view"
+import i18n from '@utils/i18n';
 //Redux
 import { useSelector } from 'react-redux';
 //Styles
@@ -18,9 +19,9 @@ import Back from '@assets/icons/backBlue.png';
 
 
 const PinConfirmation = ({ navigation,navigation: { goBack },route  }) => {
-  const { page } = route?.params;
+  const page =  route?.params?.page;
   const newPinPage = page === 'newPin'?true:false;
-  console.log('route',route)
+  console.log('navigation',route)
   const redux = useSelector(state => state);
   const userData = redux?.user;
   const brandTheme = userData?.Theme?.colors;
@@ -31,6 +32,11 @@ const PinConfirmation = ({ navigation,navigation: { goBack },route  }) => {
       navigation.navigate("TermConditions");
     } else if(page === 'forgotPassword') {
       navigation.navigate("NewPassword");
+    } else if(page === 'transferOption') {
+      navigation.navigate("ConfirmationTransfer");
+    }
+    else{
+      navigation.navigate("Login");
     }
    
    
@@ -58,13 +64,13 @@ const PinConfirmation = ({ navigation,navigation: { goBack },route  }) => {
           </TouchableOpacity>
           <Divider width-30 />
           <View style={{ width: '75%'}}>
-            <Text h18 blue04 medium center>{newPinPage? 'Confirm your PIN':'Enter your confirmation PIN'}</Text>
+            <Text h18 blue04 medium center>{newPinPage? i18n.t('pinConfirmation.textConfirmYourPIN'):i18n.t('pinConfirmation.textEnterYourConfirmationPIN')}</Text>
           </View>
         </View>
         <Divider height-20/>
-        <Text h12 blue04 regular center>You will use it to confirm transactions and user validation.</Text>
+        <Text h12 blue04 regular center>{i18n.t('pinConfirmation.textYouWillUseItTo')}</Text>
         <Divider height-20/>
-        <Text h12 blue04 regular center>6 Digits</Text>
+        <Text h12 blue04 regular center>{i18n.t('pinConfirmation.textSixDigits')}</Text>
         <Divider height-10/>
         <ReactNativePinView
           pinLength={6}

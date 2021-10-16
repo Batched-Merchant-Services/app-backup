@@ -64,7 +64,7 @@ const Confirmation = ({ navigation, navigation: { goBack } }) => {
         <Divider height-40 />
         <Text h10 white light>Morbi aliquam nisi diam, vitae laoreet neque ultrices sed. Maecenas at dui auctor arcu condimentum congue. </Text>
         <Divider height-10 />
-        <Text h10 blue01 light>All rights reserved. Batched.com</Text>
+        <Text h10 blue01 light>{i18n.t('General.textAllRightsReserved')}{' '}Batched.com</Text>
       </View>
     </BackgroundWrapper>
   );

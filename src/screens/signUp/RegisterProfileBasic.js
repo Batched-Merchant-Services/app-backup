@@ -18,7 +18,7 @@ import Logo from '@assets/brandBatched/logo.svg';
 import { useSelector } from 'react-redux';
 import StepIndicator from '../../components/StepIndicator';
 import Styles from './styles';
-
+import i18n from '@utils/i18n';
 
 const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -66,48 +66,47 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
         </View>
       </View>
       <Divider height-15 />
-      <Text h14 blue02>By completing your basic information you will be able to access to your Uulala App and Card Portal.</Text>
+      <Text h14 blue02>{i18n.t('Register.textByCompletingYourBasic')}</Text>
       <Divider height-25 />
       <View style={Styles.container}>
         <FloatingInput
           {...firstName}
-          label={'First Name*'}
+          label={i18n.t('Register.inputFirstName')}
           autoCapitalize={'none'}
         />
         <Divider height-5 />
         <FloatingInput
           {...mediumName}
-          label={'Medium Name'}
+          label={i18n.t('Register.inputMediumName')}
           autoCapitalize={'none'}
         />
         <Divider height-5 />
         <FloatingInput
           {...lastName}
-          label={'Last Name*'}
+          label={i18n.t('Register.inputLastName')}
           autoCapitalize={'none'}
         />
         <Divider height-5 />
         <FloatingInput
           {...ssn}
-          label={'Social Security Number*'}
+          label={i18n.t('Register.inputSocialSecurityNumber')}
           autoCapitalize={'none'}
         />
         <Divider height-5 />
         <DropDownPicker
           {...gender}
-          label={'Gender*'}
+          label={i18n.t('Register.inputGender')}
           options={items}
-          size="sm"
         //onFill={(code)=> filterPays(code)}
         />
         <Divider height-5 />
         <DatePicker 
           {...birthDay}
-          label={'Date of birth'}
+          label={i18n.t('Register.inputDateOfBirth')}
         />
       </View>
       <Divider height-10 />
-      <Text h12 white>* Required fields</Text>
+      <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
       <Divider height-10 />
       <View flex-1 row bottom >
         <ButtonRounded
@@ -117,7 +116,7 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
           size='sm'
         >
           <Text h14 semibold blue02>
-            Back
+            {i18n.t('General.buttonBack')}
           </Text>
         </ButtonRounded>
         <Divider width-10 />
@@ -128,7 +127,7 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
           size='sm'
         >
           <Text h14 semibold>
-            Next
+            {i18n.t('General.buttonNext')}
           </Text>
         </ButtonRounded>
       </View>

@@ -5,10 +5,10 @@ import { View, Text } from '@components';
 import Styles from './styles';
 import { useSelector } from 'react-redux';
 import InputError from '@components/FloatingLabelInput/InputError';
-import { moderateScale, verticalScale } from 'react-native-size-matters';
+import { scale, verticalScale } from 'react-native-size-matters';
 import Colors from '@styles/Colors';
 
-const DropDownPicker = ({ error, label, value, options, size, onSelect, languages, onFill, ...props }) => {
+const DropDownPicker = ({ error, label, value, options, size, onSelect, languages, onFill,labelDefault, ...props }) => {
 
   const [width, setWidth] = useState(null);
   const [open, setOpen] = useState(false);
@@ -40,20 +40,20 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
 
     style.width = width;
     if (showInBottom) {
-      style.height = verticalScale(1 * options.length + 65, 0.40);
+      style.height = verticalScale(1 * options.length + 120, 0.40);
       style.left = style.left - verticalScale(7, 0);
-      style.top = Platform.OS === 'ios' ? style.top = style.top - verticalScale(3, 0.3) : style.top - verticalScale(30);
+      style.top = Platform.OS === 'ios' ? style.top = style.top - verticalScale(2, 0.3) : style.top - verticalScale(30);
     } else {
-      style.height = verticalScale(1 * options.length + 65, 0.40);
+      style.height = verticalScale(1 * options.length + 120, 0.40);
       style.left = style.left - verticalScale(7, 0);
-      style.top = Platform.OS === 'ios' ? style.top = style.top - verticalScale(-14, 0.3) : style.top + style.height - verticalScale(135);
+      style.top = Platform.OS === 'ios' ? style.top = style.top - verticalScale(2, 0.3) : style.top + style.height - verticalScale(135);
     }
     return style;
   };
 
   const dropdownRenderRow = ({ name, value }) => {
     return (
-      <View centerV height-40>
+      <View flex-1 centerV height-35>
         <Text h13 white>{name}</Text>
       </View>
 
@@ -69,17 +69,19 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
   const renderButtonText = (rowData) => {
     const { name, value } = rowData;
     return (
-      <View width-300 marginL-2 marginB-4>
+      <View flex-1 marginL-2 marginB-4>
         <Text h12 white>{name}</Text>
       </View>
      
     );
   };
 
+  const dropSize = { width: getSize(size) };
+
   return (
     <View onLayout={handleWrapperLayout}>
-      <View flex-1 style={[
-        Styles.dropDown, { borderColor: styleBorder },
+      <View style={[
+        Styles.dropDown,dropSize, {borderColor: styleBorder , backgroundColor: styleBackground },
         ...(error ? [{ borderColor: brandTheme?.error ?? Colors.error }] : [])
       ]}>
         <View marginL-2 marginB-4>
@@ -87,13 +89,13 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
         </View>
         <ModalDropdown
           options={options}
-          defaultValue='Select Option'
+          defaultValue={labelDefault? labelDefault:'Select Option'}
           onDropdownWillShow={handleWillShowHide}
           onDropdownWillHide={handleWillShowHide}
           renderSeparator={(rowID) => renderSeparator(rowID)}
           renderButtonText={(rowData) => renderButtonText(rowData)}
           adjustFrame={handleAdjustFrame}
-          style={{ flex: 1}}
+          style={{flex:1}}
           textStyle={{ color: brandTheme?.white ?? Colors.white,fontSize:14 }}
           renderRow={(rowData) => dropdownRenderRow(rowData)}
           dropdownStyle={[Styles.dropdownContainer, { backgroundColor: styleBackground, borderColor: styleBorder }]}
@@ -106,17 +108,26 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
     </View>
   );
 };
+function getSize(size) {
+  return {
+    ll: scale(120),
+    sm: scale(138),
+    md: scale(280),
+    lg: scale(314,0.1)
+  }[size];
+}
 
 DropDownPicker.propTypes = {
   label: PropTypes.string,
   error: PropTypes.string,
   onSelect: PropTypes.func.isRequired,
   options: PropTypes.array.isRequired,
-  onFill: PropTypes.func.isRequired,
+  onFill: PropTypes.func,
+  labelDefault: PropTypes.string,
   size: PropTypes.oneOf(['ll', 'sm', 'md', 'lg'])
 };
 DropDownPicker.defaultProps = {
-  size: 'md',
+  size: 'lg',
   value: {}
 };
 

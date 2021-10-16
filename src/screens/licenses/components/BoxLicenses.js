@@ -7,6 +7,8 @@ import { useSelector } from 'react-redux';
 import Styles from '../styles';
 import { ImageBackground,TouchableOpacity } from 'react-native';
 import fillPoint from '@assets/icons/fillPoint.png';
+import i18n from '@utils/i18n';
+
 const BoxLicenses = ({
   numberLicense,
   pricingLicense,
@@ -67,27 +69,25 @@ const BoxLicenses = ({
           <Text white h50 bold>{numberLicense}</Text>
           <Divider width-5/>
           <View centerV>
-            <Text white h15 regular>Permanent</Text>
-            <Text white h15 regular >Licence</Text>
+            <Text white h15 regular>{i18n.t('Licenses.textPermanent')}</Text>
+            <Text white h15 regular>{i18n.t('Licenses.textLicence')}</Text>
           </View>
           <View style={[Styles.lineDiv,{borderColor:colorLine}]}/>
         </View>
-    
         <View flex-1 centerV>
-          <Text h12 warning medium>Pricing <Text warning bold >{pricingLicense}</Text> USD </Text>
-          <Text white h8>Get <Text white bold >{percentPoint}% </Text> daily points reward! </Text>
+          <Text h12 warning medium>{i18n.t('Licenses.textPricing')}<Text warning bold >{pricingLicense}</Text> USD </Text>
+          <Text white h8>{i18n.t('Licenses.textGet')}<Text white bold >{percentPoint}% </Text>{i18n.t('Licenses.textDailyPointsReward')}</Text>
           <Divider height-8/>
           <TouchableOpacity
             style={[Styles.loginScreenButton,{ backgroundColor:colorLine}]}
             onPress={onPress}>
            <Text h14 semibold white>
-              Select
+              {i18n.t('Licenses.buttonSelect')}
             </Text>
           </TouchableOpacity>
         </View>
       </View>
     </ImageBackground>
-      
     </LinearGradient>
   );
 };

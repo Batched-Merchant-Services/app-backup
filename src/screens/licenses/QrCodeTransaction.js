@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
 import QRCode from 'react-native-qrcode-svg';
 import { scale} from 'react-native-size-matters';
-
+import i18n from '@utils/i18n';
 
 const QrCodeTransaction = ({ navigation,navigation: { goBack }  }) => {
   const redux = useSelector(state => state);
@@ -23,12 +23,12 @@ const QrCodeTransaction = ({ navigation,navigation: { goBack }  }) => {
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
-      <Text h18 regular blue02>QR code for transaction</Text>
+      <Text h18 regular blue02>{i18n.t('Licenses.textQRCodeForTransaction')}</Text>
       <Divider height-10 />
-      <Text h12 white light>Scan the following QR code from your crypto wallet to make the transfer.</Text>
+      <Text h12 white light>{i18n.t('Licenses.textScanTheFollowingQR')}</Text>
       <Divider height-20 />
       <View centerH>
-        <View blue02 width-320 height-30 centerH centerV ><Text h12 white semibold>Ethereum QR Code</Text></View>
+        <View blue02 width-320 height-30 centerH centerV><Text h12 white semibold>Ethereum{' '}{i18n.t('Licenses.textQRCode')} </Text></View>
         <QRCode
           value="http://awesome.link.qr"
           size={scale(320)}
@@ -44,7 +44,7 @@ const QrCodeTransaction = ({ navigation,navigation: { goBack }  }) => {
           size='sm'
         >
           <Text h14 semibold blue02>
-            Back
+            {i18n.t('General.buttonBack')}
           </Text>
         </ButtonRounded>
         <Divider width-10 />
@@ -56,7 +56,7 @@ const QrCodeTransaction = ({ navigation,navigation: { goBack }  }) => {
           size='sm'
         >
           <Text h14 semibold blue02>
-            Download
+            {i18n.t('Licenses.buttonDownload')}
           </Text>
         </ButtonRounded>
       </View>

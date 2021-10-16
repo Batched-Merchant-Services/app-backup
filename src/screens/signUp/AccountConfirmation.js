@@ -14,6 +14,7 @@ import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
 import rectangleConfirm from '@assets/icons/rectangleConfirm.png';
 import confirmationCheck from '@assets/icons/confirmationCheckRectangle.png';
 import Styles from './styles'
+import i18n from '@utils/i18n';
 
 const AccountConfirmation = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -36,12 +37,12 @@ const AccountConfirmation = ({ navigation, navigation: { goBack } }) => {
         />
       </ImageBackground>
       <Divider height-30 />
-      <Text h18 regular blue02>Account successfully </Text>
-      <Text h18 regular blue02>created </Text>
+      <Text h18 regular blue02>{i18n.t('Register.textAccountSuccessfully')}</Text>
+      <Text h18 regular blue02>{i18n.t('Register.textCreated')}</Text>
       <Divider height-20 />
       <View blue01 width-36 height-1/>
       <Divider height-20/>
-      <Text h12 white light>You can login with the information of the account you just created.</Text>
+      <Text h12 white light>{i18n.t('Register.textYouCanLoginWith')}</Text>
         <View flex-1 bottom>
           <ButtonRounded
             onPress={() => navigation.navigate("Login")}
@@ -50,13 +51,13 @@ const AccountConfirmation = ({ navigation, navigation: { goBack } }) => {
             size='lg'
           >
             <Text h14 semibold white>
-              Back to Login
+              {i18n.t('Register.buttonBackToLogin')}
             </Text>
           </ButtonRounded>
           <Divider height-40 />
           <Text h10 white light>Morbi aliquam nisi diam, vitae laoreet neque ultrices sed. Maecenas at dui auctor arcu condimentum congue. </Text>
           <Divider height-10 />
-          <Text h10 blue01 light>All rights reserved. Batched.com</Text>
+          <Text h10 blue01 light>{i18n.t('General.textAllRightsReserved')} Batched.com</Text>
         </View>
 
 

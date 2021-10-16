@@ -25,15 +25,21 @@ import Confirmation from '@screens/forgotPassword/Confirmation';
 //Home
 import Dashboard from '@screens/home/Dashboard';
 import ActivationConfirmation from '@screens/home/ActivationConfirmation';
+import HomeMyBatched from '@screens/myBatched/HomeMyBatched';
+import TransferOption from '@screens/myBatched/TransferOption';
+import ConfirmationTransfer from '@screens/myBatched/ConfirmationTransfer';
+
+
 
 
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
-const signInScreens = () => {
+const DrawerScreen = () => {
+  //aqui pondremos las que contienen un menu deslizable
   return (
-    <Drawer.Navigator initialRouteName="Dashboard" drawerContent={(props) => <CustomDrawer {...props} />}>
+    <Drawer.Navigator initialRouteName="HomeMyBatched" drawerContent={(props) => <CustomDrawer {...props} />}>
       <Drawer.Screen name="Dashboard" options={{
         headerShown: false,
         icon: 'tachometer-alt',
@@ -44,6 +50,16 @@ const signInScreens = () => {
         icon: 'tachometer-alt',
         category: 'dashboard',
       }} name="ActivationConfirmation" component={ActivationConfirmation} screenOptions={{ headerShown: false }} />
+      <Drawer.Screen options={{
+        headerShown: false,
+        icon: 'tachometer-alt',
+        category: 'dashboard',
+      }} name="HomeMyBatched" component={HomeMyBatched} screenOptions={{ headerShown: false }} />
+      {/* <Drawer.Screen options={{
+        headerShown: false,
+        category: 'dashboard',
+      }} name="TransferOption" component={TransferOption} screenOptions={{ headerShown: false }} /> */}
+      
 
     </Drawer.Navigator>
 
@@ -51,6 +67,7 @@ const signInScreens = () => {
 }
 
 const signOutScreens = () => {
+   //aqui pondremos las que contienen un menu 
   return (
     <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={Login} />
@@ -76,5 +93,15 @@ const signOutScreens = () => {
     </Stack.Navigator>
   );
 }
+const signInScreens = () => {
+  //aqui pondremos las que no contienen un menu  pero son de adentro haciendo login
+ return (
+   <Stack.Navigator initialRouteName="ConfirmationTransfer" screenOptions={{ headerShown: false }}>
+     <Stack.Screen name="ConfirmationTransfer" component={ConfirmationTransfer} />
+     <Stack.Screen name="TransferOption" component={TransferOption} />
+     
+   </Stack.Navigator>
+ );
+}
 
-export { signInScreens, signOutScreens };
+export { signInScreens, signOutScreens,DrawerScreen };

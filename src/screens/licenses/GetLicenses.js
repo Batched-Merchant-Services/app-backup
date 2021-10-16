@@ -11,7 +11,7 @@ import {
 import { useSelector } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
 import BoxLicenses from './components/BoxLicenses';
-
+import i18n from '@utils/i18n';
 
 const GetLicenses = ({ navigation }) => {
   const redux = useSelector(state => state);
@@ -24,12 +24,12 @@ const GetLicenses = ({ navigation }) => {
 
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
-      <Text h16 regular blue02>Get your licences.</Text>
-      <Text h12 white light>Your licenses will give you access to participate in earning daily rewards points.</Text>
+      <Text h16 regular blue02>{i18n.t('Licenses.textGetYourLicenses')}</Text>
+      <Text h12 white light>{i18n.t('Licenses.textYourLicensesWill')}</Text>
       <Divider height-15 />
       <FloatingInput
         {...referenceCode}
-        label={'Reference Code'}
+        label={i18n.t('Licenses.inputReferenceCode')}
         keyboardType={'number-pad'}
         autoCapitalize={'none'}
       />
@@ -40,14 +40,14 @@ const GetLicenses = ({ navigation }) => {
         size='lg'
       >
         <Text h14 semibold white>
-          How does it work?
+          {i18n.t('Licenses.textHowDoesItWork')}
         </Text>
       </ButtonRounded>
       <Divider height-15 />
       <View row centerV>
         <Text blue02 h5>{'\u2B24'}</Text>
         <Divider width-5/>
-        <Text h12 white>Select your initial license package:</Text>
+        <Text h12 white>{i18n.t('Licenses.textSelectYourInitial')}</Text>
       </View>
       <Divider height-10/>
       <BoxLicenses

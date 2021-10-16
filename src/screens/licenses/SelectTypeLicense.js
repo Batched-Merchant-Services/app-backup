@@ -10,7 +10,7 @@ import {
 } from '@components';
 import { useSelector } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
-
+import i18n from '@utils/i18n';
 
 const SelectTypeLicense = ({ navigation }) => {
   const redux = useSelector(state => state);
@@ -36,31 +36,30 @@ const SelectTypeLicense = ({ navigation }) => {
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
      <NavigationBar childrenLeft navigation={navigation}/>
       <Divider height-10 />
-      <Text h16 regular blue02>Acquire licenses to increase</Text>
-      <Text h16 bold blue02>reward points</Text>
+      <Text h16 regular blue02>{i18n.t('Licenses.textAcquireLicensesToIncrease')}</Text>
+      <Text h16 bold blue02>{i18n.t('Licenses.textRewardPoints')}</Text>
       <Divider height-10 />
       <View row>
       <View flex-1 >
-        <Text h12 regular blue02>Price per license</Text>
+        <Text h12 regular blue02>{i18n.t('Licenses.textPricePerLicense')}</Text>
         <Text h16 regular white>900USD</Text>
       </View>
       <View flex-1 centerH>
-        <Text h12 regular blue02>Maximum Licenses</Text>
+        <Text h12 regular blue02>{i18n.t('Licenses.textMaximumLicenses')}</Text>
         <Text h16 regular white>05</Text>
       </View>
       <View flex-1>
-        <Text h12 regular blue02>Your Licenses</Text>
+        <Text h12 regular blue02>{i18n.t('Licenses.textYourLicenses')}</Text>
         <Text h16 regular white>0</Text>
       </View>
       </View>
       <Divider height-20 />
-      <Text h12 white light>Select the <Text white semibold>number of Licenses</Text> and <Text white semibold>the cryptocurrency</Text> with which you want to make the payment.</Text>
+      <Text h12 white light>{i18n.t('Licenses.textSelectThe')}{' '}<Text white semibold>{i18n.t('Licenses.textNumberOfLicenses')}{' '}</Text>{i18n.t('Licenses.textAnd')}{' '}<Text white semibold>{i18n.t('Licenses.textTheCryptocurrency')}{' '}</Text>{i18n.t('Licenses.textWithWhichYouWant')}</Text>
       <Divider height-10 />
       <DropDownPicker
         {...typeLicenses}
         label={'Licenses'}
         options={items}
-
         //onFill={(code)=> filterPays(code)}
        />
       <Divider height-5 />
@@ -68,7 +67,6 @@ const SelectTypeLicense = ({ navigation }) => {
         {...cryptoCurrency}
         label={'Criptocurrency'}
         options={items}
-
         //onFill={(code)=> filterPays(code)}
        />
       <Divider height-5 />
@@ -80,7 +78,7 @@ const SelectTypeLicense = ({ navigation }) => {
         size='lg'
       >
         <Text h14 semibold white>
-          Next
+          {i18n.t('General.buttonNext')}
         </Text>
       </ButtonRounded>
       </View>

@@ -96,7 +96,7 @@ const NavigationBar = ({ navigation, onPressLeft,onPressRight, body, childrenLef
               )}
             </View>
           </View>
-          <Divider height-20 />
+          <Divider height-10 />
         </View>
       )}
     </Fragment>

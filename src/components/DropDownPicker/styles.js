@@ -3,12 +3,12 @@ import { moderateScale,verticalScale } from 'react-native-size-matters';
 
 export default StyleSheet.create({
   dropDown: {
-    width                  : '100%',
+   flex:1,
     borderWidth            : moderateScale(1, 0.3),
     height                 : verticalScale(42),
     alignItems             : 'flex-start',
     justifyContent         : 'center',
-    borderRadius           : verticalScale(6),
+    borderRadius           : verticalScale(2),
     paddingLeft            : verticalScale(6),
   },
   dropdownOpen: {
@@ -18,6 +18,7 @@ export default StyleSheet.create({
   },
   dropdownContainer: {
     width:'100%',
+    borderTopWidth         : 0 ,
     borderWidth            : verticalScale(1, 0.3),
     paddingLeft            : verticalScale(6)
   },

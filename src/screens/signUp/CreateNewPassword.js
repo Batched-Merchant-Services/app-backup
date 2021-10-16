@@ -22,6 +22,8 @@ import StepIndicator from '../../components/StepIndicator';
 import rectangleConfirm from '@assets/icons/rectangleConfirm.png';
 import confirmationCheck from '@assets/icons/confirmationCheckRectangle.png';
 import Styles from './styles';
+import i18n from '@utils/i18n';
+
 
 const CreateNewPassword = ({ navigation,navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -68,25 +70,25 @@ const CreateNewPassword = ({ navigation,navigation: { goBack } }) => {
             width={scale(90)}
           />
         </ImageBackground>
-        <Text h16 blue02 regular>Define your password</Text>
-        <Text h12 white >At least <Text white semibold>8 characters</Text> with non-consecutive letters and numbers</Text>
+        <Text h16 blue02 regular>{i18n.t('Register.inputLastName')}</Text>
+        <Text h12 white >{i18n.t('Register.texAtLeast')}<Text white semibold>{i18n.t('Register.textEightCharacters')}</Text>{i18n.t('Register.textWithNonConsecutive')}</Text>
         <View>
           <FloatingInput
             {...password}
-            label={'Password*'}
+            label={i18n.t('Register.inputPassword')}
             autoCapitalize={'none'}
             secureTextEntry
           />
           <Divider height-15 />
           <FloatingInput
             {...confirmPassword}
-            label={'Repeat password*'}
+            label={i18n.t('Register.inputRepeatPassword')}
             autoCapitalize={'none'}
             secureTextEntry
           />
         </View>
 
-        <Text h12 white>* Required fields</Text>
+        <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
         <View row bottom >
           <ButtonRounded
             onPress={() => goBack()}
@@ -95,7 +97,7 @@ const CreateNewPassword = ({ navigation,navigation: { goBack } }) => {
             size='sm'
           >
             <Text h14 semibold blue02>
-              Back
+              {i18n.t('General.buttonBack')}
             </Text>
           </ButtonRounded>
           <Divider width-10 />
@@ -106,7 +108,7 @@ const CreateNewPassword = ({ navigation,navigation: { goBack } }) => {
             size='sm'
           >
             <Text h14 semibold>
-              Next
+            {i18n.t('General.buttonNext')}
             </Text>
           </ButtonRounded>
         </View>

@@ -16,7 +16,7 @@ import { useQuery } from '@apollo/client';
 import { FETCH_TODOS } from '@utils/api/queries/example';
 import Logo from '@assets/brandBatched/logo.svg';
 import { useSelector } from 'react-redux';
-
+import i18n from '@utils/i18n';
 
 const CodeSms = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -54,19 +54,20 @@ const CodeSms = ({ navigation, navigation: { goBack } }) => {
       <Divider height-15 />
       <StepButton navigation={navigation} />
       <Divider height-15 />
-      <Text h16 blue02>We have sent you a confirmation code to your email and a text message to your phone number.</Text>
+      <Text h16 blue02>{i18n.t('Register.textWeHaveSentYou')}</Text>
       <Divider height-15 />
-      <Text h12 white>You will receive the code in less than 5 minutes, check your inbox emails and keep an eye on messages via SMS received on your mobile.</Text>
+      <Text h12 white>{i18n.t('Register.textYouWillReceive')}</Text>
       <Divider height-25 />
       <FloatingInput
         {...codeSms}
-        label={'Confirmation code (6 digits)'}
+        label={i18n.t('Register.textConfirmationCodeSixDigits')}
         keyboardType={'number-pad'}
         autoCapitalize={'none'}
       />
       <Divider height-10 />
-      <Text h12 white left>If several minutes have passed and you have not received it, check your email in the SPAM section. If you still don't receive it, press the "back" button and try again.</Text>
-      <Divider height-35 />
+      <Text h12 white left>{i18n.t('Register.textIfSeveralMinutesHave')}</Text>
+      <Divider height-30 />
+      <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
       <View flex-1 row bottom >
         <ButtonRounded
           onPress={() => goBack()}
@@ -75,7 +76,7 @@ const CodeSms = ({ navigation, navigation: { goBack } }) => {
           size='sm'
         >
           <Text h14 semibold blue02>
-            Back
+            {i18n.t('General.buttonBack')}
           </Text>
         </ButtonRounded>
         <Divider width-10 />
@@ -86,7 +87,7 @@ const CodeSms = ({ navigation, navigation: { goBack } }) => {
             size='sm'
           >
             <Text h14 semibold>
-              Next
+              {i18n.t('General.buttonNext')}
             </Text>
           </ButtonRounded>
       </View>

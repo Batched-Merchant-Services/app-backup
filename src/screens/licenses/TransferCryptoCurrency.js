@@ -11,7 +11,7 @@ import {
 } from '@components';
 import { useSelector } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
-
+import i18n from '@utils/i18n';
 
 const TransferCryptoCurrency = ({ navigation }) => {
   const redux = useSelector(state => state);
@@ -38,21 +38,21 @@ const TransferCryptoCurrency = ({ navigation }) => {
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
       <NavigationBar childrenLeft navigation={navigation} />
       <Divider height-10 />
-      <Text h16 regular blue02>Acquire licenses to increase</Text>
-      <Text h16 bold blue02>reward points</Text>
+      <Text h16 regular blue02>{i18n.t('Licenses.textAcquireLicensesToIncrease')}</Text>
+      <Text h16 bold blue02>{i18n.t('Licenses.textRewardPoints')}</Text>
       <Divider height-10 />
-      <Text h12 white light>Make the transfer<Text white semibold>of Cryptocurrencies to the address </Text> shown here and save the transfer receipt to validate the transaction.</Text>
+      <Text h12 white light>{i18n.t('Licenses.textMakeTheTransfer')}<Text white semibold>{i18n.t('Licenses.textOfCryptocurrenciesToTheAddress')}</Text>{i18n.t('Licenses.textShownHereAndSaveThe')}</Text>
       <Divider height-10 />
       <FloatingInput
         {...referenceCode}
-        label={'Amount required'}
+        label={i18n.t('Licenses.inputAmountRequired')}
         keyboardType={'number-pad'}
         autoCapitalize={'none'}
       />
       <Divider height-10 />
       <FloatingInput
         {...referenceCode}
-        label={'Address Ethereum to transfer'}
+        label={i18n.t('Licenses.inputAddressToTransfer')}
         keyboardType={'default'}
         autoCapitalize={'none'}
       />
@@ -65,7 +65,7 @@ const TransferCryptoCurrency = ({ navigation }) => {
           size='sm'
         >
           <Text h14 semibold blue02>
-            Copy Address
+            {i18n.t('Licenses.buttonCopyAddress')}
           </Text>
         </ButtonRounded>
         <Divider width-10 />
@@ -76,16 +76,16 @@ const TransferCryptoCurrency = ({ navigation }) => {
           size='sm'
         >
           <Text h14 semibold blue02>
-            View QR Code
+            {i18n.t('Licenses.buttonViewQRCode')}
           </Text>
         </ButtonRounded>
       </View>
       <Divider height-20 />
-      <Text h12 white>3. Submit a screenshot of the transfer receipt.</Text>
+      <Text h12 white>{i18n.t('Licenses.textSubmitAScreenshot')}</Text>
       <Divider height-10 />
       <UploadFile 
-        labelInput={'PNG, JPG, PDF (Less than 1 MB)'} 
-        labelButton={'Choose file'}/>
+        labelInput={i18n.t('Licenses.textFormatUpload')}
+        labelButton={i18n.t('Licenses.textChooseFile')}/>
       <Divider height-10 />
       <ButtonRounded
         onPress={() => navigation.navigate("QrCodeTransaction")}
@@ -93,7 +93,7 @@ const TransferCryptoCurrency = ({ navigation }) => {
         size='lg'
       >
         <Text h14 semibold white>
-          Check transaction
+          {i18n.t('Licenses.buttonCheckTransaction')}
         </Text>
       </ButtonRounded>
     </BackgroundWrapper>

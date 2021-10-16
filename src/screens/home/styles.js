@@ -6,7 +6,13 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     justifyContent: "center",
-    alignItems:'center'
+    alignItems:'center',
+  },
+  borderDoted:{
+    borderRadius:0.1,
+    borderStyle: 'dashed' ,
+    borderWidth: 1,
+    borderColor: Colors.blue04,
   },
   imageBackground:{
     

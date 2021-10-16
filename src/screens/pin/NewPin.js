@@ -50,13 +50,13 @@ const NewPin = ({ navigation,navigation: { goBack }  }) => {
           </TouchableOpacity>
           <Divider width-30 />
           <View  centerH style={{ width: '70%'}}>
-            <Text h18 blue04 medium center>Define a confirmation PIN</Text>
+            <Text h18 blue04 medium center>{i18n.t('pinConfirmation.textDefineAConfirmationPIN')}</Text>
           </View>
         </View>
         <Divider height-20/>
-        <Text h12 blue04 regular center>You will use it to confirm transactions and user validation.</Text>
+        <Text h12 blue04 regular center>{i18n.t('pinConfirmation.textYouWillUseItTo')}</Text>
         <Divider height-20/>
-        <Text h12 blue04 regular center>6 Digits</Text>
+        <Text h12 blue04 regular center>{i18n.t('pinConfirmation.textSixDigits')}</Text>
         <Divider height-10/>
         <ReactNativePinView
           pinLength={6}

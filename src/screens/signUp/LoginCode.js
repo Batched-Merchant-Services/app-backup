@@ -22,7 +22,7 @@ import { scale, verticalScale } from 'react-native-size-matters';
 //Images
 import Back from '@assets/icons/backBlue.png';
 import codeInvalid from '@assets/icons/codeInvalid.png';
-
+import i18n from '@utils/i18n';
 
 const LoginCode = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -83,12 +83,12 @@ const LoginCode = ({ navigation, navigation: { goBack } }) => {
           </TouchableOpacity>
           <Divider width-10 />
           <View style={{ width: '80%' }}>
-            <Text h18 white light center>Código de Ingreso</Text>
+            <Text h18 white light center>{i18n.t('Register.textLoginCode')}</Text>
           </View>
         </View>
         <Divider height-20 />
         <View flex-1>
-          <Text h12 white light center>Ingresa el código de tu empresa</Text>
+          <Text h12 white light center>{i18n.t('Register.textEnterYourCompanyCode')}</Text>
           <Divider height-50 />
           <View centerV>
             <PinInput {...pinCode}/>
@@ -100,20 +100,20 @@ const LoginCode = ({ navigation, navigation: { goBack } }) => {
                   source={require("@assets/icons/codeInvalid.png")}
                 />
                 <Divider height-10 />
-                <Text h12 regular white>Código inválido</Text>
+                <Text h12 regular white>{i18n.t('Register.textEnterYourCompanyCode')} </Text>
               </View>
               
             )}
           </View>
           <Divider height-30 />
           <View flex-1 >
-            <Text h12 white semibold center>Tu perfíl en Uulala será ligado a esta compañía.</Text>
+            <Text h12 white semibold center>{i18n.t('Register.textYourProfileIn')}</Text>
             <Divider height-10 />
-            <Text h12 white light center>La información solicitada tiene la finalidad de crear un perfíl de usuario y poder ofrecerte los mejores beneficios a tu medida.</Text>
+            <Text h12 white light center>{i18n.t('Register.textTheInformationRequested')}</Text>
           </View>
         </View>
         <Link>
-          <Text h12 white>No cuento con código</Text>
+          <Text h12 white>{i18n.t('Register.textIDontHaveACode')}</Text>
         </Link>
         <Divider height-30 />
       </View>

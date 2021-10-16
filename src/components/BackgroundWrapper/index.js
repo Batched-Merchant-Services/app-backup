@@ -35,13 +35,13 @@ const BackgroundWrapper = ({
       locations={[0.9, 1]}
       style={Styles.linearGradient}
     >
-      <SafeAreaView style={backgroundStyle}>
+      <SafeAreaView style={backgroundStyle} forceInset={{ bottom: 'never'}}>
         <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
         <NavigationBar showNavigation={showNavigation} childrenLeft={childrenLeft} menu={menu} onPressLeft={onPressLeft} childrenRight={childrenRight} navigation={navigation} />
         <ScrollView contentContainerStyle={{flexGrow: 1}} style={{flex: 1}}>
             {children}
         </ScrollView>
-        <Divider height-30 />
+        <Divider height-5 />
         <LinksTerms />
       </SafeAreaView>
     </LinearGradient>

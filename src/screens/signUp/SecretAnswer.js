@@ -64,7 +64,6 @@ const SecretAnswer = ({ navigation, navigation: { goBack } }) => {
         {...answer}
         label={'Country'}
         options={items}
-        size="sm"
         //onFill={(code)=> filterPays(code)}
        />
       <Divider height-5 />

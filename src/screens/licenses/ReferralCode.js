@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 import { NativeModules } from 'react-native';
 import { useValidatedInput,isFormValid } from '@hooks/validation-hooks';
 import check from '@assets/icons/white-check.png';
-
+import i18n from '@utils/i18n';
 import {
   useColorScheme,
 } from 'react-native';
@@ -49,12 +49,12 @@ const ReferralCode = ({ navigation }) => {
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
       <Divider height-10 />
-      <Text h16 regular blue02>Do you have a refferal code?</Text>
-      <Text h14 white light>Whoever referred you will get a bonus and you will receive full benefits,<Text white semibold> everyone wins!</Text></Text>
+      <Text h16 regular blue02>{i18n.t('Licenses.textDoYouHaveAReferral')}</Text>
+      <Text h14 white light>{i18n.t('Licenses.textWhoeverReferredYouWill')}<Text white semibold>{i18n.t('Licenses.textEveryoneWins')}</Text></Text>
       <Divider height-15 />
       <FloatingInput
         {...referenceCode}
-        label={'Reference Code'}
+        label={i18n.t('Licenses.inputReferenceCode')}
         keyboardType={'number-pad'}
         autoCapitalize={'none'}
       />
@@ -78,7 +78,7 @@ const ReferralCode = ({ navigation }) => {
           <Divider width-15 />
           <View>
           <Text h12 blue02>Uulala ID: ----</Text>
-          <Text h12 error semibold>User Not Found</Text>
+          <Text h12 error semibold>{i18n.t('Licenses.textUserNotFound')}</Text>
         </View>
         </Fragment>
       )}
@@ -88,10 +88,10 @@ const ReferralCode = ({ navigation }) => {
         onPress={() => navigation.navigate("GetLicenses")}
         disabled={!isValid}
         blue
-        size='lg'
+        size='lg' 
       >
         <Text h14 semibold white>
-            Next / Skip
+          {i18n.t('Licenses.textNextSkip')}
         </Text>
       </ButtonRounded>
       

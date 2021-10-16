@@ -14,6 +14,8 @@ import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
 import rectangleConfirm from '@assets/icons/rectangleConfirm.png';
 import confirmationCheck from '@assets/icons/confirmationCheck.png';
 import Styles from './styles'
+import i18n from '@utils/i18n';
+
 
 const ConfirmationLicenses = ({ navigation,navigation: { goBack }  }) => {
   const redux = useSelector(state => state);
@@ -27,9 +29,9 @@ const ConfirmationLicenses = ({ navigation,navigation: { goBack }  }) => {
 
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
-      <Text h18 regular blue02>QR code for transaction</Text>
+      <Text h18 regular blue02>{i18n.t('Licenses.textQRCodeForTransaction')}</Text>
       <Divider height-10 />
-      <Text h12 white light>Scan the following QR code from your crypto wallet to make the transfer.</Text>
+      <Text h12 white light>{i18n.t('Licenses.textScanTheFollowingQR')}</Text>
       <Divider height-25 />
       <ImageBackground source={rectangleConfirm} resizeMode="cover" style={Styles.image}>
         <ImageResize
@@ -39,12 +41,11 @@ const ConfirmationLicenses = ({ navigation,navigation: { goBack }  }) => {
         />
       </ImageBackground>
       <Divider height-20 />
-      <Text h18 regular blue02> Awaiting confirmation</Text>
+      <Text h18 regular blue02>{i18n.t('Licenses.textAwaitingConfirmation')}</Text>
       <Divider height-10 />
-      <Text h12 white semibold>Your nodes will be updated and you will be notified when the transfer is confirmed.</Text>
+      <Text h12 white semibold>{i18n.t('Licenses.textYourNodesWillBe')}</Text>
       <Divider height-10 />
-      <Text h12 white semibold>The confirmation time can vary from 24 to 72 hours,<Text h12 white light> depending on how fast the blockchain takes
-and the liquidation of the assets is carried out.</Text> </Text>
+      <Text h12 white semibold>{i18n.t('Licenses.textTheConfirmationTimeCan')}{' '}<Text h12 white light>{i18n.t('Licenses.textDependingOnHowFastTheBlockchain')}</Text> </Text>
       <Divider height-120 />
       <ButtonRounded
         onPress={() => navigation.navigate("Dashboard")}
@@ -53,7 +54,7 @@ and the liquidation of the assets is carried out.</Text> </Text>
         size='lg'
       >
         <Text h14 semibold white>
-          Go to distribution cycle
+          {i18n.t('Licenses.buttonGoToDistribution')}
         </Text>
       </ButtonRounded>
     </BackgroundWrapper>

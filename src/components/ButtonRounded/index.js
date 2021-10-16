@@ -1,6 +1,6 @@
 import React from 'react';
 import LinearGradient from 'react-native-linear-gradient';
-import { scale } from 'react-native-size-matters';
+import { scale, verticalScale } from 'react-native-size-matters';
 import Colors from '@styles/Colors';
 import { View } from '@components';
 import { useSelector} from 'react-redux';
@@ -23,7 +23,7 @@ const ButtonRounded = ({
   const redux = useSelector(state => state);
   const appData = redux.user;
   const brandTheme = appData?.Theme?.colors;
-  
+  console.log('size',size)
 
   const btnSize = { width: getBtnSize(size) };
 
@@ -36,8 +36,8 @@ const ButtonRounded = ({
     : [brandTheme?.blue02??Colors.blue02 , brandTheme?.blue04??Colors.blue04 ];
 
   const successButton = disabled
-    ? [brandTheme?.blue02??Colors.blue02 , brandTheme?.blue04??Colors.blue04]
-    : [brandTheme?.blue02??Colors.blue02 , brandTheme?.blue04??Colors.blue04 ];
+    ? [brandTheme?.green??Colors.green , brandTheme?.green??Colors.green]
+    : [brandTheme?.green??Colors.green , brandTheme?.green??Colors.green ];
 
 
   const greenButton = disabled
@@ -80,7 +80,8 @@ const ButtonRounded = ({
         style={[Styles.wrapper, style,btnSize,
         dark?Styles.borderDark:[],
         disabled?Styles.disableColor:[],
-        green?Styles.greenBorder:[] ]}
+        green?Styles.greenBorder:[],
+        !size?{paddingHorizontal:verticalScale(15)} :[] ]}
       >
       <TouchableOpacity disabled={disabled} style={[Styles.wrapper, containerStyle,{width:'100%'}]}  {...props}>
         { children }
