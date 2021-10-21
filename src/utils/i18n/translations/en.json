@@ -20,7 +20,11 @@
       "firstName":"Please enter a firstName",
       "lastName":"Please enter a lastName",
       "ssn":"Please enter a Social Security Number",
-      "birthDay":"Please select birth day"
+      "birthDay":"Please select birth day",
+      "addressOne":"Please enter a Address one",
+      "addressTwo":"Please enter a Address two",
+      "postalCode":"Please enter a postal code"
+
     },
     "General":{
       "linkTermsAndConditions":"Terms and Conditions",
@@ -32,7 +36,8 @@
       "buttonBackToLogin":"Back to Login",
       "textAllRightsReserved":"All rights reserved.",
       "textUulalaId":"Uulala ID",
-      "textEmptySection":"Sorry, we don't have any information to show yet"
+      "textEmptySection":"Sorry, we don't have any information to show yet",
+      "buttonSaveChanges":"Save changes"
     },
     "Login":{
       "textAnIncredible":"An incredible investment proposal",
@@ -247,6 +252,41 @@
         "buttonDownloadPDF":"Download PDF"
 
       }
+    },
+    "myProfile":{
+      "textMyProfile":"My profile",
+      "textCompleted":"Completed",
+      "textReferredBy":"Referred by:",
+      "textReferredCode":"Referred code",
+      "textReferenceCode":"Reference Code:",
+      "textCopyMyReferenceCode":"Copy my reference code",
+      "textPersonalInformation":"Personal information",
+      "textItIsVeryImportant":"It is very important that your information is correct, as it will be verified and in case of inconsistencies your account could be canceled.",
+      "buttonCompleteInformation":"Complete your information",
+      "textContactInformation":"Contact information:",
+      "dropDownCountry":"Country*",
+      "inputPhone":"Phone",
+      "inputAddressOne":"Address 1*",
+      "inputAddressTwo":"Address 2*",
+      "inputPostalCode":"Postal Code*",
+      "inputEmail":"Email",
+      "buttonSaveChanges":"Save changes"
+    },
+    "contact":{
+      "textContactUs":"Contact us",
+      "textFillUpTheForm":"Fill up the form and out team will get back to you as soon as possible.",
+      "textReason":"Reason",
+      "textNote":"Note",
+      "buttonSendMessage":"Send message",
+      "textMessageSent":"Message sent",
+      "textGoToDistribution":"Go to distribution cycle"
+    },
+    "Logout":{
+      "textLogout":"Logout",
+      "textAreYouSure":"Are you sure you want to leave?",
+      "textIfYouAreFullActive":"If you are full active today you can come back tomorrow from 06:00 UTC.",
+      "buttonStayLoggedIn":"Stay logged in",
+      "buttonLogout":"Logout"
     }
   }
 }

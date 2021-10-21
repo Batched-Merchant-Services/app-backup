@@ -15,11 +15,8 @@ export default StyleSheet.create({
     elevation   : 40,
   },
   containerSideMenu: {
-    flex: 1
-  },
-
-  drawerContentContainerStyle: {
-    paddingTop: 0
+    flex : 1,
+    //width: Dimensions.get('window').width * 0.8,
   },
 
   imageContainer: {

@@ -100,6 +100,21 @@ const Validations = {
       message: i18n.t('validations.birthDay')
     },
   },
+  addressOne:{
+    presence: {
+      message: i18n.t('validations.addressOne')
+    },
+  },
+  addressTwo:{
+    presence: {
+      message: i18n.t('validations.addressTwo')
+    },
+  },
+  postalCode:{
+    presence: {
+      message: i18n.t('validations.postalCode')
+    },
+  }
 
 };
 

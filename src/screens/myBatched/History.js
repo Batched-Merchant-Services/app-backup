@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { TouchableOpacity, ViewBase } from 'react-native';
-import { View, Text, Divider, ImageResize, ButtonRounded, DropDownPicker } from '@components';
-import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
-import { scale, verticalScale } from 'react-native-size-matters';
-
-import whiteWallet from '@assets/icons/white-wallet.png';
-import blueReferred from '@assets/icons/blue-referred.png';
-import blueRow from '@assets/icons/blue-row-double-down.png';
+import { View, Text, Divider, ButtonRounded, DropDownPicker } from '@components';
+import { useValidatedInput } from '@hooks/validation-hooks';
 import EmptyState from '../EmptyState';
-import Styles from './styles';
 import i18n from '@utils/i18n';
+import Colors from '@styles/Colors';
 
 const DataHistory = () => {
   // note addition of `return` statement
@@ -82,8 +75,8 @@ const Referred = ({ navigation, step, onPress, label }) => {
         <View flex-1>
           <ButtonRounded
             disabled={false}
+            changeColor={showLastMovement?'blue':'dark'}
             onPress={showMovements}
-            blue={showLastMovement?true:false}
           >
             <Text h11 semibold white>
               {i18n.t('home.history.buttonLastMovements')}
@@ -94,7 +87,7 @@ const Referred = ({ navigation, step, onPress, label }) => {
           <ButtonRounded
             onPress={showDownlands}
             disabled={false}
-            dark={!showDowland?true:false}
+            changeColor={showDowland?'blue':'dark'}
           >
             <Text h11 semibold white>
               {i18n.t('home.history.buttonDownloadReport')}

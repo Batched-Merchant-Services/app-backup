@@ -5,11 +5,11 @@ import Colors from '@styles/Colors';
 import Styles from '@components/FloatingLabelInput/styles';
 import { useSelector } from 'react-redux';
 
-const InputWrapper = ({ multiInput, numberOfLines, children, isFocused, hasError,borderLight,multiline,...props }) => {
+const InputWrapper = ({ multiInput, numberOfLines, children, isFocused, hasError,borderLight,multiline,styleMultiline,...props }) => {
   const redux = useSelector(state => state);
   const appData = redux.user;
   const brandTheme = appData?.Theme?.colors;
-
+console.log('styleMultiline',styleMultiline);
   return (
     <View
       {...props}
@@ -19,7 +19,7 @@ const InputWrapper = ({ multiInput, numberOfLines, children, isFocused, hasError
         Styles.wrapper,{borderColor: brandTheme?.blue02??Colors.blue02},
         ...(borderLight ?[{ borderColor: brandTheme?.blue02??Colors?.blue02 }]:[]),
         ...(multiInput ? [{height: 50 * (numberOfLines || 2)}] : []),
-        ...(multiline ? [{height: 80 }] : []),
+        ...(multiline ? [styleMultiline?styleMultiline:{height: 80 }] : []),
         ...(isFocused ? [{ backgroundColor:'transparent',borderColor: brandTheme?.blue02?? Colors.blue02}] : []),
         ...(hasError  === 'pending' ? [] : hasError ? [{borderColor: brandTheme?.error??Colors.error}] : [{borderColor: brandTheme?.success??Colors.success}]),
         

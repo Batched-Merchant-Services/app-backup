@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {Dimensions} from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import CustomDrawer from "./DrawerAware";
@@ -28,10 +29,14 @@ import ActivationConfirmation from '@screens/home/ActivationConfirmation';
 import HomeMyBatched from '@screens/myBatched/HomeMyBatched';
 import TransferOption from '@screens/myBatched/TransferOption';
 import ConfirmationTransfer from '@screens/myBatched/ConfirmationTransfer';
+import HomeProfile from '@screens/myProfile/HomeProfile';
+import PersonalInformation from '@screens/myProfile/PersonalInformation';
+import ContactInformation from '@screens/myProfile/ContactInformation';
+import HomeContact from '@screens/contact/HomeContact';
+import ConfirmationContact from '@screens/contact/ConfirmationContact';
+import LogOut from '@screens/logout';
 
-
-
-
+ 
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -39,7 +44,8 @@ const Stack = createNativeStackNavigator();
 const DrawerScreen = () => {
   //aqui pondremos las que contienen un menu deslizable
   return (
-    <Drawer.Navigator initialRouteName="HomeMyBatched" drawerContent={(props) => <CustomDrawer {...props} />}>
+    <Drawer.Navigator 
+    drawerContent={(props) => <CustomDrawer {...props} /> } drawerStyle={{ width: "100%"}}>
       <Drawer.Screen name="Dashboard" options={{
         headerShown: false,
         icon: 'tachometer-alt',
@@ -55,12 +61,11 @@ const DrawerScreen = () => {
         icon: 'tachometer-alt',
         category: 'dashboard',
       }} name="HomeMyBatched" component={HomeMyBatched} screenOptions={{ headerShown: false }} />
-      {/* <Drawer.Screen options={{
+       <Drawer.Screen options={{
         headerShown: false,
+        icon: 'tachometer-alt',
         category: 'dashboard',
-      }} name="TransferOption" component={TransferOption} screenOptions={{ headerShown: false }} /> */}
-      
-
+      }} name="HomeProfile" component={HomeProfile} screenOptions={{ headerShown: false }} />
     </Drawer.Navigator>
 
   );
@@ -99,6 +104,11 @@ const signInScreens = () => {
    <Stack.Navigator initialRouteName="ConfirmationTransfer" screenOptions={{ headerShown: false }}>
      <Stack.Screen name="ConfirmationTransfer" component={ConfirmationTransfer} />
      <Stack.Screen name="TransferOption" component={TransferOption} />
+     <Stack.Screen name="PersonalInformation" component={PersonalInformation} />
+     <Stack.Screen name="ContactInformation" component={ContactInformation} />
+     <Stack.Screen name="HomeContact" component={HomeContact} />
+     <Stack.Screen name="ConfirmationContact" component={ConfirmationContact} />
+     <Stack.Screen name="LogOut" component={LogOut} />
      
    </Stack.Navigator>
  );
