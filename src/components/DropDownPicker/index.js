@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import ModalDropdown from 'react-native-modal-dropdown';
 import PropTypes from 'prop-types';
 import { View, Text } from '@components';
@@ -8,7 +8,7 @@ import InputError from '@components/FloatingLabelInput/InputError';
 import { scale, verticalScale } from 'react-native-size-matters';
 import Colors from '@styles/Colors';
 
-const DropDownPicker = ({ error, label, value, options, size, onSelect, languages, onFill,labelDefault, ...props }) => {
+const DropDownPicker = ({ error, label,value, options, size, onSelect, languages, onFill,labelDefault, ...props }) => {
 
   const [width, setWidth] = useState(null);
   const [open, setOpen] = useState(false);
@@ -19,13 +19,13 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
   const brandTheme = appData?.Theme?.colors;
   const brandThemeImages = appData?.Theme?.images;
 
-  console.log('error',error);
+  useEffect(() => {
+    onSelect({name:'select',value:''});
+  }, [])
+
+
   const handleSelect = index => {
     onSelect(options[index]);
-    if (onFill) {
-      onFill(options[index]);
-    }
-
   };
 
 
@@ -90,6 +90,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
         <ModalDropdown
           options={options}
           defaultValue={labelDefault? labelDefault:'Select Option'}
+          onSelect={handleSelect}
           onDropdownWillShow={handleWillShowHide}
           onDropdownWillHide={handleWillShowHide}
           renderSeparator={(rowID) => renderSeparator(rowID)}

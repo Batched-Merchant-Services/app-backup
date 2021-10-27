@@ -114,7 +114,12 @@ const Validations = {
     presence: {
       message: i18n.t('validations.postalCode')
     },
-  }
+  },
+  gender: {
+    presence: {
+      message: i18n.t('validations.dropdownSelect')
+    }
+  },
 
 };
 

@@ -14,6 +14,7 @@ const BackgroundWrapper = ({
   navigation,
   showNavigation = false,
   onPressLeft,
+  onPressRight,
   menu,
   childrenLeft,
   childrenRight,
@@ -33,11 +34,11 @@ const BackgroundWrapper = ({
       start={{ x: 1, y: 0 }}
       end={{ x: 1, y: 1 }}
       locations={[0.9, 1]}
-      style={Styles.linearGradient}
+      style={[Styles.linearGradient]}
     >
-      <SafeAreaView style={backgroundStyle} forceInset={{ bottom: 'never'}}>
-        <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
-        <NavigationBar showNavigation={showNavigation} childrenLeft={childrenLeft} menu={menu} onPressLeft={onPressLeft} childrenRight={childrenRight} navigation={navigation} />
+      <SafeAreaView style={Styles.AndroidSafeArea} forceInset={{ bottom: 'never'}}>
+        <StatusBar backgroundColor={Colors.background} barStyle={"light-content"} />
+        <NavigationBar showNavigation={showNavigation} childrenLeft={childrenLeft} menu={menu} onPressLeft={onPressLeft} onPressRight={onPressRight} childrenRight={childrenRight} navigation={navigation} />
         <ScrollView contentContainerStyle={{flexGrow: 1}} style={{flex: 1}}>
             {children}
         </ScrollView>

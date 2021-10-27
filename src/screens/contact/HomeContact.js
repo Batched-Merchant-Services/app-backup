@@ -15,6 +15,7 @@ import Styles from './styles'
 import i18n from '@utils/i18n';
 import Colors from '@styles/Colors';
 import { verticalScale } from 'react-native-size-matters';
+import menu from '@assets/icons/hamburgerMenu.png';
 
 const HomeContact = ({ navigation, navigation: { goBack } }) => {
 
@@ -30,7 +31,7 @@ const HomeContact = ({ navigation, navigation: { goBack } }) => {
 
   //const isValid = isFormValid(firstName, mediumName, lastName, ssn, gender, birthDay);
   return (
-    <BackgroundWrapper showNavigation={true} navigation={navigation}>
+    <BackgroundWrapper showNavigation={true} childrenLeft={menu} menu navigation={navigation}>
       <Text h16 blue02 regular>{i18n.t('contact.textContactUs')}</Text>
       <Divider height-10 />
       <Text h12 white light>{i18n.t('contact.textFillUpTheForm')}</Text>
@@ -52,9 +53,9 @@ const HomeContact = ({ navigation, navigation: { goBack } }) => {
       <Divider height-10 />
       <View flex-1 bottom>
         <ButtonRounded
-          onPress={() => {
-            navigation.navigate('ConfirmationContact');
-          }}
+          onPress={() => { navigation.navigate('SignIn', {
+            screen: 'ConfirmationContact'})
+           }}
           //disabled={!isValid}
           blue
         >

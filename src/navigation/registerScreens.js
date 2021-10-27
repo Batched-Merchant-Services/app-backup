@@ -48,24 +48,23 @@ const DrawerScreen = () => {
     drawerContent={(props) => <CustomDrawer {...props} /> } drawerStyle={{ width: "100%"}}>
       <Drawer.Screen name="Dashboard" options={{
         headerShown: false,
-        icon: 'tachometer-alt',
-        category: 'dashboard',
       }} component={Dashboard} />
       <Drawer.Screen options={{
         headerShown: false,
-        icon: 'tachometer-alt',
         category: 'dashboard',
       }} name="ActivationConfirmation" component={ActivationConfirmation} screenOptions={{ headerShown: false }} />
       <Drawer.Screen options={{
         headerShown: false,
-        icon: 'tachometer-alt',
         category: 'dashboard',
       }} name="HomeMyBatched" component={HomeMyBatched} screenOptions={{ headerShown: false }} />
-       <Drawer.Screen options={{
+      <Drawer.Screen options={{
         headerShown: false,
-        icon: 'tachometer-alt',
         category: 'dashboard',
       }} name="HomeProfile" component={HomeProfile} screenOptions={{ headerShown: false }} />
+      <Drawer.Screen options={{
+        headerShown: false,
+        category: 'dashboard',
+      }} name="HomeContact" component={HomeContact} screenOptions={{ headerShown: false }} />
     </Drawer.Navigator>
 
   );
@@ -74,7 +73,7 @@ const DrawerScreen = () => {
 const signOutScreens = () => {
    //aqui pondremos las que contienen un menu 
   return (
-    <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+    <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false, gestureEnabled: false }}>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="CodeSms" component={CodeSms} />
@@ -101,12 +100,11 @@ const signOutScreens = () => {
 const signInScreens = () => {
   //aqui pondremos las que no contienen un menu  pero son de adentro haciendo login
  return (
-   <Stack.Navigator initialRouteName="ConfirmationTransfer" screenOptions={{ headerShown: false }}>
+   <Stack.Navigator initialRouteName="ConfirmationTransfer" screenOptions={{ headerShown: false,gestureEnabled: false }}>
      <Stack.Screen name="ConfirmationTransfer" component={ConfirmationTransfer} />
      <Stack.Screen name="TransferOption" component={TransferOption} />
      <Stack.Screen name="PersonalInformation" component={PersonalInformation} />
      <Stack.Screen name="ContactInformation" component={ContactInformation} />
-     <Stack.Screen name="HomeContact" component={HomeContact} />
      <Stack.Screen name="ConfirmationContact" component={ConfirmationContact} />
      <Stack.Screen name="LogOut" component={LogOut} />
      

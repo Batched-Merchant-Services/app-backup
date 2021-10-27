@@ -16,6 +16,7 @@ import whiteWallet from '@assets/icons/white-wallet.png';
 import blueReferred from '@assets/icons/blue-referred.png';
 import ButtonsOption from './components/ButtonsOption';
 import HomeBalance from './components/HomeBalance';
+
 import History from './History';
 import Referred from './Referred';
 import Styles from './styles';
@@ -43,8 +44,12 @@ const HomeMyBatched = ({ navigation, navigation: { goBack } }) => {
     setShowStep3(true);
   }
 
+  function handleDashboard(){
+    navigation.navigate("Dashboard")
+  }
+
   return (
-    <BackgroundWrapper showNavigation={true} childrenLeft={menu} childrenRight={clock} menu navigation={navigation}>
+    <BackgroundWrapper showNavigation={true} childrenLeft={menu} childrenRight={clock} onPressRight={handleDashboard} menu navigation={navigation}>
       <Divider height-10 />
       <View row>
         <ButtonsOption label={i18n.t('home.myBatchedBalance.buttonBalances')} image={whiteWallet} onPress={showBalance} status={showStep1}/>

@@ -28,10 +28,12 @@ const Dashboard = ({ navigation }) => {
   const [statusFinish, setsStatusFinish] = useState(false);
 
   useEffect(() => {
-    console.log('redux', redux)
+    console.log('redux', redux);
   }, [])
 
-
+  function handleNavigationWallet(){
+    navigation.navigate("HomeMyBatched")
+  }
 
 
   const { colors } = useTheme();
@@ -42,7 +44,7 @@ const Dashboard = ({ navigation }) => {
     flex: 1
   };
   return (
-    <BackgroundWrapper showNavigation={true} childrenLeft={Menu} childrenRight={Wallet} menu navigation={navigation}>
+    <BackgroundWrapper showNavigation={true} childrenLeft={Menu} childrenRight={Wallet} menu onPressRight={handleNavigationWallet} navigation={navigation}>
       {statusParticipate && (
         <>
           <View style={Styles.borderBlue}>

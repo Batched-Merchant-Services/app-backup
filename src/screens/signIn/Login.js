@@ -41,7 +41,6 @@ const Login = ({ navigation }) => {
  
   return (
     <BackgroundWrapper showNavigation={false}  navigation={navigation}>
-     <View style={{height: Dimensions.get('window').height - verticalScale(130)}} >
         <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
         <Divider height-30 />
         <Text h18 blue02>{i18n.t('Login.textAnIncredible')}{' '}<Text white>{i18n.t('Login.textInRewardPoints')}</Text></Text>
@@ -79,7 +78,6 @@ const Login = ({ navigation }) => {
             </Text>
           </ButtonRounded>
         </View>
-      </View>
     </BackgroundWrapper>
   );
 }

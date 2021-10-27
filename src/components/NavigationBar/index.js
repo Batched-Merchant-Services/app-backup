@@ -11,7 +11,7 @@ import Back from '@assets/icons/backBlue.png';
 
 
 
-const RenderLeftBack = ({ navigation,onPressRight,onPressLeft, Style, brandTheme, left,menu }) => {
+const RenderLeftBack = ({ navigation,onPressLeft, Style, brandTheme, left,menu }) => {
 
   function handleBack() {
     navigation.goBack();

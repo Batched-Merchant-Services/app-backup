@@ -71,7 +71,7 @@ export default function App() {
        <ApolloProvider client={client}>
         <Provider store={store}>
         <NavigationContainer theme={MyTheme} independent={true}>
-          <AppNavigation />
+          <AppNavigation/>
         </NavigationContainer>
         </Provider>
        </ApolloProvider>

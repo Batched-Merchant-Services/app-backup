@@ -10,11 +10,14 @@ import Lottie
 
 @objc class Dynamic: NSObject {
 
+
   @objc func createAnimationView(rootView: UIView, lottieName: String) -> AnimationView {
+    
     let animationView = AnimationView(name: lottieName)
     animationView.frame = rootView.frame
     animationView.center = rootView.center
-    animationView.backgroundColor = UIColor.white;
+    animationView.contentMode = .scaleAspectFit
+    animationView.backgroundColor = UIColor.white
     return animationView;
   }
 

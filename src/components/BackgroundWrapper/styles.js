@@ -1,4 +1,5 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform, StatusBar } from "react-native";
+
 import Colors from '@styles/Colors';
 
 const styles = StyleSheet.create({
@@ -18,6 +19,12 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     padding: 10,
   },
+  AndroidSafeArea: {
+    flex: 1,
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0
+  }
 });
+
+
 
 export default styles;

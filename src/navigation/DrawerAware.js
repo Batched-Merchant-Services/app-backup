@@ -150,9 +150,7 @@ const CustomDrawer = props => {
           <DrawerItem
             label={({ focused }) => <CustomLabel label={'Contact'} />}
               onPress={() => {
-              navigation.navigate('SignIn', {
-                screen: 'HomeContact'
-              });
+              navigation.navigate('HomeContact');
             }}
             />
           <DrawerItem
