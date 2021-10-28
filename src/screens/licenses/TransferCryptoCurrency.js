@@ -16,18 +16,6 @@ import i18n from '@utils/i18n';
 const TransferCryptoCurrency = ({ navigation }) => {
   const redux = useSelector(state => state);
   const referenceCode = useValidatedInput('referenceCode', '');
-  const [items, setItems] = useState([
-    { id: '1', name: 'Bitcoin', value: 'BTC' },
-    { id: '2', name: 'Litecoin', value: 'LT' },
-    { id: '3', name: 'ChaiLink', value: 'CH' },
-    { id: '3', name: 'Ethereum', value: 'ET' }
-  ]);
-  const typeLicenses = useValidatedInput('', {
-    changeHandlerSelect: 'onSelect'
-  });
-  const cryptoCurrency = useValidatedInput('', {
-    changeHandlerSelect: 'onSelect'
-  });
 
   useEffect(() => {
     console.log('redux', redux)
@@ -90,7 +78,6 @@ const TransferCryptoCurrency = ({ navigation }) => {
       <ButtonRounded
         onPress={() => navigation.navigate("QrCodeTransaction")}
         disabled={false}
-        size='lg'
       >
         <Text h14 semibold white>
           {i18n.t('Licenses.buttonCheckTransaction')}

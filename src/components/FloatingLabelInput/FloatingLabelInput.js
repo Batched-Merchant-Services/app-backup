@@ -89,7 +89,7 @@ const FloatingLabelInput = ({
               multiline={multiline}
             >
               <FloatingLabel label={label} scale={scale} />
-                <View row>
+                <View row height-40 style={{width:'100%'}}>
                   <View flex-1>
                     <TextInput
                       {...props}
@@ -109,7 +109,7 @@ const FloatingLabelInput = ({
                       numberOfLines={numberOfLines}
                     />
                   </View>
-                  <View row paddingB-9 >
+                  <View row centerV >
                      {secureTextEntry && (
                       <TouchableOpacity
                         onPress={handleChangePass}

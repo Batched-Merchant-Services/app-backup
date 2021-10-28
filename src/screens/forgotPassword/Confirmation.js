@@ -55,7 +55,6 @@ const Confirmation = ({ navigation, navigation: { goBack } }) => {
           onPress={() => navigation.navigate("Login")}
           disabled={false}
           blue
-          size='lg'
         >
           <Text h14 semibold white>
             {i18n.t('General.buttonBackToLogin')}

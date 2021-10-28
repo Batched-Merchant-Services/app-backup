@@ -32,7 +32,7 @@ console.log('styleMultiline',styleMultiline);
 
 InputWrapper.propTypes = {
   children : PropTypes.any,
-  hasError : PropTypes.bool,
+  hasError : PropTypes.any,
   isFocused: PropTypes.bool,
 };
 

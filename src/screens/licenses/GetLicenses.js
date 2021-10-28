@@ -37,7 +37,6 @@ const GetLicenses = ({ navigation }) => {
       <ButtonRounded
         disabled={false}
         blue
-        size='lg'
       >
         <Text h14 semibold white>
           {i18n.t('Licenses.textHowDoesItWork')}

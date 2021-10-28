@@ -1,17 +1,20 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import ModalDropdown from 'react-native-modal-dropdown';
 import PropTypes from 'prop-types';
-import { View, Text } from '@components';
+import { View, Text, Divider } from '@components';
 import Styles from './styles';
 import { useSelector } from 'react-redux';
 import InputError from '@components/FloatingLabelInput/InputError';
+import InputIconError from '@components/FloatingLabelInput/InputIconError';
+import InputIconSuccess from '@components/FloatingLabelInput/InputIconSuccess';
 import { scale, verticalScale } from 'react-native-size-matters';
 import Colors from '@styles/Colors';
 
-const DropDownPicker = ({ error, label,value, options, size, onSelect, languages, onFill,labelDefault, ...props }) => {
+const DropDownPicker = ({ error, label, value, options, size, onSelect, languages, onFill, labelDefault, ...props }) => {
 
   const [width, setWidth] = useState(null);
   const [open, setOpen] = useState(false);
+  const [selectValue, setSelectValue] = useState(false);
   const [styleBackground] = useState(brandTheme?.blue03 ?? Colors.blue03);
   const [styleBorder] = useState(brandTheme?.blue02 ?? Colors.blue02);
   const redux = useSelector(state => state);
@@ -19,17 +22,17 @@ const DropDownPicker = ({ error, label,value, options, size, onSelect, languages
   const brandTheme = appData?.Theme?.colors;
   const brandThemeImages = appData?.Theme?.images;
 
-  useEffect(() => {
-    onSelect({name:'select',value:''});
-  }, [])
-
-
   const handleSelect = index => {
+    setSelectValue(true);
     onSelect(options[index]);
+   
   };
 
 
-  const handleWillShowHide = () => setOpen(!open);
+  const handleWillShowHide = index => {
+   console.log('selectValue',selectValue);
+    setOpen(true);
+  }
 
   const handleWrapperLayout = event => {
     const layout = event.nativeEvent.layout;
@@ -72,7 +75,7 @@ const DropDownPicker = ({ error, label,value, options, size, onSelect, languages
       <View flex-1 marginL-2 marginB-4>
         <Text h12 white>{name}</Text>
       </View>
-     
+
     );
   };
 
@@ -81,29 +84,39 @@ const DropDownPicker = ({ error, label,value, options, size, onSelect, languages
   return (
     <View onLayout={handleWrapperLayout}>
       <View style={[
-        Styles.dropDown,dropSize, {borderColor: styleBorder , backgroundColor: styleBackground },
-        ...(error ? [{ borderColor: brandTheme?.error ?? Colors.error }] : [])
+        Styles.dropDown, dropSize, { borderColor: styleBorder, backgroundColor: styleBackground },
+        ...(error === 'pending' ? [] : error ? [{ borderColor: brandTheme?.error ?? Colors.error }] : [{ borderColor: brandTheme?.success ?? Colors.success }])
       ]}>
         <View marginL-2 marginB-4>
           <Text h11 blue02>{label}</Text>
         </View>
         <ModalDropdown
           options={options}
-          defaultValue={labelDefault? labelDefault:'Select Option'}
+          defaultValue={labelDefault ? labelDefault : 'Select Option'}
           onSelect={handleSelect}
-          onDropdownWillShow={handleWillShowHide}
           onDropdownWillHide={handleWillShowHide}
           renderSeparator={(rowID) => renderSeparator(rowID)}
           renderButtonText={(rowData) => renderButtonText(rowData)}
           adjustFrame={handleAdjustFrame}
-          style={{flex:1}}
-          textStyle={{ color: brandTheme?.white ?? Colors.white,fontSize:14 }}
+          style={{ flex: 1 }}
+          textStyle={{ color: brandTheme?.white ?? Colors.white, fontSize: 14 }}
           renderRow={(rowData) => dropdownRenderRow(rowData)}
           dropdownStyle={[Styles.dropdownContainer, { backgroundColor: styleBackground, borderColor: styleBorder }]}
           isFullWidth={true}
           keyboardShouldPersistTaps={'always'}
         />
-        <Text blue02 h14 style={{ position: 'absolute', right: 10, top: 16 }}>▼</Text>
+
+        <View row style={{ position: 'absolute', right: 10, top: 16 }}>
+          <Text blue02 h14>▼</Text>
+          <Divider width-10 />
+          {error && error !== 'pending' && (
+            <InputIconError error={error} />
+          )}
+
+          {!error && error !== 'pending' && (
+            <InputIconSuccess error={error} />
+          )}
+        </View>
       </View>
       <InputError error={error} />
     </View>
@@ -114,7 +127,7 @@ function getSize(size) {
     ll: scale(120),
     sm: scale(138),
     md: scale(280),
-    lg: scale(314,0.1)
+    lg: scale(314, 0.1)
   }[size];
 }
 

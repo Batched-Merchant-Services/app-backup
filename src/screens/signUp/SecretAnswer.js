@@ -25,7 +25,7 @@ const SecretAnswer = ({ navigation, navigation: { goBack } }) => {
     {id: '2', value: 'Name',name:'name'},
     {id: '3', value: 'Your years',name:'years'}
   ]);
-  const answer = useValidatedInput('select', {
+  const answer = useValidatedInput('select','',{
     changeHandlerSelect: 'onSelect'
   });
   const secretAnswers = useValidatedInput('secretAnswers', '');

@@ -72,7 +72,6 @@ const TermAndConditions = ({ navigation, navigation: { goBack } }) => {
             onPress={() => navigation.navigate("AccountConfirmation")}
             disabled={false}
             blue
-            size='lg'
           >
             <Text h14 semibold>
               {i18n.t('General.buttonNext')}

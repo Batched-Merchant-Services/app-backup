@@ -7,12 +7,14 @@ import {
   ImageResize
 } from '@components';
 import ReactNativePinView from "react-native-pin-view"
+import i18n from '@utils/i18n';
 //Redux
 import { useSelector } from 'react-redux';
 //Styles
 import { scale,verticalScale } from 'react-native-size-matters';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Colors from '@styles/Colors';
+import Styles from './styles'
 //Images
 import Back from '@assets/icons/backBlue.png';
 
@@ -30,8 +32,8 @@ const NewPin = ({ navigation,navigation: { goBack }  }) => {
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <SafeAreaView style={{flex:1,backgroundColor:brandTheme?.blue01??Colors.blue01}}>
-      <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
+    <SafeAreaView style={[Styles.AndroidSafeArea,{backgroundColor:Colors.blue01}]} >
+      <StatusBar barStyle={"light-content"} />
       <View flex-1 blue01 marginH-20>
       <View row centerV>
           <TouchableOpacity

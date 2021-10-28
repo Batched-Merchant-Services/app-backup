@@ -62,7 +62,6 @@ const ConfirmationTransfer = ({ navigation, navigation: { goBack } }) => {
           }}
           disabled={false}
           blue
-          size='lg'
         >
           <Text h14 semibold white>
             {i18n.t('home.myBatchedTransfer.confirmation.buttonBackToMyBatched')}

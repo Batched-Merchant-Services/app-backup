@@ -84,7 +84,7 @@ const UploadFile = ({ navigation,labelInput,labelButton,onPressTerm, onPressPriv
 
   return (
       <View style={styles.mainBody}>
-      <View paddingL-10 height-40 width-310 centerV style={{ borderColor:Colors.blue02,borderWidth:1}}>
+      <View paddingL-10 height-40  centerV style={{ borderColor:Colors.blue02,borderWidth:1}}>
         <View style={{flexDirection:'row',justifyContents:'space-between'}}>
           <View flex-1 centerV >
             <Text  h12 regular blue02>
@@ -107,7 +107,6 @@ const UploadFile = ({ navigation,labelInput,labelButton,onPressTerm, onPressPriv
           onPress={selectFile}
           disabled={false}
           dark
-          size='lg'
         >
           <Text h14 semibold blue02>
             {singleFile != null ?'Choose file':'Choose file'}

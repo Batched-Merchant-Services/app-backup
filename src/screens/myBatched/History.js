@@ -26,13 +26,13 @@ const DataHistory = () => {
 
 
 const Referred = ({ navigation, step, onPress, label }) => {
-  const kindOfData = useValidatedInput('select', {
+  const kindOfData = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
-  const month = useValidatedInput('select', {
+  const month = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
-  const year = useValidatedInput('select', {
+  const year = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
 

@@ -55,7 +55,6 @@ const ActivationConfirmation = ({ navigation, navigation: { goBack } }) => {
           onPress={() => navigation.navigate("Dashboard")}
           disabled={false}
           blue
-          size='lg'
         >
           <Text h14 semibold white>
             {i18n.t('home.confirmationActivation.buttonGoToDistributionCycle')}

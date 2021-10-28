@@ -28,6 +28,11 @@ const Styles = StyleSheet.create({
     borderWidth:1,
     borderRadius:verticalScale(5),
     padding:verticalScale(6)
+  },
+  backgroundIOS:{
+   height:verticalScale(250),
+   marginHorizontal:verticalScale(20),
+   borderRadius: 5,
   }
 });
 

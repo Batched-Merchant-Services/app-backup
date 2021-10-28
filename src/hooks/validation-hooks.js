@@ -34,7 +34,6 @@ export const useValidatedInput = (
   }
 
   function handleChangeSelect(text) {
-    console.log('text name',text.name === '')
     if (text.name === '') {
       setError(Validate(name, value, ...validationParams));
     } else {

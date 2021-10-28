@@ -57,7 +57,6 @@ const NewPassword = ({ navigation, navigation: { goBack } }) => {
           onPress={() => navigation.navigate("ConfirmationForgot")}
           disabled={!isValid}
           blue
-          size='lg'
         >
           <Text h14 semibold white>
             {i18n.t('General.buttonSave')}

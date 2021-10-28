@@ -48,10 +48,13 @@ const ConfirmationLicenses = ({ navigation,navigation: { goBack }  }) => {
       <Text h12 white semibold>{i18n.t('Licenses.textTheConfirmationTimeCan')}{' '}<Text h12 white light>{i18n.t('Licenses.textDependingOnHowFastTheBlockchain')}</Text> </Text>
       <Divider height-120 />
       <ButtonRounded
-        onPress={() => navigation.navigate("Dashboard")}
+        onPress={() => {
+          navigation.navigate('DrawerScreen', {
+            screen: 'Dashboard'
+          });
+        }}
         disabled={false}
         blue
-        size='lg'
       >
         <Text h14 semibold white>
           {i18n.t('Licenses.buttonGoToDistribution')}

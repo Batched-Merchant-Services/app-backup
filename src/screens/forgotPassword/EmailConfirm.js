@@ -45,7 +45,6 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
         onPress={() => goBack()}
         disabled={false}
         dark
-        size='lg'
       >
         <Text h14 semibold blue02>
           {i18n.t('ForgotPassword.buttonSendCode')}

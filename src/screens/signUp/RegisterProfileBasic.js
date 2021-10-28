@@ -28,17 +28,17 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
   const ssn = useValidatedInput('ssn', '');
   const [showModalDates, setShowModalDates] = useState(false);
   const [items, setItems] = useState([
-    { id: '1', value: 'apple', name: 'Apple' },
-    { id: '2', value: 'banana', name: 'Banana' }
+    { id: '1', value: 'value1', name: 'value1' },
+    { id: '2', value: 'value2', name: 'value2' }
   ]);
-  const gender = useValidatedInput('select', {
+  const gender = useValidatedInput('select','',{
     changeHandlerSelect: 'onSelect'
   });
-  const birthDay = useValidatedInput('select', {
+  const birthDay = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
 
-  const isValid = isFormValid(firstName, mediumName, lastName, ssn, gender, birthDay);
+  const isValid = isFormValid(firstName, mediumName, lastName, ssn,gender,birthDay);
 
 
   useEffect(() => {
@@ -53,7 +53,7 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
     console.error(error);
   }
 
- console.log('birthDay',birthDay)
+ console.log('gender',gender)
 
   return (
     <BackgroundWrapper navigation={navigation}>

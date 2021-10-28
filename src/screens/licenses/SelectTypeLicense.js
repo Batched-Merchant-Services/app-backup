@@ -20,10 +20,10 @@ const SelectTypeLicense = ({ navigation }) => {
     {id: '3', name: 'ChaiLink',value:'CH'},
     {id: '3', name: 'Ethereum',value:'ET'}
   ]);
-  const typeLicenses = useValidatedInput('', {
+  const typeLicenses = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
-  const cryptoCurrency = useValidatedInput('', {
+  const cryptoCurrency = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
 
@@ -75,7 +75,6 @@ const SelectTypeLicense = ({ navigation }) => {
         onPress={() => navigation.navigate("TransferCryptoCurrency")}
         disabled={false}
         blue
-        size='lg'
       >
         <Text h14 semibold white>
           {i18n.t('General.buttonNext')}

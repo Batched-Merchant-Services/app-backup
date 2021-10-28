@@ -13,25 +13,14 @@ import Styles from './styles';
 import i18n from '@utils/i18n';
 
 const Referred = ({ navigation, step, onPress, label }) => {
-  const dateSelect = useValidatedInput('select', {
+  const dateSelect =useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
-  const levelSelect = useValidatedInput('select', {
+  const levelSelect =useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
   const [showImageProfile, setShowImageProfile] = useState(false);
   const [showData, setShowData] = useState(true);
-  const [date, setDate] = useState([
-    { id: '1', name: '12/12/1993', value: '93' },
-    { id: '2', name: '23/01/1995', value: '95' },
-    { id: '3', name: '09/07/2028', value: '2028' }
-  ]);
-
-  const [levelItems, setLevelItems] = useState([
-    { id: '1', name: '5', value: '5' },
-    { id: '2', name: '2', value: '2' },
-    { id: '3', name: '3', value: '3' }
-  ]);
 
   const generateColor = () => {
     const randomColor = Math.floor(Math.random() * 16777215)
@@ -50,12 +39,6 @@ const Referred = ({ navigation, step, onPress, label }) => {
         </View>
         <View>
           <ButtonRounded
-            onPress={() => {
-              navigation.navigate('SignOut', {
-                screen: 'PinConfirmation',
-                params: { page: 'transferOption' }
-              });
-            }}
             disabled={false}
             green
           >

@@ -23,7 +23,7 @@ const HomeContact = ({ navigation, navigation: { goBack } }) => {
     { id: '1', value: 'Licenses activation', name: 'Licenses activation' },
     { id: '2', value: 'Licenses activation', name: 'Licenses activation' }
   ]);
-  const reason = useValidatedInput('select', {
+  const reason = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
   const note = useValidatedInput('note', '');

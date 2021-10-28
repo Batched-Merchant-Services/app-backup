@@ -21,13 +21,13 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
   const postalCode = useValidatedInput('postalCode', '');
   const email = useValidatedInput('email', 'loremipsum@batched.com');
   const [items, setItems] = useState([
-    { id: '1', value: 'apple', name: 'Apple' },
-    { id: '2', value: 'banana', name: 'Banana' }
+    { id: '1', value: 'value1', name: 'value1' },
+    { id: '2', value: 'value2', name: 'value2' }
   ]);
-  const country = useValidatedInput('select', {
+  const country = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
-  const birthDay = useValidatedInput('select', {
+  const birthDay = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
 
@@ -88,7 +88,6 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
         onPress={() => goBack()}
         disabled={false}
         dark
-        size='lg'
       >
         <Text h14 semibold blue02>
           {i18n.t('myProfile.buttonSaveChanges')}

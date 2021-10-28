@@ -22,16 +22,13 @@ const Register = ({ navigation }) => {
   const redux = useSelector(state => state);
   const email = useValidatedInput('email', '');
   const phone = useValidatedInput('phone', '');
-  const answer = useValidatedInput('select', {
-    changeHandlerSelect: 'onSelect'
-  });
-  const userToTransfer = useValidatedInput('select',{
+  const answer = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
 
   const [items, setItems] = useState([
-    {id: '1', value: 'apple',name:'Apple'},
-    {id: '2', value: 'banana',name:'Banana'}
+    {id: '1', value: 'value1',name:'value1'},
+    {id: '2', value: 'value2',name:'value2'}
   ]);
   const isValid = isFormValid(email,phone,answer);
 
@@ -99,7 +96,6 @@ const Register = ({ navigation }) => {
           onPress={() => navigation.navigate("CodeSms")}
           disabled={!isValid}
           blue
-          size='lg'
         >
           <Text h14 semibold>
             {i18n.t('General.buttonNext')}

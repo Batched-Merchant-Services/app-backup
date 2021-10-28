@@ -6,7 +6,7 @@ import { View } from '@components';
 import { useSelector } from 'react-redux';
 import Styles from './styles';
 import { TouchableOpacity } from 'react-native';
-
+import Ripple from 'react-native-advanced-ripple'
 const ButtonRounded = ({
   size,
   blue,
@@ -74,6 +74,7 @@ const ButtonRounded = ({
       backgroundGradient = linearColorBlue;
   }
   return (
+    <Ripple color={'rgb(0, 106, 200)'} centered={true} disabled={disabled} {...props}>
     <LinearGradient
       start={{ x: 0, y: 0 }}
       end={{ x: 1, y: 0 }}
@@ -84,15 +85,19 @@ const ButtonRounded = ({
       green || changeColor === 'green' ? Styles.greenBorder : [],
       ]}
     >
-      <TouchableOpacity disabled={disabled}
-        style={[Styles.wrapper,
-          containerStyle, { width: '100%' },
-        !size ? { paddingHorizontal: verticalScale(15) } : []
-        ]}
-        {...props}>
-        {children}
-      </TouchableOpacity>
+      
+        <TouchableOpacity 
+          style={[Styles.wrapper,
+            containerStyle, { width: '100%' },
+          !size ? { paddingHorizontal: verticalScale(15) } : []
+          ]}
+          disabled={disabled}
+          {...props}>
+          {children}
+        </TouchableOpacity>
+    
     </LinearGradient>
+    </Ripple>
   );
 };
 

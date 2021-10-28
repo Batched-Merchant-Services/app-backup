@@ -19,7 +19,7 @@ import i18n from '@utils/i18n';
 const TransferOption = ({ navigation, step, onPress, label }) => {
   const [showPointAvailable, setShowPointAvailable] = useState(true);
   const amount = useValidatedInput('amount', '');
-  const typeTransfer = useValidatedInput('select', {
+  const typeTransfer = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
   const [items, setItems] = useState([

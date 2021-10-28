@@ -18,7 +18,7 @@ import StepButton from '../signUp/components/StepsButton';
 import i18n from '@utils/i18n';
 
 const Login = ({ navigation }) => {
-  const email = useValidatedInput('email', '');
+  const email = useValidatedInput('', '');
   const password = useValidatedInput('password', '');
   const isValid = isFormValid(email,password);
 
@@ -52,7 +52,7 @@ const Login = ({ navigation }) => {
         <FloatingInput
           {...email}
           label={i18n.t('Login.inputEmail')}
-          keyboardType={'number-pad'}
+          keyboardType={'default'}
           autoCapitalize={'none'}
         />
         <Divider height-5 />
@@ -61,7 +61,7 @@ const Login = ({ navigation }) => {
           label={i18n.t('Login.inputPassword')}
           autoCapitalize={'none'}
           secureTextEntry
-        />
+        /> 
         <Divider height-10 />
         <Link onPress={() => navigation.navigate("EmailConfirm")}>
           <Text h12 blue02 left>{i18n.t('Login.linkIForgotMyPassword')}</Text>
@@ -71,7 +71,6 @@ const Login = ({ navigation }) => {
           <ButtonRounded
             onPress={() => navigation.navigate("ReferralCode")}
             disabled={!isValid}
-            size='lg'
           >
             <Text h14 semibold>
               {i18n.t('Login.buttonLogin')}

@@ -10,7 +10,6 @@ import {
   BackgroundWrapper
 } from '@components';
 import { useSelector } from 'react-redux';
-import { NativeModules } from 'react-native';
 import { useValidatedInput,isFormValid } from '@hooks/validation-hooks';
 import check from '@assets/icons/white-check.png';
 import i18n from '@utils/i18n';
@@ -22,18 +21,12 @@ import { useTheme } from '@react-navigation/native';
 import  Colors  from '@styles/Colors';
 
 const ReferralCode = ({ navigation }) => {
-  const { StatusBarManager } = NativeModules; 
+
   const [userID, setUserID] = useState(false);
   const referenceCode = useValidatedInput('referenceCode', '');
   const redux = useSelector(state => state);
   const [statusBar, setStatusBar] = useState(0);
   const isValid = isFormValid(referenceCode);
-
-
-
-  useEffect(() => {
-    StatusBarManager.getHeight(({height}) =>setStatusBar(height));
-  }, [])
 
   useEffect(() => {
     console.log('redux', redux)
@@ -47,7 +40,7 @@ const ReferralCode = ({ navigation }) => {
     flex: 1
   };
   return (
-    <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
+    <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
       <Divider height-10 />
       <Text h16 regular blue02>{i18n.t('Licenses.textDoYouHaveAReferral')}</Text>
       <Text h14 white light>{i18n.t('Licenses.textWhoeverReferredYouWill')}<Text white semibold>{i18n.t('Licenses.textEveryoneWins')}</Text></Text>
@@ -88,7 +81,6 @@ const ReferralCode = ({ navigation }) => {
         onPress={() => navigation.navigate("GetLicenses")}
         disabled={!isValid}
         blue
-        size='lg' 
       >
         <Text h14 semibold white>
           {i18n.t('Licenses.textNextSkip')}

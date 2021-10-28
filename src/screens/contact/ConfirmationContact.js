@@ -51,7 +51,6 @@ const ConfirmationContact = ({ navigation, navigation: { goBack } }) => {
           onPress={() => {navigation.navigate('HomeContact')}}
           disabled={false}
           blue
-          size='lg'
         >
           <Text h14 semibold white>
             Go to distribution cycle

@@ -1,5 +1,5 @@
-import React, { useEffect,useState } from 'react';
-import { StatusBar,useColorScheme,TouchableOpacity } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StatusBar, useColorScheme, TouchableOpacity } from 'react-native';
 import {
   View,
   Text,
@@ -11,43 +11,52 @@ import i18n from '@utils/i18n';
 //Redux
 import { useSelector } from 'react-redux';
 //Styles
-import { scale,verticalScale } from 'react-native-size-matters';
+import { scale, verticalScale } from 'react-native-size-matters';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Colors from '@styles/Colors';
+import Styles from './styles'
 //Images
 import Back from '@assets/icons/backBlue.png';
 
 
-const PinConfirmation = ({ navigation,navigation: { goBack },route  }) => {
-  const page =  route?.params?.page;
-  const newPinPage = page === 'newPin'?true:false;
-  console.log('navigation',route)
+const PinConfirmation = ({ navigation, navigation: { goBack }, route }) => {
+  const page = route?.params?.page;
+  const newPinPage = page === 'newPin' ? true : false;
+  console.log('navigation', route)
   const redux = useSelector(state => state);
   const userData = redux?.user;
   const brandTheme = userData?.Theme?.colors;
 
-  const onComplete= async (inputtedPin, clear) =>{
+  const onComplete = async (inputtedPin, clear) => {
     const PinConfirm = inputtedPin;
     if (page === 'newPin') {
-      navigation.navigate("TermConditions");
-    } else if(page === 'forgotPassword') {
-      navigation.navigate("NewPassword");
-    } else if(page === 'transferOption') {
-      navigation.navigate("ConfirmationTransfer");
+      navigation.navigate('SignOut', {
+        screen: 'TermConditions'
+      });
+    } else if (page === 'forgotPassword') {
+      navigation.navigate('SignOut', {
+        screen: 'NewPassword'
+      });
+    } else if (page === 'transferOption') {
+      navigation.navigate('SignIn', {
+        screen: 'ConfirmationTransfer'
+      });
     }
-    else{
-      navigation.navigate("Login");
+    else {
+      navigation.navigate('SignIn', {
+        screen: 'Login'
+      });
     }
-   
-   
+
+
   };
   const isDarkMode = useColorScheme() === 'dark';
 
   return (
-    <SafeAreaView style={{flex:1,backgroundColor:brandTheme?.blue01??Colors.blue01}}>
-      <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
-      <View flex-1 blue01 marginH-20>
-      <View row centerV>
+    <SafeAreaView style={[Styles.AndroidSafeArea, { backgroundColor: Colors.blue01 }]}>
+      <StatusBar barStyle={"light-content"} />
+      <View flex-1 blue01 marginH-20 >
+        <View row centerV>
           <TouchableOpacity
             style={{
               width: scale(32),
@@ -63,30 +72,30 @@ const PinConfirmation = ({ navigation,navigation: { goBack },route  }) => {
             <ImageResize source={Back} height={verticalScale(20)} width={scale(20)} />
           </TouchableOpacity>
           <Divider width-30 />
-          <View style={{ width: '75%'}}>
-            <Text h18 blue04 medium center>{newPinPage? i18n.t('pinConfirmation.textConfirmYourPIN'):i18n.t('pinConfirmation.textEnterYourConfirmationPIN')}</Text>
+          <View style={{ width: '75%' }}>
+            <Text h18 blue04 medium center>{newPinPage ? i18n.t('pinConfirmation.textConfirmYourPIN') : i18n.t('pinConfirmation.textEnterYourConfirmationPIN')}</Text>
           </View>
         </View>
-        <Divider height-20/>
+        <Divider height-20 />
         <Text h12 blue04 regular center>{i18n.t('pinConfirmation.textYouWillUseItTo')}</Text>
-        <Divider height-20/>
+        <Divider height-20 />
         <Text h12 blue04 regular center>{i18n.t('pinConfirmation.textSixDigits')}</Text>
-        <Divider height-10/>
+        <Divider height-10 />
         <ReactNativePinView
           pinLength={6}
           showInputText={true}
           inputViewFilledStyle={{
-              backgroundColor: "#FFF",
-            }}
-          buttonTextColor={brandTheme?.blue02??Colors.blue02}
-          inputBgColor={brandTheme?.blue04??Colors.blue04}
+            backgroundColor: "#FFF",
+          }}
+          buttonTextColor={brandTheme?.blue02 ?? Colors.blue02}
+          inputBgColor={brandTheme?.blue04 ?? Colors.blue04}
           inputBgOpacity={0.8}
-          inputActiveBgColor={brandTheme?.blue02??Colors?.blue02}
+          inputActiveBgColor={brandTheme?.blue02 ?? Colors?.blue02}
           onComplete={onComplete}
-          keyboardViewStyle={{borderColor: brandTheme?.blue04??Colors.blue04,borderWidth:1, borderRadius:verticalScale(2)}}
-          inputViewStyle={{width: verticalScale(20), height: verticalScale(20)}}
+          keyboardViewStyle={{ borderColor: brandTheme?.blue04 ?? Colors.blue04, borderWidth: 1, borderRadius: verticalScale(2) }}
+          inputViewStyle={{ width: verticalScale(20), height: verticalScale(20) }}
         // pinLength={6} // You can also use like that.
-        />  
+        />
       </View>
     </SafeAreaView>
 

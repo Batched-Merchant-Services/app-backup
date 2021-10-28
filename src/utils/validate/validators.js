@@ -3,17 +3,8 @@ const Validators = {
     if (value === undefined) {
       return false;
     } else {
-      if (value.name) {
-        const name = value.name === 'Please select one option' || value.name === 'Selecciona una opción' ? true : false;
-        if (name) {
-          return true;
-        }else{
-          return false;
-        }
-      }else{
-        value = String(value).trim();
-        return value.length ? false : true;
-      }
+      value = String(value).trim();
+      return value.length ? false : true;
     }
   },
   format: (value, pattern) => {
