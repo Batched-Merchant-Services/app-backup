@@ -6,28 +6,29 @@
  * @flow strict-local
  */
 
-import React,{ useEffect,useState,useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   StatusBar,
   useColorScheme,
+  Text
 } from 'react-native';
 
 import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
 import NavigationService from './NavigationService';
-import { NavigationContainer,NavigationContainerRef } from '@react-navigation/native';
+import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppNavigation from '@navigation/index';
 import { Provider } from 'react-redux'
-import store from '@store/configureStore';
+// import store from '@store';
 import SplashScreen from "react-native-lottie-splash-screen";
-import makeApolloClient from '@utils/api/apollo'; 
+import { client } from '@utils/api/apollo';
+import { ApolloProvider } from '@apollo/react-hooks'
+import { theme } from './theme';
+import configureStore from '@store/configureStore';
 
-import { 
-  ApolloProvider,
-} from "@apollo/client";
-
+const store = configureStore()
 
 const MyTheme = {
   dark: false,
@@ -42,40 +43,41 @@ const MyTheme = {
 };
 
 export default function App() {
-  
-  const [client, setClient] = useState(null);
 
-  const fetchSession = async () => {
-    const client = makeApolloClient('1289449djdhjchfbhfbfhbdjdi8494802027');
-    console.log('client',client);
-    setClient(client);
-  }
+  const [isReady, setIsReady] = useState(false);
+  const [storePromise, setStorePromise] = useState({});
 
 
-  useEffect(() => {
-    console.log('SplashScreen',SplashScreen);
+  useEffect(async () => {
+   
+    const  configStore = await configureStore()
+    console.log('store', configStore?.getState());
+    setIsReady(true);
+    setStorePromise(configStore)
     SplashScreen.hide(); // here
-    fetchSession();
   }, []);
 
 
   const isDarkMode = useColorScheme() === 'dark';
- 
-   const backgroundStyle = {
-     backgroundColor: isDarkMode ? Colors.darker : Colors.white,
-   };
-  return (
-   
-    <SafeAreaProvider style={backgroundStyle}>
-       <StatusBar barStyle={isDarkMode ? 'white-content' : 'dark-content'} />
-       <ApolloProvider client={client}>
-        <Provider store={store}>
-        <NavigationContainer theme={MyTheme} independent={true}>
-          <AppNavigation/>
-        </NavigationContainer>
-        </Provider>
-       </ApolloProvider>
-     </SafeAreaProvider>
-    
-  );
+
+  const backgroundStyle = {
+    backgroundColor: isDarkMode ? Colors.darker : Colors.white,
+  };
+
+  if (isReady) {
+    return (
+      <SafeAreaProvider style={backgroundStyle}>
+        <StatusBar barStyle={isDarkMode ? 'white-content' : 'dark-content'} />
+        <ApolloProvider client={client} store={storePromise}>
+          <Provider store={storePromise} theme={theme}>
+            <NavigationContainer theme={MyTheme} independent={true}>
+              <AppNavigation />
+            </NavigationContainer>
+          </Provider>
+        </ApolloProvider>
+      </SafeAreaProvider>
+    );
+  }
+  return null;
+  
 }

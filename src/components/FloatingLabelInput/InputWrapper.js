@@ -9,7 +9,6 @@ const InputWrapper = ({ multiInput, numberOfLines, children, isFocused, hasError
   const redux = useSelector(state => state);
   const appData = redux.user;
   const brandTheme = appData?.Theme?.colors;
-console.log('styleMultiline',styleMultiline);
   return (
     <View
       {...props}

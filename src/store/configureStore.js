@@ -1,9 +1,12 @@
 import { applyMiddleware, createStore } from 'redux';
-//import promiseMiddleware from 'redux-promise-middleware';
+import promiseMiddleware from 'redux-promise-middleware';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import rootReducer from './rootReducer'
-
+import localStorage from '@utils/localStorage';
+import to from 'await-to-js';
+import Colors from '@styles/Colors';
+import { AsyncStorage } from 'react-native';
 /**
  * Take all the middlewares and apply them,
  * if is in develop mode it adds the devtools middleware
@@ -21,22 +24,57 @@ function applyMiddlewares(...middlewares) {
  * @param {Function} rootReducer Redux root reducer
  */
 
- const store = createStore(rootReducer,  applyMiddlewares(thunkMiddleware))
- export default store
 
 
-// export default async function configureStore(rootReducer) {
-//   // const REDUX_STORE_KEY = 'redux-state';
-//   // const initialState = state ? JSON.parse(state) : {};
+ const configureStore = async() => {
 
-//   const store = createStore(
-//     rootReducer,
-//     applyMiddlewares(thunkMiddleware)
-//   );
-//   store.subscribe(
+  const REDUX_STORE_KEY = 'redux-state';
+
+  const [error, state] = await to(localStorage.get(REDUX_STORE_KEY));
+  console.log('stateeee',state);
+  const initialState = state ? JSON.parse(state) : {};
+
+    
+  const store = createStore(
+       rootReducer, 
+       initialState, 
+       applyMiddlewares(thunkMiddleware, promiseMiddleware)
+      )
+    
+      store.subscribe(
+        async () =>{
+        console.log('store subscribe',store.getState(),REDUX_STORE_KEY)
+          await to(
+            localStorage.set(REDUX_STORE_KEY, JSON.stringify(store.getState()))
+          )}
+      );
+      
+
+  return store;
+  }
+
+
+//  store.subscribe(() => {
+//       console.log(store);
+//   });
+
+ export default configureStore;
+
+//  export default async function configureStore(rootReducer) {
+//   const [error, state] = await localStorage.get('REDUX_STORE_KEY');
+//   console.log('state',state);
+//  const initialState = state ? JSON.parse(state) : {};
+
+//  const store = createStore(
+//    rootReducer, 
+//    initialState, 
+//    applyMiddlewares(thunkMiddleware)
+//   )
+
+//  store.subscribe(() => {
 //     async () =>
-//       await JSON.stringify(store)
-//   );
+//       await localStorage.set('REDUX_STORE_KEY', JSON.stringify(store.getState()))
+//   });
 
-//   return store
+//  return store;
 // }

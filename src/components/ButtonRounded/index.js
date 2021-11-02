@@ -24,7 +24,6 @@ const ButtonRounded = ({
   const redux = useSelector(state => state);
   const appData = redux.user;
   const brandTheme = appData?.Theme?.colors;
-  console.log('size', size)
 
   const btnSize = { width: getBtnSize(size) };
 
