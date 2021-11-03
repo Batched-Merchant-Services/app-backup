@@ -1,38 +1,29 @@
-import {FETCHING_DATA, FETCHING_DATA_SUCCESS, FETCHING_DATA_FAILURE, FETCHING_DATA_PEOPLE_SUCCESS} from '../constants'
+import {
+    TOGGLE_SNACKBAR_OPEN,
+    TOGGLE_SNACKBAR_CLOSE
+} from '../constants';
 
-const initialState =  {
-    data: [],
-    isFeching: false,
-    error: false
+const initialState = {
+    toggleSnackbar: false,
+    snackbarMessage: null,
 }
 
 export default appReducer = (state = initialState, action) => {
-    switch(action.type) {
-        case FETCHING_DATA:
+    switch (action.type) {
+        case TOGGLE_SNACKBAR_OPEN:
             return {
                 ...state,
-                data: [],
-                isFeching: true
-            }
-        case FETCHING_DATA_SUCCESS:
+                toggleSnackbar: true,
+                snackbarMessage: action.message,
+            };
+
+        case TOGGLE_SNACKBAR_CLOSE:
             return {
                 ...state,
-                data: action.data,
-                isFeching: false
-            }
-        case FETCHING_DATA_PEOPLE_SUCCESS:
-            return {
-                ...state,
-                dataPeople: action.dataPeople,
-                isFeching: false
-            }
-        case FETCHING_DATA_FAILURE:
-            return {
-                ...state,
-                isFeching: false,
-                error: true 
-            }
+                toggleSnackbar: false,
+                snackbarMessage: null,
+            };
         default:
-        return state
+            return state
     }
 }

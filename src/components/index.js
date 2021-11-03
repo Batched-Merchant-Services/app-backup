@@ -14,7 +14,7 @@ import NavigationBar from '@components/NavigationBar';
 import UploadFile from '@components/UploadFile';
 import PinInput from '@components/PinInput';
 import DatePicker from '@components/DatePicker';
-
+import SnackNotice from '@components/SnackNotice';
 
 export {
   Text,
@@ -27,6 +27,7 @@ export {
   UploadFile,
   LinksTerms,
   ImageResize,
+  SnackNotice,
   NavigationBar,
   StepIndicator,
   ButtonRounded,

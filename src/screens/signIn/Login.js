@@ -8,12 +8,14 @@ import {
   View,
   Link,
   Divider,
+  SnackNotice,
   ImageResize,
   ButtonRounded,
   FloatingInput,
   BackgroundWrapper
 } from '@components';
-import { getLogin, resetAuth } from '@store/actions/auth';
+import {TouchableHighlight} from 'react-native'
+import { getLogin, cleanError } from '@store/actions/auth';
 import { useQuery } from '@apollo/react-hooks'
 import { useSelector, useDispatch } from 'react-redux';
 import { useLazyQuery } from '@apollo/client';
@@ -25,6 +27,7 @@ import i18n from '@utils/i18n';
 import Loading from '../Loading';
 import Colors from '@styles/Colors';
 import close from '@assets/icons/white-x.png';
+import { toggleSnackbarOpen } from '../../store/actions/app';
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -32,20 +35,30 @@ const Login = ({ navigation }) => {
   const authData = redux?.auth;
   const email = useValidatedInput('', '');
   const password = useValidatedInput('password', '');
-  const [snackIsVisible, setSnackIsVisible] = useState(false);
+  const [snackIsVisible, setSnackIsVisible] = useState(true);
   const isValid = isFormValid(email, password);
 
+  const error = useSelector(state => state?.auth?.showError);
 
+  useEffect(() => {
+    dispatch(cleanError());
+  }, [])
+
+  console.log('authData', authData);
   async function fetchSession() {
     dispatch(getLogin({ email, password }));
   }
 
-  function handleClose(){
-    setSnackIsVisible(false)
-  }
   if (authData?.isLoggingIn) {
-    return <Loading/>;
+    return <Loading />;
   }
+
+  if (authData?.isLoggedIn) {
+    navigation.navigate('DrawerScreen', {
+      screen: 'Dashboard'
+    });
+  }
+  
 
   return (
     <BackgroundWrapper showNavigation={false} navigation={navigation}>
@@ -85,21 +98,11 @@ const Login = ({ navigation }) => {
           </Text>
         </ButtonRounded>
       </View>
-      <SnackBar 
-      visible={snackIsVisible} 
-      actionHandler={handleClose}
-      containerStyle={{backgroundColor:Colors.error}}
-      message="Hello There!"
-      autoHidingTime={6000} 
-      action={(
-        <View flex-1 centerV paddingR-10>
-        <ImageResize
-          source={close}
-          height={verticalScale(10)}
-          width={scale(10)}
-        />
-      </View>
-      )} />
+      <SnackNotice
+        visible={error}
+        message={authData?.error?.message}
+        timeout={3000}
+      />
     </BackgroundWrapper>
   );
 }

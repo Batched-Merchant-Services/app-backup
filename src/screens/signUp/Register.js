@@ -38,16 +38,6 @@ const Register = ({ navigation }) => {
   }, [])
 
  
-  const { data, error, loading } = useQuery(FETCH_TODOS);
-  //console.log('data', data, error, loading)
-
-  if (error) {
-    console.error(error);
-  }
-
-  // if (loading) {
-  //   console.log('loading');
-  // }
 
   return (
     <BackgroundWrapper navigation={navigation}>
