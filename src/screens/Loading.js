@@ -1,15 +1,20 @@
 import React from 'react'
-import { ActivityIndicator } from 'react-native'
-import  Colors  from '@styles/Colors'
+import { ActivityIndicator, Modal } from 'react-native'
+import Colors from '@styles/Colors'
 import Styles from './styles';
 import {
   View
 } from '@components';
 
-const Loading = () => (
-  <View style={Styles.container}>
-    <ActivityIndicator size="large" color="#3F529E" />
-  </View>
-);
+const Loading = ({ modalVisible, ...props }) => {
+  console.log('modalVisible',modalVisible);
+  return (
+    <Modal animationType='slide' animationType="slide" transparent={true} visible={modalVisible}>
+      <View flex-1 style={Styles.container}>
+        <ActivityIndicator size="large" color="#3F529E" />
+      </View>
+    </Modal>
+  );
+}
 
 export default Loading;

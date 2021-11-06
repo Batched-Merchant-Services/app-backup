@@ -9,3 +9,8 @@ declare module '*.svg' {
   >;
   export default content;
 }
+
+declare module '@env'  { 
+  export  const  PUBLIC_KEY : string ; 
+  export  const  API_URL_STAGING : string ; 
+}

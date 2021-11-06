@@ -23,11 +23,6 @@ const ActivationConfirmation = ({ navigation, navigation: { goBack } }) => {
   const referenceCode = useValidatedInput('sms', '');
 
 
-  useEffect(() => {
-    console.log('redux', redux)
-  }, [])
-
-
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
       <ImageBackground source={rectangleConfirm} resizeMode="contain" style={Styles.image}>

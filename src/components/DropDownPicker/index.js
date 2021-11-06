@@ -30,7 +30,6 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
 
 
   const handleWillShowHide = index => {
-   console.log('selectValue',selectValue);
     setOpen(true);
   }
 
@@ -43,11 +42,11 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
 
     style.width = width;
     if (showInBottom) {
-      style.height = verticalScale(1 * options.length + 120, 0.40);
+      style.height = verticalScale(1 * options?.length + 15, 0.40);
       style.left = style.left - verticalScale(7, 0);
       style.top = Platform.OS === 'ios' ? style.top = style.top - verticalScale(2, 0.3) : style.top - verticalScale(30);
     } else {
-      style.height = verticalScale(1 * options.length + 120, 0.40);
+      style.height = verticalScale(1 * options?.length + 15, 0.40);
       style.left = style.left - verticalScale(7, 0);
       style.top = Platform.OS === 'ios' ? style.top = style.top - verticalScale(2, 0.3) : style.top + style.height - verticalScale(135);
     }
@@ -64,7 +63,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
   };
 
   const renderSeparator = (sectionID, rowID, adjacentRowHighlighted) => {
-    if (rowID == options.length - 1) return;
+    if (rowID == options?.length - 1) return;
     return <View flex-1 blue04 height-1 />
 
   }
@@ -142,7 +141,8 @@ DropDownPicker.propTypes = {
 };
 DropDownPicker.defaultProps = {
   size: 'lg',
-  value: {}
+  value: {},
+  options:null
 };
 
 export default DropDownPicker;

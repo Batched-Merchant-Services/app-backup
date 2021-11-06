@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 //Styles
 import { scale,verticalScale } from 'react-native-size-matters';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import LocalStorage from '@utils/localStorage';
 import Colors from '@styles/Colors';
 import Styles from './styles'
 //Images
@@ -25,10 +26,15 @@ const NewPin = ({ navigation,navigation: { goBack }  }) => {
   const brandTheme = userData?.Theme?.colors;
 
   const onComplete= async (inputtedPin, clear) =>{
-    const PinConfirm = inputtedPin;
-    navigation.navigate("PinConfirmation",{page:'newPin'})
-   
+    const newConfirm = inputtedPin;
+    await LocalStorage.set('pinConfirmation', newConfirm);
+    if(inputtedPin.length < 6){
+      clear();
+    }else{
+      navigation.navigate("PinConfirmation",{page:'newPin'})
+    }
   };
+
   const isDarkMode = useColorScheme() === 'dark';
 
   return (

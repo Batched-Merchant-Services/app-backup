@@ -5,28 +5,35 @@ import { scale, verticalScale } from 'react-native-size-matters';
 import {
   Text,
   View,
-  Link,
   Divider,
   ImageResize,
+  SnackNotice,
   ButtonRounded,
   FloatingInput,
-  DropDownPicker,
   BackgroundWrapper
 } from '@components';
-import StepButton from './components/StepsButton';
-import { useQuery } from '@apollo/client';
-import { FETCH_TODOS } from '@utils/api/queries/example';
+
 import Logo from '@assets/brandBatched/logo.svg';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import LocalStorage from '@utils/localStorage';
+
 import StepIndicator from '../../components/StepIndicator';
 import rectangleConfirm from '@assets/icons/rectangleConfirm.png';
 import confirmationCheck from '@assets/icons/confirmationCheckRectangle.png';
+
 import Styles from './styles';
 import i18n from '@utils/i18n';
 
 
+//actions
+import { toggleSnackbarClose } from '@store/actions/app.actions';
+import { cleanErrorRegister,setPassword} from '@store/actions/register.actions';
+import Loading from '../Loading';
+
 const CreateNewPassword = ({ navigation,navigation: { goBack } }) => {
+  const dispatch = useDispatch();
   const redux = useSelector(state => state);
+  const registerData = redux?.register;
   const password = useValidatedInput('password', '');
   const confirmPassword = useValidatedInput('confirmPassword', '',{
     validationParams: [password.value]
@@ -34,23 +41,22 @@ const CreateNewPassword = ({ navigation,navigation: { goBack } }) => {
 
   const isValid = isFormValid(password,confirmPassword);
 
-
   useEffect(() => {
-    console.log('redux', redux)
-  }, [])
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanErrorRegister());
+      dispatch(toggleSnackbarClose());
+    });
+    return unsubscribe;
 
+  }, []);
 
-  const { data, error, loading } = useQuery(FETCH_TODOS);
-  //console.log('data', data, error, loading)
-
-  if (error) {
-    console.error(error);
+  async function handleNewPin() {
+    await LocalStorage.set('password', confirmPassword?.value);
+    navigation.navigate("NewPin")
   }
-
-  // if (loading) {
-  //   console.log('loading');
-  // }
-
+  
+  
+ 
   return (
     <BackgroundWrapper navigation={navigation}>
       <View row>
@@ -102,7 +108,7 @@ const CreateNewPassword = ({ navigation,navigation: { goBack } }) => {
           </ButtonRounded>
           <Divider width-10 />
           <ButtonRounded
-            onPress={() => navigation.navigate("NewPin")}
+            onPress={handleNewPin}
             disabled={!isValid}
             blue
             size='sm'

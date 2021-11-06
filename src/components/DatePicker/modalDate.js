@@ -16,7 +16,6 @@ const modalDate = ({ visible, onRequestClose, getData, onPressOverlay, ...props 
   const [show, setShow] = useState(false);
 
   const onChange = (event, selectedDate) => {
-    console.log('event',event,selectedDate);
     const currentDate = selectedDate || date;
     const format = formatDate(currentDate);
     setShow(Platform.OS === 'ios');

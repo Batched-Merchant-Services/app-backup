@@ -21,10 +21,6 @@ const AccountConfirmation = ({ navigation, navigation: { goBack } }) => {
   const referenceCode = useValidatedInput('sms', '');
 
 
-  useEffect(() => {
-    console.log('redux', redux)
-  }, [])
-
 
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>

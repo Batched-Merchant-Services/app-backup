@@ -51,7 +51,6 @@ export default function App() {
   useEffect(async () => {
    
     const  configStore = await configureStore()
-    console.log('store', configStore?.getState());
     setIsReady(true);
     setStorePromise(configStore)
     SplashScreen.hide(); // here

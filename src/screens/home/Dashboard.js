@@ -27,10 +27,7 @@ const Dashboard = ({ navigation }) => {
   const [statusActive, setsStatusActive] = useState(false);
   const [statusFinish, setsStatusFinish] = useState(false);
 
-  useEffect(() => {
-    console.log('redux', redux);
-  }, [])
-
+  
   function handleNavigationWallet(){
     navigation.navigate("HomeMyBatched")
   }

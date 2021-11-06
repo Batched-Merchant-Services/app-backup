@@ -22,9 +22,6 @@ const ConfirmationTransfer = ({ navigation, navigation: { goBack } }) => {
   const referenceCode = useValidatedInput('sms', '');
 
 
-  useEffect(() => {
-    console.log('redux', redux)
-  }, [])
 
 
   return (

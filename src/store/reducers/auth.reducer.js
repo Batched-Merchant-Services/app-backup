@@ -2,6 +2,7 @@ import {
   LOGIN,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
+  SET_ERROR,
   CLEAN_ERROR
 } from '../constants';
 
@@ -10,6 +11,7 @@ export const initialState = {
   headers: {},
   isLoggedIn: false,
   isLoggingIn: false,
+  finishSuccess:false,
   showError:false,
   isResettingPassword: false,
   isUpdating: true,
@@ -17,8 +19,7 @@ export const initialState = {
   success: {},
 };
 
-export default appReducer = (state = initialState, action) => {
-  console.log('action',action)
+export default authReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN:
       return { ...state, isLoggingIn: true,  showError:false, };
@@ -43,6 +44,17 @@ export default appReducer = (state = initialState, action) => {
         user: null,
         success: {},
       };
+      case SET_ERROR:
+      return {
+        ...state,
+        isLoggingIn: false,
+        finishSuccess:false,
+        showError:true,
+        error: action.payload,
+        user: null,
+        success: {},
+      };
+
       case CLEAN_ERROR:
       return {
         ...state,
@@ -51,6 +63,7 @@ export default appReducer = (state = initialState, action) => {
         showError:false,
         error: {},
       };
+      
 
     default:
       return state;

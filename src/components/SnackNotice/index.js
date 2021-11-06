@@ -1,12 +1,16 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
-import { Text, View, Divider } from '@components';
+import { Text, View, Divider,ImageResize } from '@components';
 import styles from './styles';
 import LinearGradient from 'react-native-linear-gradient';
 import i18n from '@utils/i18n';
 import { useDispatch, useSelector } from "react-redux";
 import Colors from '@styles/Colors';
-import { toggleSnackbarClose, toggleSnackbarOpen } from '../../store/actions/app';
+import { toggleSnackbarClose, toggleSnackbarOpen } from '@store/actions/app.actions';
+import { scale, verticalScale } from 'react-native-size-matters';
+import IconWarning from '@assets/iconSVG/IconWarning';
+
+import close from '@assets/icons/white-x.png';
 
 const SnackNotice = ({
   message,
@@ -39,46 +43,59 @@ const SnackNotice = ({
   useEffect(() => {
     if (visible) {
       dispatch(toggleSnackbarOpen(message));
-    }else{
+    } else {
       dispatch(toggleSnackbarClose());
     }
 
   }, []);
 
+console.log('visible',visible)
 
 
-
-if (SHOW) {
-  return (
-    <View
-      style={[styles.offlineContainer,{backgroundColor:Colors.error}]} 
-    >
-        <View row>
-          <View flex-1 paddingL-15 centerV>
-            <Text h12>
-              {message}
-            </Text>
-          </View>
-          <Divider width-20 />
-          <View
-            style={{ flex: 0.5, alignItems: 'flex-end' }}
-            centerV
-            paddingR-15
-          >
-            <TouchableOpacity onPress={handleClose}>
-              <Text h12 bold>
-                CLOSE
+  if (SHOW) {
+    return (
+      <View centerH>
+        <View
+          style={[styles.offlineContainer, { backgroundColor: Colors.error }]}
+        >
+          <View row>
+            <View  centerH paddingL-15 >
+            <IconWarning width={scale(12)} height={verticalScale(12)}  fill={brandTheme?.white??Colors?.white} fillSecondary={brandTheme?.warning??Colors?.warning}/>
+            </View>
+            <View flex-1 paddingL-15 centerV>
+              <Text h12>
+                {message?message:MESSAGE}
               </Text>
-            </TouchableOpacity>
+            </View>
+            <Divider width-20 />
+            <View
+              style={{ flex: 0.5, alignItems: 'flex-end' }}
+              centerV
+              paddingR-15
+            >
+              <TouchableOpacity onPress={handleClose}>
+                <ImageResize
+                  source={close}
+                  height={verticalScale(10)}
+                  width={scale(10)}
+                />
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
-    </View>
+        <View row style={{width:'98%'}}>
+        <View style={{borderBottomLeftRadius:5}} flex-1 height-4 white/>
+        <View  style={{borderBottomRightRadius:5}} flex-1 height-4 error/>
+        </View>
+       
+      </View>
 
-  )
 
-}
-return null
-    
+    )
+
+  }
+  return null
+
 };
 
 export default SnackNotice;

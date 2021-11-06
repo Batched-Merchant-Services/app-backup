@@ -22,10 +22,14 @@ const NewPassword = ({ navigation, navigation: { goBack } }) => {
   });
   const isValid = isFormValid(password, confirmPassword);
 
-  useEffect(() => {
-    console.log('redux', redux)
-  }, [])
-
+  function handleSetPassword() {
+    let setPassword = {
+      token,
+      password,
+      confirmPassword
+    }
+    navigation.navigate("ConfirmationForgot")
+  }
 
   return (
     <BackgroundWrapper navigation={navigation}>
@@ -54,9 +58,10 @@ const NewPassword = ({ navigation, navigation: { goBack } }) => {
       <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
       <View flex-1 row bottom >
         <ButtonRounded
-          onPress={() => navigation.navigate("ConfirmationForgot")}
+          onPress={handleSetPassword}
           disabled={!isValid}
           blue
+          size='lg'
         >
           <Text h14 semibold white>
             {i18n.t('General.buttonSave')}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useValidatedInput } from '@hooks/validation-hooks';
+import { useValidatedInput,isFormValid } from '@hooks/validation-hooks';
 import { scale, verticalScale } from 'react-native-size-matters';
 import {
   Text,
@@ -11,45 +11,58 @@ import {
   ButtonRounded,
   BackgroundWrapper
 } from '@components';
-import { useQuery } from '@apollo/client';
-import { FETCH_TODOS } from '@utils/api/queries/example';
+
 import Logo from '@assets/brandBatched/logo.svg';
-import { useSelector } from 'react-redux';
 import i18n from '@utils/i18n';
+import LocalStorage from '@utils/localStorage';
+
+//Redux
+import { useSelector, useDispatch } from 'react-redux';
+
+//actions
+import { toggleSnackbarClose,toggleSnackbarOpen } from '@store/actions/app.actions';
+import { cleanErrorRegister, setPassword,setRegister } from '@store/actions/register.actions';
+import Loading from '../Loading';
+
 
 const TermAndConditions = ({ navigation, navigation: { goBack } }) => {
+  const dispatch = useDispatch();
   const redux = useSelector(state => state);
-  const privacy = useValidatedInput(null, true, {
-    changeHandlerName: 'onChange'
+  const registerData = redux?.register;
+  const userData = redux?.user;
+  const brandTheme = userData?.Theme?.colors;
+
+  const privacy = useValidatedInput(null, false, {
+    changeHandlerSelect: 'onSelect'
   });
-  const term = useValidatedInput(null, true, {
-    changeHandlerName: 'onChange'
+  const term = useValidatedInput(null, false, {
+    changeHandlerSelect: 'onSelect'
   });
   const privacy2 = useValidatedInput(null, false, {
-    changeHandlerName: 'onChange'
+    changeHandlerSelect: 'onSelect'
   });
 
   const term2 = useValidatedInput(null, false, {
-    changeHandlerName: 'onChange'
+    changeHandlerSelect: 'onSelect'
   });
 
-  useEffect(() => {
-    console.log('redux', redux)
-  }, [])
-
-
-  const { data, error, loading } = useQuery(FETCH_TODOS);
-  //console.log('data', data, error, loading)
-
-  if (error) {
-    console.error(error);
+  const valid = () => {
+    if (privacy?.value && term?.value && privacy2?.value && term2?.value) {
+      return false;
+    }
+    return true;
   }
+ 
+  useEffect(async () => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanErrorRegister());
+      dispatch(toggleSnackbarClose());
+      LocalStorage.remove('password');
+      LocalStorage.remove('pinConfirmation');
+    });
+    return unsubscribe;
 
-  // if (loading) {
-  //   console.log('loading');
-  // }
-
-
+  }, []);
 
   return (
     <BackgroundWrapper>
@@ -69,8 +82,8 @@ const TermAndConditions = ({ navigation, navigation: { goBack } }) => {
       <Divider height-20 />
       <View flex-1 bottom>
         <ButtonRounded
-            onPress={() => navigation.navigate("AccountConfirmation")}
-            disabled={false}
+            onPress={() => navigation.navigate("RegisterProfileBasic")}
+            disabled={valid()}
             blue
           >
             <Text h14 semibold>

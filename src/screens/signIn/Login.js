@@ -14,20 +14,15 @@ import {
   FloatingInput,
   BackgroundWrapper
 } from '@components';
-import {TouchableHighlight} from 'react-native'
-import { getLogin, cleanError } from '@store/actions/auth';
-import { useQuery } from '@apollo/react-hooks'
+import { getLogin, cleanError } from '@store/actions/auth.actions';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLazyQuery } from '@apollo/client';
-import { LOGIN } from '@utils/api/queries/auth';
-import { FETCH_COIN_LIST } from '@utils/api/queries/example';
 import Logo from '@assets/brandBatched/logo.svg';
 import StepButton from '../signUp/components/StepsButton';
 import i18n from '@utils/i18n';
 import Loading from '../Loading';
 import Colors from '@styles/Colors';
 import close from '@assets/icons/white-x.png';
-import { toggleSnackbarOpen } from '../../store/actions/app';
+import { toggleSnackbarClose } from '@store/actions/app.actions';
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -41,10 +36,13 @@ const Login = ({ navigation }) => {
   const error = useSelector(state => state?.auth?.showError);
 
   useEffect(() => {
-    dispatch(cleanError());
-  }, [])
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanError());
+      dispatch(toggleSnackbarClose());
+    });
+    return unsubscribe;
+  }, []);
 
-  console.log('authData', authData);
   async function fetchSession() {
     dispatch(getLogin({ email, password }));
   }
@@ -99,7 +97,7 @@ const Login = ({ navigation }) => {
         </ButtonRounded>
       </View>
       <SnackNotice
-        visible={error}
+        visible={true}
         message={authData?.error?.message}
         timeout={3000}
       />

@@ -6,7 +6,7 @@ import Styles from './styles';
 import { useSelector} from 'react-redux';
 import Colors from '@styles/Colors';
 
-const PinInput = ({ value, error, onChangeText, pinLength = 6, ...props }) => {
+const PinInput = ({ value, error, onChangeText, onSubmit,pinLength = 6, ...props }) => {
   const redux = useSelector(state => state);
   const appData = redux.user;
   const brandTheme = appData?.Theme?.colors;
@@ -22,6 +22,8 @@ const PinInput = ({ value, error, onChangeText, pinLength = 6, ...props }) => {
   const moveNext = (value, index) => {
     if (value && index < values.length - 1 && !values[index + 1].trim()) {
       refs[index + 1].focus();
+    }else{
+      onSubmit();
     }
   };
 
@@ -31,7 +33,7 @@ const PinInput = ({ value, error, onChangeText, pinLength = 6, ...props }) => {
     if (text.length) {
       moveNext(text, index);
     }
-    values[index] = text.length ? text : ' ';
+    values[index] = text.length ? text : '';
     onChangeText(values.join(''));
   };
 

@@ -17,9 +17,7 @@ const TransferCryptoCurrency = ({ navigation }) => {
   const redux = useSelector(state => state);
   const referenceCode = useValidatedInput('referenceCode', '');
 
-  useEffect(() => {
-    console.log('redux', redux)
-  }, [])
+
 
 
   return (

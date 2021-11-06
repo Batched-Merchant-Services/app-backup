@@ -28,9 +28,6 @@ const ReferralCode = ({ navigation }) => {
   const [statusBar, setStatusBar] = useState(0);
   const isValid = isFormValid(referenceCode);
 
-  useEffect(() => {
-    console.log('redux', redux)
-  }, [])
 
   const { colors } = useTheme();
   const isDarkMode = useColorScheme() === 'dark';

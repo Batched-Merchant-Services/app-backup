@@ -3195,6 +3195,11 @@
     "dom-serializer" "0"
     "domelementtype" "1"
 
+"dotenv@^10.0.0":
+  "integrity" "sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q=="
+  "resolved" "https://registry.npmjs.org/dotenv/-/dotenv-10.0.0.tgz"
+  "version" "10.0.0"
+
 "ee-first@1.1.1":
   "integrity" "sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0="
   "resolved" "https://registry.npmjs.org/ee-first/-/ee-first-1.1.1.tgz"
@@ -4985,6 +4990,11 @@
     "ws" "^7.4.6"
     "xml-name-validator" "^3.0.0"
 
+"jsencrypt@^3.2.1":
+  "integrity" "sha512-k1sD5QV0KPn+D8uG9AdGzTQuamt82QZ3A3l6f7TRwMU6Oi2Vg0BsL+wZIQBONcraO1pc78ExMdvmBBJ8WhNYUA=="
+  "resolved" "https://registry.npmjs.org/jsencrypt/-/jsencrypt-3.2.1.tgz"
+  "version" "3.2.1"
+
 "jsesc@^2.5.1":
   "integrity" "sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA=="
   "resolved" "https://registry.npmjs.org/jsesc/-/jsesc-2.5.2.tgz"
@@ -6403,6 +6413,13 @@
   dependencies:
     "invariant" "^2.2.4"
 
+"react-native-dotenv@^2.6.2":
+  "integrity" "sha512-yGVEYjhXTpHFEpeaJS6qdnI1TyFFHj3E2k9X3HgkIsOh7c86t+JkBRfHP7zeOOyquE5ewN7+OcLEARgkFhDuRA=="
+  "resolved" "https://registry.npmjs.org/react-native-dotenv/-/react-native-dotenv-2.6.2.tgz"
+  "version" "2.6.2"
+  dependencies:
+    "dotenv" "^10.0.0"
+
 "react-native-gesture-handler@*", "react-native-gesture-handler@^1.10.3", "react-native-gesture-handler@>= 1.0.0":
   "integrity" "sha512-cBGMi1IEsIVMgoox4RvMx7V2r6bNKw0uR1Mu1o7NbuHS6BRSVLq0dP34l2ecnPlC+jpWd3le6Yg1nrdCjby2Mw=="
   "resolved" "https://registry.npmjs.org/react-native-gesture-handler/-/react-native-gesture-handler-1.10.3.tgz"
@@ -6446,10 +6463,10 @@
     "prop-types" "^15.7.2"
     "qrcode" "^1.4.4"
 
-"react-native-reanimated@^2.2.1", "react-native-reanimated@>= 1.0.0":
-  "integrity" "sha512-uyAlqFZCcriL3hPXq5zJ4KqAjxBoeinYoJogTIpwlEhmYfsP6oRNktq3PyYCu6/Dj5dXp7MXUcZInXyVSi/c9Q=="
-  "resolved" "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-2.2.1.tgz"
-  "version" "2.2.1"
+"react-native-reanimated@^2.2.3", "react-native-reanimated@>= 1.0.0":
+  "integrity" "sha512-d+BV39Jp4Om0ZkgVjop672/004ytlTfDT01EloO3HFZs9wR2QTuCjekq8yi3xl0G2xGZKd4DXhvqabIa7OnMYA=="
+  "resolved" "https://registry.npmjs.org/react-native-reanimated/-/react-native-reanimated-2.2.3.tgz"
+  "version" "2.2.3"
   dependencies:
     "@babel/plugin-transform-object-assign" "^7.10.4"
     "fbjs" "^3.0.0"

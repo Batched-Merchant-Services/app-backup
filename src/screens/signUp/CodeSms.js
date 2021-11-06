@@ -6,38 +6,61 @@ import {
   Text,
   View,
   Divider,
+  SnackNotice,
   ButtonRounded,
   FloatingInput,
   StepIndicator,
   BackgroundWrapper
 } from '@components';
 import StepButton from './components/StepsButton';
-import { useQuery } from '@apollo/client';
-import { FETCH_TODOS } from '@utils/api/queries/example';
 import Logo from '@assets/brandBatched/logo.svg';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import i18n from '@utils/i18n';
 
+//actions
+import { toggleSnackbarClose } from '@store/actions/app.actions';
+import { cleanErrorRegister} from '@store/actions/register.actions';
+import Loading from '../Loading';
+import LocalStorage from '@utils/localStorage';
+import { validateSMS } from '../../store/actions/register.actions';
+
+
 const CodeSms = ({ navigation, navigation: { goBack } }) => {
+  const dispatch = useDispatch();
   const redux = useSelector(state => state);
+  const registerData = redux?.register;
   const codeSms = useValidatedInput('sms', '');
+  const [snackVisible, setSnackVisible] = useState(false);
   const isValid = isFormValid(codeSms);
+  
 
   useEffect(() => {
-    console.log('redux', redux)
-  }, [])
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanErrorRegister());
+      dispatch(toggleSnackbarClose());
+    });
+    return unsubscribe;
+
+  }, []);
+
+  const error = useSelector(state => state?.register?.showError);
 
 
-  const { data, error, loading } = useQuery(FETCH_TODOS);
-  //console.log('data', data, error, loading)
-
-  if (error) {
-    console.error(error);
+  async function handleConfirmSMS() {
+    await LocalStorage.set('auth_token', codeSms?.value);
+    dispatch(validateSMS({codeSms}));
   }
 
-  // if (loading) {
-  //   console.log('loading');
-  // }
+  if (registerData?.isLoading) {
+    return <Loading />;
+  }
+
+  if (registerData?.finishSmsSuccess) {
+    // navigation.navigate("RegisterProfileBasic")
+    navigation.navigate("CreateNewPassword")
+  }
+
+  console.log('codesms', registerData)
 
 
 
@@ -81,7 +104,7 @@ const CodeSms = ({ navigation, navigation: { goBack } }) => {
         </ButtonRounded>
         <Divider width-10 />
           <ButtonRounded
-            onPress={() => navigation.navigate("RegisterProfileBasic")}
+            onPress={handleConfirmSMS}
             disabled={!isValid}
             blue
             size='sm'
@@ -91,6 +114,11 @@ const CodeSms = ({ navigation, navigation: { goBack } }) => {
             </Text>
           </ButtonRounded>
       </View>
+      <SnackNotice
+        visible={error}
+        message={registerData?.error?.message}
+        timeout={3000}
+      />
     </BackgroundWrapper>
   );
 }

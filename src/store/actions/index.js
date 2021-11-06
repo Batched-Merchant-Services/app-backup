@@ -1,5 +1,5 @@
 import {FETCHING_DATA, FETCHING_DATA_SUCCESS, FETCHING_DATA_FAILURE, FETCHING_DATA_PEOPLE_SUCCESS,LOGIN,LOGIN_ERROR,LOGIN_SUCCESS} from '../constants'
-import { LOGIN_QUERY } from '@utils/api/queries/auth';
+import { LOGIN_QUERY } from '@utils/api/queries/auth.queries';
 import {fetchSchedule, fetchPeople} from '../api'
 import { useQuery } from '@apollo/client';
 

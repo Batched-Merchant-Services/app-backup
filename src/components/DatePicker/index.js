@@ -37,10 +37,8 @@ const DatePicker = ({ error, label, value, onSelect, languages, onFill, ...props
     onSelect(currentDate);
   };
   const handleClose = () => {
-    console.log('close')
     setShowModalDates(!showModalDates);
     if (!valueData&&showModalDates) {
-      console.log('!valueData&&showModalDates',!valueData&&showModalDates)
       onSelect({name:'select',value:''});
     }
   };

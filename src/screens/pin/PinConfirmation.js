@@ -4,35 +4,64 @@ import {
   View,
   Text,
   Divider,
-  ImageResize
+  ImageResize,
+  SnackNotice
 } from '@components';
 import ReactNativePinView from "react-native-pin-view"
 import i18n from '@utils/i18n';
 //Redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 //Styles
 import { scale, verticalScale } from 'react-native-size-matters';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import LocalStorage from '@utils/localStorage';
 import Colors from '@styles/Colors';
 import Styles from './styles'
 //Images
 import Back from '@assets/icons/backBlue.png';
 
+//actions
+import { toggleSnackbarClose,toggleSnackbarOpen } from '@store/actions/app.actions';
+import { cleanErrorRegister, setPassword,setRegister } from '@store/actions/register.actions';
+import Loading from '../Loading';
+
+
 
 const PinConfirmation = ({ navigation, navigation: { goBack }, route }) => {
-  const page = route?.params?.page;
-  const newPinPage = page === 'newPin' ? true : false;
-  console.log('navigation', route)
+  const dispatch = useDispatch();
   const redux = useSelector(state => state);
+  const registerData = redux?.register;
   const userData = redux?.user;
   const brandTheme = userData?.Theme?.colors;
 
+  const page = route?.params?.page;
+  const newPinPage = page === 'newPin' ? true : false;
+  const [snackVisible, setSnackVisible] = useState(false);
+
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanErrorRegister());
+      dispatch(toggleSnackbarClose());
+    });
+    return unsubscribe;
+
+  }, []);
+
+  const error = useSelector(state => state?.register?.showError);
+
+
   const onComplete = async (inputtedPin, clear) => {
-    const PinConfirm = inputtedPin;
     if (page === 'newPin') {
-      navigation.navigate('SignOut', {
-        screen: 'TermConditions'
-      });
+      const PinConfirm = await LocalStorage.get('pinConfirmation');
+      if(inputtedPin !== PinConfirm){
+        clear();
+        dispatch(toggleSnackbarOpen('pin wrong'));
+        setSnackVisible(true);
+      }else{
+        setPin(PinConfirm);
+        setSnackVisible(false);
+      }
     } else if (page === 'forgotPassword') {
       navigation.navigate('SignOut', {
         screen: 'NewPassword'
@@ -47,10 +76,24 @@ const PinConfirmation = ({ navigation, navigation: { goBack }, route }) => {
         screen: 'Login'
       });
     }
-
-
   };
-  const isDarkMode = useColorScheme() === 'dark';
+
+  async function setPin(pinConfirm) {
+    const password = await LocalStorage.get('password');
+    console.log('password',password);
+    dispatch(setPassword({ pinConfirm, password }));
+    
+  }
+
+  if (registerData?.isLoading) {
+    return <Loading />;
+  }
+
+  if (registerData?.finishSetPasswordSuccess) {
+    navigation.navigate('SignOut', {
+      screen: 'TermConditions'
+    });
+  }
 
   return (
     <SafeAreaView style={[Styles.AndroidSafeArea, { backgroundColor: Colors.blue01 }]}>
@@ -97,6 +140,11 @@ const PinConfirmation = ({ navigation, navigation: { goBack }, route }) => {
         // pinLength={6} // You can also use like that.
         />
       </View>
+      <SnackNotice
+        visible={snackVisible?snackVisible:error}
+        message={registerData?.error?.message}
+        timeout={3000}
+      />
     </SafeAreaView>
 
 

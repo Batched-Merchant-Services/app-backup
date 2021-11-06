@@ -9,3 +9,13 @@ query ($user:String!,$password:String!, $id: String!, $languaje: Int!, $groupid:
     locked
   }
 }`;
+
+export const LOGOUT = gql`
+  query($token:String!){
+    getLogout(token:$token){
+      token
+      uuid
+      timeOut
+      locked
+    }
+  }`;

@@ -27,10 +27,7 @@ const SelectTypeLicense = ({ navigation }) => {
     changeHandlerSelect: 'onSelect'
   });
 
-  useEffect(() => {
-    console.log('redux', redux)
-  }, [])
-
+  
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>

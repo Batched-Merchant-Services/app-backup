@@ -35,23 +35,6 @@ const SecretAnswer = ({ navigation, navigation: { goBack } }) => {
   const isValid = isFormValid(answer,secretAnswers,secretAnswerConfirm);
 
 
-  useEffect(() => {
-    console.log('redux', redux)
-  }, [])
-
-
-  const { data, error, loading } = useQuery(FETCH_TODOS);
-  //console.log('data', data, error, loading)
-
-  if (error) {
-    console.error(error);
-  }
-
-  // if (loading) {
-  //   console.log('loading');
-  // }
-
-
 
   return (
     <BackgroundWrapper>

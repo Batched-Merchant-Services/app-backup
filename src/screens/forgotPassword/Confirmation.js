@@ -21,10 +21,6 @@ const Confirmation = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
   const referenceCode = useValidatedInput('sms', '');
 
-  useEffect(() => {
-    console.log('redux', redux)
-  }, [])
-
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
       <Divider height-10 />

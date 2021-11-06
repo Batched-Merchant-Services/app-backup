@@ -3,27 +3,76 @@ import {
   Text,
   View,
   Divider,
+  SnackNotice,
   FloatingInput,
   ButtonRounded,
   BackgroundWrapper
 } from '@components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import { scale, verticalScale } from 'react-native-size-matters';
 import Logo from '@assets/brandBatched/logo.svg';
 import i18n from '@utils/i18n';
 import Styles from './styles'
 
+//actions
+import { toggleSnackbarClose,toggleSnackbarOpen } from '@store/actions/app.actions';
+import { cleanErrorForgot, getForgotPassword,setRegister } from '@store/actions/forgotPassword.actions';
+import Loading from '../Loading';
+import { generateRSA } from '@utils/api/encrypt';
+
 const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
+  const dispatch = useDispatch();
   const redux = useSelector(state => state);
+  const forgotData = redux?.forgotPassword;
+  const userData = redux?.user;
   const email = useValidatedInput('email', '');
   const referenceCode = useValidatedInput('sms', '');
   const isValid = isFormValid(email,referenceCode);
 
   useEffect(() => {
-    console.log('redux', redux)
-  }, [])
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanErrorForgot());
+      dispatch(toggleSnackbarClose());
+    });
+    return unsubscribe;
 
+  }, []);
+
+  const error = useSelector(state => state?.forgotPassword?.showError);
+ 
+  
+  function handleForgotPassword() {
+    let setPassword = {
+      token,
+      password,
+      confirmPassword
+    }
+  }
+  function handleSendCode() {
+    let dataRecovery = {
+      email:email?.value,
+      phone:'5546639732',
+      type: 2,
+      question: {
+        value: 1,
+        description: generateRSA('Invalid')
+      }
+    }
+    dispatch(getForgotPassword({ dataRecovery }));
+    
+  }
+
+
+  if (forgotData?.isLoadingForgot) {
+    return <Loading />;
+  }
+
+  if (forgotData?.finishForgotSuccess) {
+    navigation.navigate("PinConfirmation",{
+      page:'forgotPassword'
+    })
+  }
 
   return (
     <BackgroundWrapper navigation={navigation}>
@@ -42,7 +91,7 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
       />
       <Divider height-10 />
       <ButtonRounded
-        onPress={() => goBack()}
+        onPress={handleSendCode}
         disabled={false}
         dark
       >
@@ -73,7 +122,7 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
         </ButtonRounded>
         <Divider width-10 />
           <ButtonRounded
-            onPress={() => navigation.navigate("PinConfirmation",{page:'forgotPassword'})}
+            onPress={handleForgotPassword}
             disabled={!isValid}
             blue
             size='sm'
@@ -83,7 +132,11 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
             </Text>
           </ButtonRounded>
       </View>
-      
+      <SnackNotice
+        visible={error}
+        message={forgotData?.error?.message}
+        timeout={3000}
+      />
     </BackgroundWrapper>
 
   );

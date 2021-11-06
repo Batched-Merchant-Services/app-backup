@@ -31,7 +31,6 @@ function applyMiddlewares(...middlewares) {
   const REDUX_STORE_KEY = 'redux-state';
 
   const [error, state] = await to(localStorage.get(REDUX_STORE_KEY));
-  console.log('stateeee',state);
   const initialState = state ? JSON.parse(state) : {};
 
     
@@ -43,7 +42,6 @@ function applyMiddlewares(...middlewares) {
     
       store.subscribe(
         async () =>{
-        console.log('store subscribe',store.getState(),REDUX_STORE_KEY)
           await to(
             localStorage.set(REDUX_STORE_KEY, JSON.stringify(store.getState()))
           )}
@@ -53,28 +51,4 @@ function applyMiddlewares(...middlewares) {
   return store;
   }
 
-
-//  store.subscribe(() => {
-//       console.log(store);
-//   });
-
  export default configureStore;
-
-//  export default async function configureStore(rootReducer) {
-//   const [error, state] = await localStorage.get('REDUX_STORE_KEY');
-//   console.log('state',state);
-//  const initialState = state ? JSON.parse(state) : {};
-
-//  const store = createStore(
-//    rootReducer, 
-//    initialState, 
-//    applyMiddlewares(thunkMiddleware)
-//   )
-
-//  store.subscribe(() => {
-//     async () =>
-//       await localStorage.set('REDUX_STORE_KEY', JSON.stringify(store.getState()))
-//   });
-
-//  return store;
-// }

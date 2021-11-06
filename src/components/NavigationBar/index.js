@@ -13,7 +13,6 @@ import Back from '@assets/icons/backBlue.png';
 
 const RenderLeftBack = ({ navigation,onPressLeft, Style, brandTheme, left,menu }) => {
 
-  console.log('left',left)
   function handleBack() {
     navigation.goBack();
   }

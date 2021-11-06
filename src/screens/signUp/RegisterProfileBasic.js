@@ -1,59 +1,104 @@
 import React, { useEffect, useState } from 'react';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
-import { TouchableOpacity } from 'react-native';
 import { scale, verticalScale } from 'react-native-size-matters';
 import {
   Text,
   View,
   Divider,
   DatePicker,
+  SnackNotice,
   ButtonRounded,
   FloatingInput,
   DropDownPicker,
   BackgroundWrapper
 } from '@components';
-import { useQuery } from '@apollo/client';
-import { FETCH_TODOS } from '@utils/api/queries/example';
+
 import Logo from '@assets/brandBatched/logo.svg';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import StepIndicator from '../../components/StepIndicator';
 import Styles from './styles';
 import i18n from '@utils/i18n';
 
+//actions
+import { toggleSnackbarClose } from '@store/actions/app.actions';
+import { cleanErrorRegister,getGender,registerProfile} from '@store/actions/register.actions';
+import Loading from '../Loading';
+
+
+
 const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
+  const dispatch = useDispatch();
   const redux = useSelector(state => state);
+  const registerData = redux?.register;
   const firstName = useValidatedInput('firstName', '');
   const mediumName = useValidatedInput('', '');
   const lastName = useValidatedInput('lastName', '');
   const ssn = useValidatedInput('ssn', '');
   const [showModalDates, setShowModalDates] = useState(false);
-  const [items, setItems] = useState([
-    { id: '1', value: 'value1', name: 'value1' },
-    { id: '2', value: 'value2', name: 'value2' }
-  ]);
+  const [items, setItems] = useState([]);
   const gender = useValidatedInput('select','',{
     changeHandlerSelect: 'onSelect'
   });
   const birthDay = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
-
   const isValid = isFormValid(firstName, mediumName, lastName, ssn,gender,birthDay);
 
 
   useEffect(() => {
-    console.log('redux', redux)
-  }, [])
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanErrorRegister());
+      dispatch(toggleSnackbarClose());
+      dispatch(getGender());
+      getShowGender();
+    });
+    return unsubscribe;
 
-
-  const { data, error, loading } = useQuery(FETCH_TODOS);
-  //console.log('data', data, error, loading)
-
-  if (error) {
-    console.error(error);
+  }, []);
+  
+  async function getShowGender() {
+    console.log('registerData?.gender',registerData?.gender)
+    setItems(registerData?.gender)
   }
 
- console.log('gender',gender)
+
+  const error = useSelector(state => state?.register?.showError);
+
+  if (registerData?.isLoading) {
+    return <Loading />;
+  }
+
+  if (registerData?.finishSuccess) {
+    //navigation.navigate("NewPin")
+    navigation.navigate("CreateNewPassword");
+    
+  }
+
+  console.log('registerData', registerData?.isLoading,registerData?.showError)
+
+  async function handleRegisterProfile(){
+    console.log('birthDay',birthDay)
+    const term = true;
+    const dataRegisterProf = {
+      firstName:firstName?.value,
+      middleName:mediumName?.value,
+      lastName:lastName?.value,
+      secondLastName:'',
+      birthday:birthDay?.value,
+      nationality:'',
+      currency: '',
+      term: term,
+      gender: gender?.value?.value?.toString(),
+      nationalId:'',
+      otherNationalId: '',
+      settings: null,
+      securityQuestion:null
+    }
+    dispatch(registerProfile({ dataRegisterProf,term }))
+
+  }
+
+
 
   return (
     <BackgroundWrapper navigation={navigation}>
@@ -121,7 +166,7 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
         </ButtonRounded>
         <Divider width-10 />
         <ButtonRounded
-          onPress={() => navigation.navigate("CreateNewPassword")}
+          onPress={handleRegisterProfile}
           disabled={!isValid}
           blue
           size='sm'
@@ -131,6 +176,11 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
           </Text>
         </ButtonRounded>
       </View>
+      <SnackNotice
+        visible={error}
+        message={registerData?.error?.message}
+        timeout={3000}
+      />
     </BackgroundWrapper>
   );
 }

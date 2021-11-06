@@ -21,7 +21,7 @@ const StepButton = ({ navigation }) => {
     navigation.navigate("Login");
   }
   function handleRegisterActiveButton() {
-    navigation.navigate("Register");
+    navigation.navigate("LoginCode");
   }
  
   return (

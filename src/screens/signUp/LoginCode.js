@@ -7,13 +7,12 @@ import {
   Link,
   Divider,
   PinInput,
+  SnackNotice,
   ImageResize,
   BackgroundWrapper
 } from '@components';
-import { useQuery } from '@apollo/client';
-import { FETCH_TODOS } from '@utils/api/queries/example';
 
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 //Styles
 import Styles from './styles';
@@ -21,46 +20,46 @@ import Colors from '@styles/Colors';
 import { scale, verticalScale } from 'react-native-size-matters';
 //Images
 import Back from '@assets/icons/backBlue.png';
-import codeInvalid from '@assets/icons/codeInvalid.png';
 import i18n from '@utils/i18n';
+import { getCodeReference,cleanErrorRegister } from '@store/actions/register.actions';
+import { toggleSnackbarClose } from '@store/actions/app.actions';
+import Loading from '../Loading';
 
 const LoginCode = ({ navigation, navigation: { goBack } }) => {
+  const dispatch = useDispatch();
   const redux = useSelector(state => state);
-  const codeSms = useValidatedInput('sms', '');
+  const registerData = redux?.register;
   const pinCode = useValidatedInput('pinCode', '');
-  const [codeValid, setCodeValid] = useState(false);
-  var isValid = isFormValid(pinCode);
+  const [codeInValid, setCodeInValid] = useState(false);
+
+  const error = useSelector(state => state?.register?.showError);
 
   useEffect(() => {
-    console.log('redux', redux)
-  }, [])
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanErrorRegister());
+      dispatch(toggleSnackbarClose());
+    });
+    return unsubscribe;
+  }, []);
 
-  if(isValid ){
-    console.log('isValid',isValid,codeValid);
-    if ( !codeValid) {
-      getInfo();
-    }
-  }else if (!codeValid & !isValid) {
-    //setDontSnac();
-  } 
 
   function getInfo() {
-    const Code = pinCode.value;
-    setCodeValid(true);
+    const reference = pinCode?.value;
+    setCodeInValid(true);
+    dispatch(getCodeReference({ reference }));
      
   }
 
 
-  const { data, error, loading } = useQuery(FETCH_TODOS);
-  //console.log('data', data, error, loading)
-
-  if (error) {
-    console.error(error);
+  if (registerData?.isLoading) {
+    return <Loading modalVisible={registerData?.isLoading}/>;
   }
 
-  // if (loading) {
-  //   console.log('loading');
-  // }
+  if (registerData?.finishValidateCodeSuccess) {
+    navigation.navigate('SignOut', {
+      screen: 'Register'
+    });
+  }
 
 
   return (
@@ -91,12 +90,11 @@ const LoginCode = ({ navigation, navigation: { goBack } }) => {
           <Text h12 white light center>{i18n.t('Register.textEnterYourCompanyCode')}</Text>
           <Divider height-50 />
           <View centerV>
-            <PinInput {...pinCode}/>
+            <PinInput {...pinCode} onSubmit={getInfo}/>
             <Divider height-30 />
-            {codeValid &&(
+            {codeInValid &&(
               <View centerH centerV>
                 <Animated.Image
-                  style={[Styles.shoe]}
                   source={require("@assets/icons/codeInvalid.png")}
                 />
                 <Divider height-10 />
@@ -117,6 +115,11 @@ const LoginCode = ({ navigation, navigation: { goBack } }) => {
         </Link>
         <Divider height-30 />
       </View>
+      <SnackNotice
+        visible={error}
+        message={registerData?.error?.message}
+        timeout={3000}
+      />
     </BackgroundWrapper>
   );
 }
