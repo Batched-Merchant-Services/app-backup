@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import { scale, verticalScale } from 'react-native-size-matters';
 import {
@@ -28,10 +28,13 @@ const Register = ({ navigation }) => {
   const registerData = redux?.register;
   const email = useValidatedInput('email', '');
   const phone = useValidatedInput('phone', '');
+  const companyCode = useValidatedInput('companyCode', '');
   const [items, setItems] = useState([]);
   const country = useValidatedInput('select', '', {
     changeHandlerSelect: 'onSelect'
   });
+  const [showCompanyCode, setShowCompanyCode] = useState(false);
+  
   
   const isValid = isFormValid(email, phone, country);
 
@@ -50,6 +53,7 @@ const Register = ({ navigation }) => {
   }, []);
 
   function getShowCountries() {
+    console.log('registerData',registerData.countries)
     setItems(registerData?.countries)
   }
 
@@ -72,7 +76,7 @@ const Register = ({ navigation }) => {
     navigation.navigate("CodeSms")
   }
 
-  console.log('register', registerData)
+
 
   return (
     <BackgroundWrapper navigation={navigation}>
@@ -88,8 +92,17 @@ const Register = ({ navigation }) => {
       <StepButton navigation={navigation} />
       <Divider height-15 />
       <Text h18 blue02>{i18n.t('Register.textWelcomeTo')}</Text>
-      <Divider height-25 />
-      <Divider height-5 />
+      <Divider height-30 />
+      {showCompanyCode&&(
+        <Fragment>
+          <FloatingInput
+            {...companyCode}
+            label={i18n.t('Register.textCompanyCode')}
+            autoCapitalize={'none'}
+          />
+          <Divider height-5 />
+        </Fragment>
+      )}
       <FloatingInput
         {...email}
         label={i18n.t('Register.textInputEmail')}
@@ -99,7 +112,7 @@ const Register = ({ navigation }) => {
       <DropDownPicker
         {...country}
         label={i18n.t('Register.textDropDown')}
-        options={items}
+        options={registerData?.countries??[]}
         size='lg'
       //onFill={(code)=> filterPays(code)}
       />

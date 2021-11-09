@@ -3,9 +3,11 @@ import {
   FORGOT_YOUR_PASSWORD_SUCCESS,
   FORGOT_ERROR,
   CLEAN_ERROR_FORGOT,
+  CONFIRM_PASSWORD,
+  CONFIRM_PASSWORD_SUCCESS
 } from '../constants';
 
-import { SET_FORGOT_PASSWORD } from '@utils/api/queries/forgotPassword.query';
+import { SET_FORGOT_PASSWORD,SET_CONFIRM_PASSWORD } from '@utils/api/queries/forgotPassword.query';
 import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
 import DeviceInfo from 'react-native-device-info';
@@ -21,10 +23,9 @@ export const getForgotPassword = ({dataRecovery }) => async (dispatch) => {
       variables: dataRecovery
     }).then(async (response) => {
       if (response.data) {
-        dispatch({ type: FORGOT_YOUR_PASSWORD_SUCCESS, payload: response?.data?.getLoggin });
+        dispatch({ type: FORGOT_YOUR_PASSWORD_SUCCESS, payload: response?.data });
       }
     }).catch((error) => {
-
       dispatch({ type: FORGOT_ERROR, payload: error });
     })
   } catch (error) {
@@ -33,18 +34,18 @@ export const getForgotPassword = ({dataRecovery }) => async (dispatch) => {
 };
 
 
-export const setForgotPassword = ({dataRecovery }) => async (dispatch) => {
+
+export const confirmForgotPassword = ({dataConfirm }) => async (dispatch) => {
   try {
-    dispatch({ type: FORGOT_YOUR_PASSWORD });
+    dispatch({ type: CONFIRM_PASSWORD });
     client.mutate({
-      mutation: SET_FORGOT_PASSWORD,
-      variables: dataRecovery
+      mutation: SET_CONFIRM_PASSWORD,
+      variables: dataConfirm
     }).then(async (response) => {
       if (response.data) {
-        dispatch({ type: FORGOT_YOUR_PASSWORD_SUCCESS, payload: response?.data?.getLoggin });
+        dispatch({ type: CONFIRM_PASSWORD_SUCCESS, payload: response?.data});
       }
     }).catch((error) => {
-
       dispatch({ type: FORGOT_ERROR, payload: error });
     })
   } catch (error) {

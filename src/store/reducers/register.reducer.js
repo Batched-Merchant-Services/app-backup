@@ -40,7 +40,6 @@ export const initialState = {
 };
 
 export default registerReducer = (state = initialState, action) => {
-  console.log('action', action, state);
   switch (action.type) {
 
     case VALIDATE_CODE:

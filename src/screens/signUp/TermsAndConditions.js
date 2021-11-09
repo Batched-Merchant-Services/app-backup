@@ -68,9 +68,10 @@ const TermAndConditions = ({ navigation, navigation: { goBack } }) => {
     <BackgroundWrapper>
       <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
       <Divider height-15 />
-      <Text h16 blue02>{i18n.t('Register.textJustOneMoreStep')}</Text>
+      <Text h16 blue02>Privacy agreement</Text>
+      <Text></Text>
       <Divider height-25 />
-      <Checkbox {...privacy} label='I agree with the Privacy Notice.*' />
+      {/* <Checkbox {...privacy} label='I agree with the Privacy Notice.*' />
       <Divider height-10 />
       <Checkbox {...term} label='I agree with the Terms and Conditions.*' />
       <Divider height-10 />
@@ -80,7 +81,7 @@ const TermAndConditions = ({ navigation, navigation: { goBack } }) => {
       <Divider height-20 />
       <Text h12 white light>{i18n.t('General.textRequiredFields')}</Text>
       <Divider height-20 />
-      <View flex-1 bottom>
+      <View flex-1 bottom> */}
         <ButtonRounded
             onPress={() => navigation.navigate("RegisterProfileBasic")}
             disabled={valid()}
@@ -90,7 +91,6 @@ const TermAndConditions = ({ navigation, navigation: { goBack } }) => {
               {i18n.t('General.buttonNext')}
             </Text>
         </ButtonRounded>
-      </View>  
     </BackgroundWrapper>
   );
 }

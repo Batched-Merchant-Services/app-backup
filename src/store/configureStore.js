@@ -1,4 +1,4 @@
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, createStore,compose } from 'redux';
 import promiseMiddleware from 'redux-promise-middleware';
 import thunkMiddleware from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
@@ -33,11 +33,18 @@ function applyMiddlewares(...middlewares) {
   const [error, state] = await to(localStorage.get(REDUX_STORE_KEY));
   const initialState = state ? JSON.parse(state) : {};
 
-    
+  error && console.log('Error loading redux state', error);
+
+ 
+  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
   const store = createStore(
        rootReducer, 
        initialState, 
-       applyMiddlewares(thunkMiddleware, promiseMiddleware)
+       composeEnhancers(
+        applyMiddleware(thunkMiddleware, promiseMiddleware)
+      )
+       //applyMiddlewares(thunkMiddleware, promiseMiddleware)
       )
     
       store.subscribe(

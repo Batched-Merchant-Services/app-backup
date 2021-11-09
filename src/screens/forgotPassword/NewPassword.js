@@ -3,32 +3,68 @@ import {
   Text,
   View,
   Divider,
+  SnackNotice,
   FloatingInput,
   ButtonRounded,
   BackgroundWrapper
 } from '@components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import { scale, verticalScale } from 'react-native-size-matters';
 import Logo from '@assets/brandBatched/logo.svg';
 import i18n from '@utils/i18n';
 import Styles from './styles'
 
-const NewPassword = ({ navigation, navigation: { goBack } }) => {
+//actions
+import { toggleSnackbarClose,toggleSnackbarOpen } from '@store/actions/app.actions';
+import { cleanErrorForgot, confirmForgotPassword } from '@store/actions/forgotPassword.actions';
+import Loading from '../Loading';
+import { generateRSA } from '@utils/api/encrypt';
+
+
+
+const NewPassword = ({ navigation, navigation: { goBack },route }) => {
+  const dispatch = useDispatch();
   const redux = useSelector(state => state);
+  const forgotData = redux?.forgotPassword;
+  const userData = redux?.user;
+  const code = route?.params?.code;
   const password = useValidatedInput('password', '');
   const confirmPassword = useValidatedInput('confirmPassword', '', {
     validationParams: [password.value]
   });
   const isValid = isFormValid(password, confirmPassword);
+  console.log('code',code,route);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanErrorForgot());
+      dispatch(toggleSnackbarClose());
+    });
+    return unsubscribe;
+
+  }, []);
+
+  const error = useSelector(state => state?.forgotPassword?.showError);
+ 
+
+  if (forgotData?.isLoadingForgot) {
+    return <Loading />;
+  }
+
+  if (forgotData?.finishForgotSuccess) {
+    navigation.navigate("ConfirmationForgot");
+  }
+
+
 
   function handleSetPassword() {
-    let setPassword = {
-      token,
-      password,
-      confirmPassword
+    let dataConfirm = {
+      token:code,
+      password:generateRSA(password?.value),
+      confirmPassword:generateRSA(confirmPassword?.value)
     }
-    navigation.navigate("ConfirmationForgot")
+    dispatch(confirmForgotPassword({dataConfirm}));
+   
   }
 
   return (
@@ -58,17 +94,32 @@ const NewPassword = ({ navigation, navigation: { goBack } }) => {
       <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
       <View flex-1 row bottom >
         <ButtonRounded
-          onPress={handleSetPassword}
-          disabled={!isValid}
-          blue
-          size='lg'
+          onPress={() => goBack()}
+          disabled={false}
+          dark
+          size='sm'
         >
-          <Text h14 semibold white>
-            {i18n.t('General.buttonSave')}
+          <Text h14 semibold blue02>
+            {i18n.t('General.buttonBack')}
           </Text>
         </ButtonRounded>
+        <Divider width-10 />
+          <ButtonRounded
+            onPress={handleSetPassword}
+            disabled={!isValid}
+            blue
+            size='sm'
+          >
+            <Text h14 semibold>
+            {i18n.t('General.buttonSave')}
+            </Text>
+          </ButtonRounded>
       </View>
-
+      <SnackNotice
+        visible={error}
+        message={forgotData?.error?.message}
+        timeout={3000}
+      />
     </BackgroundWrapper>
 
 

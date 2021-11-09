@@ -9,44 +9,62 @@ import {
 
 export const initialState = {
   isLoadingForgot: false,
-  finishForgotSuccess:false,
-  showError:false,
+  sendMessage:false,
+  finishForgotSuccess: false,
+  showError: false,
   error: {},
   success: {},
 };
 
 export default authReducer = (state = initialState, action) => {
+  console.log('action forgot', action?.payload?.networkError);
   switch (action.type) {
     case FORGOT_YOUR_PASSWORD:
-      return { ...state, isLoadingForgot: true,  showError:false, };
+      return { ...state, isLoadingForgot: true, showError: false, };
 
     case FORGOT_YOUR_PASSWORD_SUCCESS:
       return {
         ...state,
-        isLoadingForgot:false,
-        finishForgotSuccess: true,
-        showError:false,
+        isLoadingForgot: false,
+        finishForgotSuccess: false,
+        sendMessage:true,
+        showError: false,
         error: {},
         success: {},
       };
+    case CONFIRM_PASSWORD:
+      return { ...state, isLoadingForgot: true, showError: false, };
+
+    case CONFIRM_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        isLoadingForgot: false,
+        finishForgotSuccess: true,
+        showError: false,
+        error: {},
+        success: {},
+      };
+
     case FORGOT_ERROR:
       return {
         ...state,
         isLoadingForgot: false,
+        finishForgotSuccess: false,
         isLoggedIn: false,
-        showError:true,
+        showError: true,
         error: action.payload,
         success: {},
       };
-      case CLEAN_ERROR_FORGOT:
+    case CLEAN_ERROR_FORGOT:
       return {
         ...state,
-        isLoadingForgot:false,
+        isLoadingForgot: false,
         finishForgotSuccess: false,
-        showError:false,
+        sendMessage:false,
+        showError: false,
         error: {},
       };
-      
+
 
     default:
       return state;

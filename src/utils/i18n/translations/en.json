@@ -37,7 +37,12 @@
       "textAllRightsReserved":"All rights reserved.",
       "textUulalaId":"Uulala ID",
       "textEmptySection":"Sorry, we don't have any information to show yet",
-      "buttonSaveChanges":"Save changes"
+      "buttonSaveChanges":"Save changes",
+      "errors": {
+        "textBadCredentials": "User or password error,Bad credentials",
+        "textUserNotActive": "User nor active, Please activate your account from the link sent to your E-mail",
+        "textUserNotFound": "User not Found,The user you are trying to access does not exist"
+      }
     },
     "Login":{
       "textAnIncredible":"An incredible investment proposal",
@@ -84,7 +89,8 @@
       "textYourProfileIn":"Your profile in Uulala will be linked to this company.",
       "textTheInformationRequested":"The information requested is intended to create a user profile and to offer you the best benefits tailored to your needs.",
       "textIDontHaveACode":"I don't have a code",
-      "textJustOneMoreStep":"Just one more step."
+      "textJustOneMoreStep":"Just one more step.",
+      "textCompanyCode":"Company code"
     },
     "ForgotPassword":{
       "textRecoverYourPassword":"Recover your password",
@@ -109,7 +115,10 @@
         "textIfYouWantToMake":"If you want to make adjustments such as change of confirmation PIN or change of secret answer, you can access your settings in the",
         "textMyProfile":"'My profile'",
         "textSectionFrom":"section from the side menu."
-
+      },
+      "snackNotice":{
+        "textTheCodeHasBeen":"The code has been sent to your email"
+        
       }
     },
     "Licenses":{

@@ -59,7 +59,7 @@ console.log('visible',visible)
           style={[styles.offlineContainer, { backgroundColor: Colors.error }]}
         >
           <View row>
-            <View  centerH paddingL-15 >
+            <View  centerH centerV paddingL-15 >
             <IconWarning width={scale(12)} height={verticalScale(12)}  fill={brandTheme?.white??Colors?.white} fillSecondary={brandTheme?.warning??Colors?.warning}/>
             </View>
             <View flex-1 paddingL-15 centerV>
@@ -69,7 +69,7 @@ console.log('visible',visible)
             </View>
             <Divider width-20 />
             <View
-              style={{ flex: 0.5, alignItems: 'flex-end' }}
+              style={{  alignItems: 'flex-end' }}
               centerV
               paddingR-15
             >

@@ -29,6 +29,7 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
   const email = useValidatedInput('email', '');
   const referenceCode = useValidatedInput('sms', '');
   const isValid = isFormValid(email,referenceCode);
+  const [snackVisible, setSnackVisible] = useState(false);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -43,36 +44,29 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
  
   
   function handleForgotPassword() {
-    let setPassword = {
-      token,
-      password,
-      confirmPassword
-    }
+    navigation.navigate("NewPassword",{ code: referenceCode?.value });
   }
   function handleSendCode() {
     let dataRecovery = {
       email:email?.value,
-      phone:'5546639732',
-      type: 2,
-      question: {
-        value: 1,
-        description: generateRSA('Invalid')
-      }
+      phone:'',
+      type: 2
     }
     dispatch(getForgotPassword({ dataRecovery }));
-    
+    setTimeout(() => {
+    if (forgotData?.sendMessage) {
+    dispatch(toggleSnackbarOpen(i18n.t('ForgotPassword.snackNotice.textTheCodeHasBeen')))
+    }
+    }, 2000);
   }
 
+  
 
   if (forgotData?.isLoadingForgot) {
     return <Loading />;
   }
 
-  if (forgotData?.finishForgotSuccess) {
-    navigation.navigate("PinConfirmation",{
-      page:'forgotPassword'
-    })
-  }
+
 
   return (
     <BackgroundWrapper navigation={navigation}>
@@ -133,7 +127,7 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
           </ButtonRounded>
       </View>
       <SnackNotice
-        visible={error}
+        visible={snackVisible?snackVisible:error}
         message={forgotData?.error?.message}
         timeout={3000}
       />

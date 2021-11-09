@@ -174,7 +174,7 @@ export const validateSMS = ({codeSms}) => async (dispatch) => {
 
 export const registerProfile = ({ dataRegisterProf,term }) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
-  console.log('data',dataRegisterProf);
+  console.log('data',token);
   try {
     dispatch({ type: REGISTER_PROFILE });
    

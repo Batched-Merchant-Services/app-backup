@@ -71,10 +71,7 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
   if (registerData?.finishSuccess) {
     //navigation.navigate("NewPin")
     navigation.navigate("CreateNewPassword");
-    
   }
-
-  console.log('registerData', registerData?.isLoading,registerData?.showError)
 
   async function handleRegisterProfile(){
     console.log('birthDay',birthDay)
@@ -141,7 +138,7 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
         <DropDownPicker
           {...gender}
           label={i18n.t('Register.inputGender')}
-          options={items}
+          options={registerData?.gender??[]}
         //onFill={(code)=> filterPays(code)}
         />
         <Divider height-5 />
