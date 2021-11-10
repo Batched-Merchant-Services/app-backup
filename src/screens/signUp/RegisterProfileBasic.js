@@ -57,10 +57,8 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
   }, []);
   
   async function getShowGender() {
-    console.log('registerData?.gender',registerData?.gender)
     setItems(registerData?.gender)
   }
-
 
   const error = useSelector(state => state?.register?.showError);
 
@@ -68,9 +66,8 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
     return <Loading />;
   }
 
-  if (registerData?.finishSuccess) {
-    //navigation.navigate("NewPin")
-    navigation.navigate("CreateNewPassword");
+  if (registerData?.finishRProfileSuccess) {
+    navigation.navigate("AccountConfirmation");
   }
 
   async function handleRegisterProfile(){

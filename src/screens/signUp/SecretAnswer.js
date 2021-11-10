@@ -12,8 +12,6 @@ import {
   BackgroundWrapper
 
 } from '@components';
-import { useQuery } from '@apollo/client';
-import { FETCH_TODOS } from '@utils/api/queries/example';
 import Logo from '@assets/brandBatched/logo.svg';
 import { useSelector } from 'react-redux';
 

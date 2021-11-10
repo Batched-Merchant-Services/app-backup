@@ -52,8 +52,8 @@ const Login = ({ navigation }) => {
   }
 
   if (authData?.isLoggedIn) {
-    navigation.navigate('DrawerScreen', {
-      screen: 'Dashboard'
+    navigation.navigate('SignOut', {
+      screen: 'ReferralCode'
     });
   }
   
@@ -97,7 +97,7 @@ const Login = ({ navigation }) => {
         </ButtonRounded>
       </View>
       <SnackNotice
-        visible={true}
+        visible={error}
         message={authData?.error?.message}
         timeout={3000}
       />

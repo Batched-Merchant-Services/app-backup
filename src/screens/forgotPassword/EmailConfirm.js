@@ -17,9 +17,9 @@ import Styles from './styles'
 
 //actions
 import { toggleSnackbarClose,toggleSnackbarOpen } from '@store/actions/app.actions';
-import { cleanErrorForgot, getForgotPassword,setRegister } from '@store/actions/forgotPassword.actions';
+import { cleanErrorForgot, getForgotPassword } from '@store/actions/forgotPassword.actions';
 import Loading from '../Loading';
-import { generateRSA } from '@utils/api/encrypt';
+
 
 const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
   const dispatch = useDispatch();

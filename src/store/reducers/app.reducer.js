@@ -6,10 +6,15 @@ import {
 } from '../constants';
 
 const initialState = {
+    loading: false,
     toggleSnackbar: false,
     snackbarMessage: null,
     getAppResources: null,
+    showError: false,
+    error: {},
+    success: {},
 }
+
 
 export default appReducer = (state = initialState, action) => {
     switch (action.type) {

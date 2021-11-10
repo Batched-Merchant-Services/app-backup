@@ -19,6 +19,7 @@ import {
 
 import { useTheme } from '@react-navigation/native';
 import  Colors  from '@styles/Colors';
+import { validateReference } from '@store/actions/licenses.actions';
 
 const ReferralCode = ({ navigation }) => {
 
@@ -28,14 +29,16 @@ const ReferralCode = ({ navigation }) => {
   const [statusBar, setStatusBar] = useState(0);
   const isValid = isFormValid(referenceCode);
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanError());
+      dispatch(toggleSnackbarClose());
+      dispatch(validateReference({referenceCode}));
+    });
+    return unsubscribe;
+  }, []);
 
-  const { colors } = useTheme();
-  const isDarkMode = useColorScheme() === 'dark';
 
-  const backgroundStyle = {
-    backgroundColor: colors.white,
-    flex: 1
-  };
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
       <Divider height-10 />

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useValidatedInput,isFormValid } from '@hooks/validation-hooks';
+import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import { scale, verticalScale } from 'react-native-size-matters';
 import {
   Text,
@@ -7,7 +7,7 @@ import {
   Link,
   Divider,
   Checkbox,
-  LinksTerms,
+  SnackNotice,
   ButtonRounded,
   BackgroundWrapper
 } from '@components';
@@ -20,9 +20,11 @@ import LocalStorage from '@utils/localStorage';
 import { useSelector, useDispatch } from 'react-redux';
 
 //actions
-import { toggleSnackbarClose,toggleSnackbarOpen } from '@store/actions/app.actions';
-import { cleanErrorRegister, setPassword,setRegister } from '@store/actions/register.actions';
+import { toggleSnackbarClose } from '@store/actions/app.actions';
+import { cleanErrorRegister } from '@store/actions/register.actions';
+import { showAppResources } from '@store/actions/app.actions';
 import Loading from '../Loading';
+
 
 
 const TermAndConditions = ({ navigation, navigation: { goBack } }) => {
@@ -30,6 +32,7 @@ const TermAndConditions = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
   const registerData = redux?.register;
   const userData = redux?.user;
+  const userApp = redux?.app;
   const brandTheme = userData?.Theme?.colors;
 
   const privacy = useValidatedInput(null, false, {
@@ -46,19 +49,24 @@ const TermAndConditions = ({ navigation, navigation: { goBack } }) => {
     changeHandlerSelect: 'onSelect'
   });
 
+  const error = useSelector(state => state?.app?.showError);
+
+
   const valid = () => {
-    if (privacy?.value && term?.value && privacy2?.value && term2?.value) {
+    if (privacy?.value && term?.value) {
       return false;
     }
     return true;
   }
- 
+
   useEffect(async () => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanErrorRegister());
       dispatch(toggleSnackbarClose());
       LocalStorage.remove('password');
       LocalStorage.remove('pinConfirmation');
+      dispatch(showAppResources());
+      console.log('getAppResources',userApp?.getAppResources)
     });
     return unsubscribe;
 
@@ -68,9 +76,10 @@ const TermAndConditions = ({ navigation, navigation: { goBack } }) => {
     <BackgroundWrapper>
       <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
       <Divider height-15 />
-      <Text h16 blue02>Privacy agreement</Text>
-      <Text></Text>
-      <Divider height-25 />
+      <Text h20 blue02>Privacy agreement</Text>
+      <Text h9 white>{userApp?.getAppResources?.privacyPolice}</Text>
+      <Divider height-10 />
+     
       {/* <Checkbox {...privacy} label='I agree with the Privacy Notice.*' />
       <Divider height-10 />
       <Checkbox {...term} label='I agree with the Terms and Conditions.*' />
@@ -82,15 +91,24 @@ const TermAndConditions = ({ navigation, navigation: { goBack } }) => {
       <Text h12 white light>{i18n.t('General.textRequiredFields')}</Text>
       <Divider height-20 />
       <View flex-1 bottom> */}
-        <ButtonRounded
-            onPress={() => navigation.navigate("RegisterProfileBasic")}
-            disabled={valid()}
-            blue
-          >
-            <Text h14 semibold>
-              {i18n.t('General.buttonNext')}
-            </Text>
-        </ButtonRounded>
+      <Text h20 blue02>Term and Conditions</Text>
+      <Text h9 white>{userApp?.getAppResources?.termsAndConditions}</Text>
+      <Checkbox {...privacy} label='I agree with the Privacy Notice.*' />
+      <Checkbox {...term} label='I agree with the Terms and Conditions.*' />
+      <ButtonRounded
+        onPress={() => navigation.navigate("RegisterProfileBasic")}
+        disabled={valid()}
+        blue
+      >
+        <Text h14 semibold>
+          {i18n.t('General.buttonNext')}
+        </Text>
+      </ButtonRounded>
+      <SnackNotice
+        visible={error}
+        message={userApp?.error?.message}
+        timeout={3000}
+      />
     </BackgroundWrapper>
   );
 }

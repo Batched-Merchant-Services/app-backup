@@ -4,25 +4,32 @@ import {
 } from '../constants'
 
 import { APP_RESOURCES } from '@utils/api/queries/app.queries';
+import { client } from '@utils/api/apollo';
 
+export const toggleSnackbarOpen = (message) => ({
+  type: "TOGGLE_SNACKBAR_OPEN",
+  message,
+});
 
+export const toggleSnackbarClose = () => ({
+  type: "TOGGLE_SNACKBAR_CLOSE",
+});
 
-export const showAppResources = ({id}) => async (dispatch) => {
+export const showAppResources = () => async (dispatch) => {
   try {
     client.query({
       query: APP_RESOURCES,
       variables: {
-        id:id
+        id:320
       }
     }).then(async (response) => {
       if (response.data) {
-        dispatch({ type: GET_APP_RESOURCES, payload: response?.data });
+        dispatch({ type: GET_APP_RESOURCES, payload: response?.data['getBrandCompany'] });
       }
     }).catch((error) => {
       dispatch({ type: SET_ERROR_APP, payload: error });
     })
   } catch (error) {
-
     dispatch({ type: SET_ERROR_APP, payload: error });
   }
 

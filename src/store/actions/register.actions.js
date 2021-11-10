@@ -66,7 +66,6 @@ export const getCountries =() => async (dispatch) => {
       dispatch({ type: REGISTER_ERROR, payload: error });
     })
   } catch (error) {
-    console.log('error',error)
     dispatch({ type: REGISTER_ERROR, payload: error });
   }
 }
@@ -96,7 +95,6 @@ export const getGender =() => async (dispatch) => {
         languaje:getLanguage()
       }
     }).then(async (response) => {
-      console.log('response g',response);
       if (response.data) {
         nameGender(response.data);
         dispatch({ type: GET_GENDER_SUCCESS, payload: nameGender(response.data) });
@@ -174,7 +172,6 @@ export const validateSMS = ({codeSms}) => async (dispatch) => {
 
 export const registerProfile = ({ dataRegisterProf,term }) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
-  console.log('data',token);
   try {
     dispatch({ type: REGISTER_PROFILE });
    
@@ -187,7 +184,7 @@ export const registerProfile = ({ dataRegisterProf,term }) => async (dispatch) =
         },
         terms: term, 
         reference:'', 
-        notSendActiveAccount:false,
+        notSendActiveAccount:true,
       }
     }).then(async (response) => {
       if (response.data) {
@@ -205,7 +202,6 @@ export const registerProfile = ({ dataRegisterProf,term }) => async (dispatch) =
 
 
 export const setPassword = ({ pinConfirm,password }) => async (dispatch) => {
-  console.log('setPassword')
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: SET_PASSWORD });
@@ -215,7 +211,7 @@ export const setPassword = ({ pinConfirm,password }) => async (dispatch) => {
       variables: {
         token: token,
         pin:generateRSA(pinConfirm),
-        password:generateRSA(password?.value) 
+        password:generateRSA(password) 
       }
     }).then(async (response) => {
       if (response.data) {

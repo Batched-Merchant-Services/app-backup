@@ -22,7 +22,7 @@ import Back from '@assets/icons/backBlue.png';
 
 //actions
 import { toggleSnackbarClose,toggleSnackbarOpen } from '@store/actions/app.actions';
-import { cleanErrorRegister, setPassword,setRegister } from '@store/actions/register.actions';
+import { cleanErrorRegister, setPassword } from '@store/actions/register.actions';
 import Loading from '../Loading';
 
 
@@ -80,7 +80,6 @@ const PinConfirmation = ({ navigation, navigation: { goBack }, route }) => {
 
   async function setPin(pinConfirm) {
     const password = await LocalStorage.get('password');
-    console.log('password',password);
     dispatch(setPassword({ pinConfirm, password }));
     
   }
