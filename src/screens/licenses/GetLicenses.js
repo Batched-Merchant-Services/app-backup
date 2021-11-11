@@ -3,19 +3,43 @@ import {
   Text,
   View,
   Divider,
-  NavigationBar,
+  SnackNotice,
   ButtonRounded,
   FloatingInput,
   BackgroundWrapper
 } from '@components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
 import BoxLicenses from './components/BoxLicenses';
 import i18n from '@utils/i18n';
+import Loading from '../Loading';
+
+import { cleanErrorLicenses,getLicenses } from '@store/actions/licenses.actions';
+import { toggleSnackbarClose } from '@store/actions/app.actions';
 
 const GetLicenses = ({ navigation }) => {
+  const dispatch = useDispatch();
   const redux = useSelector(state => state);
+  const licensesData = redux?.licenses;
   const referenceCode = useValidatedInput('referenceCode', '');
+
+  const error = useSelector(state => state?.licenses?.showErrorLicenses);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanErrorLicenses());
+      dispatch(toggleSnackbarClose());  
+      dispatch(getLicenses()); 
+      
+    });
+    return unsubscribe;
+  }, []);
+
+  console.log('licensesData',licensesData);
+  if (licensesData?.isLoadingLicenses) {
+    return <Loading />;
+  }
+  
 
 
 
@@ -49,7 +73,7 @@ const GetLicenses = ({ navigation }) => {
       <BoxLicenses
          onPress={() => navigation.navigate("SelectLicense")}
         numberLicense={5}
-        pricingLicense={4950}
+        pricingLicense={licensesData?.getLicenses?.cost*5}
         percentPoint={500}
         green
       />
@@ -57,7 +81,7 @@ const GetLicenses = ({ navigation }) => {
       <BoxLicenses
         onPress={() => navigation.navigate("SelectLicense")}
         numberLicense={3}
-        pricingLicense={2790}
+        pricingLicense={licensesData?.getLicenses?.cost*3}
         percentPoint={300}
         blue
       />
@@ -65,9 +89,14 @@ const GetLicenses = ({ navigation }) => {
       <BoxLicenses
         onPress={() => navigation.navigate("SelectLicense")}
         numberLicense={1}
-        pricingLicense={990}
+        pricingLicense={licensesData?.getLicenses?.cost*1}
         percentPoint={100}
         blueDark
+      />
+      <SnackNotice
+        visible={error}
+        message={licensesData?.error?.message}
+        timeout={3000}
       />
     </BackgroundWrapper>
 

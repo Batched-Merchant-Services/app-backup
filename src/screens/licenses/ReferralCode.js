@@ -5,11 +5,12 @@ import {
   View,
   Divider,
   ImageResize,
+  SnackNotice,
   ButtonRounded,
   FloatingInput,
   BackgroundWrapper
 } from '@components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput,isFormValid } from '@hooks/validation-hooks';
 import check from '@assets/icons/white-check.png';
 import i18n from '@utils/i18n';
@@ -20,24 +21,41 @@ import {
 import { useTheme } from '@react-navigation/native';
 import  Colors  from '@styles/Colors';
 import { validateReference } from '@store/actions/licenses.actions';
+import Loading from '../Loading';
+
+import { cleanError } from '@store/actions/auth.actions';
+import { toggleSnackbarClose } from '@store/actions/app.actions';
+import { cleanErrorLicenses } from '@store/actions/licenses.actions';
 
 const ReferralCode = ({ navigation }) => {
-
+  const dispatch = useDispatch();
+  const redux = useSelector(state => state);
+  const licensesData = redux?.licenses;
   const [userID, setUserID] = useState(false);
   const referenceCode = useValidatedInput('referenceCode', '');
-  const redux = useSelector(state => state);
   const [statusBar, setStatusBar] = useState(0);
   const isValid = isFormValid(referenceCode);
+  const showData = licensesData?.dataLicenses?.firstName?true:false
+  const error = useSelector(state => state?.licenses?.showErrorLicenses);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanError());
-      dispatch(toggleSnackbarClose());
-      dispatch(validateReference({referenceCode}));
+      dispatch(cleanErrorLicenses());
+      dispatch(toggleSnackbarClose());   
     });
     return unsubscribe;
   }, []);
 
+
+  async function handleReferenceCode() {
+    dispatch(validateReference({referenceCode}));
+    navigation.navigate("GetLicenses")
+  }
+
+  if (licensesData?.isLoadingLicenses) {
+    return <Loading />;
+  }
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
@@ -53,19 +71,19 @@ const ReferralCode = ({ navigation }) => {
       />
       <Divider height-15 />
       <View centerV row height-60 paddingL-10 style={{borderColor:Colors.blue02,borderWidth:1}}>
-      {userID&&(
+      {showData&&(
         <Fragment>
           <View centerV centerH width-40 height-40 style={{borderColor:Colors.blue02,borderWidth:2}}>
-            <ImageResize source={check} width={verticalScale(20)} height={verticalScale(20)}  />
+            <ImageResize source={{uri:licensesData?.dataLicenses?.avatarImage}} width={verticalScale(20)} height={verticalScale(20)}  />
           </View>
           <Divider width-15 />
           <View>
-            <Text h12 blue02>Uulala ID: IMCG4WHEIILNM</Text>
-            <Text h12 white semibold>Victor Hugo U****** P******</Text>
+            {/* <Text h12 blue02>Uulala ID: IMCG4WHEIILNM</Text> */}
+            <Text h12 white semibold>{licensesData?.dataLicenses?.firstName +' ' + licensesData?.dataLicenses?.lastName}</Text>
           </View>
         </Fragment>
       )}
-      {!userID&&(
+      {!showData&&(
         <Fragment>
           <View centerV centerH width-40 height-40 blue02/>
           <Divider width-15 />
@@ -78,7 +96,7 @@ const ReferralCode = ({ navigation }) => {
       </View>
       <Divider height-20 />
       <ButtonRounded
-        onPress={() => navigation.navigate("GetLicenses")}
+        onPress={handleReferenceCode}
         disabled={!isValid}
         blue
       >
@@ -86,7 +104,11 @@ const ReferralCode = ({ navigation }) => {
           {i18n.t('Licenses.textNextSkip')}
         </Text>
       </ButtonRounded>
-      
+      <SnackNotice
+        visible={error}
+        message={licensesData?.error?.message}
+        timeout={3000}
+      />
     </BackgroundWrapper>
 
 

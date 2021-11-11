@@ -75,8 +75,8 @@ const BoxLicenses = ({
           <View style={[Styles.lineDiv,{borderColor:colorLine}]}/>
         </View>
         <View flex-1 centerV>
-          <Text h12 warning medium>{i18n.t('Licenses.textPricing')}<Text warning bold >{pricingLicense}</Text> USD </Text>
-          <Text white h8>{i18n.t('Licenses.textGet')}<Text white bold >{percentPoint}% </Text>{i18n.t('Licenses.textDailyPointsReward')}</Text>
+          <Text h12 warning medium>{i18n.t('Licenses.textPricing')}{' '}<Text warning bold >{pricingLicense}</Text> USD </Text>
+          <Text white h8>{i18n.t('Licenses.textGet')}{' '}<Text white bold >{percentPoint}%</Text>{' '}{i18n.t('Licenses.textDailyPointsReward')}</Text>
           <Divider height-8/>
           <TouchableOpacity
             style={[Styles.loginScreenButton,{ backgroundColor:colorLine}]}

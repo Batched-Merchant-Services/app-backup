@@ -3,17 +3,23 @@ import {
   Text,
   View,
   Divider,
+  SnackNotice,
   NavigationBar,
   ButtonRounded,
   DropDownPicker,
   BackgroundWrapper
 } from '@components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
+import { cleanErrorLicenses,getListLicenses } from '@store/actions/licenses.actions';
+import { toggleSnackbarClose } from '@store/actions/app.actions';
 import i18n from '@utils/i18n';
+import Loading from '../Loading';
 
 const SelectTypeLicense = ({ navigation }) => {
+  const dispatch = useDispatch();
   const redux = useSelector(state => state);
+  const licensesData = redux?.licenses;
   const [items, setItems] = useState([
     {id: '1', name: 'Bitcoin',value:'BTC'},
     {id: '2', name: 'Litecoin',value:'LT'},
@@ -26,8 +32,22 @@ const SelectTypeLicense = ({ navigation }) => {
   const cryptoCurrency = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
+  const error = useSelector(state => state?.licenses?.showErrorLicenses);
 
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanErrorLicenses());
+      dispatch(toggleSnackbarClose());   
+      dispatch(getListLicenses()); 
+    });
+    return unsubscribe;
+  }, []);
   
+
+  if (licensesData?.isLoadingLicenses) {
+    return <Loading />;
+  }
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
@@ -78,6 +98,11 @@ const SelectTypeLicense = ({ navigation }) => {
         </Text>
       </ButtonRounded>
       </View>
+      <SnackNotice
+        visible={error}
+        message={licensesData?.error?.message}
+        timeout={3000}
+      />
     </BackgroundWrapper>
   );
 }
