@@ -45,7 +45,7 @@ const TransferCryptoCurrency = ({ navigation }) => {
       <Divider height-10 />
       <View row  >
         <ButtonRounded
-          onPress={() => goBack()}
+          //onPress={() => goBack()}
           disabled={false}
           dark
           size='sm'
@@ -56,7 +56,7 @@ const TransferCryptoCurrency = ({ navigation }) => {
         </ButtonRounded>
         <Divider width-10 />
         <ButtonRounded
-          onPress={() => navigation.navigate("TermConditions")}
+          onPress={() => navigation.navigate("QrCodeTransaction")}
           disabled={false}
           dark
           size='sm'

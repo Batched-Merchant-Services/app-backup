@@ -14,7 +14,7 @@ import BoxLicenses from './components/BoxLicenses';
 import i18n from '@utils/i18n';
 import Loading from '../Loading';
 
-import { cleanErrorLicenses,getLicenses } from '@store/actions/licenses.actions';
+import { cleanErrorLicenses,getLicenses,saveCurrentLicense } from '@store/actions/licenses.actions';
 import { toggleSnackbarClose } from '@store/actions/app.actions';
 
 const GetLicenses = ({ navigation }) => {
@@ -35,26 +35,27 @@ const GetLicenses = ({ navigation }) => {
     return unsubscribe;
   }, []);
 
-  console.log('licensesData',licensesData);
+  console.log('licensesData',licensesData?.isLoadingLicenses);
   if (licensesData?.isLoadingLicenses) {
     return <Loading />;
   }
-  
 
+  function handleSelectLicense(license) {
+    const selectLicense = {
+      numberStep: license,
+      percentStep: '100%',
+      amountStep: licensesData?.getLicenses?.cost
+    }
+    dispatch(saveCurrentLicense({ selectLicense })); 
+    navigation.navigate("SelectLicense")
+  }
 
 
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
       <Text h16 regular blue02>{i18n.t('Licenses.textGetYourLicenses')}</Text>
       <Text h12 white light>{i18n.t('Licenses.textYourLicensesWill')}</Text>
-      <Divider height-15 />
-      <FloatingInput
-        {...referenceCode}
-        label={i18n.t('Licenses.inputReferenceCode')}
-        keyboardType={'number-pad'}
-        autoCapitalize={'none'}
-      />
-      <Divider height-15 />
+      <Divider height-20 />
       <ButtonRounded
         disabled={false}
         blue
@@ -71,7 +72,7 @@ const GetLicenses = ({ navigation }) => {
       </View>
       <Divider height-10/>
       <BoxLicenses
-         onPress={() => navigation.navigate("SelectLicense")}
+        onPress={()=> handleSelectLicense(5)}
         numberLicense={5}
         pricingLicense={licensesData?.getLicenses?.cost*5}
         percentPoint={500}
@@ -79,7 +80,7 @@ const GetLicenses = ({ navigation }) => {
       />
       <Divider height-10/>
       <BoxLicenses
-        onPress={() => navigation.navigate("SelectLicense")}
+        onPress={()=>handleSelectLicense(3)}
         numberLicense={3}
         pricingLicense={licensesData?.getLicenses?.cost*3}
         percentPoint={300}
@@ -87,7 +88,7 @@ const GetLicenses = ({ navigation }) => {
       />
       <Divider height-10/>
       <BoxLicenses
-        onPress={() => navigation.navigate("SelectLicense")}
+        onPress={()=>handleSelectLicense(1)}
         numberLicense={1}
         pricingLicense={licensesData?.getLicenses?.cost*1}
         percentPoint={100}

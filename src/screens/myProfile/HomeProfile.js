@@ -37,9 +37,12 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
         <Text h12 white light>{i18n.t('myProfile.textReferredBy')} Victor Hugo U**** P*******</Text>
       )}
       {!showReferralCode&&(
-        <Link>
-          <Text h12 white medium left>{i18n.t('myProfile.textReferredCode')}</Text>
-        </Link>
+        <View left>
+          <Link>
+            <Text h12 white medium left>{i18n.t('myProfile.textReferredCode')}</Text>
+          </Link>
+        </View>
+        
       )}
      
       <Divider height-10 />

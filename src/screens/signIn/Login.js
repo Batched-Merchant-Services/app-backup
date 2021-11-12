@@ -34,6 +34,7 @@ const Login = ({ navigation }) => {
   const isValid = isFormValid(email, password);
 
   const error = useSelector(state => state?.auth?.showError);
+  const isLoading = useSelector(state => state?.auth?.isLoggedIn);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -47,17 +48,14 @@ const Login = ({ navigation }) => {
     dispatch(getLogin({ email, password }));
   }
 
-  if (authData?.isLoggingIn) {
-    return <Loading />;
-  }
 
   if (authData?.isLoggedIn) {
     navigation.navigate('SignOut', {
       screen: 'ReferralCode'
     });
   }
-  
 
+  console.log
   return (
     <BackgroundWrapper showNavigation={false} navigation={navigation}>
       <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
@@ -82,9 +80,12 @@ const Login = ({ navigation }) => {
         secureTextEntry
       />
       <Divider height-10 />
-      <Link onPress={() => navigation.navigate("EmailConfirm")}>
-        <Text h12 blue02 left>{i18n.t('Login.linkIForgotMyPassword')}</Text>
-      </Link>
+      <View left>
+        <Link onPress={() => navigation.navigate("EmailConfirm")}>
+          <Text h12 blue02 left>{i18n.t('Login.linkIForgotMyPassword')}</Text>
+        </Link>
+      </View>
+
       <Divider height-35 />
       <View flex-1 bottom>
         <ButtonRounded
@@ -96,11 +97,13 @@ const Login = ({ navigation }) => {
           </Text>
         </ButtonRounded>
       </View>
+      
       <SnackNotice
         visible={error}
         message={authData?.error?.message}
         timeout={3000}
       />
+      <Loading  modalVisible={authData?.isLoggingIn}/>
     </BackgroundWrapper>
   );
 }

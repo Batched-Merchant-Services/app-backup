@@ -19,7 +19,8 @@ import {
 } from '../constants';
 
 import { SET_REGISTER,COMPANY_REFERENCE,VALIDATE_CODE_SMS,SET_PASSWORD_QUERY,SET_REGISTER_COMPLETE} from '@utils/api/queries/register.queries';
-import { GET_COUNTRIES_QUERY,GET_DATA } from '@utils/api/queries/dropdown.queries'
+import { GET_COUNTRIES_QUERY,GET_DATA } from '@utils/api/queries/dropdown.queries';
+import { toggleSnackbarOpen } from './app.actions';
 import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
 import DeviceInfo from 'react-native-device-info';
@@ -43,9 +44,11 @@ export const getCodeReference = ({ reference }) => async (dispatch) => {
       }
     }).catch((error) => {
       dispatch({ type: REGISTER_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
     dispatch({ type: REGISTER_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
   }
 
 };
@@ -64,9 +67,11 @@ export const getCountries =() => async (dispatch) => {
       }
     }).catch((error) => {
       dispatch({ type: REGISTER_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
     dispatch({ type: REGISTER_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
   }
 }
 
@@ -101,10 +106,12 @@ export const getGender =() => async (dispatch) => {
       }
     }).catch((error) => {
       dispatch({ type: REGISTER_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
     console.log('error',error)
     dispatch({ type: REGISTER_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
   }
 }
 
@@ -134,15 +141,17 @@ export const setRegister = ({ dataRegister }) => async (dispatch) => {
       }
     }).then(async (response) => {
       if (response.data) {
-        console.log('response register',response.data)
         dispatch({ type: REGISTER_SUCCESS, payload: response?.data });
       }
     }).catch((error) => {
+      console.log('errror1',error)
       dispatch({ type: REGISTER_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('error',error)
+    console.log('errror2',error)
     dispatch({ type: REGISTER_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
   }
 
 };
@@ -162,9 +171,11 @@ export const validateSMS = ({codeSms}) => async (dispatch) => {
       }
     }).catch((error) => {
       dispatch({ type: REGISTER_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
     dispatch({ type: REGISTER_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
   }
 
 };
@@ -192,9 +203,11 @@ export const registerProfile = ({ dataRegisterProf,term }) => async (dispatch) =
       }
     }).catch((error) => {
       dispatch({ type: REGISTER_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
     dispatch({ type: REGISTER_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
   }
 
 };
@@ -219,9 +232,11 @@ export const setPassword = ({ pinConfirm,password }) => async (dispatch) => {
       }
     }).catch((error) => {
       dispatch({ type: REGISTER_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
     dispatch({ type: REGISTER_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
   }
 
 };

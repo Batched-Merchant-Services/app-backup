@@ -6,18 +6,29 @@ import {
   GET_LICENSES,
   GET_LICENSES_SUCCESS,
   GET_LIST_LICENSES,
-  GET_LIST_LICENSES_SUCCESS
+  GET_LIST_LICENSES_SUCCESS,
+  GET_TOTAL_LICENSES,
+  GET_TOTAL_LICENSES_SUCCESS,
+  GET_CRYPTO_CURRENCY,
+  GET_CRYPTO_CURRENCY_SUCCESS,
+  CURRENT_LICENSE,
+  CURRENT_LICENSE_SUCCESS
 } from '../constants';
 
 export const initialState = {
-  isLoadingLicenses:false,
-  successLicenses:false,
-  successGetLicenses:false,
-  successListLicense:false,
-  showErrorLicenses:false,
-  dataLicenses:[],
-  getLicenses:[],
-  getListLicenses:[],
+  isLoadingLicenses: false,
+  successLicenses: false,
+  successGetLicenses: false,
+  successListLicense: false,
+  successTotalLicense: false,
+  successCryptoCurrencies: false,
+  showErrorLicenses: false,
+  dataLicenses: [],
+  getLicenses: [],
+  getListLicenses: [],
+  totalLicenses: [],
+  cryptoCurrencies:[],
+  currentLicense:[],
   error: {},
   success: {},
 };
@@ -25,70 +36,107 @@ export const initialState = {
 export default licensesReducer = (state = initialState, action) => {
   switch (action.type) {
     case VALIDATE_CODE_LICENSES:
-      return { ...state, isLoadingLicenses: true,  showErrorLicenses:false};
+      return { ...state, isLoadingLicenses: true, showErrorLicenses: false };
 
     case VALIDATE_CODE_LICENSES_SUCCESS:
       return {
         ...state,
         isLoadingLicenses: false,
-        successLicenses:true,
-        showErrorLicenses:false,
+        successLicenses: true,
+        showErrorLicenses: false,
         dataLicenses: action.payload,
         error: {},
         success: {},
       };
-      case GET_LICENSES:
-      return { ...state, isLoadingLicenses: true,  showErrorLicenses:false};
+    case GET_LICENSES:
+      return { ...state, isLoadingLicenses: true, showErrorLicenses: false };
 
     case GET_LICENSES_SUCCESS:
       return {
         ...state,
-        isLoadingLicenses:false,
-        successGetLicenses:true,
-        showErrorLicenses:false,
+        isLoadingLicenses: false,
+        successGetLicenses: true,
+        showErrorLicenses: false,
         getLicenses: action.payload,
         error: {},
         success: {},
       };
-      case GET_LIST_LICENSES:
-      return { ...state, isLoadingLicenses: true,  showErrorLicenses:false};
+    case GET_LIST_LICENSES:
+      return { ...state, isLoadingLicenses: true, showErrorLicenses: false };
 
     case GET_LIST_LICENSES_SUCCESS:
       return {
         ...state,
-        isLoadingLicenses:false,
-        successListLicense:true,
-        showErrorLicenses:false,
+        isLoadingLicenses: false,
+        successListLicense: true,
+        showErrorLicenses: false,
         getListLicenses: action.payload,
         error: {},
         success: {},
       };
+    case GET_TOTAL_LICENSES:
+      return { ...state, isLoadingLicenses: true, showErrorLicenses: false };
+
+    case GET_TOTAL_LICENSES_SUCCESS:
+      return {
+        ...state,
+        isLoadingLicenses: false,
+        successTotalLicense: true,
+        showErrorLicenses: false,
+        totalLicenses: action.payload,
+        error: {},
+        success: {},
+      };
+    case GET_CRYPTO_CURRENCY:
+      return { ...state, isLoadingLicenses: true, showErrorLicenses: false };
+
+    case GET_CRYPTO_CURRENCY_SUCCESS:
+      return {
+        ...state,
+        isLoadingLicenses: false,
+        successCryptoCurrencies: true,
+        showErrorLicenses: false,
+        cryptoCurrencies: action.payload,
+        error: {},
+        success: {},
+      };
+      case CURRENT_LICENSE:
+      return {
+        ...state,
+        showErrorLicenses: false,
+        currentLicense: action.payload,
+        error: {},
+        success: {},
+      };
+
     case LICENSES_ERROR:
       return {
         ...state,
         isLoadingLicenses: false,
-        successLicenses:false,
-        successGetLicenses:false,
-        successListLicense:false,
-        showErrorLicenses:true,
+        successLicenses: false,
+        successGetLicenses: false,
+        successListLicense: false,
+        successTotalLicense: false,
+        successCryptoCurrencies:false,
+        showErrorLicenses: true,
         error: action.payload,
-        dataLicenses: null,
-        getListLicenses:null,
         success: {},
       };
-      
-      case CLEAN_ERROR_LICENSES:
+
+    case CLEAN_ERROR_LICENSES:
       return {
         ...state,
         isLoadingLicenses: false,
-        successLicenses:false,
-        successListLicense:false,
-        successGetLicenses:false,
-        showErrorLicenses:false,
+        successLicenses: false,
+        successListLicense: false,
+        successTotalLicense: false,
+        successGetLicenses: false,
+        successCryptoCurrencies:false,
+        showErrorLicenses: false,
         error: {},
         success: {},
       };
-      
+
 
     default:
       return state;

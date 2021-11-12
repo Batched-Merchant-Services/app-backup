@@ -40,17 +40,16 @@ const SnackNotice = ({
     dispatch(toggleSnackbarClose());
   }
 
-  useEffect(() => {
-    if (visible) {
-      dispatch(toggleSnackbarOpen(message));
-    } else {
-      dispatch(toggleSnackbarClose());
-    }
+//   useEffect(() => {
+//     if (visible) {
+//       dispatch(toggleSnackbarOpen(message));
+//     } else {
+//       dispatch(toggleSnackbarClose());
+//     }
 
-  }, []);
+//   }, []);
 
-console.log('visible',visible)
-
+ console.log('mensaje',message,MESSAGE?.toString())
 
   if (SHOW) {
     return (
@@ -64,7 +63,7 @@ console.log('visible',visible)
             </View>
             <View flex-1 paddingL-15 centerV>
               <Text h12>
-                {message?message:MESSAGE}
+                {message?message?.toString():MESSAGE?.toString()}
               </Text>
             </View>
             <Divider width-20 />
@@ -83,11 +82,10 @@ console.log('visible',visible)
             </View>
           </View>
         </View>
-        <View row style={{width:'98%'}}>
+        <View row style={{width:'100%'}}>
         <View style={{borderBottomLeftRadius:5}} flex-1 height-4 white/>
         <View  style={{borderBottomRightRadius:5}} flex-1 height-4 error/>
         </View>
-       
       </View>
 
 

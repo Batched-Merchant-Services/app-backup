@@ -32,7 +32,12 @@
       "buttonBackToLogin":"Back to Login",
       "textAllRightsReserved":"All rights reserved.",
       "textUulalaId":"Uulala ID",
-      "textEmptySection":"Sorry, we don't have any information to show yet"
+      "textEmptySection":"Sorry, we don't have any information to show yet",
+      "errors": {
+        "textBadCredentials": "User or password error, bad credentials",
+        "textUserNotActive": "User nor active, Please activate your account from the link sent to your E-mail",
+        "textUserNotFound": "User not Found,The user you are trying to access does not exist"
+      }
     },
     "Login":{
       "textAnIncredible":"An incredible investment proposal",

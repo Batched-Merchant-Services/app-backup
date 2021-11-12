@@ -5,7 +5,7 @@ export default StyleSheet.create({
   dropDown: {
    flex:1,
     borderWidth            : moderateScale(1, 0.3),
-    height                 : verticalScale(42),
+    height                 : moderateScale(50),
     alignItems             : 'flex-start',
     justifyContent         : 'center',
     borderRadius           : verticalScale(2),
@@ -20,7 +20,7 @@ export default StyleSheet.create({
     width:'100%',
     borderTopWidth         : 0 ,
     borderWidth            : verticalScale(1, 0.3),
-    paddingLeft            : verticalScale(6)
+    paddingLeft            : verticalScale(6),
   },
 
   option: {

@@ -9,6 +9,7 @@ import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
 import DeviceInfo from 'react-native-device-info';
 import { generateRSA } from '@utils/api/encrypt';
+import { toggleSnackbarOpen } from './app.actions';
 const device = DeviceInfo.getUniqueId();
 
 
@@ -35,8 +36,8 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
         await LocalStorage.set('auth_token', token);
       }
     }).catch((error) => {
-      const err = JSON.stringify({ message: error })
       dispatch({ type: LOGIN_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
 

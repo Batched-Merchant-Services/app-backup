@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import LinearGradient from "react-native-linear-gradient";
 import Colors from "@styles/Colors";
 import { useSelector } from "react-redux";
-import { StatusBar, useColorScheme, ScrollView, Dimensions } from 'react-native';
+import { StatusBar, useColorScheme, ScrollView, Platform } from 'react-native';
 import Styles from './styles'
 import { Divider, Text, LinksTerms, NavigationBar, View } from "@components";
 const BackgroundWrapper = ({
@@ -42,7 +42,7 @@ const BackgroundWrapper = ({
         <ScrollView contentContainerStyle={{flexGrow: 1}} style={{flex: 1}}>
             {children}
         </ScrollView>
-        <Divider height-10 />
+        <Divider style={{ height: Platform.OS === 'ios' ? 15 : 30}}/>
         {/* <LinksTerms /> */}
       </SafeAreaView>
     </LinearGradient>

@@ -137,11 +137,12 @@ const CustomDrawer = props => {
             />
           </Ripple>
           <Ripple color={'rgb(0, 106, 200)'} centered={true}
-            onPress={() => {
-              navigation.navigate('SignOut', {
-                screen: 'ReferralCode'
-              });
-            }}>
+            // onPress={() => {
+            //   navigation.navigate('SignOut', {
+            //     screen: 'ReferralCode'
+            //   });
+            // }}
+            >
             <DrawerItem
               label={({ focused }) => <CustomLabel label={'Enter referral code'} />}
             />

@@ -51,9 +51,9 @@ const CodeSms = ({ navigation, navigation: { goBack } }) => {
     dispatch(validateSMS({codeSms}));
   }
 
-  if (registerData?.isLoading) {
-    return <Loading />;
-  }
+  // if (registerData?.isLoading) {
+  //   return <Loading />;
+  // }
 
   if (registerData?.finishSmsSuccess) {
     // navigation.navigate("RegisterProfileBasic")
@@ -119,6 +119,7 @@ const CodeSms = ({ navigation, navigation: { goBack } }) => {
         message={registerData?.error?.message}
         timeout={3000}
       />
+       <Loading  modalVisible={registerData?.isLoading}/>
     </BackgroundWrapper>
   );
 }

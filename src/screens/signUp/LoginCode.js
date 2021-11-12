@@ -51,9 +51,9 @@ const LoginCode = ({ navigation, navigation: { goBack } }) => {
   }
 
 
-  if (registerData?.isLoading) {
-    return <Loading modalVisible={registerData?.isLoading}/>;
-  }
+  // if (registerData?.isLoading) {
+  //   return <Loading modalVisible={registerData?.isLoading}/>;
+  // }
 
   if (registerData?.finishValidateCodeSuccess) {
     navigation.navigate('SignOut', {
@@ -120,6 +120,7 @@ const LoginCode = ({ navigation, navigation: { goBack } }) => {
         message={registerData?.error?.message}
         timeout={3000}
       />
+       <Loading  modalVisible={registerData?.isLoading}/>
     </BackgroundWrapper>
   );
 }

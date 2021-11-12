@@ -11,7 +11,7 @@ import {
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
-import { cleanErrorLicenses,getListLicenses } from '@store/actions/licenses.actions';
+import { cleanErrorLicenses,getListLicenses,getTotalLicenses,getCryptoCurrency } from '@store/actions/licenses.actions';
 import { toggleSnackbarClose } from '@store/actions/app.actions';
 import i18n from '@utils/i18n';
 import Loading from '../Loading';
@@ -20,12 +20,8 @@ const SelectTypeLicense = ({ navigation }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const licensesData = redux?.licenses;
-  const [items, setItems] = useState([
-    {id: '1', name: 'Bitcoin',value:'BTC'},
-    {id: '2', name: 'Litecoin',value:'LT'},
-    {id: '3', name: 'ChaiLink',value:'CH'},
-    {id: '3', name: 'Ethereum',value:'ET'}
-  ]);
+  const [items, setItems] = useState([]);
+  const [currentLicense] = useState(licensesData?.currentLicense);
   const typeLicenses = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
@@ -40,11 +36,15 @@ const SelectTypeLicense = ({ navigation }) => {
       dispatch(cleanErrorLicenses());
       dispatch(toggleSnackbarClose());   
       dispatch(getListLicenses()); 
+      dispatch(getTotalLicenses());
+      dispatch(getCryptoCurrency());
+      
     });
     return unsubscribe;
   }, []);
   
 
+  console.log('licensesData',licensesData?.currentLicense)
   if (licensesData?.isLoadingLicenses) {
     return <Loading />;
   }
@@ -59,7 +59,7 @@ const SelectTypeLicense = ({ navigation }) => {
       <View row>
       <View flex-1 >
         <Text h12 regular blue02>{i18n.t('Licenses.textPricePerLicense')}</Text>
-        <Text h16 regular white>900USD</Text>
+        <Text h16 regular white>{currentLicense?.amountStep*currentLicense?.numberStep}{' '}USD</Text>
       </View>
       <View flex-1 centerH>
         <Text h12 regular blue02>{i18n.t('Licenses.textMaximumLicenses')}</Text>
@@ -76,14 +76,14 @@ const SelectTypeLicense = ({ navigation }) => {
       <DropDownPicker
         {...typeLicenses}
         label={'Licenses'}
-        options={items}
+        options={licensesData?.getListLicenses}
         //onFill={(code)=> filterPays(code)}
        />
       <Divider height-5 />
       <DropDownPicker
         {...cryptoCurrency}
         label={'Criptocurrency'}
-        options={items}
+        options={licensesData?.cryptoCurrencies}
         //onFill={(code)=> filterPays(code)}
        />
       <Divider height-5 />

@@ -4,13 +4,13 @@ import {  Platform } from 'react-native';
 export default StyleSheet.create({
 
   offlineContainer: {
-    width: '98%',
+    width: '100%',
     height: 55,
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
     position: 'absolute',
-    bottom: Platform.OS === 'ios' ? 0: 10,
+    bottom: 0,
     borderRadius:5
 
   },

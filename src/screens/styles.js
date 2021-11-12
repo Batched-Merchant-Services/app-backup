@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     alignItems   : 'center',
     justifyContent: 'center',
     paddingTop   : verticalScale(83),
-    backgroundColor:'rgba(63, 82, 158, 0.80)'
+    backgroundColor:'rgba(63, 82, 158, 0.50)'
   }
 });
 

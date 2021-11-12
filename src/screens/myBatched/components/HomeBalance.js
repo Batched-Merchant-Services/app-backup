@@ -54,7 +54,7 @@ const HomeBalance = ({ navigation, step, onPress, label }) => {
             {i18n.t('home.myBatchedBalance.buttonCopyMyReference')}
           </Text>
         </ButtonRounded>
-        <Divider width-15 />
+        <Divider width-8 />
         <ButtonRounded
 
           disabled={false}

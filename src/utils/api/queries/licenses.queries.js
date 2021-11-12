@@ -44,7 +44,7 @@ query ($token:String!)
     }
   }`
 
-export const GET_TOTAL_LICENSES = gql`
+export const GET_TOTAL_LICENSES_QUERY = gql`
 query ($token:String!)
 	{  
     getTotalTypeLicenses(token:$token)
@@ -55,7 +55,7 @@ query ($token:String!)
 }`
 
 
-export const GET_CRYPTO_CURRENCY = gql`
+export const GET_CRYPTO_CURRENCY_QUERY = gql`
 query ($token:String!,$filter:String!)
 	{  
 		getCryptoCurrency(token:$token,filter:$filter)

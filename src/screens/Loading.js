@@ -7,7 +7,6 @@ import {
 } from '@components';
 
 const Loading = ({ modalVisible, ...props }) => {
-  console.log('modalVisible',modalVisible);
   return (
     <Modal animationType='slide' animationType="slide" transparent={true} visible={modalVisible}>
       <View flex-1 style={Styles.container}>

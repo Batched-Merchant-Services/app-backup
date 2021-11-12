@@ -42,11 +42,11 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
 
     style.width = width;
     if (showInBottom) {
-      style.height = verticalScale(1 * options?.length + verticalScale(31), 0.40);
+      style.height = verticalScale(1 * options?.length + 130, 0.40);
       style.left = style.left - verticalScale(7, 0);
-      style.top = Platform.OS === 'ios' ? style.top = style.top - verticalScale(2, 0.3) : style.top - verticalScale(30);
+      style.top = Platform.OS === 'ios' ? style.top = style.top - verticalScale(2, 0.3) : style.top - verticalScale(29);
     } else {
-      style.height = verticalScale(1 * options?.length + verticalScale(31), 0.40);
+      style.height = style.height- verticalScale(26, 0);
       style.left = style.left - verticalScale(7, 0);
       style.top = Platform.OS === 'ios' ? style.top = style.top - verticalScale(2, 0.3) : style.top + style.height - verticalScale(135);
     }
@@ -55,7 +55,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
 
   const dropdownRenderRow = ({ name, value }) => {
     return (
-      <View flex-1 centerV height-35>
+      <View flex-1 centerV height-45 >
         <Text h13 white>{name}</Text>
       </View>
 
@@ -77,8 +77,8 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
 
     );
   };
-
-  const dropSize = { width: getSize(size) };
+  console.log('size:',size)
+  const dropSize = { width: !size ==='lg' ? getSize(size): getSize(width) };
 
   return (
     <View onLayout={handleWrapperLayout}>
@@ -126,7 +126,7 @@ function getSize(size) {
     ll: scale(120),
     sm: scale(138),
     md: scale(280),
-    lg: scale(314, 0.1)
+    lg: scale(size)
   }[size];
 }
 

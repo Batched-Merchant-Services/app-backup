@@ -68,9 +68,9 @@ const Register = ({ navigation }) => {
     dispatch(setRegister({ dataRegister }));
   }
 
-  if (registerData?.isLoading) {
-    return <Loading />;
-  }
+  // if (registerData?.isLoading) {
+  //   return <Loading />;
+  // }
 
   if (registerData?.finishRegisterSuccess) {
     navigation.navigate("CodeSms")
@@ -138,6 +138,7 @@ const Register = ({ navigation }) => {
         message={registerData?.error?.message}
         timeout={3000}
       />
+       <Loading modalVisible={registerData?.isLoading}/>
     </BackgroundWrapper>
   );
 }

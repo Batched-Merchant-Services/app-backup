@@ -62,9 +62,9 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
 
   const error = useSelector(state => state?.register?.showError);
 
-  if (registerData?.isLoading) {
-    return <Loading />;
-  }
+  // if (registerData?.isLoading) {
+  //   return <Loading />;
+  // }
 
   if (registerData?.finishRProfileSuccess) {
     navigation.navigate("AccountConfirmation");
@@ -101,7 +101,7 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
           <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
         </View>
         <View flex-1 right centerV>
-          <StepIndicator step={3} totalSteps={4} />
+          <StepIndicator step={4} totalSteps={4} />
         </View>
       </View>
       <Divider height-15 />
@@ -175,6 +175,7 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
         message={registerData?.error?.message}
         timeout={3000}
       />
+       <Loading  modalVisible={registerData?.isLoading}/>
     </BackgroundWrapper>
   );
 }

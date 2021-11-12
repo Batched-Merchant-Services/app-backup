@@ -65,7 +65,7 @@ const CreateNewPassword = ({ navigation,navigation: { goBack } }) => {
           <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
         </View>
         <View flex-1 right centerV>
-          <StepIndicator step={4} totalSteps={4} />
+          <StepIndicator step={3} totalSteps={4} />
         </View>
       </View>
       <Divider height-40 />
