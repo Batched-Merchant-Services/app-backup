@@ -53,7 +53,6 @@ const Register = ({ navigation }) => {
   }, []);
 
   function getShowCountries() {
-    console.log('registerData',registerData.countries)
     setItems(registerData?.countries)
   }
 

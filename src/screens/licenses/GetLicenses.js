@@ -30,15 +30,11 @@ const GetLicenses = ({ navigation }) => {
       dispatch(cleanErrorLicenses());
       dispatch(toggleSnackbarClose());  
       dispatch(getLicenses()); 
-      
     });
     return unsubscribe;
   }, []);
 
-  console.log('licensesData',licensesData?.isLoadingLicenses);
-  if (licensesData?.isLoadingLicenses) {
-    return <Loading />;
-  }
+ 
 
   function handleSelectLicense(license) {
     const selectLicense = {
@@ -99,6 +95,7 @@ const GetLicenses = ({ navigation }) => {
         message={licensesData?.error?.message}
         timeout={3000}
       />
+      <Loading  modalVisible={licensesData?.isLoadingLicenses}/>
     </BackgroundWrapper>
 
 

@@ -34,7 +34,6 @@ const NewPassword = ({ navigation, navigation: { goBack },route }) => {
     validationParams: [password.value]
   });
   const isValid = isFormValid(password, confirmPassword);
-  console.log('code',code,route);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanErrorForgot());

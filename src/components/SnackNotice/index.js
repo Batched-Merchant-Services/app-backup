@@ -49,7 +49,6 @@ const SnackNotice = ({
 
 //   }, []);
 
- console.log('mensaje',message,MESSAGE?.toString())
 
   if (SHOW) {
     return (

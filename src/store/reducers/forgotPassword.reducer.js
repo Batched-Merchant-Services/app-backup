@@ -17,7 +17,6 @@ export const initialState = {
 };
 
 export default authReducer = (state = initialState, action) => {
-  console.log('action forgot', action?.payload?.networkError);
   switch (action.type) {
     case FORGOT_YOUR_PASSWORD:
       return { ...state, isLoadingForgot: true, showError: false, };

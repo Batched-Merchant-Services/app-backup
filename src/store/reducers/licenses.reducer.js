@@ -12,7 +12,9 @@ import {
   GET_CRYPTO_CURRENCY,
   GET_CRYPTO_CURRENCY_SUCCESS,
   CURRENT_LICENSE,
-  CURRENT_LICENSE_SUCCESS
+  CURRENT_LICENSE_SUCCESS,
+  CREATE_LICENSE,
+  CREATE_LICENSE_SUCCESS
 } from '../constants';
 
 export const initialState = {
@@ -22,13 +24,14 @@ export const initialState = {
   successListLicense: false,
   successTotalLicense: false,
   successCryptoCurrencies: false,
+  successCreateLicense:false,
   showErrorLicenses: false,
   dataLicenses: [],
   getLicenses: [],
   getListLicenses: [],
   totalLicenses: [],
-  cryptoCurrencies:[],
-  currentLicense:[],
+  cryptoCurrencies: [],
+  currentLicense: [],
   error: {},
   success: {},
 };
@@ -100,11 +103,23 @@ export default licensesReducer = (state = initialState, action) => {
         error: {},
         success: {},
       };
-      case CURRENT_LICENSE:
+    case CURRENT_LICENSE:
       return {
         ...state,
         showErrorLicenses: false,
         currentLicense: action.payload,
+        error: {},
+        success: {},
+      };
+    case CREATE_LICENSE:
+      return { ...state, isLoadingLicenses: true, showErrorLicenses: false };
+
+    case CREATE_LICENSE_SUCCESS:
+      return {
+        ...state,
+        isLoadingLicenses: false,
+        successCreateLicense: true,
+        showErrorLicenses: false,
         error: {},
         success: {},
       };
@@ -117,7 +132,7 @@ export default licensesReducer = (state = initialState, action) => {
         successGetLicenses: false,
         successListLicense: false,
         successTotalLicense: false,
-        successCryptoCurrencies:false,
+        successCryptoCurrencies: false,
         showErrorLicenses: true,
         error: action.payload,
         success: {},
@@ -131,7 +146,7 @@ export default licensesReducer = (state = initialState, action) => {
         successListLicense: false,
         successTotalLicense: false,
         successGetLicenses: false,
-        successCryptoCurrencies:false,
+        successCryptoCurrencies: false,
         showErrorLicenses: false,
         error: {},
         success: {},

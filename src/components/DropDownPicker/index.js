@@ -77,7 +77,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
 
     );
   };
-  console.log('size:',size)
+
   const dropSize = { width: !size ==='lg' ? getSize(size): getSize(width) };
 
   return (

@@ -55,7 +55,7 @@ const Login = ({ navigation }) => {
     });
   }
 
-  console.log
+
   return (
     <BackgroundWrapper showNavigation={false} navigation={navigation}>
       <Logo width={scale(169)} height={verticalScale(24)} fill="green" />

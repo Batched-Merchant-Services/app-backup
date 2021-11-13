@@ -60,9 +60,6 @@ const CodeSms = ({ navigation, navigation: { goBack } }) => {
     navigation.navigate("CreateNewPassword")
   }
 
-  console.log('codesms', registerData)
-
-
 
   return (
     <BackgroundWrapper>

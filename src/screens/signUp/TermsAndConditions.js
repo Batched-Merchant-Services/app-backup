@@ -66,7 +66,6 @@ const TermAndConditions = ({ navigation, navigation: { goBack } }) => {
       LocalStorage.remove('password');
       LocalStorage.remove('pinConfirmation');
       dispatch(showAppResources());
-      console.log('getAppResources',userApp?.getAppResources)
     });
     return unsubscribe;
 

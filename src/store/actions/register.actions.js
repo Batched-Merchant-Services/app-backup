@@ -109,7 +109,6 @@ export const getGender =() => async (dispatch) => {
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('error',error)
     dispatch({ type: REGISTER_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
@@ -126,7 +125,6 @@ export const nameGender= (data) =>  {
       }
     )
   });
-  console.log('genderArray',genderArray);
   return genderArray;
 };
 
@@ -144,12 +142,10 @@ export const setRegister = ({ dataRegister }) => async (dispatch) => {
         dispatch({ type: REGISTER_SUCCESS, payload: response?.data });
       }
     }).catch((error) => {
-      console.log('errror1',error)
       dispatch({ type: REGISTER_ERROR, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('errror2',error)
     dispatch({ type: REGISTER_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }

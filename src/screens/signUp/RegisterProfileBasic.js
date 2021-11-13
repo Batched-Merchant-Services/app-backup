@@ -71,7 +71,6 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
   }
 
   async function handleRegisterProfile(){
-    console.log('birthDay',birthDay)
     const term = true;
     const dataRegisterProf = {
       firstName:firstName?.value,

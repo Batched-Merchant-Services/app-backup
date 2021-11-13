@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect,useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { verticalScale } from 'react-native-size-matters';
 import {
   Text,
@@ -11,7 +11,7 @@ import {
   BackgroundWrapper
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
-import { useValidatedInput,isFormValid } from '@hooks/validation-hooks';
+import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import check from '@assets/icons/white-check.png';
 import i18n from '@utils/i18n';
 import {
@@ -19,7 +19,7 @@ import {
 } from 'react-native';
 
 import { useTheme } from '@react-navigation/native';
-import  Colors  from '@styles/Colors';
+import Colors from '@styles/Colors';
 import { validateReference } from '@store/actions/licenses.actions';
 import Loading from '../Loading';
 
@@ -35,27 +35,27 @@ const ReferralCode = ({ navigation }) => {
   const referenceCode = useValidatedInput('referenceCode', '');
   const [statusBar, setStatusBar] = useState(0);
   const isValid = isFormValid(referenceCode);
-  const showData = licensesData?.dataLicenses?.firstName?true:false
+  const showData = licensesData?.dataLicenses?.firstName ? true : false
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanError());
       dispatch(cleanErrorLicenses());
-      dispatch(toggleSnackbarClose());   
+      dispatch(toggleSnackbarClose());
     });
     return unsubscribe;
   }, []);
 
 
-  async function handleReferenceCode() {
-    dispatch(validateReference({referenceCode}));
+  function handleNextSkip() {
     navigation.navigate("GetLicenses")
   }
-
-  if (licensesData?.isLoadingLicenses) {
-    return <Loading />;
+  async function handleReferralCode() {
+    dispatch(validateReference({ referenceCode }));
   }
+
+
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
@@ -70,45 +70,60 @@ const ReferralCode = ({ navigation }) => {
         autoCapitalize={'none'}
       />
       <Divider height-15 />
-      <View centerV row height-60 paddingL-10 style={{borderColor:Colors.blue02,borderWidth:1}}>
-      {showData&&(
-        <Fragment>
-          <View centerV centerH width-40 height-40 style={{borderColor:Colors.blue02,borderWidth:2}}>
-            <ImageResize source={{uri:licensesData?.dataLicenses?.avatarImage}} width={verticalScale(20)} height={verticalScale(20)}  />
-          </View>
-          <Divider width-15 />
-          <View>
-            {/* <Text h12 blue02>Uulala ID: IMCG4WHEIILNM</Text> */}
-            <Text h12 white semibold>{licensesData?.dataLicenses?.firstName +' ' + licensesData?.dataLicenses?.lastName}</Text>
-          </View>
-        </Fragment>
-      )}
-      {!showData&&(
-        <Fragment>
-          <View centerV centerH width-40 height-40 blue02/>
-          <Divider width-15 />
-          <View>
-          <Text h12 blue02>Uulala ID: ----</Text>
-          <Text h12 error semibold>{i18n.t('Licenses.textUserNotFound')}</Text>
-        </View>
-        </Fragment>
-      )}
+      <View centerV row height-60 paddingL-10 style={{ borderColor: Colors.blue02, borderWidth: 1 }}>
+        {showData && (
+          <Fragment>
+            <View centerV centerH width-40 height-40 style={{ borderColor: Colors.blue02, borderWidth: 2 }}>
+              <ImageResize source={{ uri: licensesData?.dataLicenses?.avatarImage }} width={verticalScale(20)} height={verticalScale(20)} />
+            </View>
+            <Divider width-15 />
+            <View>
+              {/* <Text h12 blue02>Uulala ID: IMCG4WHEIILNM</Text> */}
+              <Text h12 white semibold>{licensesData?.dataLicenses?.firstName + ' ' + licensesData?.dataLicenses?.lastName}</Text>
+            </View>
+          </Fragment>
+        )}
+        {!showData && (
+          <Fragment>
+            <View centerV centerH width-40 height-40 blue02 />
+            <Divider width-15 />
+            <View>
+              <Text h12 blue02>Uulala ID: ----</Text>
+              <Text h12 error semibold>{i18n.t('Licenses.textUserNotFound')}</Text>
+            </View>
+          </Fragment>
+        )}
       </View>
-      <Divider height-20 />
-      <ButtonRounded
-        onPress={handleReferenceCode}
-        disabled={!isValid}
-        blue
-      >
-        <Text h14 semibold white>
-          {i18n.t('Licenses.textNextSkip')}
-        </Text>
-      </ButtonRounded>
+      <Divider height-30 />
+      <View row>
+        <ButtonRounded
+          onPress={handleReferralCode}
+          disabled={false}
+          dark
+          size='sm'
+        >
+          <Text h14 semibold blue02 center>
+            Validate Code
+          </Text>
+        </ButtonRounded>
+        <Divider width-10 />
+        <ButtonRounded
+          onPress={handleNextSkip}
+          disabled={!isValid}
+          blue
+          size='sm'
+        >
+          <Text h14 semibold white>
+            {i18n.t('Licenses.textNextSkip')}
+          </Text>
+        </ButtonRounded>
+      </View>
       <SnackNotice
         visible={error}
         message={licensesData?.error?.message}
         timeout={3000}
       />
+      <Loading modalVisible={licensesData?.isLoadingLicenses} />
     </BackgroundWrapper>
 
 

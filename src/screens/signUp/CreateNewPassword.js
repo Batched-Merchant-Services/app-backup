@@ -51,7 +51,6 @@ const CreateNewPassword = ({ navigation,navigation: { goBack } }) => {
   }, []);
 
   async function handleNewPin() {
-    console.log('password',password,confirmPassword);
     await LocalStorage.set('password', confirmPassword?.value);
     navigation.navigate("NewPin")
   }

@@ -38,9 +38,6 @@ export const REGISTER_PROFILE_SUCCESS = 'REGISTER_PROFILE_SUCCESS';
 export const SET_PASSWORD = 'SET_PASSWORD';
 export const SET_PASSWORD_SUCCESS = 'SET_PASSWORD_SUCCESS';
 
-//SAVE USER DATA
-export const SAVE_DATA_USER = 'SAVE_DATA_USER';
-export const CLEAN_DATA_USER = 'CLEAN_DATA_USER';
 
 /* ********************************************* */ 
 
@@ -69,9 +66,17 @@ export const GET_TOTAL_LICENSES_SUCCESS = 'GET_TOTAL_LICENSES_SUCCESS';
 export const GET_CRYPTO_CURRENCY = 'GET_CRYPTO_CURRENCY';
 export const GET_CRYPTO_CURRENCY_SUCCESS = 'GET_CRYPTO_CURRENCY_SUCCESS';
 export const CURRENT_LICENSE = 'CURRENT_LICENSE';
+export const CREATE_LICENSE = 'CREATE_LICENSE';
+export const CREATE_LICENSE_SUCCESS = 'CREATE_LICENSE_SUCCESS';
 
+//GET USER INFO
 
+/* ********************************************* */ 
 
+export const GET_USER_DATA = 'GET_USER_DATA';
+export const GET_USER_DATA_SUCCESS = 'GET_USER_DATA_SUCCESS';
+export const USER_ERROR = 'USER_ERROR';
+export const CLEAN_DATA_USER = 'CLEAN_DATA_USER';
 
 
 

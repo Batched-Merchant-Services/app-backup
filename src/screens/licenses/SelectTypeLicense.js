@@ -10,17 +10,21 @@ import {
   BackgroundWrapper
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
-import { useValidatedInput } from '@hooks/validation-hooks';
+import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import { cleanErrorLicenses,getListLicenses,getTotalLicenses,getCryptoCurrency } from '@store/actions/licenses.actions';
 import { toggleSnackbarClose } from '@store/actions/app.actions';
 import i18n from '@utils/i18n';
 import Loading from '../Loading';
+import { getDataUser } from '@store/actions/user.action';
 
 const SelectTypeLicense = ({ navigation }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const licensesData = redux?.licenses;
-  const [items, setItems] = useState([]);
+  const dataUser = redux?.user;
+  const [maximumLicenses, setMaximumLicenses] = useState(5);
+  const [totalLicenses, setTotalLicenses] = useState(0);
+  const [dropDownLicenses, setDropDownLicenses] = useState([{name:1,value:'1'}]);
   const [currentLicense] = useState(licensesData?.currentLicense);
   const typeLicenses = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
@@ -28,6 +32,8 @@ const SelectTypeLicense = ({ navigation }) => {
   const cryptoCurrency = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
+  const isValid = isFormValid(typeLicenses,cryptoCurrency);
+
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
 
 
@@ -38,15 +44,34 @@ const SelectTypeLicense = ({ navigation }) => {
       dispatch(getListLicenses()); 
       dispatch(getTotalLicenses());
       dispatch(getCryptoCurrency());
-      
+      dispatch(getDataUser());
+      getInfoData();
     });
     return unsubscribe;
   }, []);
   
+  function getInfoData() {
+    const InfoBank = {...dataUser?.dataUser}
+    const totalLicenses = InfoBank?.bachedTransaction?.filter(filter => filter.status !== 2)?.forEach(transaction => {
+      this.totalLicences += +transaction.routingNumber;
+    })
+    InfoBank?.bachedTransaction?.filter(filter => filter.status !== 2 && filter.currencyCrypto === 'UUL')?.forEach(transaction => {
+      this.totalLicencesUul = +transaction.routingNumber;
+    })
+    setTotalLicenses(totalLicenses??0);
+    
 
-  console.log('licensesData',licensesData?.currentLicense)
-  if (licensesData?.isLoadingLicenses) {
-    return <Loading />;
+    console.log('dataUser',totalLicenses)
+  }
+
+
+  function typeCurrency(code){
+    if (code?.value === 'UUL') {
+      setMaximumLicenses('05')
+    }else{
+      setMaximumLicenses('15')
+    }
+  
   }
 
   return (
@@ -63,11 +88,11 @@ const SelectTypeLicense = ({ navigation }) => {
       </View>
       <View flex-1 centerH>
         <Text h12 regular blue02>{i18n.t('Licenses.textMaximumLicenses')}</Text>
-        <Text h16 regular white>05</Text>
+        <Text h16 regular white>{maximumLicenses}</Text>
       </View>
       <View flex-1>
         <Text h12 regular blue02>{i18n.t('Licenses.textYourLicenses')}</Text>
-        <Text h16 regular white>0</Text>
+        <Text h16 regular white>{totalLicenses}</Text>
       </View>
       </View>
       <Divider height-20 />
@@ -76,7 +101,7 @@ const SelectTypeLicense = ({ navigation }) => {
       <DropDownPicker
         {...typeLicenses}
         label={'Licenses'}
-        options={licensesData?.getListLicenses}
+        options={dropDownLicenses}
         //onFill={(code)=> filterPays(code)}
        />
       <Divider height-5 />
@@ -84,13 +109,13 @@ const SelectTypeLicense = ({ navigation }) => {
         {...cryptoCurrency}
         label={'Criptocurrency'}
         options={licensesData?.cryptoCurrencies}
-        //onFill={(code)=> filterPays(code)}
+        onSelect={(code)=> typeCurrency(code)}
        />
       <Divider height-5 />
       <View flex-1  bottom>
       <ButtonRounded
         onPress={() => navigation.navigate("TransferCryptoCurrency")}
-        disabled={false}
+        disabled={!isValid}
         blue
       >
         <Text h14 semibold white>
@@ -103,6 +128,7 @@ const SelectTypeLicense = ({ navigation }) => {
         message={licensesData?.error?.message}
         timeout={3000}
       />
+      <Loading modalVisible={licensesData?.isLoadingLicenses} />
     </BackgroundWrapper>
   );
 }

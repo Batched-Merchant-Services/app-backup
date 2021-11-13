@@ -169,7 +169,8 @@
       "textPricing":"Pricing",
       "textGet":"Get",
       "textDailyPointsReward":"daily points reward",
-      "buttonSelect":"Select"
+      "buttonSelect":"Select",
+      "inputTransactionId":"Transaction id"
     },
     "pinConfirmation":{
       "textDefineAConfirmationPIN":"Define a confirmation PIN",

@@ -4,6 +4,7 @@ import {
   View,
   Divider,
   UploadFile,
+  SnackNotice,
   NavigationBar,
   ButtonRounded,
   FloatingInput,
@@ -13,12 +14,34 @@ import { useSelector } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
 import i18n from '@utils/i18n';
 
+import { validateReference } from '@store/actions/licenses.actions';
+import Loading from '../Loading';
+import { toggleSnackbarClose } from '@store/actions/app.actions';
+import { cleanErrorLicenses } from '@store/actions/licenses.actions';
+
 const TransferCryptoCurrency = ({ navigation }) => {
+  const dispatch = useDispatch();
   const redux = useSelector(state => state);
+  const licensesData = redux?.licenses;
+  const amount = useValidatedInput('amount', '');
+  const address = useValidatedInput('address', '');
   const referenceCode = useValidatedInput('referenceCode', '');
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanErrorLicenses());
+      dispatch(toggleSnackbarClose());
+    });
+    return unsubscribe;
+  }, []);
 
+  const error = useSelector(state => state?.licenses?.showErrorLicenses);
 
+  async function handleBuyLicense() {
+    dispatch(createLicense({ amount,address, }));
+    //navigation.navigate("QrCodeTransaction")
+  }
 
+  //createLicense = (amount, address, currency, type, voucherCrypto, transactionId)
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
@@ -30,18 +53,25 @@ const TransferCryptoCurrency = ({ navigation }) => {
       <Text h12 white light>{i18n.t('Licenses.textMakeTheTransfer')}<Text white semibold>{i18n.t('Licenses.textOfCryptocurrenciesToTheAddress')}</Text>{i18n.t('Licenses.textShownHereAndSaveThe')}</Text>
       <Divider height-10 />
       <FloatingInput
-        {...referenceCode}
+        {...amount}
         label={i18n.t('Licenses.inputAmountRequired')}
         keyboardType={'number-pad'}
         autoCapitalize={'none'}
       />
       <Divider height-10 />
       <FloatingInput
-        {...referenceCode}
+        {...address}
         label={i18n.t('Licenses.inputAddressToTransfer')}
         keyboardType={'default'}
         autoCapitalize={'none'}
       />
+      <FloatingInput
+        {...address}
+        label={i18n.t('Licenses.inputTransactionId')}
+        keyboardType={'default'}
+        autoCapitalize={'none'}
+      />
+       <Divider height-10 />
       <Divider height-10 />
       <View row  >
         <ButtonRounded
@@ -74,13 +104,19 @@ const TransferCryptoCurrency = ({ navigation }) => {
         labelButton={i18n.t('Licenses.textChooseFile')}/>
       <Divider height-10 />
       <ButtonRounded
-        onPress={() => navigation.navigate("QrCodeTransaction")}
+        onPress={handleBuyLicense}
         disabled={false}
       >
         <Text h14 semibold white>
           {i18n.t('Licenses.buttonCheckTransaction')}
         </Text>
       </ButtonRounded>
+      <SnackNotice
+        visible={error}
+        message={licensesData?.error?.message}
+        timeout={3000}
+      />
+      <Loading modalVisible={licensesData?.isLoadingLicenses} />
     </BackgroundWrapper>
   );
 }
