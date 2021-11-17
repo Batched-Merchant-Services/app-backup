@@ -14,7 +14,9 @@ import {
   CURRENT_LICENSE,
   CURRENT_LICENSE_SUCCESS,
   CREATE_LICENSE,
-  CREATE_LICENSE_SUCCESS
+  CREATE_LICENSE_SUCCESS,
+  GET_ADDRESS_CURRENCIES,
+  GET_ADDRESS_CURRENCIES_SUCCESS
 } from '../constants';
 
 export const initialState = {
@@ -32,6 +34,8 @@ export const initialState = {
   totalLicenses: [],
   cryptoCurrencies: [],
   currentLicense: [],
+  createLicenses:[],
+  addressCurrency:null,
   error: {},
   success: {},
 };
@@ -120,9 +124,22 @@ export default licensesReducer = (state = initialState, action) => {
         isLoadingLicenses: false,
         successCreateLicense: true,
         showErrorLicenses: false,
+        createLicenses: action.payload,
         error: {},
         success: {},
       };
+      case GET_ADDRESS_CURRENCIES:
+        return { ...state, isLoadingLicenses: true, showErrorLicenses: false };
+  
+      case GET_ADDRESS_CURRENCIES_SUCCESS:
+        return {
+          ...state,
+          isLoadingLicenses: false,
+          showErrorLicenses: false,
+          addressCurrency: action.payload,
+          error: {},
+          success: {},
+        };
 
     case LICENSES_ERROR:
       return {
@@ -147,6 +164,7 @@ export default licensesReducer = (state = initialState, action) => {
         successTotalLicense: false,
         successGetLicenses: false,
         successCryptoCurrencies: false,
+        successCreateLicense: false,
         showErrorLicenses: false,
         error: {},
         success: {},

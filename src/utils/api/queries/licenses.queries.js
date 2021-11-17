@@ -116,3 +116,19 @@ export const GET_TOTAL_LICENSES_IN_NETWORK = gql`
 query($token:String!) {
   getTotalLicensesInNetwork(token: $token)  
 }`
+
+
+export const GET_ADDRESS_CURRENCY = gql`
+query ($token:String!,$currencyId:Int!)
+{  
+    getCryptoCurrencyAddress(token:$token,currencyId:$currencyId)
+    {
+        id
+        address
+        description
+        status
+        
+    }
+}`
+
+

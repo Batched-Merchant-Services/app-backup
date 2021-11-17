@@ -1,6 +1,12 @@
 import { gql, useQuery } from '@apollo/client';
 
 
+export const SET_FILE = gql`
+mutation($token:String!,$fileName:String!,$file64:String!){
+  setFile(token:$token,fileName:$fileName,file64:$file64)
+}`;
+
+
 export const GET_USER_BATCHED = gql`
   query($token:String!,$field:String!,$id:String!){
     getUsersByField(token:$token,field:$field,id:$id)

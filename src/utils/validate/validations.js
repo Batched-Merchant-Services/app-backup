@@ -120,6 +120,40 @@ const Validations = {
       message: i18n.t('validations.dropdownSelect')
     }
   },
+  transactionId:{
+    presence: {
+      message: i18n.t('validations.transactionId')
+    },
+  },
+  transactionIdBTC:{
+    presence: {
+      message: i18n.t('validations.transactionId')
+    },
+    format: {
+      pattern: /^[a-fA-F0-9]{64}$/,
+      message: i18n.t('validations.transactionIdFormat')
+    }
+  },
+  transactionIdETH:{
+    presence: {
+      message: i18n.t('validations.transactionId')
+    },
+    format: {
+      pattern: /^(0x)[a-fA-F0-9]{64}$/,
+      message: i18n.t('validations.transactionIdFormat')
+    }
+  },
+  amount:{
+    presence: {
+      message: i18n.t('validations.amount')
+    },
+  },
+  file:{
+    presence: {
+      message: i18n.t('validations.file')
+    },
+  }
+  
 
 };
 

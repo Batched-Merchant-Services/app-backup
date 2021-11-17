@@ -2,10 +2,12 @@ import {
   GET_USER_DATA,
   GET_USER_DATA_SUCCESS,
   USER_ERROR,
-  CLEAN_DATA_USER
+  CLEAN_DATA_USER,
+	SET_FILE_URL,
+	SET_FILE_URL_SUCCESS
 } from '../constants';
 
-import { GET_USER_BATCHED } from '@utils/api/queries/user.queries';
+import { GET_USER_BATCHED,SET_FILE } from '@utils/api/queries/user.queries';
 import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
 import { toggleSnackbarOpen } from './app.actions';
@@ -40,6 +42,38 @@ export const getDataUser = () => async (dispatch) => {
   }
 
 };
+
+
+
+export const setFile = ({nameFile,resultBase}) => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: SET_FILE_URL });
+
+    client.mutate({
+      mutation: SET_FILE,
+      variables: {
+        token: token,
+        fileName: nameFile,
+        file64: resultBase
+      }
+    }).then(async (response) => {
+      if (response.data) {
+        dispatch({ type: SET_FILE_URL_SUCCESS, payload: response?.data['setFile'] });
+      }
+    }).catch((error) => {
+      dispatch({ type: USER_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    dispatch({ type: USER_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
+  }
+
+};
+
+
+
 
 
 export const cleanDataUser = () => async (dispatch) => {

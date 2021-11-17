@@ -14,11 +14,13 @@ import {
   CURRENT_LICENSE,
   CURRENT_LICENSE_SUCCESS,
   CREATE_LICENSE,
-  CREATE_LICENSE_SUCCESS
+  CREATE_LICENSE_SUCCESS,
+  GET_ADDRESS_CURRENCIES,
+  GET_ADDRESS_CURRENCIES_SUCCESS
 } from '../constants';
 
 
-import { GET_REFERRED_ID, GET_CURRENT_TYPE_LICENSES, GET_LICENSES_QUERY, GET_TOTAL_LICENSES_QUERY, GET_CRYPTO_CURRENCY_QUERY, GET_CREATE_LICENSES_CRYPTO } from '@utils/api/queries/licenses.queries';
+import { GET_REFERRED_ID, GET_CURRENT_TYPE_LICENSES, GET_LICENSES_QUERY, GET_TOTAL_LICENSES_QUERY, GET_CRYPTO_CURRENCY_QUERY, GET_CREATE_LICENSES_CRYPTO,GET_ADDRESS_CURRENCY } from '@utils/api/queries/licenses.queries';
 import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
 import { toggleSnackbarOpen } from './app.actions';
@@ -93,9 +95,11 @@ export const getListLicenses = () => async (dispatch) => {
       }
     }).catch((error) => {
       dispatch({ type: LICENSES_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
     dispatch({ type: LICENSES_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
   }
 
 };
@@ -128,14 +132,17 @@ export const getTotalLicenses = () => async (dispatch) => {
         filter: ''
       }
     }).then(async (response) => {
+      console.log('response total licenses',response)
       if (response.data) {
         dispatch({ type: GET_TOTAL_LICENSES_SUCCESS, payload: response?.data['getTotalTypeLicenses'] });
       }
     }).catch((error) => {
       dispatch({ type: LICENSES_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
     dispatch({ type: LICENSES_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
   }
 
 }
@@ -159,9 +166,11 @@ export const getCryptoCurrency = () => async (dispatch) => {
       }
     }).catch((error) => {
       dispatch({ type: LICENSES_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
     dispatch({ type: LICENSES_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
   }
 
 }
@@ -172,7 +181,8 @@ export const nameCryptoCurrencies = (data) => {
     cryptoCurryArray.push(
       {
         value: cryptoCurrencies.currency,
-        name: `${cryptoCurrencies.name}`
+        id   : cryptoCurrencies.id,
+        name : `${cryptoCurrencies.name}`
       }
     )
   });
@@ -188,33 +198,62 @@ export const saveCurrentLicense = ({ selectLicense }) => async (dispatch) => {
   }
 }
 
-export const createLicense = (amount, address, currency, type, voucherCrypto, transactionId) => async (dispatch) => {
+export const createLicense = ({createLicenses}) => async (dispatch) => {
+  
+  console.log('createLicenses action',createLicenses)
 
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: CREATE_LICENSE });
-
-    client.query({
-      query: GET_CREATE_LICENSES_CRYPTO,
+    client.mutate({
+      mutation: GET_CREATE_LICENSES_CRYPTO,
       variables: {
         token: token,
-        total: amount,
-        address: address,
-        currency: currency,
-        type: type,
-        voucherCrypto: voucherCrypto,
-        transactionId: transactionId
+        ...createLicenses
       }
     }).then(async (response) => {
       console.log('response create', response)
       if (response.data) {
-        dispatch({ type: CREATE_LICENSE_SUCCESS });
+        dispatch({ type: CREATE_LICENSE_SUCCESS, payload: response.data['createLicensesCryptoTransactionDeposit'] });
       }
     }).catch((error) => {
+      console.log('error 1', error)
       dispatch({ type: LICENSES_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
+    console.log('error 2', error)
     dispatch({ type: LICENSES_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
+  }
+}
+
+export const getAddressCurrency = (currencyId) => async (dispatch) => {
+
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: GET_ADDRESS_CURRENCIES });
+
+    client.query({
+      query: GET_ADDRESS_CURRENCY,
+      variables: {
+        token: token,
+        currencyId:currencyId
+      }
+    }).then(async (response) => {
+      console.log('response address', response)
+      if (response.data) {
+        dispatch({ type: GET_ADDRESS_CURRENCIES_SUCCESS, payload: response?.data?.getCryptoCurrencyAddress[0] });
+      }
+    }).catch((error) => {
+      console.log('error1',error)
+      dispatch({ type: LICENSES_ERROR, payload: error });
+      //dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    console.log('error2',error)
+    dispatch({ type: LICENSES_ERROR, payload: error });
+    //dispatch(toggleSnackbarOpen(error));
   }
 }
 

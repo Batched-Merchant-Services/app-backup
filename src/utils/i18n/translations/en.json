@@ -23,8 +23,11 @@
       "birthDay":"Please select birth day",
       "addressOne":"Please enter a Address one",
       "addressTwo":"Please enter a Address two",
-      "postalCode":"Please enter a postal code"
-
+      "postalCode":"Please enter a postal code",
+      "transactionId":"Please enter a Transaction ID",
+      "transactionIdFormat":"The transaction id don't exist",
+      "amount":"please enter amount",
+      "file":"please select file"
     },
     "General":{
       "linkTermsAndConditions":"Terms and Conditions",

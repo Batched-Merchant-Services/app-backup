@@ -6,18 +6,18 @@ import {
   ButtonRounded,
   BackgroundWrapper
 } from '@components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
 import QRCode from 'react-native-qrcode-svg';
 import { scale} from 'react-native-size-matters';
 import i18n from '@utils/i18n';
 
 const QrCodeTransaction = ({ navigation,navigation: { goBack }  }) => {
+  const dispatch = useDispatch();
   const redux = useSelector(state => state);
-  const referenceCode = useValidatedInput('referenceCode', '');
+  const licensesData = redux?.licenses;
 
-
-
+console.log('licensesData?.addressCurrency?.address',licensesData?.addressCurrency?.address)
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
       <Text h18 regular blue02>{i18n.t('Licenses.textQRCodeForTransaction')}</Text>
@@ -27,7 +27,7 @@ const QrCodeTransaction = ({ navigation,navigation: { goBack }  }) => {
       <View centerH>
         <View blue02 width-320 height-30 centerH centerV><Text h12 white semibold>Ethereum{' '}{i18n.t('Licenses.textQRCode')} </Text></View>
         <QRCode
-          value="http://awesome.link.qr"
+          value={licensesData?.addressCurrency?.address}
           size={scale(320)}
           quietZone={scale(30)}
         />

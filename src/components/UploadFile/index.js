@@ -7,6 +7,8 @@ import {
   ImageResize,
   ButtonRounded
 } from '@components';
+
+import { useSelector, useDispatch } from 'react-redux';
 import { scale,verticalScale } from 'react-native-size-matters';
 import { useValidatedInput } from '@hooks/validation-hooks';
 import DocumentPicker from 'react-native-document-picker';
@@ -15,40 +17,28 @@ import Colors from '@styles/Colors';
 
 import check from '@assets/icons/white-check.png';
 import close from '@assets/icons/white-x.png';
+import { setFile } from '../../store/actions/user.action';
+import { convertImage } from '@utils/formatters';
 
 
-const UploadFile = ({ navigation,labelInput,labelButton,onPressTerm, onPressPrivacy, ...props }) => {
-  const fileUpload = useValidatedInput('fileUpload', '');
+const UploadFile = ({ value, error, onChangeText,navigation,labelInput,labelButton,onPressTerm, onPressPrivacy, ...props }) => {
+  const dispatch = useDispatch();
+  const redux = useSelector(state => state);
+  const userData = redux?.user;
   const [singleFile, setSingleFile] = useState(null);
   const [fileError, setFileError] = useState(false);
 
-  const uploadImage = async () => {
+  const uploadImage = async (fileBase64) => {
     // Check if any file is selected or not
-    if (singleFile != null) {
-      // If file selected then create FormData
-      const fileToUpload = singleFile;
-      const data = new FormData();
-      data.append('name', 'Image Upload');
-      data.append('file_attachment', fileToUpload);
-      // Please change file upload URL
-      let res = await fetch(
-        'http://localhost/upload.php',
-        {
-          method: 'post',
-          body: data,
-          headers: {
-            'Content-Type': 'multipart/form-data; ',
-          },
-        }
-      );
-      let responseJson = await res.json();
-      if (responseJson.status == 1) {
-        alert('Upload Successful');
-      }
-    } else {
-      // If no file selected the show alert
-      alert('Please Select File first');
-    }
+      //const fileBase64 = singleFile;
+      const resultBase = await convertImage(fileBase64);
+      // const splitName = fileBase64?.name?.split('.');
+      const nameFile = fileBase64?.name;
+      console.log('nameFile',nameFile);
+      dispatch(setFile({ nameFile, resultBase }));
+      console.log('userData?',userData?.setFile)
+      onChangeText(userData?.setFile);
+   
   };
 
   const selectFile = async () => {
@@ -67,6 +57,9 @@ const UploadFile = ({ navigation,labelInput,labelButton,onPressTerm, onPressPriv
       // Printing the log realted to the file
       // Setting the state to show single file attributes
       setSingleFile(res[0]);
+      const fileBase64 = res[0];
+      uploadImage(fileBase64);
+
     } catch (err) {
       setSingleFile(null);
       setFileError(true)
@@ -81,6 +74,7 @@ const UploadFile = ({ navigation,labelInput,labelButton,onPressTerm, onPressPriv
       }
     }
   };
+
 
   return (
       <View style={styles.mainBody}>

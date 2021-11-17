@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -10,38 +10,65 @@ import {
   FloatingInput,
   BackgroundWrapper
 } from '@components';
-import { useSelector } from 'react-redux';
-import { useValidatedInput } from '@hooks/validation-hooks';
+import { useSelector, useDispatch } from 'react-redux';
+import { Clipboard } from 'react-native'
+import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import i18n from '@utils/i18n';
 
 import { validateReference } from '@store/actions/licenses.actions';
 import Loading from '../Loading';
 import { toggleSnackbarClose } from '@store/actions/app.actions';
 import { cleanErrorLicenses } from '@store/actions/licenses.actions';
+import { createLicense, getAddressCurrency } from '../../store/actions/licenses.actions';
 
-const TransferCryptoCurrency = ({ navigation }) => {
+const TransferCryptoCurrency = ({ navigation, route }) => {
+  const id = route?.params?.id;
+  const currency = route?.params?.currency;
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const licensesData = redux?.licenses;
+  console.log(licensesData?.addressCurrency)
   const amount = useValidatedInput('amount', '');
-  const address = useValidatedInput('address', '');
-  const referenceCode = useValidatedInput('referenceCode', '');
+  const address = useValidatedInput('address', licensesData?.addressCurrency?.address);
+  const transactionIdValue = useValidatedInput(id === 1 ? 'transactionId' : id === 2 ? 'transactionIdETH' : 'transactionId', '');
+  const file = useValidatedInput('file', '');
+  const isValidId = isFormValid(amount, file);
+  const isValid = isFormValid(amount, address, transactionIdValue, file);
+  const error = useSelector(state => state?.licenses?.showErrorLicenses);
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanErrorLicenses());
       dispatch(toggleSnackbarClose());
+      dispatch(getAddressCurrency(id))
     });
     return unsubscribe;
   }, []);
 
-  const error = useSelector(state => state?.licenses?.showErrorLicenses);
 
   async function handleBuyLicense() {
-    dispatch(createLicense({ amount,address, }));
-    //navigation.navigate("QrCodeTransaction")
+
+    const typeId = licensesData?.getLicenses?.id
+    const createLicenses = {
+      total: parseInt(amount?.value) ?? 0,
+      address: address?.value ?? '',
+      currency: currency ?? '',
+      type: typeId ?? 0,
+      voucherCrypto: file?.value ?? '',
+      transactionId: transactionIdValue?.value ?? ''
+    }
+
+    dispatch(createLicense({ createLicenses }));
+
   }
 
-  //createLicense = (amount, address, currency, type, voucherCrypto, transactionId)
+  const copyToClipboard = () => {
+    Clipboard.setString(licensesData?.addressCurrency?.address)
+  }
+  if (licensesData?.successCreateLicense) {
+    navigation.navigate("ConfirmationLicenses")
+  }
+  console.log('id', id)
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
@@ -59,23 +86,29 @@ const TransferCryptoCurrency = ({ navigation }) => {
         autoCapitalize={'none'}
       />
       <Divider height-10 />
-      <FloatingInput
-        {...address}
-        label={i18n.t('Licenses.inputAddressToTransfer')}
-        keyboardType={'default'}
-        autoCapitalize={'none'}
-      />
-      <FloatingInput
-        {...address}
-        label={i18n.t('Licenses.inputTransactionId')}
-        keyboardType={'default'}
-        autoCapitalize={'none'}
-      />
-       <Divider height-10 />
-      <Divider height-10 />
+      {id !== 'undefined' && (
+        <Fragment>
+          <FloatingInput
+            {...address}
+            label={i18n.t('Licenses.inputAddressToTransfer')}
+            editable={false}
+            keyboardType={'default'}
+            autoCapitalize={'none'}
+          />
+          <Divider height-10 />
+          <FloatingInput
+            {...transactionIdValue}
+            label={i18n.t('Licenses.inputTransactionId')}
+            keyboardType={'default'}
+            autoCapitalize={'none'}
+          />
+          <Divider height-10 />
+        </Fragment>
+      )}
+
       <View row  >
         <ButtonRounded
-          //onPress={() => goBack()}
+          onPress={() => copyToClipboard}
           disabled={false}
           dark
           size='sm'
@@ -98,25 +131,29 @@ const TransferCryptoCurrency = ({ navigation }) => {
       </View>
       <Divider height-20 />
       <Text h12 white>{i18n.t('Licenses.textSubmitAScreenshot')}</Text>
-      <Divider height-10 />
-      <UploadFile 
+      <Divider height-20 />
+      <UploadFile
         labelInput={i18n.t('Licenses.textFormatUpload')}
-        labelButton={i18n.t('Licenses.textChooseFile')}/>
+        labelButton={i18n.t('Licenses.textChooseFile')}
+        {...file}
+      />
       <Divider height-10 />
       <ButtonRounded
         onPress={handleBuyLicense}
-        disabled={false}
+        disabled={id ? !isValid : !isValidId}
       >
         <Text h14 semibold white>
           {i18n.t('Licenses.buttonCheckTransaction')}
         </Text>
       </ButtonRounded>
-      <SnackNotice
-        visible={error}
-        message={licensesData?.error?.message}
-        timeout={3000}
-      />
       <Loading modalVisible={licensesData?.isLoadingLicenses} />
+      <View flex-1 bottom>
+        <SnackNotice
+          visible={error}
+          message={licensesData?.error?.message}
+          timeout={3000}
+        />
+      </View>
     </BackgroundWrapper>
   );
 }

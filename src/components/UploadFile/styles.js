@@ -5,7 +5,7 @@ import { scale, verticalScale } from 'react-native-size-matters';
 export default StyleSheet.create({
 
   mainBody: {
-    flex: 1,
+
     justifyContent: 'center',
   
   },

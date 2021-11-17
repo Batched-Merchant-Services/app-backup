@@ -289,6 +289,16 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>react-native-image-base64.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>react-native-image-resizer.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>react-native-lottie-splash-screen.xcscheme</key>
 		<dict>
 			<key>isShown</key>

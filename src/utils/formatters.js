@@ -1,3 +1,7 @@
+import ImageResizer from 'react-native-image-resizer';
+import ImgToBase64 from 'react-native-image-base64';
+
+
 export const formatDateGMT = stringDate => {
   const date = new Date(stringDate);
   const year = date.getFullYear();
@@ -77,8 +81,8 @@ export const upperCase = text => {
   return '';
 };
 
-// export const convertImage = async(path) => {
-//   const resizedImageUrl = await ImageResizer.createResizedImage(path, 400, 400, 'JPEG', 100, 0, null);
-//   const base64 =  await ImgToBase64.getBase64String(resizedImageUrl.uri);
-//   return 'data:image/jpeg;base64,'+ base64;
-// };
+export const convertImage = async(path) => {
+  const resizedImageUrl = await ImageResizer.createResizedImage(path.uri, 400, 400, 'JPEG', 100, 0, null);
+  const base64 =  await ImgToBase64.getBase64String(resizedImageUrl?.uri);
+  return base64;
+};

@@ -24,7 +24,9 @@ const SelectTypeLicense = ({ navigation }) => {
   const dataUser = redux?.user;
   const [maximumLicenses, setMaximumLicenses] = useState(5);
   const [totalLicenses, setTotalLicenses] = useState(0);
-  const [dropDownLicenses, setDropDownLicenses] = useState([{name:1,value:'1'}]);
+  const [currencyLicense, setCurrencyLicense] = useState(0);
+  const [idCurrency, setIdCurrency] = useState(0);
+  const [itemTypeLicenses, setItemTypeLicenses] = useState([]);
   const [currentLicense] = useState(licensesData?.currentLicense);
   const typeLicenses = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
@@ -32,7 +34,7 @@ const SelectTypeLicense = ({ navigation }) => {
   const cryptoCurrency = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
-  const isValid = isFormValid(typeLicenses,cryptoCurrency);
+  const isValid = isFormValid(typeLicenses);
 
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
 
@@ -42,38 +44,58 @@ const SelectTypeLicense = ({ navigation }) => {
       dispatch(cleanErrorLicenses());
       dispatch(toggleSnackbarClose());   
       dispatch(getListLicenses()); 
-      dispatch(getTotalLicenses());
       dispatch(getCryptoCurrency());
       dispatch(getDataUser());
       getInfoData();
+
     });
     return unsubscribe;
   }, []);
   
   function getInfoData() {
     const InfoBank = {...dataUser?.dataUser}
-    const totalLicenses = InfoBank?.bachedTransaction?.filter(filter => filter.status !== 2)?.forEach(transaction => {
-      this.totalLicences += +transaction.routingNumber;
-    })
-    InfoBank?.bachedTransaction?.filter(filter => filter.status !== 2 && filter.currencyCrypto === 'UUL')?.forEach(transaction => {
-      this.totalLicencesUul = +transaction.routingNumber;
-    })
-    setTotalLicenses(totalLicenses??0);
-    
-
-    console.log('dataUser',totalLicenses)
+    if (InfoBank?.bachedTransaction?.length === 0) {
+      setTotalLicenses(0);
+    }else{
+      InfoBank?.bachedTransaction?.filter(filter => filter.status !== 2)?.forEach(transaction => {
+        setTotalLicenses(transaction.routingNumber??0);
+      })
+      InfoBank?.bachedTransaction?.filter(filter => filter.status !== 2 && filter.currencyCrypto === 'UUL')?.forEach(transaction => {
+        setTotalLicenses(transaction.routingNumber??0);
+      })
+    }
+    getArrayLicense();
   }
 
 
+
+  function getArrayLicense(end) {
+    const arrayLicenses =  Array(end??0 - 1 + 1).fill().map((_, idx) =>{
+      const value = 1+idx
+      return {name:1 + idx, value:value?.toString()}
+    });
+    setItemTypeLicenses(arrayLicenses);
+  }
+  
+
   function typeCurrency(code){
+    const rest = licensesData?.cryptoCurrencies.filter(key => key?.value === code.value);
+    setIdCurrency(rest[0]?.id);
+    setCurrencyLicense(code);
     if (code?.value === 'UUL') {
-      setMaximumLicenses('05')
+      setMaximumLicenses(5)
+      const licenseUUl = ( 5 - totalLicenses )
+      const validateNumber = licenseUUl >= 0 ?licenseUUl: 0
+      getArrayLicense(validateNumber)
+  
     }else{
-      setMaximumLicenses('15')
+      setMaximumLicenses(15)
+      const licenseOthers = ( 15 - totalLicenses)
+      const validateNumber = licenseOthers >= 0 ?licenseOthers: 0
+      getArrayLicense(validateNumber)
     }
   
   }
-
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
      <NavigationBar childrenLeft navigation={navigation}/>
@@ -99,22 +121,28 @@ const SelectTypeLicense = ({ navigation }) => {
       <Text h12 white light>{i18n.t('Licenses.textSelectThe')}{' '}<Text white semibold>{i18n.t('Licenses.textNumberOfLicenses')}{' '}</Text>{i18n.t('Licenses.textAnd')}{' '}<Text white semibold>{i18n.t('Licenses.textTheCryptocurrency')}{' '}</Text>{i18n.t('Licenses.textWithWhichYouWant')}</Text>
       <Divider height-10 />
       <DropDownPicker
-        {...typeLicenses}
-        label={'Licenses'}
-        options={dropDownLicenses}
-        //onFill={(code)=> filterPays(code)}
-       />
-      <Divider height-5 />
-      <DropDownPicker
         {...cryptoCurrency}
         label={'Criptocurrency'}
         options={licensesData?.cryptoCurrencies}
         onSelect={(code)=> typeCurrency(code)}
        />
       <Divider height-5 />
+      <DropDownPicker
+        {...typeLicenses}
+        label={'Licenses'}
+        options={itemTypeLicenses}
+        //onFill={(code)=> filterPays(code)}
+       />
+      <Divider height-5 />
+      
       <View flex-1  bottom>
       <ButtonRounded
-        onPress={() => navigation.navigate("TransferCryptoCurrency")}
+      onPress={() => {
+          navigation.navigate('SignOut',{
+            screen: 'TransferCryptoCurrency',
+            params: { id: idCurrency,currency: currencyLicense?.value}
+          });
+        }}
         disabled={!isValid}
         blue
       >
