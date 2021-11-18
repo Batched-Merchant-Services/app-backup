@@ -12,11 +12,12 @@ import {
   GET_CRYPTO_CURRENCY,
   GET_CRYPTO_CURRENCY_SUCCESS,
   CURRENT_LICENSE,
-  CURRENT_LICENSE_SUCCESS,
   CREATE_LICENSE,
   CREATE_LICENSE_SUCCESS,
   GET_ADDRESS_CURRENCIES,
-  GET_ADDRESS_CURRENCIES_SUCCESS
+  GET_ADDRESS_CURRENCIES_SUCCESS,
+	GET_TOTAL_LICENSES_IN_NETWORK,
+  GET_TOTAL_LICENSES_IN_NETWORK_SUCCESS
 } from '../constants';
 
 export const initialState = {
@@ -26,7 +27,7 @@ export const initialState = {
   successListLicense: false,
   successTotalLicense: false,
   successCryptoCurrencies: false,
-  successCreateLicense:false,
+  successCreateLicense: false,
   showErrorLicenses: false,
   dataLicenses: [],
   getLicenses: [],
@@ -34,8 +35,9 @@ export const initialState = {
   totalLicenses: [],
   cryptoCurrencies: [],
   currentLicense: [],
-  createLicenses:[],
-  addressCurrency:null,
+  createLicenses: [],
+  totalLicensesNetwork: null,
+  addressCurrency: null,
   error: {},
   success: {},
 };
@@ -128,18 +130,29 @@ export default licensesReducer = (state = initialState, action) => {
         error: {},
         success: {},
       };
-      case GET_ADDRESS_CURRENCIES:
-        return { ...state, isLoadingLicenses: true, showErrorLicenses: false };
-  
-      case GET_ADDRESS_CURRENCIES_SUCCESS:
-        return {
-          ...state,
-          isLoadingLicenses: false,
-          showErrorLicenses: false,
-          addressCurrency: action.payload,
-          error: {},
-          success: {},
-        };
+    case GET_ADDRESS_CURRENCIES:
+      return { ...state, isLoadingLicenses: true, showErrorLicenses: false };
+
+    case GET_ADDRESS_CURRENCIES_SUCCESS:
+      return {
+        ...state,
+        isLoadingLicenses: false,
+        showErrorLicenses: false,
+        addressCurrency: action.payload,
+        error: {},
+        success: {},
+      };
+    case GET_TOTAL_LICENSES_IN_NETWORK:
+      return { ...state, isLoadingLicenses: true, showErrorLicenses: false };
+
+    case GET_TOTAL_LICENSES_IN_NETWORK_SUCCESS:
+      return {
+        ...state,
+        isLoadingLicenses: false,
+        showErrorLicenses: false,
+        totalLicensesNetwork: action.payload,
+        error: {},
+      };
 
     case LICENSES_ERROR:
       return {

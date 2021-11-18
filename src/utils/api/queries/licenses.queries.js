@@ -83,36 +83,8 @@ mutation($token:String!,$id:Int!,$voucherCrypto:String!,$transactionId:String!){
   }
 }`
 
-export const GET_CONFIG_REWARDS_TOKEN = gql`
-query($token:String!) {
-  getLastTimeRewards(token: $token) {
-    id
-    groupid
-    description
-    startDate
-    endDate
-    amount
-    isClose
-  }
-}`
 
-export const GET_VALIDATE_REWARDS_PROCESS = gql`
-query($token:String!,$isStart:Boolean!){
-  getValidateSessionToken(token:$token,isStart:$isStart)
-}`
-
-
-export const GET_VALIDATE_REWARDS_PROCESS_BY_USER = gql`
-query($token:String!) {
-  getTotalLicensesInNetworkByUser(token: $token) 
-}`
-
-export const SET_RESET_PROCESS_REWARDS = gql`
-query($token:String!) {
-  getResetValidateSessionToken(token: $token) 
-}`
-
-export const GET_TOTAL_LICENSES_IN_NETWORK = gql`
+export const GET_TOTAL_LICENSES_IN_NETWORK_QUERY = gql`
 query($token:String!) {
   getTotalLicensesInNetwork(token: $token)  
 }`

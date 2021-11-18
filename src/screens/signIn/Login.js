@@ -50,8 +50,12 @@ const Login = ({ navigation }) => {
 
 
   if (authData?.isLoggedIn) {
-    navigation.navigate('SignOut', {
-      screen: 'ReferralCode'
+    // navigation.navigate('SignOut', {
+    //   screen: 'ReferralCode'
+    // });
+    navigation.navigate('DrawerScreen',{
+      screen: 'Dashboard',
+      merge: true
     });
   }
 

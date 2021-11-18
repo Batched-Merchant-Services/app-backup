@@ -105,7 +105,6 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
           <Divider height-10 />
         </Fragment>
       )}
-
       <View row  >
         <ButtonRounded
           onPress={() => copyToClipboard}

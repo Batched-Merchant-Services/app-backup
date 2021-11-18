@@ -3,10 +3,11 @@ import {
   Text,
   View,
   Divider,
+  SnackNotice,
   ButtonRounded,
   BackgroundWrapper
 } from '@components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import Menu from '@assets/icons/hamburgerMenu.png';
 import Wallet from '@assets/icons/blue-wallet.png';
 import CircleTimer from '@assets/home/CircleTimer.png';
@@ -14,32 +15,73 @@ import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
 import Styles from './styles';
 import i18n from '@utils/i18n';
 import Colors from '@styles/Colors';
-import {
-  useColorScheme,
-} from 'react-native';
-import { useTheme } from '@react-navigation/native';
+import Loading from '../Loading';
+//actions
+import { toggleSnackbarClose } from '@store/actions/app.actions';
+import { cleanErrorLicenses, getTotalLicensesInNetwork } from '@store/actions/licenses.actions';
+import { getValidateRewardsByUser,getRewardsConfig } from '@store/actions/rewards.actions';
+import { thousandsSeparator } from '@utils/formatters';
+
+function calculateTimeLeft() {
+  const year = new Date().getFullYear();
+  const difference = +new Date(`${year}-10-1`) - +new Date();
+  let timeLeft = {};
+
+  if (difference > 0) {
+    timeLeft = {
+      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((difference / 1000 / 60) % 60),
+      seconds: Math.floor((difference / 1000) % 60)
+    };
+  }
+
+  return timeLeft;
+}
+
 
 const Dashboard = ({ navigation }) => {
+  const dispatch = useDispatch();
   const redux = useSelector(state => state);
+  const licensesData = redux?.licenses;
+  const infoUser = redux?.user;
+  const rewardsData = redux?.rewards;
   const [statusAvailable, setStatusAvailable] = useState(true);
   const [statusParticipate, setStatusParticipate] = useState(false);
   const [statusStayOnline, setStatusStayOnline] = useState(false);
+  const [totalLicenses, setTotalLicenses] = useState(0);
+  const [timeLeft, setTimeLeft] = useState([]);
   const [statusActive, setsStatusActive] = useState(false);
   const [statusFinish, setsStatusFinish] = useState(false);
+  const error = useSelector(state => state?.licenses?.showErrorLicenses);
 
+ 
   
-  function handleNavigationWallet(){
-    navigation.navigate("HomeMyBatched")
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanErrorLicenses());
+      dispatch(toggleSnackbarClose());
+      dispatch(getTotalLicensesInNetwork());
+      dispatch(getValidateRewardsByUser())
+      dispatch(getRewardsConfig());
+      getBatchedTransaction();
+      console.log('calculate left',calculateTimeLeft());
+    });
+    return unsubscribe;
+  }, []);
+
+  function getBatchedTransaction() {
+    infoUser?.dataUser?.bachedTransaction?.forEach(transaction => {
+      if(transaction.status === 1 || transaction.status === 3) setTotalLicenses(totalLicenses + transaction.routingNumber?parseInt(transaction.routingNumber):transaction.routingNumber);
+    });
   }
 
-
-  const { colors } = useTheme();
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: colors.white,
-    flex: 1
-  };
+  function handleNavigationWallet() {
+    navigation.navigate("HomeMyBatched")
+  }
+  console.log('rewardsData',rewardsData?.configRewards?.amount);
+ 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={Menu} childrenRight={Wallet} menu onPressRight={handleNavigationWallet} navigation={navigation}>
       {statusParticipate && (
@@ -99,18 +141,18 @@ const Dashboard = ({ navigation }) => {
       )}
 
       <Text h14 blue02 center>{i18n.t('home.textValidatingReward')}</Text>
-      <Text h18 white semibold center>00,000</Text>
+      <Text h18 white semibold center>{thousandsSeparator(rewardsData?.configRewards?.amount)}</Text>
       <Divider height-10 />
       <View row>
         <Divider style={Styles.borderDoted} />
         <View flex-1 paddingH-15>
           <Text h12 blue02 right>{i18n.t('home.textLicensesInNetwork')}</Text>
-          <Text h16 white right semibold>00</Text>
+          <Text h16 white right semibold>{licensesData?.totalLicensesNetwork}</Text>
         </View>
         <Divider style={Styles.borderDoted} />
-        <View flex-1 paddingH-15>
-          <Text h12 blue02 left>{i18n.t('home.textLicensesInNetwork')}</Text>
-          <Text h16 white left semibold>00</Text>
+        <View flex-1 paddingL-12>
+          <Text h12 blue02 left>{i18n.t('home.textTotalActiveLicenses')}</Text>
+          <Text h16 white left semibold>{totalLicenses}</Text>
         </View>
         <Divider style={Styles.borderDoted} />
       </View>
@@ -123,25 +165,25 @@ const Dashboard = ({ navigation }) => {
         </ImageBackground>
         <View>
           <Text h14 blue02 center>{i18n.t('home.textDistributionCycle')}</Text>
-          <Text h16 white center semibold>00:00:00</Text>
+          <Text h16 white center semibold>{timeLeft}</Text>
         </View>
       </View>
       <Divider height-10 />
       <View flex-1 row>
         <Divider style={Styles.borderDoted} />
         <View flex-1 paddingH-15>
-          <Text h12 blue02 right>{i18n.t('home.textDistributedPerDay')}</Text>
-          <Text h16 white right semibold>00</Text>
+          <Text h10 blue02 right>{i18n.t('home.textDistributedPerDay')}</Text>
+          <Text h15 white right semibold>{thousandsSeparator(rewardsData?.configRewards?.amount)}</Text>
         </View>
         <Divider style={Styles.borderDoted} />
         <View flex-1 paddingH-15>
-          <Text h12 blue02 center>{i18n.t('home.textPointsPerLicence')}</Text>
-          <Text h16 white center semibold>00</Text>
+          <Text h10 blue02 center>{i18n.t('home.textPointsPerLicence')}</Text>
+          <Text h15 white center semibold>00</Text>
         </View>
         <Divider style={Styles.borderDoted} />
         <View flex-1 paddingH-15>
-          <Text h12 blue02 left>{i18n.t('home.textAvailableThisMonth')}</Text>
-          <Text h16 white left semibold>00</Text>
+          <Text h10 blue02 left>{i18n.t('home.textAvailableThisMonth')}</Text>
+          <Text h15 white left semibold>12 000 000</Text>
         </View>
         <Divider style={Styles.borderDoted} />
       </View>
@@ -155,6 +197,14 @@ const Dashboard = ({ navigation }) => {
           {i18n.t('home.buttonLicensesActivation')}
         </Text>
       </ButtonRounded>
+      <Loading modalVisible={licensesData?.isLoadingLicenses} />
+      <View flex-1 bottom>
+        <SnackNotice
+          visible={error}
+          message={licensesData?.error?.message}
+          timeout={3000}
+        />
+      </View>
     </BackgroundWrapper>
   );
 }

@@ -40,6 +40,7 @@ export const moneyFormatter = (amount = 0) => {
 };
 export const thousandsSeparator = (amount = 0) => {
   const fixedAmount = (Math.floor(amount * 100) / 100).toFixed(2);
+    console.log('fixedAmount',fixedAmount)
   return fixedAmount.replace(/\d(?=(\d{3})+\.)/g, '$&,');
 };
 
