@@ -19,25 +19,14 @@ import Loading from '../Loading';
 //actions
 import { toggleSnackbarClose } from '@store/actions/app.actions';
 import { cleanErrorLicenses, getTotalLicensesInNetwork } from '@store/actions/licenses.actions';
-import { getValidateRewardsByUser,getRewardsConfig } from '@store/actions/rewards.actions';
+import { getValidateRewardsByUser, getRewardsConfig } from '@store/actions/rewards.actions';
 import { thousandsSeparator } from '@utils/formatters';
+import CountDownSeconds from './components/CountDownSeconds';
+import CountDownDates from './components/CountDownDates';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+//import moment from 'moment';
 
-function calculateTimeLeft() {
-  const year = new Date().getFullYear();
-  const difference = +new Date(`${year}-10-1`) - +new Date();
-  let timeLeft = {};
 
-  if (difference > 0) {
-    timeLeft = {
-      days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-      hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-      minutes: Math.floor((difference / 1000 / 60) % 60),
-      seconds: Math.floor((difference / 1000) % 60)
-    };
-  }
-
-  return timeLeft;
-}
 
 
 const Dashboard = ({ navigation }) => {
@@ -53,10 +42,14 @@ const Dashboard = ({ navigation }) => {
   const [timeLeft, setTimeLeft] = useState([]);
   const [statusActive, setsStatusActive] = useState(false);
   const [statusFinish, setsStatusFinish] = useState(false);
+  const [starTimer, setStarTimer] = useState(false);
+  const [showButtonStart, setShowButtonStart] = useState(true);
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
+  const startDate = rewardsData?.configRewards?.startDate
+  const endDate = rewardsData?.configRewards?.endDate
+  //const arrivalDateTime = moment().format('MMMM Do YYYY, h:mm:ss a');
 
- 
-  
+
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -66,22 +59,22 @@ const Dashboard = ({ navigation }) => {
       dispatch(getValidateRewardsByUser())
       dispatch(getRewardsConfig());
       getBatchedTransaction();
-      console.log('calculate left',calculateTimeLeft());
+
     });
     return unsubscribe;
   }, []);
 
   function getBatchedTransaction() {
     infoUser?.dataUser?.bachedTransaction?.forEach(transaction => {
-      if(transaction.status === 1 || transaction.status === 3) setTotalLicenses(totalLicenses + transaction.routingNumber?parseInt(transaction.routingNumber):transaction.routingNumber);
+      if (transaction.status === 1 || transaction.status === 3) setTotalLicenses(totalLicenses + transaction.routingNumber ? parseInt(transaction.routingNumber) : transaction.routingNumber);
     });
   }
 
   function handleNavigationWallet() {
     navigation.navigate("HomeMyBatched")
   }
-  console.log('rewardsData',rewardsData?.configRewards?.amount);
- 
+  console.log('rewardsData', rewardsData?.configRewards);
+
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={Menu} childrenRight={Wallet} menu onPressRight={handleNavigationWallet} navigation={navigation}>
       {statusParticipate && (
@@ -134,7 +127,7 @@ const Dashboard = ({ navigation }) => {
         <>
           <View blue03 height-45 centerH centerV>
             <Text h12 white>{i18n.t('home.textValidationOfReward')}</Text>
-            <Text h18 semibold white>30D 12H 47M 18S</Text>
+            <CountDownDates startDate={startDate}  endDate={endDate} />
           </View>
           <Divider height-10 />
         </>
@@ -158,14 +151,24 @@ const Dashboard = ({ navigation }) => {
       </View>
       <View flex-1 height-280>
         <ImageBackground source={CircleTimer} resizeMode="cover" style={Styles.image}>
-          <View blue03 centerV marginT-20 style={Styles.containerTime}>
-            <Text h30 white>00</Text>
-            <Text h20 blue02>%</Text>
-          </View>
+          {showButtonStart && (
+            <TouchableOpacity onPress={()=>setStarTimer(true)}>
+              <View error centerV marginT-20 style={Styles.containerTime}>
+                <Text h20 white bold>Start</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          {!showButtonStart && (
+            <View blue03 centerV marginT-20 style={Styles.containerTime}>
+              <Text h30 white>00</Text>
+              <Text h20 blue02>%</Text>
+            </View>
+          )}
+
         </ImageBackground>
-        <View>
+        <View centerH>
           <Text h14 blue02 center>{i18n.t('home.textDistributionCycle')}</Text>
-          <Text h16 white center semibold>{timeLeft}</Text>
+          <CountDownSeconds startTime={starTimer} valueInfo={(value)=>setShowButtonStart(value)} />
         </View>
       </View>
       <Divider height-10 />

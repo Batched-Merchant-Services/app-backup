@@ -284,6 +284,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>react-native-background-timer.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>react-native-document-picker.xcscheme</key>
 		<dict>
 			<key>isShown</key>

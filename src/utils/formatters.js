@@ -10,6 +10,11 @@ export const formatDateGMT = stringDate => {
   return `${month}/${day}/${year}`;
 };
 
+export const getLocalDateFromUTC = (value)  =>{
+  let localDate = new Date(value);
+  return new Date(Date.UTC(localDate.getFullYear(), localDate.getMonth(), localDate.getDate(),  localDate.getHours(), localDate.getMinutes(), localDate.getSeconds()));
+}
+
 export const formatDate = stringDate => {
   const date = new Date(stringDate);
   const year = date.getFullYear();

@@ -29,10 +29,8 @@ const UploadFile = ({ value, error, onChangeText,navigation,labelInput,labelButt
   const [fileError, setFileError] = useState(false);
 
   const uploadImage = async (fileBase64) => {
-    // Check if any file is selected or not
-      //const fileBase64 = singleFile;
+  
       const resultBase = await convertImage(fileBase64);
-      // const splitName = fileBase64?.name?.split('.');
       const nameFile = fileBase64?.name;
       console.log('nameFile',nameFile);
       dispatch(setFile({ nameFile, resultBase }));
@@ -42,20 +40,10 @@ const UploadFile = ({ value, error, onChangeText,navigation,labelInput,labelButt
   };
 
   const selectFile = async () => {
-    // Opening Document Picker to select one file
     try {
       const res = await DocumentPicker.pick({
-        // Provide which type of file you want user to pick
         type: DocumentPicker.types.allFiles,
-        // There can me more options as well
-        // DocumentPicker.types.allFiles
-        // DocumentPicker.types.images
-        // DocumentPicker.types.plainText
-        // DocumentPicker.types.audio
-        // DocumentPicker.types.pdf
       });
-      // Printing the log realted to the file
-      // Setting the state to show single file attributes
       setSingleFile(res[0]);
       const fileBase64 = res[0];
       uploadImage(fileBase64);
@@ -63,12 +51,9 @@ const UploadFile = ({ value, error, onChangeText,navigation,labelInput,labelButt
     } catch (err) {
       setSingleFile(null);
       setFileError(true)
-      // Handling any exception (If any)
       if (DocumentPicker.isCancel(err)) {
-        // If user canceled the document selection
         alert('Canceled');
       } else {
-        // For Unknown Error
         alert('Unknown Error: ' + JSON.stringify(err));
         throw err;
       }
