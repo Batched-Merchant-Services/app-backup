@@ -12,7 +12,8 @@ import i18n from '@utils/i18n';
 console.log('API_URL_STAGING',API_URL_STAGING,PUBLIC_KEY);
 
   const httpLink = new HttpLink({
-    uri: `https://services-test.apps-uulala.io/UulalaAuth/graphql`
+    uri: `https://batched-services.apps-uulala.io/UulalaOAuth/graphql`
+    //prod https://batched-services.apps-uulala.io/UulalaOAuth/graphql
   });
 
 const errorLink = onError(({ forward, networkError, operation }) => {

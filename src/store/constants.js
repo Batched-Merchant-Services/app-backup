@@ -3,6 +3,8 @@ export const TOGGLE_SNACKBAR_OPEN = 'TOGGLE_SNACKBAR_OPEN';
 export const TOGGLE_SNACKBAR_CLOSE = 'TOGGLE_SNACKBAR_CLOSE'; 
 export const GET_APP_RESOURCES = 'GET_APP_RESOURCES'; 
 export const SET_ERROR_APP = 'SET_ERROR_APP'; 
+export const TOGGLE_STATUS_CHANGE = 'TOGGLE_STATUS_CHANGE'; 
+
 
 /* ********************************************* */ 
 

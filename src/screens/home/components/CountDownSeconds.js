@@ -8,14 +8,18 @@ import {
 import { TouchableOpacity } from "react-native-gesture-handler";
 //import CountDown from 'react-native-countdown-component';
 
-const CountDownTimer = ({startTime,valueInfo,...props}) => {
+const CountDownSeconds = ({startTime,valueInfo,...props}) => {
 
   const [secondsLeft, setSecondsLeft] = useState(1800);
-  const [timerOn, setTimerOn] = useState(false);
+  const [timerOn, setTimerOn] = useState(true);
 
 
   useEffect(() => {
-    if (timerOn || startTime) startTimer();
+   
+    if (timerOn || startTime){
+      startTimer();
+      console.log('timerOn',timerOn,startTime)
+    }
     else BackgroundTimer.stopBackgroundTimer();
     return () => {
       BackgroundTimer.stopBackgroundTimer();
@@ -26,6 +30,7 @@ const CountDownTimer = ({startTime,valueInfo,...props}) => {
   
 
   const startTimer = () => {
+    console.log('star timer seconds')
     BackgroundTimer.runBackgroundTimer(() => {
       setSecondsLeft(secs => {
         if (secs > 0) return secs - 1
@@ -71,4 +76,4 @@ const CountDownTimer = ({startTime,valueInfo,...props}) => {
 
 }
 
-export default CountDownTimer;
+export default CountDownSeconds;

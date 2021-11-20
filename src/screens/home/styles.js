@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
   borderGreen:{
     borderColor:Colors.green,
     borderWidth:1,
-    margin:10
+    margin:10,
   }
 });
 

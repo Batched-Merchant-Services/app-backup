@@ -7,46 +7,80 @@ import {
 } from '@components';
 import moment from 'moment';
 import { getLocalDateFromUTC } from "../../../utils/formatters";
+import { useSelector, useDispatch } from 'react-redux';
 //import CountDown from 'react-native-countdown-component';
 
-const CountDownDates = ({...props}) => {
+import { changeStatusTimers } from "@store/actions/app.actions";
 
-  const [secondsLeft, setSecondsLeft] = useState(1800);
-  const [timerOn, setTimerOn] = useState(true);
+const CountDownDates = ({changeStateBuy,...props}) => {
+  const dispatch = useDispatch();
+  const redux = useSelector(state => state);
+  const appResources = redux?.app;
+  const [startDate, setStarDate] = useState(props.startDate);
+  const [endDate, setEnDate] = useState(props.endDate);
+  const [dateLeft, setDateLeft] = useState(0);
+  const [timerStart, setTimerStart] = useState(true);
 
 
   useEffect(() => {
-    if (timerOn) startTimer();
+    if (appResources?.changeStatus === 0) {
+      getTransformDateNow(startDate);
+    } else if (appResources?.changeStatus === 1) {
+      getTransformDateNow(endDate);
+    }
+    
+    if (timerStart) startTimer();
     else BackgroundTimer.stopBackgroundTimer();
     startTimer();
     return () => {
       BackgroundTimer.stopBackgroundTimer();
     };
    
-  }, [timerOn]);
+  }, [timerStart]);
 
   const startTimer = () => {
+    console.log('star timer dates')
     BackgroundTimer.runBackgroundTimer(() => {
-      setSecondsLeft(secs => {
+      setDateLeft(secs => {
         if (secs > 0) return secs - 1
         else return 0
       })
     }, 1000)
   }
 
+  function getTransformDateNow(date){
+    var now = new Date(); 
+    var start = getLocalDateFromUTC(date); 
+    var diffr = moment.duration(moment(start).diff(moment(now)));
+    var days = parseInt(diffr.asDays())
+    var hours = parseInt(diffr.asHours());
+    var minutes = parseInt(diffr.minutes());
+    var seconds = parseInt(diffr.seconds());
+    var Timer = days + hours * 60 * 60 + minutes * 60 + seconds;
+    setDateLeft(Timer) 
+  }
+   
+
   useEffect(() => {
-    if (secondsLeft === 0) BackgroundTimer.stopBackgroundTimer()
-  }, [secondsLeft])
+    if (dateLeft === 0) {
+      BackgroundTimer.stopBackgroundTimer(); 
+      if (appResources?.changeStatus === 0) dispatch(changeStatusTimers(1));
+    }
+   
+  }, [dateLeft])
 
   
   const clockify = () => {
-    let hours = Math.floor(secondsLeft / 60 / 60)
-    let mins = Math.floor((secondsLeft / 60) % 60)
-    let seconds = Math.floor(secondsLeft % 60)
+    var days = Math.floor(dateLeft / (3600*24));
+    let hours = Math.floor(dateLeft / 60 / 60)
+    let mins = Math.floor((dateLeft / 60) % 60)
+    let seconds = Math.floor(dateLeft % 60)
+    let displayDays = days < 10 ? `0${days}` : days
     let displayHours = hours < 10 ? `0${hours}` : hours
     let displayMins = mins < 10 ? `0${mins}` : mins
     let displaySecs = seconds < 10 ? `0${seconds}` : seconds
     return {
+      displayDays,
       displayHours,
       displayMins,
       displaySecs,
@@ -58,7 +92,7 @@ const CountDownDates = ({...props}) => {
   return (
     <View >
     <Text h12 semibold>
-      {clockify().displayHours}H {clockify().displayMins}M{" "}
+      {clockify().displayDays}D {clockify().displayHours}H {clockify().displayMins}M{" "}
       {clockify().displaySecs}S
     </Text>
   </View>

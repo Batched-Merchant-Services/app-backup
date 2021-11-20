@@ -1,6 +1,7 @@
 import {
     TOGGLE_SNACKBAR_OPEN,
     TOGGLE_SNACKBAR_CLOSE,
+    TOGGLE_STATUS_CHANGE,
     GET_APP_RESOURCES,
     SET_ERROR_APP
 } from '../constants';
@@ -8,6 +9,7 @@ import {
 const initialState = {
     loading: false,
     toggleSnackbar: false,
+    changeStatus: 0,
     snackbarMessage: null,
     getAppResources: null,
     showError: false,
@@ -47,6 +49,11 @@ export default appReducer = (state = initialState, action) => {
                 showError: true,
                 success: {},
             };
+            case TOGGLE_STATUS_CHANGE:
+                return {
+                    ...state,
+                    changeStatus: action.payload,
+                };
         default:
             return state
     }

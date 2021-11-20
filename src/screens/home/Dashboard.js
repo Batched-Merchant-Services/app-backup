@@ -17,13 +17,14 @@ import i18n from '@utils/i18n';
 import Colors from '@styles/Colors';
 import Loading from '../Loading';
 //actions
-import { toggleSnackbarClose } from '@store/actions/app.actions';
+import { toggleSnackbarClose,changeStatusTimers } from '@store/actions/app.actions';
 import { cleanErrorLicenses, getTotalLicensesInNetwork } from '@store/actions/licenses.actions';
 import { getValidateRewardsByUser, getRewardsConfig } from '@store/actions/rewards.actions';
 import { thousandsSeparator } from '@utils/formatters';
 import CountDownSeconds from './components/CountDownSeconds';
 import CountDownDates from './components/CountDownDates';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { verticalScale } from 'react-native-size-matters';
 //import moment from 'moment';
 
 
@@ -34,8 +35,9 @@ const Dashboard = ({ navigation }) => {
   const redux = useSelector(state => state);
   const licensesData = redux?.licenses;
   const infoUser = redux?.user;
+  const appResources = redux?.app;
   const rewardsData = redux?.rewards;
-  const [statusAvailable, setStatusAvailable] = useState(true);
+  const [statusAvailable, setStatusAvailable] = useState(false);
   const [statusParticipate, setStatusParticipate] = useState(false);
   const [statusStayOnline, setStatusStayOnline] = useState(false);
   const [totalLicenses, setTotalLicenses] = useState(0);
@@ -56,9 +58,20 @@ const Dashboard = ({ navigation }) => {
       dispatch(cleanErrorLicenses());
       dispatch(toggleSnackbarClose());
       dispatch(getTotalLicensesInNetwork());
-      dispatch(getValidateRewardsByUser())
+      dispatch(getValidateRewardsByUser());
+      dispatch(changeStatusTimers(1));
       dispatch(getRewardsConfig());
+      
       getBatchedTransaction();
+      if (appResources?.changeStatus === 0) {
+        setStatusAvailable(true)
+        setsStatusActive(false)
+      } else if (appResources?.changeStatus === 1) {
+        setStatusAvailable(false);
+        setsStatusActive(false);
+        setStatusParticipate(true);
+      }
+
 
     });
     return unsubscribe;
@@ -73,7 +86,12 @@ const Dashboard = ({ navigation }) => {
   function handleNavigationWallet() {
     navigation.navigate("HomeMyBatched")
   }
-  console.log('rewardsData', rewardsData?.configRewards);
+
+  function handleStateChange(value) {
+    setsStatusActive(value);
+    setStatusAvailable(false);
+  }
+
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={Menu} childrenRight={Wallet} menu onPressRight={handleNavigationWallet} navigation={navigation}>
@@ -81,10 +99,11 @@ const Dashboard = ({ navigation }) => {
         <>
           <View style={Styles.borderBlue}>
             <View style={Styles.borderGreen}>
-              <ButtonRounded>
-                <Text h14 white center medium>
-                  {i18n.t('home.textParticipateInToday')}
+              <ButtonRounded style={{ height:verticalScale(50)}}>
+                <Text h11 white center medium>
+                  {i18n.t('home.textTimeRemaining')}:
                 </Text>
+                <CountDownDates startDate={startDate} endDate={endDate}/>
               </ButtonRounded>
             </View>
           </View>
@@ -127,7 +146,7 @@ const Dashboard = ({ navigation }) => {
         <>
           <View blue03 height-45 centerH centerV>
             <Text h12 white>{i18n.t('home.textValidationOfReward')}</Text>
-            <CountDownDates startDate={startDate}  endDate={endDate} />
+            <CountDownDates startDate={startDate} endDate={endDate} changeStateBuy={(value) => handleStateChange(value)} />
           </View>
           <Divider height-10 />
         </>
@@ -152,7 +171,7 @@ const Dashboard = ({ navigation }) => {
       <View flex-1 height-280>
         <ImageBackground source={CircleTimer} resizeMode="cover" style={Styles.image}>
           {showButtonStart && (
-            <TouchableOpacity onPress={()=>setStarTimer(true)}>
+            <TouchableOpacity onPress={() => setStarTimer(true)}>
               <View error centerV marginT-20 style={Styles.containerTime}>
                 <Text h20 white bold>Start</Text>
               </View>
@@ -164,11 +183,10 @@ const Dashboard = ({ navigation }) => {
               <Text h20 blue02>%</Text>
             </View>
           )}
-
         </ImageBackground>
         <View centerH>
           <Text h14 blue02 center>{i18n.t('home.textDistributionCycle')}</Text>
-          <CountDownSeconds startTime={starTimer} valueInfo={(value)=>setShowButtonStart(value)} />
+          <CountDownSeconds startTime={starTimer} valueInfo={(value) => setShowButtonStart(value)} />
         </View>
       </View>
       <Divider height-10 />

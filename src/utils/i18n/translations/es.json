@@ -184,6 +184,7 @@
     },
     "home":{
       "textParticipateInToday":"Participate in today’s distribution cycle",
+      "textTimeRemaining":"Time remaining to participate in today's distribution cycle",
       "textStayOnlineTo":"Stay online to participate for 18:32",
       "textValidationOfReward":"Validation of reward points will be available in:",
       "textValidatingReward":"Validating reward points today",
