@@ -19,7 +19,24 @@ const CountDownDates = ({changeStateBuy,...props}) => {
   const [startDate, setStarDate] = useState(props.startDate);
   const [endDate, setEnDate] = useState(props.endDate);
   const [dateLeft, setDateLeft] = useState(0);
-  const [timerStart, setTimerStart] = useState(true);
+  const [timerStart, setTimerStart] = useState(false);
+  const [checkDateStart, setCheckDateStart] = useState(false);
+
+  useEffect(() => {
+    var dateOne = new Date(); //Year, Month, Date  
+    var dateTwo = getLocalDateFromUTC(props.startDate);   
+    //var dateTwo = new Date('2011,00,15'); //Year, Month, Date    
+    if (dateOne < dateTwo) {    
+      dispatch(changeStatusTimers(0));
+      getTransformDateNow(props.startDate)
+      setCheckDateStart(false)
+    }else {    
+      dispatch(changeStatusTimers(1));
+      getTransformDateNow(props.endDate)
+      setCheckDateStart(true)
+    }    
+  }, [checkDateStart])
+
 
 
   useEffect(() => {
@@ -29,18 +46,17 @@ const CountDownDates = ({changeStateBuy,...props}) => {
       getTransformDateNow(endDate);
     }
     
-    if (timerStart) startTimer();
+    if (timerStart) startStatus();
     else BackgroundTimer.stopBackgroundTimer();
-    startTimer();
     return () => {
       BackgroundTimer.stopBackgroundTimer();
     };
    
   }, [timerStart]);
 
-  const startTimer = () => {
-    console.log('star timer dates')
+  const startStatus = () => {
     BackgroundTimer.runBackgroundTimer(() => {
+      console.log('star timer dates')
       setDateLeft(secs => {
         if (secs > 0) return secs - 1
         else return 0
@@ -57,7 +73,17 @@ const CountDownDates = ({changeStateBuy,...props}) => {
     var minutes = parseInt(diffr.minutes());
     var seconds = parseInt(diffr.seconds());
     var Timer = days + hours * 60 * 60 + minutes * 60 + seconds;
+    if (Timer !== 0 && !checkDateStart){
+      dispatch(changeStatusTimers(0));
+      console.log('checkDateStart',checkDateStart)
+    } 
+    else  {
+      dispatch(changeStatusTimers(1));
+      setStarDate(props.endDate)
+      //BackgroundTimer.stopBackgroundTimer();
+    }
     setDateLeft(Timer) 
+    setTimerStart(true);
   }
    
 

@@ -9,67 +9,51 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 //import CountDown from 'react-native-countdown-component';
 
 const CountDownSeconds = ({startTime,valueInfo,...props}) => {
+  const [counterPercent, setCounterPercent] = useState(0);
+  const [countDown, setCountDown] = useState(0);
+  const [runTimer, setRunTimer] = useState(false);
 
-  const [secondsLeft, setSecondsLeft] = useState(1800);
-  const [timerOn, setTimerOn] = useState(true);
+  useEffect(() => {
+     setRunTimer(true);
+  }, [startTime]);
+
 
 
   useEffect(() => {
-   
-    if (timerOn || startTime){
-      startTimer();
-      console.log('timerOn',timerOn,startTime)
+    let timerId;
+    if (runTimer) {
+      setCountDown(60 * 30);
+      setCounterPercent(0);
+      timerId = setInterval(() => {
+        setCounterPercent((counterPercent) =>counterPercent+1*100/1800 );
+        setCountDown((countDown) => countDown - 1);
+      }, 1000);
+    } else {
+      clearInterval(timerId);
     }
-    else BackgroundTimer.stopBackgroundTimer();
-    return () => {
-      BackgroundTimer.stopBackgroundTimer();
-      // setTimerOn(false)
-      // setSecondsLeft(10);
-    };
-  }, [timerOn,startTime]);
-  
+    return () => clearInterval(timerId);
+  }, [runTimer]);
 
-  const startTimer = () => {
-    console.log('star timer seconds')
-    BackgroundTimer.runBackgroundTimer(() => {
-      setSecondsLeft(secs => {
-        if (secs > 0) return secs - 1
-        else return 0
-      })
-    }, 1000)
-  }
 
   useEffect(() => {
-    if (secondsLeft === 0) {
-      BackgroundTimer.stopBackgroundTimer();
-      setSecondsLeft(1800)
-      setTimerOn(false)
-      valueInfo(false)
+    if (countDown < 0 && runTimer) {
+      setRunTimer(false);
+      setCounterPercent(0)
+      setCountDown(0);
     }
-  }, [secondsLeft])
+  }, [countDown, runTimer]);
 
 
-  const clockify = () => {
-    let hours = Math.floor(secondsLeft / 60 / 60)
-    let mins = Math.floor((secondsLeft / 60) % 60)
-    let seconds = Math.floor(secondsLeft % 60)
-    let displayHours = hours < 10 ? `0${hours}` : hours
-    let displayMins = mins < 10 ? `0${mins}` : mins
-    let displaySecs = seconds < 10 ? `0${seconds}` : seconds
-    return {
-      displayHours,
-      displayMins,
-      displaySecs,
-    }
-  }
-
-
+  const hours = String(Math.floor(countDown / 60 / 60)).padStart(2, 0);
+  const seconds = String(countDown % 60).padStart(2, 0);
+  const minutes = String(Math.floor(countDown / 60)).padStart(2, 0);
+  const percent = counterPercent.toFixed(2)
+  valueInfo(percent);
 
   return (
     <View>
-      <Text h12 semibold>
-        {clockify().displayHours}:{clockify().displayMins}:
-        {clockify().displaySecs}
+      <Text h16 semibold center>
+       {hours}:{minutes}:{seconds}
       </Text>
     </View>
   );

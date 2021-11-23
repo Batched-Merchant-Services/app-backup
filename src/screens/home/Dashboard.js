@@ -17,7 +17,7 @@ import i18n from '@utils/i18n';
 import Colors from '@styles/Colors';
 import Loading from '../Loading';
 //actions
-import { toggleSnackbarClose,changeStatusTimers } from '@store/actions/app.actions';
+import { toggleSnackbarClose, changeStatusTimers } from '@store/actions/app.actions';
 import { cleanErrorLicenses, getTotalLicensesInNetwork } from '@store/actions/licenses.actions';
 import { getValidateRewardsByUser, getRewardsConfig } from '@store/actions/rewards.actions';
 import { thousandsSeparator } from '@utils/formatters';
@@ -37,6 +37,7 @@ const Dashboard = ({ navigation }) => {
   const infoUser = redux?.user;
   const appResources = redux?.app;
   const rewardsData = redux?.rewards;
+  const [percent, setPercent] = useState(0);
   const [statusAvailable, setStatusAvailable] = useState(false);
   const [statusParticipate, setStatusParticipate] = useState(false);
   const [statusStayOnline, setStatusStayOnline] = useState(false);
@@ -49,28 +50,19 @@ const Dashboard = ({ navigation }) => {
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
   const startDate = rewardsData?.configRewards?.startDate
   const endDate = rewardsData?.configRewards?.endDate
-  //const arrivalDateTime = moment().format('MMMM Do YYYY, h:mm:ss a');
 
 
-
+  
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanErrorLicenses());
       dispatch(toggleSnackbarClose());
       dispatch(getTotalLicensesInNetwork());
       dispatch(getValidateRewardsByUser());
-      dispatch(changeStatusTimers(1));
+      dispatch(changeStatusTimers(0));
       dispatch(getRewardsConfig());
-      
       getBatchedTransaction();
-      if (appResources?.changeStatus === 0) {
-        setStatusAvailable(true)
-        setsStatusActive(false)
-      } else if (appResources?.changeStatus === 1) {
-        setStatusAvailable(false);
-        setsStatusActive(false);
-        setStatusParticipate(true);
-      }
+      getStatusTimer();
 
 
     });
@@ -78,9 +70,22 @@ const Dashboard = ({ navigation }) => {
   }, []);
 
   function getBatchedTransaction() {
+    console.log('transaction',infoUser)
     infoUser?.dataUser?.bachedTransaction?.forEach(transaction => {
       if (transaction.status === 1 || transaction.status === 3) setTotalLicenses(totalLicenses + transaction.routingNumber ? parseInt(transaction.routingNumber) : transaction.routingNumber);
     });
+  }
+
+
+  function getStatusTimer() {
+    console.log('appResources?.changeStatus',appResources?.changeStatus)
+    if (appResources?.changeStatus === 0) {
+      setStatusAvailable(true);
+      setStatusParticipate(false);
+    } else if (appResources?.changeStatus === 1) {
+      setStatusAvailable(false);
+      setStatusParticipate(true);
+    }
   }
 
   function handleNavigationWallet() {
@@ -91,6 +96,22 @@ const Dashboard = ({ navigation }) => {
     setsStatusActive(value);
     setStatusAvailable(false);
   }
+  function showPercent(value) {
+    if (value) {
+      const parse = parseInt(value);
+      if (parse === 0) {
+        setPercent(0)
+        setShowButtonStart(true);
+        setStarTimer(false);
+      }else{
+        setPercent(value)
+        setShowButtonStart(false);
+      }
+      
+    }
+   
+  }
+  
 
 
   return (
@@ -99,11 +120,11 @@ const Dashboard = ({ navigation }) => {
         <>
           <View style={Styles.borderBlue}>
             <View style={Styles.borderGreen}>
-              <ButtonRounded style={{ height:verticalScale(50)}}>
+              <ButtonRounded style={{ height: verticalScale(50) }}>
                 <Text h11 white center medium>
                   {i18n.t('home.textTimeRemaining')}:
                 </Text>
-                <CountDownDates startDate={startDate} endDate={endDate}/>
+                <CountDownDates startDate={startDate} endDate={endDate} />
               </ButtonRounded>
             </View>
           </View>
@@ -179,14 +200,14 @@ const Dashboard = ({ navigation }) => {
           )}
           {!showButtonStart && (
             <View blue03 centerV marginT-20 style={Styles.containerTime}>
-              <Text h30 white>00</Text>
+              <Text h24 white>{percent}</Text>
               <Text h20 blue02>%</Text>
             </View>
           )}
         </ImageBackground>
         <View centerH>
           <Text h14 blue02 center>{i18n.t('home.textDistributionCycle')}</Text>
-          <CountDownSeconds startTime={starTimer} valueInfo={(value) => setShowButtonStart(value)} />
+          <CountDownSeconds startTime={starTimer} valueInfo={(value) => showPercent(value)} />
         </View>
       </View>
       <Divider height-10 />
