@@ -1,6 +1,7 @@
 import { 
   GET_APP_RESOURCES,
   TOGGLE_STATUS_CHANGE,
+  TOGGLE_STATUS_CHANGE_STATUS,
   SET_ERROR_APP
 } from '../constants'
 
@@ -37,6 +38,12 @@ export const showAppResources = () => async (dispatch) => {
 };
 
 export const changeStatusTimers = (status) => async (dispatch) => {
+  console.log('changeStatusTimers',status)
   return dispatch({ type: TOGGLE_STATUS_CHANGE, payload:status })
+};
+
+export const changeStatusTimerSecond = (status) => async (dispatch) => {
+  console.log('changeStatusTimers',status)
+  return dispatch({ type: TOGGLE_STATUS_CHANGE_STATUS, payload:status })
 };
 

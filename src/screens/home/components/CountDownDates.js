@@ -25,12 +25,15 @@ const CountDownDates = ({changeStateBuy,...props}) => {
   useEffect(() => {
     var dateOne = new Date(); //Year, Month, Date  
     var dateTwo = getLocalDateFromUTC(props.startDate);   
-    //var dateTwo = new Date('2011,00,15'); //Year, Month, Date    
-    if (dateOne < dateTwo) {    
+    //var dateTwo = new Date('2011,00,15'); //Year, Month, Date  
+    console.log('dateOne < dateTwo',dateOne < dateTwo)  
+    if (dateOne < dateTwo) {   
+      console.log('true')   
       dispatch(changeStatusTimers(0));
       getTransformDateNow(props.startDate)
       setCheckDateStart(false)
-    }else {    
+    }else {   
+      console.log('false')  
       dispatch(changeStatusTimers(1));
       getTransformDateNow(props.endDate)
       setCheckDateStart(true)
@@ -48,9 +51,9 @@ const CountDownDates = ({changeStateBuy,...props}) => {
     
     if (timerStart) startStatus();
     else BackgroundTimer.stopBackgroundTimer();
-    return () => {
-      BackgroundTimer.stopBackgroundTimer();
-    };
+    // return () => {
+    //   BackgroundTimer.stopBackgroundTimer();
+    // };
    
   }, [timerStart]);
 
@@ -67,21 +70,21 @@ const CountDownDates = ({changeStateBuy,...props}) => {
   function getTransformDateNow(date){
     var now = new Date(); 
     var start = getLocalDateFromUTC(date); 
+    console.log('now',now,start)
     var diffr = moment.duration(moment(start).diff(moment(now)));
     var days = parseInt(diffr.asDays())
     var hours = parseInt(diffr.asHours());
     var minutes = parseInt(diffr.minutes());
     var seconds = parseInt(diffr.seconds());
     var Timer = days + hours * 60 * 60 + minutes * 60 + seconds;
-    if (Timer !== 0 && !checkDateStart){
-      dispatch(changeStatusTimers(0));
-      console.log('checkDateStart',checkDateStart)
-    } 
-    else  {
-      dispatch(changeStatusTimers(1));
-      setStarDate(props.endDate)
-      //BackgroundTimer.stopBackgroundTimer();
-    }
+    console.log('checkDateStart1',(Timer !== 0 && !checkDateStart))
+    // if (Timer !== 0 && !checkDateStart){
+    //   dispatch(changeStatusTimers(0));
+    // }else  {
+    //   dispatch(changeStatusTimers(1));
+    //   setStarDate(props.endDate)
+    //   //BackgroundTimer.stopBackgroundTimer();
+    // }
     setDateLeft(Timer) 
     setTimerStart(true);
   }
@@ -90,12 +93,9 @@ const CountDownDates = ({changeStateBuy,...props}) => {
   useEffect(() => {
     if (dateLeft === 0) {
       BackgroundTimer.stopBackgroundTimer(); 
-      if (appResources?.changeStatus === 0) dispatch(changeStatusTimers(1));
     }
-   
   }, [dateLeft])
 
-  
   const clockify = () => {
     var days = Math.floor(dateLeft / (3600*24));
     let hours = Math.floor(dateLeft / 60 / 60)
@@ -112,8 +112,6 @@ const CountDownDates = ({changeStateBuy,...props}) => {
       displaySecs,
     }
   }
-
-
 
   return (
     <View >

@@ -29,7 +29,7 @@ import { verticalScale } from 'react-native-size-matters';
 
 
 
-
+ 
 const Dashboard = ({ navigation }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
@@ -62,12 +62,22 @@ const Dashboard = ({ navigation }) => {
       dispatch(changeStatusTimers(0));
       dispatch(getRewardsConfig());
       getBatchedTransaction();
-      getStatusTimer();
-
+      if (appResources?.changeStatus === 0) {
+        setStatusAvailable(true);
+        setStatusParticipate(false);
+      } else if (appResources?.changeStatus === 1) {
+        setStatusAvailable(false);
+        setStatusParticipate(true);
+      }
+      if (appResources?.changeSeconds === 1) {
+        setsStatusActive(true);
+        setStatusAvailable(false);
+        setStatusParticipate(false);
+      }
 
     });
     return unsubscribe;
-  }, []);
+  }, [statusActive,statusAvailable,statusParticipate]);
 
   function getBatchedTransaction() {
     console.log('transaction',infoUser)
@@ -78,14 +88,8 @@ const Dashboard = ({ navigation }) => {
 
 
   function getStatusTimer() {
-    console.log('appResources?.changeStatus',appResources?.changeStatus)
-    if (appResources?.changeStatus === 0) {
-      setStatusAvailable(true);
-      setStatusParticipate(false);
-    } else if (appResources?.changeStatus === 1) {
-      setStatusAvailable(false);
-      setStatusParticipate(true);
-    }
+    console.log('appResources?.changeStatus',appResources?.changeSeconds)
+    
   }
 
   function handleNavigationWallet() {
@@ -112,8 +116,6 @@ const Dashboard = ({ navigation }) => {
    
   }
   
-
-
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={Menu} childrenRight={Wallet} menu onPressRight={handleNavigationWallet} navigation={navigation}>
       {statusParticipate && (
@@ -163,11 +165,11 @@ const Dashboard = ({ navigation }) => {
           <Divider height-10 />
         </>
       )}
-      {statusAvailable && (
+      {appResources?.changeStatus === 0 && (
         <>
           <View blue03 height-45 centerH centerV>
             <Text h12 white>{i18n.t('home.textValidationOfReward')}</Text>
-            <CountDownDates startDate={startDate} endDate={endDate} changeStateBuy={(value) => handleStateChange(value)} />
+            <CountDownDates startDate={startDate} endDate={endDate} />
           </View>
           <Divider height-10 />
         </>
@@ -189,7 +191,8 @@ const Dashboard = ({ navigation }) => {
         </View>
         <Divider style={Styles.borderDoted} />
       </View>
-      <View flex-1 height-280>
+      <CountDownSeconds navigation={navigation}/>
+      {/* <View flex-1 height-280>
         <ImageBackground source={CircleTimer} resizeMode="cover" style={Styles.image}>
           {showButtonStart && (
             <TouchableOpacity onPress={() => setStarTimer(true)}>
@@ -209,7 +212,7 @@ const Dashboard = ({ navigation }) => {
           <Text h14 blue02 center>{i18n.t('home.textDistributionCycle')}</Text>
           <CountDownSeconds startTime={starTimer} valueInfo={(value) => showPercent(value)} />
         </View>
-      </View>
+      </View> */}
       <Divider height-10 />
       <View flex-1 row>
         <Divider style={Styles.borderDoted} />

@@ -35,7 +35,13 @@ const styles = StyleSheet.create({
     borderColor:Colors.green,
     borderWidth:1,
     margin:10,
-  }
+  },
+  
+  box: {
+    position:'absolute',
+    left: verticalScale(18),
+    top: -verticalScale(11)
+  },
 });
 
 export default styles;
