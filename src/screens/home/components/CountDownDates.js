@@ -11,24 +11,34 @@ import { useSelector, useDispatch } from 'react-redux';
 //import CountDown from 'react-native-countdown-component';
 
 import { changeStatusTimers } from "@store/actions/app.actions";
+import { getRewardsConfig } from "../../../store/actions/rewards.actions";
 
 const CountDownDates = ({navigation,changeStateColor,...props}) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const appResources = redux?.app;
+  const rewardsData = redux?.rewards;
   const [startDate, setStarDate] = useState(props.startDate);
   const [endDate, setEnDate] = useState(props.endDate);
   const [dateLeft, setDateLeft] = useState(0);
   const [timerStart, setTimerStart] = useState(false);
   const [checkDateStart, setCheckDateStart] = useState(false);
 
-
+  //const props.startDate = getLocalDateFromUTC(rewardsData?.configRewards?.props.startDateate);
+  //const startD = 'Thu Nov 25 2021 05:23:02 GMT-0600 (Central Standard Time)'
+  //const endD = 'Thu Nov 25 2021 05:24:00 GMT-0600 (Central Standard Time)'
+  //const endD = getLocalDateFromUTC(rewardsData?.configRewards?.endDate);
+  const inProcess = rewardsData?.inProcess;
 
   
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      console.log('timer state date')
-      checkStatusDate();
+      if (inProcess) {
+        dispatch(changeStatusTimers(2,'green'));
+      } else {
+        checkStatusDate();
+      }
+     
     });
     return unsubscribe;
     
@@ -65,7 +75,7 @@ const CountDownDates = ({navigation,changeStateColor,...props}) => {
       if (dateOne < dateTwo) {   
         dispatch(changeStatusTimers(0,'blueDark'));
         changeStateColor('blueDark')
-        getTransformDateNow(props.start)
+        getTransformDateNow(props.startDate)
         setCheckDateStart(false)
       }else {   
         dispatch(changeStatusTimers(1,'blueLight'));
@@ -78,21 +88,28 @@ const CountDownDates = ({navigation,changeStateColor,...props}) => {
 
   function checkTwo(){
     console.log('checkTwo')
+      dispatch(getRewardsConfig());
     var dateOne = new Date(); //Year, Month, Date  
     var dateTwo = getLocalDateFromUTC(props.startDate);
     var dateThree = getLocalDateFromUTC(props.endDate); 
 
-      if (dateOne < dateTwo) {   
+      if (dateOne <= dateTwo) {   
+        console.log('dateOne < dateTwo')
         dispatch(changeStatusTimers(0,'blueDark'));
         changeStateColor('blueDark')
         getTransformDateNow(props.startDate)
         setCheckDateStart(false)
+      }else{
+        console.log('dateOne < dateTwo else')
       }
-      if (dateOne < dateThree) {   
+      if (dateOne <= dateThree) {   
+        console.log('dateOne < dateThree')
         dispatch(changeStatusTimers(1,'blueLight'));
         changeStateColor('blueLight')
         getTransformDateNow(props.endDate)
         setCheckDateStart(false)
+      }else{
+        console.log('dateOne < dateThree else')
       }
   
   }

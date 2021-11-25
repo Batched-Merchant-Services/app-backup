@@ -27,8 +27,15 @@ const CountDownSeconds = ({ navigation, ...props }) => {
   const [counterPercent, setCounterPercent] = useState(0);
   const [countDown, setCountDown] = useState(0);
   const [runTimer, setRunTimer] = useState(false);
-  const [showButtonStart, setShowButtonStart] = useState(appResources?.changeStatus === 0 || appResources?.changeStatus === 2 ? false : true);
+  const [showButtonStart, setShowButtonStart] = useState(false);
  
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      setShowButtonStart(appResources?.changeStatus === 0 || appResources?.changeStatus === 2 ? false : true)
+    });
+    return unsubscribe;
+    
+  }, [])
 
 
   useEffect(() => {
