@@ -23,25 +23,24 @@ const CountDownSeconds = ({ navigation, ...props }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const appResources = redux?.app;
-  const rewardsData = redux?.rewards;
   const brandTheme = appResources?.Theme?.colors;
   const [counterPercent, setCounterPercent] = useState(0);
   const [countDown, setCountDown] = useState(0);
   const [runTimer, setRunTimer] = useState(false);
-  const [showButtonStart, setShowButtonStart] = useState(rewardsData?.inProcess);
+  const [showButtonStart, setShowButtonStart] = useState(appResources?.changeStatus === 0 || appResources?.changeStatus === 2 ? false : true);
  
-  console.log('showButtonStart',showButtonStart,counterPercent);
+
 
   useEffect(() => {
     let timerId;
     if (runTimer) {
-      setCountDown(60 * 1);
+      setCountDown(60 * 30);
       setCounterPercent(0);
       setShowButtonStart(false);
       dispatch(getTotalLicensesInNetwork());
       dispatch(setValidateRewardsProcess({ isStart: true }));
       timerId = setInterval(() => {
-        setCounterPercent((counterPercent) => counterPercent + 1 * 100 / 60);
+        setCounterPercent((counterPercent) => counterPercent + 1 * 100 / 1800);
         setCountDown((countDown) => countDown - 1);
       }, 1000);
     } else {
@@ -89,7 +88,7 @@ const CountDownSeconds = ({ navigation, ...props }) => {
         )}
           
         </View>
-        {appResources?.changeStatus !== 2 &&(
+        {showButtonStart && (
           <FadeInView style={{flex:1}}>
             <LottieView source={require('../../../assets/animationsLottie/distributionEnable.json')} autoPlay loop style={{ justifyContent: "center", alignItems: 'center' }}>
               <TouchableOpacity onPress={() => setRunTimer(true)}>
@@ -100,7 +99,7 @@ const CountDownSeconds = ({ navigation, ...props }) => {
             </LottieView>
           </FadeInView> 
         )}
-        { appResources?.changeStatus === 2 &&(
+        {!showButtonStart && (
           <FadeInView style={{flex:1}}>
             <LottieView source={require('../../../assets/animationsLottie/distributionDisable.json')} autoPlay loop style={{ justifyContent: "center", alignItems: 'center' }}>
               <View centerH>
