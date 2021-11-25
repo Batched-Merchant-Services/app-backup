@@ -12,6 +12,7 @@ const initialState = {
     toggleSnackbar: false,
     changeStatus: 0,
     changeSeconds: 0,
+    showStatusTimers: 'blueDark',
     snackbarMessage: null,
     getAppResources: null,
     showError: false,
@@ -51,16 +52,17 @@ export default appReducer = (state = initialState, action) => {
                 showError: true,
                 success: {},
             };
-            case TOGGLE_STATUS_CHANGE:
-                return {
-                    ...state,
-                    changeStatus: action.payload,
-                };
-                case TOGGLE_STATUS_CHANGE_STATUS:
-                return {
-                    ...state,
-                    changeSeconds: action.payload,
-                };
+        case TOGGLE_STATUS_CHANGE:
+            return {
+                ...state,
+                changeStatus: action.payload,
+                showStatusTimers: action.showStatusTimers??''
+            };
+        case TOGGLE_STATUS_CHANGE_STATUS:
+            return {
+                ...state,
+                changeSeconds: action.payload,
+            };
         default:
             return state
     }

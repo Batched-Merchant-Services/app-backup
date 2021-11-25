@@ -23,7 +23,7 @@ export const GET_VALIDATE_REWARDS_PROCESS_BY_USER = gql`
   }`;
 
   export const GET_VALIDATE_REWARDS_PROCESS = gql`
-  query($token:String!) {
+  query($token:String!,$isStart:Boolean!){
     getValidateSessionToken(token:$token,isStart:$isStart)
   }`;
 

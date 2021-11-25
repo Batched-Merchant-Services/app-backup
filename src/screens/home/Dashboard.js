@@ -38,12 +38,12 @@ const Dashboard = ({ navigation }) => {
   const appResources = redux?.app;
   const rewardsData = redux?.rewards;
   const [percent, setPercent] = useState(0);
-  const [statusAvailable, setStatusAvailable] = useState(false);
-  const [statusParticipate, setStatusParticipate] = useState(false);
+  const [statusAvailable, setStatusAvailable] = useState(rewardsData?.inProcess?false:true);
+  const [statusParticipate, setStatusParticipate] = useState(appResources?.changeStatus === 1?true:false);
   const [statusStayOnline, setStatusStayOnline] = useState(false);
   const [totalLicenses, setTotalLicenses] = useState(0);
   const [timeLeft, setTimeLeft] = useState([]);
-  const [statusActive, setsStatusActive] = useState(false);
+  const [statusActive, setsStatusActive] = useState(rewardsData?.inProcess);
   const [statusFinish, setsStatusFinish] = useState(false);
   const [starTimer, setStarTimer] = useState(false);
   const [showButtonStart, setShowButtonStart] = useState(true);
@@ -54,30 +54,18 @@ const Dashboard = ({ navigation }) => {
 
   
   useEffect(() => {
+    console.log('inProcess',rewardsData?.inProcess)
+    console.log('appResources?.changeStatus',appResources?.changeStatus)
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanErrorLicenses());
       dispatch(toggleSnackbarClose());
       dispatch(getTotalLicensesInNetwork());
       dispatch(getValidateRewardsByUser());
-      dispatch(changeStatusTimers(0));
       dispatch(getRewardsConfig());
       getBatchedTransaction();
-      if (appResources?.changeStatus === 0) {
-        setStatusAvailable(true);
-        setStatusParticipate(false);
-      } else if (appResources?.changeStatus === 1) {
-        setStatusAvailable(false);
-        setStatusParticipate(true);
-      }
-      if (appResources?.changeSeconds === 1) {
-        setsStatusActive(true);
-        setStatusAvailable(false);
-        setStatusParticipate(false);
-      }
-
     });
     return unsubscribe;
-  }, [statusActive,statusAvailable,statusParticipate]);
+  }, []);
 
   function getBatchedTransaction() {
     console.log('transaction',infoUser)
@@ -87,38 +75,40 @@ const Dashboard = ({ navigation }) => {
   }
 
 
-  function getStatusTimer() {
-    console.log('appResources?.changeStatus',appResources?.changeSeconds)
-    
-  }
-
   function handleNavigationWallet() {
     navigation.navigate("HomeMyBatched")
   }
 
   function handleStateChange(value) {
-    setsStatusActive(value);
-    setStatusAvailable(false);
-  }
-  function showPercent(value) {
-    if (value) {
-      const parse = parseInt(value);
-      if (parse === 0) {
-        setPercent(0)
-        setShowButtonStart(true);
-        setStarTimer(false);
-      }else{
-        setPercent(value)
-        setShowButtonStart(false);
-      }
-      
+    console.log('value',value)
+    switch (value) {
+      case 'blueDark':
+          return  dispatch(changeStatusTimers(0,'blueDark'));
+      case 'blueLight':
+        return  dispatch(changeStatusTimers(1,'blueLight')); 
+      default:
+          return dispatch(changeStatusTimers(0,'blueDark'));
     }
-   
   }
+  // function showPercent(value) {
+  //   if (value) {
+  //     const parse = parseInt(value);
+  //     if (parse === 0) {
+  //       setPercent(0)
+  //       setShowButtonStart(true);
+  //       setStarTimer(false);
+  //     }else{
+  //       setPercent(value)
+  //       setShowButtonStart(false);
+  //     }
+      
+  //   }
+   
+  // }
   
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={Menu} childrenRight={Wallet} menu onPressRight={handleNavigationWallet} navigation={navigation}>
-      {statusParticipate && (
+      {appResources?.showStatusTimers === 'blueLight' && statusAvailable &&(
         <>
           <View style={Styles.borderBlue}>
             <View style={Styles.borderGreen}>
@@ -126,7 +116,7 @@ const Dashboard = ({ navigation }) => {
                 <Text h11 white center medium>
                   {i18n.t('home.textTimeRemaining')}:
                 </Text>
-                <CountDownDates startDate={startDate} endDate={endDate} />
+                <CountDownDates startDate={startDate} endDate={endDate} changeStateColor={(value) => handleStateChange(value)} navigation={navigation} />
               </ButtonRounded>
             </View>
           </View>
@@ -146,7 +136,7 @@ const Dashboard = ({ navigation }) => {
           <Divider height-10 />
         </>
       )}
-      {statusActive && (
+      { appResources?.showStatusTimers === 'green'  && (
         <>
           <View height-65 green centerH centerV>
             <Text h14 white bold>You are fully active today!</Text>
@@ -165,11 +155,11 @@ const Dashboard = ({ navigation }) => {
           <Divider height-10 />
         </>
       )}
-      {appResources?.changeStatus === 0 && (
+      { appResources?.showStatusTimers === 'blueDark' && statusAvailable && (
         <>
           <View blue03 height-45 centerH centerV>
             <Text h12 white>{i18n.t('home.textValidationOfReward')}</Text>
-            <CountDownDates startDate={startDate} endDate={endDate} />
+            <CountDownDates startDate={startDate} endDate={endDate} changeStateColor={(value) => handleStateChange(value)} navigation={navigation} />
           </View>
           <Divider height-10 />
         </>

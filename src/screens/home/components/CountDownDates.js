@@ -12,7 +12,7 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import { changeStatusTimers } from "@store/actions/app.actions";
 
-const CountDownDates = ({changeStateBuy,...props}) => {
+const CountDownDates = ({navigation,changeStateColor,...props}) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const appResources = redux?.app;
@@ -22,50 +22,81 @@ const CountDownDates = ({changeStateBuy,...props}) => {
   const [timerStart, setTimerStart] = useState(false);
   const [checkDateStart, setCheckDateStart] = useState(false);
 
+
+
+  
   useEffect(() => {
-    var dateOne = new Date(); //Year, Month, Date  
-    var dateTwo = getLocalDateFromUTC(props.startDate);   
-    //var dateTwo = new Date('2011,00,15'); //Year, Month, Date  
-    console.log('dateOne < dateTwo',dateOne < dateTwo)  
-    if (dateOne < dateTwo) {   
-      console.log('true')   
-      dispatch(changeStatusTimers(0));
-      getTransformDateNow(props.startDate)
-      setCheckDateStart(false)
-    }else {   
-      console.log('false')  
-      dispatch(changeStatusTimers(1));
-      getTransformDateNow(props.endDate)
-      setCheckDateStart(true)
-    }    
-  }, [checkDateStart])
-
-
-
-  useEffect(() => {
-    if (appResources?.changeStatus === 0) {
-      getTransformDateNow(startDate);
-    } else if (appResources?.changeStatus === 1) {
-      getTransformDateNow(endDate);
-    }
+    const unsubscribe = navigation.addListener('focus', () => {
+      console.log('timer state date')
+      checkStatusDate();
+    });
+    return unsubscribe;
     
+  }, [])
+
+
+
+  useEffect(() => {
     if (timerStart) startStatus();
     else BackgroundTimer.stopBackgroundTimer();
-    // return () => {
-    //   BackgroundTimer.stopBackgroundTimer();
-    // };
    
   }, [timerStart]);
 
   const startStatus = () => {
     BackgroundTimer.runBackgroundTimer(() => {
-      console.log('star timer dates')
       setDateLeft(secs => {
         if (secs > 0) return secs - 1
-        else return 0
+        else return 0;
       })
     }, 1000)
   }
+ 
+
+  function checkStatusDate(){
+    console.log('checkstart')
+    var dateOne = new Date(); //Year, Month, Date  
+    var dateTwo = getLocalDateFromUTC(props.startDate);   
+    // var dateOne = 'Thu Nov 24 2021 04:00:00 GMT-0600 (Central Standard Time)'  //Year, Month, Date  
+    // var dateTwo = 'Wed Nov 24 2021 05:00:00 GMT-0600 (Central Standard Time)'   
+    
+    //var dateTwo = new Date('2011,00,15'); //Year, Month, Date  
+    console.log('dateOne < dateTwo',dateOne < dateTwo)  
+    if (appResources?.changeStatus !== 2) {
+      if (dateOne < dateTwo) {   
+        dispatch(changeStatusTimers(0,'blueDark'));
+        changeStateColor('blueDark')
+        getTransformDateNow(props.start)
+        setCheckDateStart(false)
+      }else {   
+        dispatch(changeStatusTimers(1,'blueLight'));
+        getTransformDateNow(props.endDate)
+        changeStateColor('blueLight')
+        setCheckDateStart(true)
+      }  
+    }
+  }
+
+  function checkTwo(){
+    console.log('checkTwo')
+    var dateOne = new Date(); //Year, Month, Date  
+    var dateTwo = getLocalDateFromUTC(props.startDate);
+    var dateThree = getLocalDateFromUTC(props.endDate); 
+
+      if (dateOne < dateTwo) {   
+        dispatch(changeStatusTimers(0,'blueDark'));
+        changeStateColor('blueDark')
+        getTransformDateNow(props.startDate)
+        setCheckDateStart(false)
+      }
+      if (dateOne < dateThree) {   
+        dispatch(changeStatusTimers(1,'blueLight'));
+        changeStateColor('blueLight')
+        getTransformDateNow(props.endDate)
+        setCheckDateStart(false)
+      }
+  
+  }
+
 
   function getTransformDateNow(date){
     var now = new Date(); 
@@ -91,8 +122,11 @@ const CountDownDates = ({changeStateBuy,...props}) => {
    
 
   useEffect(() => {
+  
     if (dateLeft === 0) {
+      console.log('dateLeft',dateLeft)
       BackgroundTimer.stopBackgroundTimer(); 
+      checkTwo();
     }
   }, [dateLeft])
 

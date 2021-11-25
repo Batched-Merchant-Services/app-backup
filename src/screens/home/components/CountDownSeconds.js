@@ -8,26 +8,29 @@ import { useSelector, useDispatch } from 'react-redux';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Styles from '../styles';
 import i18n from '@utils/i18n';
-import { Animated } from 'react-native';
 import LottieView from 'lottie-react-native';
-import ovalGreen from '@assets/icons/ovalGreen.png';
-import ovalRed from '@assets/icons/ovalRed.png';
 import { scale, verticalScale } from "react-native-size-matters";
 import FadeInView from "./FadeInView";
 import { changeStatusTimers } from "@store/actions/app.actions";
-import { changeStatusTimerSecond } from "../../../store/actions/app.actions";
+import {getTotalLicensesInNetwork } from '@store/actions/licenses.actions';
+
+import ovalGreen from '@assets/icons/ovalGreen.png';
+import ovalRed from '@assets/icons/ovalRed.png';
+import ovalBlue from '@assets/icons/ovalBlue.png';
+import { setValidateRewardsProcess } from "@store/actions/rewards.actions";
 
 const CountDownSeconds = ({ navigation, ...props }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const appResources = redux?.app;
+  const rewardsData = redux?.rewards;
   const brandTheme = appResources?.Theme?.colors;
   const [counterPercent, setCounterPercent] = useState(0);
   const [countDown, setCountDown] = useState(0);
   const [runTimer, setRunTimer] = useState(false);
-  const [showButtonStart, setShowButtonStart] = useState(appResources?.changeStatus === 0 || appResources?.changeSeconds === 1? false : true);
+  const [showButtonStart, setShowButtonStart] = useState(rewardsData?.inProcess);
  
-
+  console.log('showButtonStart',showButtonStart,counterPercent);
 
   useEffect(() => {
     let timerId;
@@ -35,6 +38,8 @@ const CountDownSeconds = ({ navigation, ...props }) => {
       setCountDown(60 * 1);
       setCounterPercent(0);
       setShowButtonStart(false);
+      dispatch(getTotalLicensesInNetwork());
+      dispatch(setValidateRewardsProcess({ isStart: true }));
       timerId = setInterval(() => {
         setCounterPercent((counterPercent) => counterPercent + 1 * 100 / 60);
         setCountDown((countDown) => countDown - 1);
@@ -48,9 +53,10 @@ const CountDownSeconds = ({ navigation, ...props }) => {
 
   useEffect(() => {
     if (countDown < 0 && runTimer) {
-      dispatch(changeStatusTimerSecond(1));
+      dispatch(changeStatusTimers(2,'green'));
       setRunTimer(false);
-      setCounterPercent(0)
+      setCounterPercent(0);
+      dispatch(setValidateRewardsProcess({ isStart: false }));
       setCountDown(0);
       setShowButtonStart(false);
       navigation.navigate("ActivationConfirmation");
@@ -67,13 +73,23 @@ const CountDownSeconds = ({ navigation, ...props }) => {
     <View flex-1 height-280>
       <View flex-1>
         <View style={Styles.box}>
+        {appResources?.changeStatus === 0&&(
           <ImageResize
-            source={showButtonStart && counterPercent !== 0?ovalRed:ovalGreen}
+            source={ovalBlue}
             height={verticalScale(270)}
             width={scale(270)}
           />
+        )}
+        {appResources?.changeStatus !== 0 &&(
+          <ImageResize
+            source={ovalGreen}
+            height={verticalScale(270)}
+            width={scale(270)}
+          />
+        )}
+          
         </View>
-        {showButtonStart && (
+        {appResources?.changeStatus !== 2 &&(
           <FadeInView style={{flex:1}}>
             <LottieView source={require('../../../assets/animationsLottie/distributionEnable.json')} autoPlay loop style={{ justifyContent: "center", alignItems: 'center' }}>
               <TouchableOpacity onPress={() => setRunTimer(true)}>
@@ -84,7 +100,7 @@ const CountDownSeconds = ({ navigation, ...props }) => {
             </LottieView>
           </FadeInView> 
         )}
-        {!showButtonStart && (
+        { appResources?.changeStatus === 2 &&(
           <FadeInView style={{flex:1}}>
             <LottieView source={require('../../../assets/animationsLottie/distributionDisable.json')} autoPlay loop style={{ justifyContent: "center", alignItems: 'center' }}>
               <View centerH>
