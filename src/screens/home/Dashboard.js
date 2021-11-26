@@ -51,7 +51,6 @@ const Dashboard = ({ navigation }) => {
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
 
 
-
   
   useEffect(() => {
     console.log('inProcess',rewardsData?.inProcess)
@@ -166,7 +165,7 @@ const Dashboard = ({ navigation }) => {
       )}
 
       <Text h14 blue02 center>{i18n.t('home.textValidatingReward')}</Text>
-      <Text h18 white semibold center>{thousandsSeparator(rewardsData?.configRewards?.amount)}</Text>
+      <Text h13 white semibold center>{thousandsSeparator(rewardsData?.configRewards?.amount)}</Text>
       <Divider height-10 />
       <View row>
         <Divider style={Styles.borderDoted} />
@@ -204,21 +203,21 @@ const Dashboard = ({ navigation }) => {
         </View>
       </View> */}
       <Divider height-10 />
-      <View flex-1 row>
+      <View marginV-5 row>
         <Divider style={Styles.borderDoted} />
         <View flex-1 paddingH-15>
-          <Text h10 blue02 right>{i18n.t('home.textDistributedPerDay')}</Text>
-          <Text h15 white right semibold>{thousandsSeparator(rewardsData?.configRewards?.amount)}</Text>
+          <Text h9 blue02 right>{i18n.t('home.textDistributedPerDay')}</Text>
+          <Text h11 white right semibold>{thousandsSeparator(parseInt(rewardsData?.configRewards?.amount))}</Text>
         </View>
         <Divider style={Styles.borderDoted} />
         <View flex-1 paddingH-15>
-          <Text h10 blue02 center>{i18n.t('home.textPointsPerLicence')}</Text>
-          <Text h15 white center semibold>00</Text>
+          <Text h9 blue02 center>{i18n.t('home.textPointsPerLicence')}</Text>
+          <Text h11 white center semibold>00</Text>
         </View>
         <Divider style={Styles.borderDoted} />
         <View flex-1 paddingH-15>
-          <Text h10 blue02 left>{i18n.t('home.textAvailableThisMonth')}</Text>
-          <Text h15 white left semibold>12 000 000</Text>
+          <Text h9 blue02 left>{i18n.t('home.textAvailableThisMonth')}</Text>
+          <Text h11 white left semibold>12 000 000</Text>
         </View>
         <Divider style={Styles.borderDoted} />
       </View>

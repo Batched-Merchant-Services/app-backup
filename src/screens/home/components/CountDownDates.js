@@ -26,8 +26,6 @@ const CountDownDates = ({ navigation, changeStateColor,showBlue, ...props }) => 
   const startDate = rewardsData?.configRewards?.startDate
   const inProcess = rewardsData?.inProcess;
 
-  console.log('show blue',showBlue);
-
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       if (inProcess) {
@@ -45,7 +43,6 @@ const CountDownDates = ({ navigation, changeStateColor,showBlue, ...props }) => 
     let timerId;
     if (timerStart || showBlue) {
       getTransformDateStart();
-      console.log('timerStart',timerStart);
       timerId = setInterval(() => {
         setDateLeft((countDown) => countDown - 1);
       }, 1000);
@@ -57,11 +54,9 @@ const CountDownDates = ({ navigation, changeStateColor,showBlue, ...props }) => 
 
 
   function getTransformDateStart(date) {
-    console.log('start')
     changeStateColor('blueDark')
     var now = new Date(); 
     var start = getLocalDateFromUTC(startDate)
-    console.log('now', now, start)
     var diffr = moment.duration(moment(start).diff(moment(now)));
     var days = parseInt(diffr.asDays())
     var hours = parseInt(diffr.asHours());

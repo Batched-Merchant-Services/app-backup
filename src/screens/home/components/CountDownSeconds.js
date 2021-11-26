@@ -4,7 +4,7 @@ import {
   View,
   ImageResize
 } from '@components';
-import { ImageBackground } from "react-native";
+import { ImageBackground, Animated, Easing } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import Styles from '../styles';
@@ -22,6 +22,7 @@ import firstLayer from '@assets/home/firstLayer.png';
 import secondLayer from '@assets/home/secondLayer.png';
 import firstLayerInactive from '@assets/home/firstLayerInactive.png';
 import secondLayerInactive from '@assets/home/secondLayerInactive.png';
+import arrow from '@assets/home/white-arrow.png';
 import { setValidateRewardsProcess } from "@store/actions/rewards.actions";
 
 const CountDownSeconds = ({ navigation, ...props }) => {
@@ -35,6 +36,10 @@ const CountDownSeconds = ({ navigation, ...props }) => {
   const [runTimer, setRunTimer] = useState(false);
   const [showButtonStart, setShowButtonStart] = useState(false);
   const inProcess = rewardsData?.inProcess;
+  let rotateValueHolder = new Animated.Value(0);
+
+
+
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -43,6 +48,24 @@ const CountDownSeconds = ({ navigation, ...props }) => {
     return unsubscribe;
 
   }, [])
+
+  const startImageRotateFunction = () => {
+    console.log('startImageRotateFunction')
+    rotateValueHolder.setValue(0);
+    Animated.timing(rotateValueHolder, {
+      toValue: 1,
+      duration: 3000,
+      easing: Easing.linear,
+      useNativeDriver: false,
+    }).start(() => startImageRotateFunction());
+  };
+
+  const RotateData = rotateValueHolder.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+  });
+
+
 
 
   useEffect(() => {
@@ -76,13 +99,16 @@ const CountDownSeconds = ({ navigation, ...props }) => {
     }
   }, [countDown, runTimer]);
 
+  function handlePressStart() {
+    setRunTimer(true);
+  }
 
   const hours = String(Math.floor(countDown / 60 / 60)).padStart(2, 0);
   const seconds = String(countDown % 60).padStart(2, 0);
   const minutes = String(Math.floor(countDown / 60)).padStart(2, 0);
   const percent = counterPercent.toFixed(2)
 
-  console.log('appResources?.changeStatus',appResources?.changeStatus)
+
   return (
     <View flex-1 height-280>
       <View flex-1>
@@ -107,9 +133,13 @@ const CountDownSeconds = ({ navigation, ...props }) => {
           <FadeInView style={{ flex: 1 }}>
             <LottieView source={require('../../../assets/animationsLottie/distributionEnable.json')} autoPlay loop style={{ justifyContent: "center", alignItems: 'center' }}>
               <ImageBackground source={firstLayer} resizeMode="contain" style={Styles.image}>
+                <Animated.Image
+                  style={[Styles.containerArrow, { transform: [{ rotate: RotateData }] }]}
+                  source={arrow}
+                />
                 <ImageBackground source={secondLayer} resizeMode="contain" style={Styles.imageSecond}>
-                  <TouchableOpacity onPress={() => setRunTimer(true)}>
-                    <View centerV style={Styles.containerTime}>
+                  <TouchableOpacity onPress={()=>handlePressStart()}>
+                    <View  marginT-40 style={Styles.containerTime}>
                       <Text h15 white semibold>Start</Text>
                     </View>
                   </TouchableOpacity>
@@ -122,10 +152,13 @@ const CountDownSeconds = ({ navigation, ...props }) => {
           <FadeInView style={{ flex: 1 }}>
             <LottieView source={require('../../../assets/animationsLottie/distributionDisable.json')} autoPlay loop style={{ justifyContent: "center", alignItems: 'center' }}>
               <ImageBackground source={firstLayerInactive} resizeMode="contain" style={Styles.image}>
+                <Animated.Image
+                  style={[Styles.containerArrow, { transform: [{ rotate: RotateData }] }]}
+                  source={arrow}
+                />
                 <ImageBackground source={secondLayerInactive} resizeMode="contain" style={Styles.imageSecond}>
-                  <View centerH>
+                  <View flex-1 marginT-22>
                     <Text h18 white semibold>{percent}</Text>
-                    <Text h18 blue02>%</Text>
                   </View>
                 </ImageBackground>
               </ImageBackground>
