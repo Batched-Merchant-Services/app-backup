@@ -20,6 +20,7 @@ import NavigationService from './NavigationService';
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppNavigation from '@navigation/index';
+import { AppState} from 'react-native';
 import { Provider } from 'react-redux'
 // import store from '@store';
 import SplashScreen from "react-native-lottie-splash-screen";
@@ -54,6 +55,8 @@ export default function App() {
     setIsReady(true);
     setStorePromise(configStore)
     SplashScreen.hide(); // here
+    AppState.addEventListener('change',this._handleAppStateChange);
+    timer.clearTimeout(this,'timePassed');
   }, []);
 
 

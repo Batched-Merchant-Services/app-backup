@@ -4,9 +4,16 @@ import { scale, verticalScale } from 'react-native-size-matters';
 
 const styles = StyleSheet.create({
   image: {
-    flex: 1,
     justifyContent: "center",
     alignItems:'center',
+    width:verticalScale(120),
+    height:verticalScale(120),
+  },
+  imageSecond: {
+    justifyContent: "center",
+    alignItems:'center',
+    width:verticalScale(60),
+    height:verticalScale(60),
   },
   borderDoted:{
     borderRadius:0.1,

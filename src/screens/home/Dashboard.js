@@ -21,10 +21,11 @@ import { toggleSnackbarClose, changeStatusTimers } from '@store/actions/app.acti
 import { cleanErrorLicenses, getTotalLicensesInNetwork } from '@store/actions/licenses.actions';
 import { getValidateRewardsByUser, getRewardsConfig } from '@store/actions/rewards.actions';
 import { thousandsSeparator } from '@utils/formatters';
-import CountDownSeconds from './components/CountDownSeconds';
-import CountDownDates from './components/CountDownDates';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { verticalScale } from 'react-native-size-matters';
+import CountDownDateGreen from './components/CountDownDateGreen';
+import CountDownSeconds from './components/CountDownSeconds';
+import CountDownDates from './components/CountDownDates';
 //import moment from 'moment';
 
 
@@ -48,8 +49,7 @@ const Dashboard = ({ navigation }) => {
   const [starTimer, setStarTimer] = useState(false);
   const [showButtonStart, setShowButtonStart] = useState(true);
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
-  const startDate = rewardsData?.configRewards?.startDate
-  const endDate = rewardsData?.configRewards?.endDate
+
 
 
   
@@ -116,7 +116,7 @@ const Dashboard = ({ navigation }) => {
                 <Text h11 white center medium>
                   {i18n.t('home.textTimeRemaining')}:
                 </Text>
-                <CountDownDates startDate={startDate} endDate={endDate} changeStateColor={(value) => handleStateChange(value)} navigation={navigation} />
+                <CountDownDateGreen show={true} changeStateColor={(value) => handleStateChange(value)} navigation={navigation} />
               </ButtonRounded>
             </View>
           </View>
@@ -159,7 +159,7 @@ const Dashboard = ({ navigation }) => {
         <>
           <View blue03 height-45 centerH centerV>
             <Text h12 white>{i18n.t('home.textValidationOfReward')}</Text>
-            <CountDownDates startDate={startDate} endDate={endDate} changeStateColor={(value) => handleStateChange(value)} navigation={navigation} />
+            <CountDownDates showBlue={true} changeStateColor={(value) => handleStateChange(value)} navigation={navigation} />
           </View>
           <Divider height-10 />
         </>
