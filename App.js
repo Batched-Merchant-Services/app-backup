@@ -10,9 +10,12 @@ import React, { useEffect, useState, useRef } from 'react';
 import {
   StatusBar,
   useColorScheme,
-  Text
+  Text,
+  PanResponder
 } from 'react-native';
-
+import {
+  View
+} from '@components';
 import {
   Colors
 } from 'react-native/Libraries/NewAppScreen';
@@ -20,7 +23,7 @@ import NavigationService from './NavigationService';
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppNavigation from '@navigation/index';
-import { AppState} from 'react-native';
+import { AppState } from 'react-native';
 import { Provider } from 'react-redux'
 // import store from '@store';
 import SplashScreen from "react-native-lottie-splash-screen";
@@ -28,6 +31,7 @@ import { client } from '@utils/api/apollo';
 import { ApolloProvider } from '@apollo/react-hooks'
 import { theme } from './theme';
 import configureStore from '@store/configureStore';
+import SessionTimeout from './SessionTimeout';
 
 const store = configureStore()
 
@@ -47,16 +51,38 @@ export default function App() {
 
   const [isReady, setIsReady] = useState(false);
   const [storePromise, setStorePromise] = useState({});
+  const timerId = useRef(false)
+  const [timeForInactivityInSecond, setTimeForInactivityInSecond] = useState(3600);
+
+
+  useEffect(() => {
+    resetInactivityTimeout()
+  }, [])
+
+  const panResponder = React.useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponderCapture: () => {
+        // console.log('user starts touch');
+        resetInactivityTimeout()
+      },
+    })
+  ).current
+
+  const resetInactivityTimeout = () => {
+    clearTimeout(timerId.current)
+    timerId.current = setTimeout(() => {
+      // action after user has been detected idle
+    }, timeForInactivityInSecond * 1000)
+  }
 
 
   useEffect(async () => {
-   
-    const  configStore = await configureStore()
+
+    const configStore = await configureStore()
     setIsReady(true);
     setStorePromise(configStore)
     SplashScreen.hide(); // here
-    AppState.addEventListener('change',this._handleAppStateChange);
-    timer.clearTimeout(this,'timePassed');
+
   }, []);
 
 
@@ -68,18 +94,22 @@ export default function App() {
 
   if (isReady) {
     return (
-      <SafeAreaProvider style={backgroundStyle}>
-        <StatusBar barStyle={isDarkMode ? 'white-content' : 'dark-content'} />
-        <ApolloProvider client={client} store={storePromise}>
-          <Provider store={storePromise} theme={theme}>
-            <NavigationContainer theme={MyTheme} independent={true}>
-              <AppNavigation />
-            </NavigationContainer>
-          </Provider>
-        </ApolloProvider>
-      </SafeAreaProvider>
+        <SafeAreaProvider style={backgroundStyle}>
+          <StatusBar barStyle={isDarkMode ? 'white-content' : 'dark-content'} />
+          <ApolloProvider client={client} store={storePromise}>
+            <Provider store={storePromise} theme={theme}>
+            <View style={{ flex: 1 }} {...panResponder.panHandlers}>
+              <NavigationContainer theme={MyTheme} independent={true}>
+                <AppNavigation />
+              </NavigationContainer>
+              </View>
+            </Provider>
+          </ApolloProvider>
+          <SessionTimeout />
+        </SafeAreaProvider>
+     
     );
   }
   return null;
-  
+
 }
