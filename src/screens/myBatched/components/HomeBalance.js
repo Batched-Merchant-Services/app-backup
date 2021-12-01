@@ -1,51 +1,65 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { TouchableOpacity, ViewBase } from 'react-native';
+
+import { Clipboard } from 'react-native'
 import { View, Text, Divider, ImageResize, ButtonRounded } from '@components';
 import { scale, verticalScale } from 'react-native-size-matters';
-
-import whiteWallet from '@assets/icons/white-wallet.png';
-import blueReferred from '@assets/icons/blue-referred.png';
+import { useSelector, useDispatch } from 'react-redux';
 import blueRow from '@assets/icons/blue-row-double-down.png';
 import Styles from '../styles';
 import i18n from '@utils/i18n';
 
 const HomeBalance = ({ navigation, step, onPress, label }) => {
+  const redux = useSelector(state => state);
+  const dataUser = redux?.user;
+  const userProfile = dataUser?.dataUser?.usersProfile[0]
+  const accounts = userProfile?.accounts
+  console.log('dataUser',dataUser);
+
+  const copyToClipboard = () => {
+    Clipboard.setString(accounts?.id)
+  }
+
+
   return (
     <View flex-1>
       <View height-100 blue03 paddingH-10 centerV>
         <View row>
           <View flex-1>
-            <Text h12 blue02>oscargarcia@uulala.io</Text>
+            <Text h12 blue02>{accounts?.email}</Text>
             <Divider height-5 />
-            <Text h16 white semibold>Oscar García Lorem Ipsum</Text>
+            <Text h16 white semibold>{accounts?.firstName}{' '}{accounts?.middleName}{' '}{accounts?.lastName}</Text>
           </View>
-          <View width-34 height-34 centerH centerV style={Styles.borderImages}>
-            <ImageResize
-              source={blueRow}
-              height={verticalScale(16)}
-              width={scale(14)}
+          <View width-38 height-36 centerH centerV style={Styles.borderImages}>
+            {accounts?.avatarImage&&(
+              <ImageResize
+              source={{uri:accounts?.avatarImage}}
+              height={'100%'}
+              width={'100%'}
             />
+            )}
+            {!accounts?.avatarImage&&(
+             <Text h20 semibold>{accounts?.alias}</Text>
+            )}
           </View>
         </View>
         <Divider height-8 />
         <View row>
-          <View flex-1>
+          {/* <View flex-1>
             <Text h12 blue02>{i18n.t('home.myBatchedBalance.textReferenceCode')}</Text>
             <Divider height-5 />
             <Text h12 semibold green>udefinode.com/cni4w7y3u</Text>
-          </View>
-          <View right>
+          </View> */}
+          <View >
             <Text h12 blue02>{i18n.t('home.myBatchedBalance.textUulalaID')}</Text>
             <Divider height-5 />
-            <Text h12 white>IMCG4WHEIILNM</Text>
+            <Text h12 white semibold>{accounts?.id}</Text>
           </View>
         </View>
       </View>
       <Divider height-12 />
       <View flex-1 row centerH>
         <ButtonRounded
-
+          onPress={() => copyToClipboard}
           disabled={false}
           dark
           size='sm'

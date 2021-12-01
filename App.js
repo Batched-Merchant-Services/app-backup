@@ -11,7 +11,8 @@ import {
   StatusBar,
   useColorScheme,
   Text,
-  PanResponder
+  PanResponder,
+  AppState
 } from 'react-native';
 import {
   View
@@ -23,7 +24,6 @@ import NavigationService from './NavigationService';
 import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import AppNavigation from '@navigation/index';
-import { AppState } from 'react-native';
 import { Provider } from 'react-redux'
 // import store from '@store';
 import SplashScreen from "react-native-lottie-splash-screen";
@@ -32,6 +32,12 @@ import { ApolloProvider } from '@apollo/react-hooks'
 import { theme } from './theme';
 import configureStore from '@store/configureStore';
 import SessionTimeout from './SessionTimeout';
+import UserInactivity from 'react-native-user-inactivity';
+import BackgroundTimer from 'react-native-background-timer';
+import { panResponder } from './SessionTimeout'
+import { validateSession } from './src/store/actions/auth.actions';
+import {useNavigationState} from '@react-navigation/native';
+
 
 const store = configureStore()
 
@@ -48,64 +54,114 @@ const MyTheme = {
 };
 
 export default function App() {
-
   const [isReady, setIsReady] = useState(false);
   const [storePromise, setStorePromise] = useState({});
-  const timerId = useRef(false)
-  const [timeForInactivityInSecond, setTimeForInactivityInSecond] = useState(3600);
-
-
-  useEffect(() => {
-    resetInactivityTimeout()
-  }, [])
-
-  const panResponder = React.useRef(
-    PanResponder.create({
-      onStartShouldSetPanResponderCapture: () => {
-        // console.log('user starts touch');
-        resetInactivityTimeout()
-      },
-    })
-  ).current
-
-  const resetInactivityTimeout = () => {
-    clearTimeout(timerId.current)
-    timerId.current = setTimeout(() => {
-      // action after user has been detected idle
-    }, timeForInactivityInSecond * 1000)
-  }
+  const [secondsLeft, setSecondsLeft] = useState(60 * 4.5);
+  const [timerOn, setTimerOn] = useState(false);
+  const [active, setActive] = useState(false);
+ 
 
 
   useEffect(async () => {
-
+  
     const configStore = await configureStore()
+    const loginId = configStore?.getState()?.auth?.isSession
+    console.log('loginId',loginId)
+    setTimerOn(loginId?true:false);
     setIsReady(true);
     setStorePromise(configStore)
     SplashScreen.hide(); // here
 
-  }, []);
+  }, [timerOn]);
+  
+
+  useEffect(() => {
+    AppState.addEventListener('change',handleAppStateChange);
+    if (timerOn) startTimer();
+    else BackgroundTimer.stopBackgroundTimer();
+    return () => {
+      BackgroundTimer.stopBackgroundTimer();
+    };
+  }, [timerOn]);
 
 
+  const handleAppStateChange = async(nextAppState) =>{
+    if (nextAppState.match(/inactive|background/)) {
+      setActive(false)
+    }else if(nextAppState === 'active' ){
+      setActive(true)
+    }
+  };
+
+  const startTimer = () => {
+    BackgroundTimer.runBackgroundTimer(() => {
+      setSecondsLeft((secs) => secs - 1);
+    }, 1000)
+  }
+
+
+
+  useEffect(() => {
+    console.log('active',active);
+    if (active && secondsLeft === 0){
+      console.log('active && secondsLeft === 0')
+      onReset();
+    } else if (!active && secondsLeft === 0) {
+      console.log('!active && secondsLeft === 0')
+      onStop();
+    }
+  }, [secondsLeft])
+
+ 
+
+  const onReset = async() => {
+    const configStore = await configureStore()
+    configStore?.dispatch(validateSession())
+    setSecondsLeft(60 * 4.5)
+  }
+
+  const onStop = () => {
+    NavigationService.navigate('SignOut',{
+      screen: 'Login'
+    });
+    BackgroundTimer.stopBackgroundTimer();
+
+  }
+
+  const onAction = async(active) => {
+    console.log('onAction',active)
+    setActive(active);
+  }  
+
+
+  console.log('secondsLeft',secondsLeft)
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.white,
   };
+  
+
 
   if (isReady) {
+    
     return (
+      
         <SafeAreaProvider style={backgroundStyle}>
           <StatusBar barStyle={isDarkMode ? 'white-content' : 'dark-content'} />
           <ApolloProvider client={client} store={storePromise}>
             <Provider store={storePromise} theme={theme}>
-            <View style={{ flex: 1 }} {...panResponder.panHandlers}>
-              <NavigationContainer theme={MyTheme} independent={true}>
-                <AppNavigation />
+            <UserInactivity
+              isActive={active}
+              timeForInactivity={16200}
+              onAction={onAction}
+            >
+              <NavigationContainer theme={MyTheme} independent={true} ref={navigatorRef => { NavigationService.setTopLevelNavigator(navigatorRef);}} >
+                <AppNavigation ref={navigatorRef => { NavigationService.setTopLevelNavigator(navigatorRef);}}  />
               </NavigationContainer>
-              </View>
+              </UserInactivity>
             </Provider>
           </ApolloProvider>
-          <SessionTimeout />
         </SafeAreaProvider>
      
     );

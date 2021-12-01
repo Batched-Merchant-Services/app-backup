@@ -6,14 +6,15 @@ function setTopLevelNavigator(navigatorRef) {
   _navigator = navigatorRef;
 }
 
-function navigate(routeName, params) {
- 
+function navigate(name, params) {
+
   _navigator.dispatch(
     CommonActions.navigate({
-      routeName,
+      name,
       params,
     })
   );
+  
 }
 // add other navigation functions that you need and export them
 

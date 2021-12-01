@@ -3,7 +3,9 @@ import {
   LOGIN_SUCCESS,
   LOGIN_ERROR,
   SET_ERROR,
-  CLEAN_ERROR
+  CLEAN_ERROR,
+  VALIDATE_SESSION,
+  VALIDATE_SESSION_SUCCESS,
 } from '../constants';
 
 export const initialState = {
@@ -11,8 +13,9 @@ export const initialState = {
   headers: {},
   isLoggedIn: false,
   isLoggingIn: false,
-  finishSuccess:false,
-  showError:false,
+  isSession: false,
+  finishSuccess: false,
+  showError: false,
   isResettingPassword: false,
   isUpdating: true,
   error: {},
@@ -22,14 +25,15 @@ export const initialState = {
 export default authReducer = (state = initialState, action) => {
   switch (action.type) {
     case LOGIN:
-      return { ...state, isLoggingIn: true,  showError:false, };
+      return { ...state, isLoggingIn: true, showError: false, };
 
     case LOGIN_SUCCESS:
       return {
         ...state,
         isLoggingIn: false,
         isLoggedIn: true,
-        showError:false,
+        isSession: true,
+        showError: false,
         user: action.payload,
         error: {},
         success: {},
@@ -39,31 +43,44 @@ export default authReducer = (state = initialState, action) => {
         ...state,
         isLoggingIn: false,
         isLoggedIn: false,
-        showError:true,
+        showError: true,
         error: action.payload,
         user: null,
         success: {},
       };
-      case SET_ERROR:
+    case SET_ERROR:
       return {
         ...state,
         isLoggingIn: false,
-        finishSuccess:false,
-        showError:true,
+        finishSuccess: false,
+        showError: true,
         error: action.payload,
         user: null,
         success: {},
       };
+    case VALIDATE_SESSION:
+      return { ...state, isLoggingIn: true, showError: false, };
 
-      case CLEAN_ERROR:
+    case VALIDATE_SESSION_SUCCESS:
       return {
         ...state,
         isLoggingIn: false,
+        isLoggedIn: true,
+        showError: false,
+        user: action.payload,
+        error: {},
+        success: {},
+      };
+    case CLEAN_ERROR:
+      return {
+        ...state,
+        isLoggingIn: false,
+        isSession:false,
         isLoggedIn: false,
-        showError:false,
+        showError: false,
         error: {},
       };
-      
+
 
     default:
       return state;

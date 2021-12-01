@@ -1,106 +1,88 @@
-import React, {
-  useState,
-  useEffect,
-  useCallback,
-  useRef,
-  Fragment,
-} from 'react';
-import moment from 'moment';
-import { AsyncStorage } from 'react-native';
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
+import { PanResponder } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
+export default () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+  const token = "token value";
+  const lastInteraction = useRef(new Date());
+  const [timeWentInactive, setTimeWentInactive] = useState<Date | null>(null);
+  const inactivityTimer = useRef<boolean | NodeJS.Timeout | number>(false);
+  const waitForInactivity = useRef<number>(0);
 
-const SessionTimeout = () => {
-  const [events, setEvents] = useState(['click', 'load', 'scroll']);
-  const [second, setSecond] = useState(0);
-  const [isOpen, setOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(true);
-
-
-  let timeStamp;
-  let warningInactiveInterval = useRef();
-  let startTimerInterval = useRef();
-
-  // start inactive check
-  let timeChecker = () => {
-  
-    startTimerInterval.current = setTimeout(async() => {
-      let storedTimeStamp = await AsyncStorage.getItem('lastTimeStamp');
-      console.log('storedTimeStamp',storedTimeStamp)
-      warningInactive(storedTimeStamp);
-    }, 4000);
-  };
-
-  // warning timer
-  let warningInactive = (timeString) => {
-    clearTimeout(startTimerInterval.current);
-
-    warningInactiveInterval.current = setInterval(async() => {
-      const maxTime = 2;
-      const popTime = 1;
-
-      const diff = moment.duration(moment().diff(moment(timeString)));
-      const minPast = diff.minutes();
-      const leftSecond = 60 - diff.seconds();
-
-      if (minPast === popTime) {
-        setSecond(leftSecond);
-        setOpen(true);
-      }
-
-      if (minPast === maxTime) {
-        clearInterval(warningInactiveInterval.current);
-        setOpen(false);
-        await AsyncStorage.removeItem('lastTimeStamp');
-        //logout();
-      }
-    }, 1000);
-  };
-
-  // reset interval timer
-  let resetTimer = useCallback(async() => {
-    console.log('event')
-    clearTimeout(startTimerInterval.current);
-    clearInterval(warningInactiveInterval.current);
-
-    if (isAuthenticated) {
-      timeStamp = moment();
-      await AsyncStorage.setItem('lastTimeStamp', timeStamp);
-    } else {
-      clearInterval(warningInactiveInterval.current);
-      await AsyncStorage.removeItem('lastTimeStamp');
-    }
-    timeChecker();
-    setOpen(false);
-  }, [isAuthenticated]);
-
-  // handle close popup
-  const handleClose = () => {
-    setOpen(false);
-
-    resetTimer();
-  };
+  const INACTIVITY_CHECK_INTERVAL_MS = 1000;
 
   useEffect(() => {
-    events.forEach((event) => {
-      window.addEventListener(event, resetTimer);
-    });
+    if (token) {
+      //  180 secs
+      const autologoutTime = 180;
+      waitForInactivity.current = autologoutTime * 1000;
+    }
+  }, [token, waitForInactivity.current]);
 
-    timeChecker();
+  const performAutoLogout = useCallback(() => {
+    navigation.navigate('Logout');
+  }, []);
 
-    return () => {
-      clearTimeout(startTimerInterval.current);
-      //   resetTimer();
-    };
-  }, [resetTimer, events, timeChecker]);
+  const checkInactive = useCallback(() => {
+    if (inactivityTimer.current) {
+      return;
+    }
+    inactivityTimer.current = setInterval(() => {
+      if (Math.abs(new Date().valueOf() - lastInteraction.current.valueOf()) >=
+        waitForInactivity.current) {
+        setIsInactive();
+      }
+    }, INACTIVITY_CHECK_INTERVAL_MS);
+  }, []);
 
-  console.log(second);
+  useEffect(() => {
+    if (token) {
+      checkInactive();
+    }
+  }, [checkInactive]);
 
-  if (!isOpen) {
-    return null;
-  }
+  const setIsActive = useCallback(() => {
+    lastInteraction.current = new Date();
+    if (timeWentInactive) {
+      setTimeWentInactive(null);
+    }
 
-  // change fragment to modal and handleclose func to close
-  return <Fragment />;
-};
+    if (token) {
+      checkInactive();
+    }
+  }, []);
 
-export default SessionTimeout;
+  const setIsInactive = () => {
+    setTimeWentInactive(new Date());
+    performAutoLogout();
+    clearInterval(inactivityTimer.current);
+    inactivityTimer.current = false;
+  };
+
+  const handleMoveShouldSetPanResponder = useCallback(() => {
+    setIsActive();
+    return false;
+  }, [setIsActive]);
+
+  const handleStartShouldSetPanResponder = useCallback(() => {
+    setIsActive();
+    return false;
+  }, [setIsActive]);
+
+  const panResponder = useMemo(() =>
+    PanResponder.create({
+      onStartShouldSetPanResponder: handleStartShouldSetPanResponder,
+      onMoveShouldSetPanResponder: handleMoveShouldSetPanResponder,
+      onStartShouldSetPanResponderCapture: () => false,
+      onMoveShouldSetPanResponderCapture: () => false,
+      onPanResponderTerminationRequest: () => true,
+      onShouldBlockNativeResponder: () => false,
+    }), []);
+
+  return {
+    panResponder
+  };
+}

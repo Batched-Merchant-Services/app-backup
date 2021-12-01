@@ -173,7 +173,14 @@
       "textGet":"Get",
       "textDailyPointsReward":"daily points reward",
       "buttonSelect":"Select",
-      "inputTransactionId":"Transaction id"
+      "inputTransactionId":"Transaction id",
+      "textEnterYourReferralCode":"Enter your referral code",
+      "textIfYouWantToRefer":"If you want to refer someone, do the following:",
+      "textEnterTheReferenceCode":"1.- Enter the reference code and click in the search button.",
+      "textIfTheAdvisorShownIsCorrect":"2.- If the advisor shown is correct, click on send the request.",
+      "textOneOfOurAdvisorsWill":"One of our advisors will review your request and notify you when it is completed.",
+      "buttonSearch":"Search",
+      "buttonContinue":"Continue"
     },
     "pinConfirmation":{
       "textDefineAConfirmationPIN":"Define a confirmation PIN",

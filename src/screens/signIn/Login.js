@@ -30,11 +30,9 @@ const Login = ({ navigation }) => {
   const authData = redux?.auth;
   const email = useValidatedInput('', '');
   const password = useValidatedInput('password', '');
-  const [snackIsVisible, setSnackIsVisible] = useState(true);
   const isValid = isFormValid(email, password);
-
   const error = useSelector(state => state?.auth?.showError);
-  const isLoading = useSelector(state => state?.auth?.isLoggedIn);
+
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -50,9 +48,6 @@ const Login = ({ navigation }) => {
 
 
   if (authData?.isLoggedIn) {
-    // navigation.navigate('SignOut', {
-    //   screen: 'ReferralCode'
-    // });
     navigation.navigate('DrawerScreen',{
       screen: 'Dashboard',
       merge: true

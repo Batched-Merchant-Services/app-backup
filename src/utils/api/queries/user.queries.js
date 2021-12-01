@@ -133,3 +133,16 @@ export const GET_USER_BATCHED = gql`
       }
     }
   }`;
+
+
+export const VALIDATE_SESSION_QUERY = gql`
+query($token:String!){
+  getValidateSession(token:$token){
+    token
+    uuid
+    timeOut
+    locked
+  }
+}`;
+
+

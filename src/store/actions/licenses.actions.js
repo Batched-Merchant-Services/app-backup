@@ -32,7 +32,6 @@ import { toggleSnackbarOpen } from './app.actions';
 
 
 export const validateReference = ({ referenceCode }) => async (dispatch) => {
-
   try {
     dispatch({ type: VALIDATE_CODE_LICENSES });
 
@@ -42,14 +41,17 @@ export const validateReference = ({ referenceCode }) => async (dispatch) => {
         id: referenceCode?.value
       }
     }).then(async (response) => {
+      console.log('response response',response)
       if (response.data) {
         dispatch({ type: VALIDATE_CODE_LICENSES_SUCCESS, payload: response?.data['getUserReferer'] });
       }
     }).catch((error) => {
+      console.log('error 1',error)
       dispatch({ type: LICENSES_ERROR, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
+    console.log('error 2',error)
     dispatch({ type: LICENSES_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }

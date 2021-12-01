@@ -95,7 +95,8 @@ const TermAndConditions = ({ navigation, navigation: { goBack } }) => {
       <Checkbox {...privacy} label='I agree with the Privacy Notice.*' />
       <Checkbox {...term} label='I agree with the Terms and Conditions.*' />
       <ButtonRounded
-        onPress={() => navigation.navigate("RegisterProfileBasic")}
+        //onPress={() => navigation.navigate("RegisterProfileBasic")}
+        onPress={() => navigation.navigate("ReferralCode")}
         disabled={valid()}
         blue
       >

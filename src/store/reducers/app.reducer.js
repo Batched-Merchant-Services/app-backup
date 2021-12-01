@@ -56,7 +56,7 @@ export default appReducer = (state = initialState, action) => {
             return {
                 ...state,
                 changeStatus: action.payload,
-                showStatusTimers: action.showStatusTimers??''
+                showStatusTimers: action.showStatusTimers ?? ''
             };
         case TOGGLE_STATUS_CHANGE_STATUS:
             return {

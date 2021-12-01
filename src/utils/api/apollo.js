@@ -13,6 +13,7 @@ console.log('API_URL_STAGING',API_URL_STAGING,PUBLIC_KEY);
 
   const httpLink = new HttpLink({
     uri: `https://batched-services.apps-uulala.io/UulalaOAuth/graphql`
+    //uri: `https://services-test.apps-uulala.io/UulalaAuth/graphql`
     //prod https://batched-services.apps-uulala.io/UulalaOAuth/graphql
   });
 

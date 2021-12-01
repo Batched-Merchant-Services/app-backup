@@ -42,6 +42,7 @@ const CountDownDates = ({ navigation, changeStateColor,showBlue, ...props }) => 
   useEffect(() => {
     let timerId;
     if (timerStart || showBlue) {
+      console.log('entro')
       getTransformDateStart();
       timerId = setInterval(() => {
         setDateLeft((countDown) => countDown - 1);

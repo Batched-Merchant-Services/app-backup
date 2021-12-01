@@ -9,6 +9,8 @@ import {
 import { APP_RESOURCES } from '@utils/api/queries/app.queries';
 import { client } from '@utils/api/apollo';
 import { GET_VALIDATE_REWARDS_PROCESS } from '../../utils/api/queries/rewards.queries';
+import { VALIDATE_SESSION } from '../../utils/api/queries/user.queries';
+import LocalStorage from '@utils/localStorage';
 
 export const toggleSnackbarOpen = (message) => ({
   type: "TOGGLE_SNACKBAR_OPEN",
@@ -48,7 +50,7 @@ export const getValidateReward = () => async (dispatch) => {
       }
     }).then(async (response) => {
       if (response.data) {
-        dispatch({ type: GET_APP_RESOURCES, payload: response?.data['getValidateSessionToken'] });
+        dispatch({ type: VALIDATE_REWARDS_STATUS, payload: response?.data['getValidateSessionToken'] });
       }
     }).catch((error) => {
       dispatch({ type: SET_ERROR_APP, payload: error });
@@ -58,7 +60,6 @@ export const getValidateReward = () => async (dispatch) => {
   }
 
 }
-
 
 export const changeStatusTimers = (status,colorStatus) => async (dispatch) => {
   console.log('changeStatusTimers',status,colorStatus)

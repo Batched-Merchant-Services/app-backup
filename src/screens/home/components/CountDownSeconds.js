@@ -43,11 +43,12 @@ const CountDownSeconds = ({ navigation, ...props }) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      setShowButtonStart(inProcess || appResources?.changeStatus !== 0 ? true : false)
+      console.log('appResources?.changeStatus')
+      setShowButtonStart(!inProcess || appResources?.changeStatus !== 0 ? true : false)
     });
     return unsubscribe;
 
-  }, [])
+  }, [navigation])
 
   const startImageRotateFunction = () => {
     console.log('startImageRotateFunction')

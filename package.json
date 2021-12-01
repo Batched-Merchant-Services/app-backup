@@ -10,13 +10,13 @@
     "lint": "eslint ."
   },
   "dependencies": {
-    "@apollo/client": "^3.4.13",
     "@apollo/react-hooks": "^4.0.0",
     "@react-native-community/datetimepicker": "^3.5.2",
     "@react-navigation/drawer": "^6.1.4",
     "@react-navigation/native": "^6.0.2",
     "@react-navigation/native-stack": "^6.1.0",
     "await-to-js": "^3.0.0",
+    "graphql": "^15.7.2",
     "i18next": "^21.0.2",
     "jsencrypt": "^3.2.1",
     "lottie-react-native": "^4.0.3",
@@ -43,6 +43,7 @@
     "react-native-secure-key-store": "^2.0.9",
     "react-native-size-matters": "^0.4.0",
     "react-native-svg": "^12.1.1",
+    "react-native-user-inactivity": "^1.2.0",
     "react-redux": "^7.2.5",
     "redux": "^4.1.1",
     "redux-promise-middleware": "^6.1.2",

@@ -26,9 +26,10 @@ import Loading from '../Loading';
 
 
 
-const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
+const RegisterProfileBasic = ({ navigation, navigation: { goBack },route }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
+  const referralCode = route?.params?.referral;
   const registerData = redux?.register;
   const firstName = useValidatedInput('firstName', '');
   const mediumName = useValidatedInput('', '');
@@ -43,7 +44,7 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
     changeHandlerSelect: 'onSelect'
   });
   const isValid = isFormValid(firstName, mediumName, lastName, ssn,gender,birthDay);
-
+  console.log('referralCode',referralCode)
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -87,7 +88,7 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack } }) => {
       settings: null,
       securityQuestion:null
     }
-    dispatch(registerProfile({ dataRegisterProf,term }))
+    dispatch(registerProfile({ dataRegisterProf,term,referralCode }))
 
   }
 

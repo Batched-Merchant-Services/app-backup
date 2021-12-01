@@ -34,7 +34,6 @@ const ReferralCode = ({ navigation }) => {
   const [userID, setUserID] = useState(false);
   const referenceCode = useValidatedInput('referenceCode', '');
   const [statusBar, setStatusBar] = useState(0);
-  const isValid = isFormValid(referenceCode);
   const showData = licensesData?.dataLicenses?.firstName ? true : false
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
 
@@ -49,27 +48,47 @@ const ReferralCode = ({ navigation }) => {
 
 
   function handleNextSkip() {
-    navigation.navigate("GetLicenses")
+    navigation.navigate('RegisterProfileBasic',
+      {referral: referenceCode?.value }
+    );
+    
   }
   async function handleReferralCode() {
     dispatch(validateReference({ referenceCode }));
   }
 
+  console.log('licensesData?.dataLicenses?.statusCodeReferral',licensesData?.statusCodeReferral)
 
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
       <Divider height-10 />
-      <Text h16 regular blue02>{i18n.t('Licenses.textDoYouHaveAReferral')}</Text>
-      <Text h14 white light>{i18n.t('Licenses.textWhoeverReferredYouWill')}<Text white semibold>{i18n.t('Licenses.textEveryoneWins')}</Text></Text>
-      <Divider height-15 />
+      <Text h16 regular blue02>{i18n.t('Licenses.textEnterYourReferralCode')}</Text>
+      <Divider height-10 />
+      <Text h12 white light>{i18n.t('Licenses.textIfYouWantToRefer')}</Text>
+      <Divider height-5 />
+      <Text h12 white light>{i18n.t('Licenses.textEnterTheReferenceCode')}</Text>
+      <Text h12 white light>{i18n.t('Licenses.textIfTheAdvisorShownIsCorrect')}</Text>
+      <Divider height-20 />
+      <Text h12 white semibold>{i18n.t('Licenses.textOneOfOurAdvisorsWill')}</Text>
+      <Divider height-20 />
       <FloatingInput
         {...referenceCode}
         label={i18n.t('Licenses.inputReferenceCode')}
         keyboardType={'number-pad'}
         autoCapitalize={'none'}
       />
-      <Divider height-15 />
+      <Divider height-5 />
+      <ButtonRounded
+          onPress={handleReferralCode}
+          disabled={false}
+          dark
+        >
+          <Text h14 semibold blue02 center>
+            {i18n.t('Licenses.buttonSearch')}
+          </Text>
+        </ButtonRounded>
+        <Divider height-20 />
       <View centerV row height-60 paddingL-10 style={{ borderColor: Colors.blue02, borderWidth: 1 }}>
         {showData && (
           <Fragment>
@@ -95,28 +114,21 @@ const ReferralCode = ({ navigation }) => {
         )}
       </View>
       <Divider height-30 />
-      <View row>
-        <ButtonRounded
-          onPress={handleReferralCode}
-          disabled={false}
-          dark
-          size='sm'
-        >
-          <Text h14 semibold blue02 center>
-            Validate Code
-          </Text>
-        </ButtonRounded>
-        <Divider width-10 />
+      <View flex-1>
         <ButtonRounded
           onPress={handleNextSkip}
-          disabled={!isValid}
+          disabled={!licensesData?.statusCodeReferral}
           blue
-          size='sm'
         >
           <Text h14 semibold white>
-            {i18n.t('Licenses.textNextSkip')}
+            {i18n.t('Licenses.buttonContinue')}
           </Text>
         </ButtonRounded>
+      </View>
+      <View flex-1 bottom>
+        <Text h10 white light>Morbi aliquam nisi diam, vitae laoreet neque ultrices sed. Maecenas at dui auctor arcu condimentum congue. Duis vel ligula in felis cursus pellentesque. Nam tellus tellus, gravida ut luctus a, pellentesque nec est.</Text>
+        <Divider height-10 />
+        <Text h10 white light>All rights reserved. Batched.com</Text>
       </View>
       <SnackNotice
         visible={error}

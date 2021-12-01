@@ -29,6 +29,7 @@ export const initialState = {
   successCryptoCurrencies: false,
   successCreateLicense: false,
   showErrorLicenses: false,
+  statusCodeReferral:false,
   dataLicenses: [],
   getLicenses: [],
   getListLicenses: [],
@@ -43,6 +44,7 @@ export const initialState = {
 };
 
 export default licensesReducer = (state = initialState, action) => {
+  console.log(action?.payload?.firstName !== ''?true:false)
   switch (action.type) {
     case VALIDATE_CODE_LICENSES:
       return { ...state, isLoadingLicenses: true, showErrorLicenses: false };
@@ -54,6 +56,7 @@ export default licensesReducer = (state = initialState, action) => {
         successLicenses: true,
         showErrorLicenses: false,
         dataLicenses: action.payload,
+        statusCodeReferral:action?.payload?.firstName !== ''?true:false,
         error: {},
         success: {},
       };

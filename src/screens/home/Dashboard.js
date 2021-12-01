@@ -10,8 +10,6 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import Menu from '@assets/icons/hamburgerMenu.png';
 import Wallet from '@assets/icons/blue-wallet.png';
-import CircleTimer from '@assets/home/CircleTimer.png';
-import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
 import Styles from './styles';
 import i18n from '@utils/i18n';
 import Colors from '@styles/Colors';
@@ -20,8 +18,8 @@ import Loading from '../Loading';
 import { toggleSnackbarClose, changeStatusTimers } from '@store/actions/app.actions';
 import { cleanErrorLicenses, getTotalLicensesInNetwork } from '@store/actions/licenses.actions';
 import { getValidateRewardsByUser, getRewardsConfig } from '@store/actions/rewards.actions';
+import { getDataUser } from '@store/actions/user.action';
 import { thousandsSeparator } from '@utils/formatters';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import { verticalScale } from 'react-native-size-matters';
 import CountDownDateGreen from './components/CountDownDateGreen';
 import CountDownSeconds from './components/CountDownSeconds';
@@ -62,6 +60,7 @@ const Dashboard = ({ navigation }) => {
       dispatch(getValidateRewardsByUser());
       dispatch(getRewardsConfig());
       getBatchedTransaction();
+      dispatch(getDataUser());
     });
     return unsubscribe;
   }, []);

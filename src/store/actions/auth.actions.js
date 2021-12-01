@@ -2,7 +2,9 @@ import {
   LOGIN,
   LOGIN_ERROR,
   LOGIN_SUCCESS,
-  CLEAN_ERROR 
+  CLEAN_ERROR ,
+  VALIDATE_SESSION,
+  VALIDATE_SESSION_SUCCESS,
 } from '../constants'
 import { LOGIN_QUERY } from '@utils/api/queries/auth.queries';
 import { client } from '@utils/api/apollo';
@@ -10,6 +12,7 @@ import LocalStorage from '@utils/localStorage';
 import DeviceInfo from 'react-native-device-info';
 import { generateRSA } from '@utils/api/encrypt';
 import { toggleSnackbarOpen } from './app.actions';
+import { VALIDATE_SESSION_QUERY } from '../../utils/api/queries/user.queries';
 const device = DeviceInfo.getUniqueId();
 
 
@@ -47,6 +50,31 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
 
 };
 
+
+export const validateSession = () => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: VALIDATE_SESSION });
+    client.query({
+      query: VALIDATE_SESSION_QUERY,
+      variables: {
+        token:token
+      }
+    }).then(async (response) => {
+      console.log('response response response',response)
+      if (response.data) {
+        dispatch({ type: VALIDATE_SESSION_SUCCESS, payload: response?.data['getValidateSession'] });
+      }
+    }).catch((error) => {
+      console.log('validateSession error',error)
+      dispatch({ type: LOGIN_ERROR, payload: error });
+    })
+  } catch (error) {
+    console.log('validateSession error 2',error)
+    dispatch({ type: LOGIN_ERROR, payload: error });
+  }
+
+}
 
 
 export const cleanError = () => async (dispatch) => {
