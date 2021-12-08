@@ -43,15 +43,14 @@ const CountDownSeconds = ({ navigation, ...props }) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      console.log('appResources?.changeStatus')
-      setShowButtonStart(!inProcess || appResources?.changeStatus !== 0 ? true : false)
+      console.log('inProcess focus',inProcess)
+      setShowButtonStart(appResources?.changeStatus !== 0 ? inProcess ? true : false : false)
     });
     return unsubscribe;
 
   }, [navigation])
 
   const startImageRotateFunction = () => {
-    console.log('startImageRotateFunction')
     rotateValueHolder.setValue(0);
     Animated.timing(rotateValueHolder, {
       toValue: 1,
@@ -109,7 +108,7 @@ const CountDownSeconds = ({ navigation, ...props }) => {
   const minutes = String(Math.floor(countDown / 60)).padStart(2, 0);
   const percent = counterPercent.toFixed(2)
 
-
+  console.log('inProcess',showButtonStart,inProcess)
   return (
     <View flex-1 height-280>
       <View flex-1>

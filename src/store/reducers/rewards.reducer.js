@@ -14,6 +14,7 @@ export const initialState = {
 	isLoadingRewards: false,
 	showErrorRewards: false,
 	inProcess: false,
+	successReward:false,
 	isStart:false,
 	configRewards: null,
 	error: {},
@@ -60,13 +61,14 @@ export default rewardsReducer = (state = initialState, action) => {
 			};
 
 		case CONFIG_REWARDS:
-			return { ...state, isLoadingRewards: true, showErrorRewards: false };
+			return { ...state, isLoadingRewards: true, showErrorRewards: false,successReward:false };
 
 		case CONFIG_REWARDS_SUCCESS:
 			return {
 				...state,
 				isLoadingRewards: false,
 				showErrorRewards: false,
+				successReward: true,
 				configRewards: action.payload,
 				error: {},
 			};
@@ -84,6 +86,7 @@ export default rewardsReducer = (state = initialState, action) => {
 				...state,
 				isLoadingRewards: false,
 				showErrorRewards: false,
+				successReward:false,
 				inProcess: false,
 				error: {},
 			};

@@ -42,7 +42,6 @@ const CountDownDates = ({ navigation, changeStateColor,showBlue, ...props }) => 
   useEffect(() => {
     let timerId;
     if (timerStart || showBlue) {
-      console.log('entro')
       getTransformDateStart();
       timerId = setInterval(() => {
         setDateLeft((countDown) => countDown - 1);
@@ -64,7 +63,7 @@ const CountDownDates = ({ navigation, changeStateColor,showBlue, ...props }) => 
     var minutes = parseInt(diffr.minutes());
     var seconds = parseInt(diffr.seconds());
     var Timer = days + hours * 60 * 60 + minutes * 60 + seconds;
-    setDateLeft(Timer)
+    setDateLeft(Number.isNaN(Timer)? 1:Timer)
     setTimerStart(true);
     setStatusStart(true);
 
@@ -76,52 +75,11 @@ const CountDownDates = ({ navigation, changeStateColor,showBlue, ...props }) => 
       dispatch(changeStatusTimers(1,'blueLight'));
       changeStateColor('blueLight');
       setTimerStart(false);
+      setStatusStart(false);
     }
   }, [dateLeft, timerStart]);
 
 
-
-
-
-  // function checkTwo(value) {
-
-  //   var dateOne = 'Thu Nov 25 2021 11:28:10 GMT-0600 (Central Standard Time)'  //Year, Month, Date  
-  //   var dateTwo = 'Thu Nov 25 2021 11:29:10 GMT-0600 (Central Standard Time)'
-  //   var enddd = 'Fri Nov 26 2021 04:00:00 GMT-0600 (Central Standard Time)'
-
-
-  //   if (appResources?.changeStatus === 0) {
-  //     getTransformDateStart(dateTwo)
-  //   }else if (appResources?.changeStatus === 1) {
-  //     getTransformDateEnd(enddd)
-  //   }
-  // }
-
-
-
-
-  // function getTransformDateEnd(date) {
-  //   console.log('end')
-  //   changeStateColor('blueLight')
-  //   //var now = new Date(); 
-  //   var now = 'Thu Nov 25 2021 11:28:20 GMT-0600 (Central Standard Time)'
-  //   //var start = date;
-  //   var enddd = 'Thu Nov 25 2021 11:30:00 GMT-0600 (Central Standard Time)'
-  //   console.log('now', now, enddd)
-  //   var diffr = moment.duration(moment(enddd).diff(moment(now)));
-  //   var days = parseInt(diffr.asDays())
-  //   var hours = parseInt(diffr.asHours());
-  //   var minutes = parseInt(diffr.minutes());
-  //   var seconds = parseInt(diffr.seconds());
-  //   var Timer = days + hours * 60 * 60 + minutes * 60 + seconds;
-  //   setDateLeft(Timer);
-  //   setTimerStart(true);
-  //   setStatusStart(false);
-  // }
-
-
-
-  
 
 
 
@@ -138,15 +96,14 @@ const CountDownDates = ({ navigation, changeStateColor,showBlue, ...props }) => 
       displayDays,
       displayHours,
       displayMins,
-      displaySecs,
+      displaySecs
     }
   }
-
   return (
     <View >
       <Text h12 semibold>
-        {clockify().displayDays}D {clockify().displayHours}H {clockify().displayMins}M{" "}
-        {clockify().displaySecs}S
+        {timerStart?clockify().displayDays:null}D {timerStart?clockify().displayHours:null}H {timerStart?clockify().displayMins:null}M{" "}
+        {timerStart?clockify().displaySecs:null}S
       </Text>
     </View>
   );

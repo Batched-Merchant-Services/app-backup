@@ -20,6 +20,7 @@ const device = DeviceInfo.getUniqueId();
 
 
 export const getLogin = ({ email, password }) => async (dispatch) => {
+  console.log
   try {
     dispatch({ type: LOGIN });
    
@@ -29,7 +30,7 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
         user: email?.value,
         password:  generateRSA(password?.value),
         languaje: "2",
-        id: device,
+        id: generateRSA(device),
         groupid: "320"
       }
     }).then(async (response) => {
@@ -61,16 +62,13 @@ export const validateSession = () => async (dispatch) => {
         token:token
       }
     }).then(async (response) => {
-      console.log('response response response',response)
       if (response.data) {
         dispatch({ type: VALIDATE_SESSION_SUCCESS, payload: response?.data['getValidateSession'] });
       }
     }).catch((error) => {
-      console.log('validateSession error',error)
       dispatch({ type: LOGIN_ERROR, payload: error });
     })
   } catch (error) {
-    console.log('validateSession error 2',error)
     dispatch({ type: LOGIN_ERROR, payload: error });
   }
 

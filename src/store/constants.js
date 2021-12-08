@@ -104,9 +104,30 @@ export const CLEAN_REWARDS = 'CLEAN_REWARDS';
 
 
 
+//POINTS
 
+/* ********************************************* */ 
 
-
-
+export const REWARDS_POINTS = 'REWARDS_POINTS';
+export const REWARDS_POINTS_SUCCESS = 'REWARDS_POINTS_SUCCESS';
+export const COMMISSION_POINTS = 'COMMISSION_POINTS';
+export const COMMISSION_POINTS_SUCCESS = 'COMMISSION_POINTS_SUCCESS';
+export const GATEWAY_POINTS = 'GATEWAY_POINTS';
+export const GATEWAY_POINTS_SUCCESS = 'GATEWAY_POINTS_SUCCESS';
+export const LIQUID_POINTS = 'LIQUID_POINTS';
+export const LIQUID_POINTS_SUCCESS = 'LIQUID_POINTS_SUCCESS';
+export const EXECUTES_POINTS = 'EXECUTES_POINTS';
+export const EXECUTES_POINTS_SUCCESS = 'EXECUTES_POINTS_SUCCESS';
+export const POINTS_ERROR = 'POINTS_ERROR';
+export const CLEAN_ERROR_POINTS = 'CLEAN_ERROR_POINTS';
+export const pointsConstants = {
+  POOLS: {
+      TOKENS: 0,
+      COMMISSION: 1,
+      REWARDS: 2,
+      LIQUIDITY: 3,
+      GATEWAY: 4
+  }
+}
 
 

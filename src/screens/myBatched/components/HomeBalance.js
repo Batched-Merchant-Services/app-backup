@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useEffect,useState} from 'react';
 
 import { Clipboard } from 'react-native'
 import { View, Text, Divider, ImageResize, ButtonRounded } from '@components';
@@ -7,18 +7,60 @@ import { useSelector, useDispatch } from 'react-redux';
 import blueRow from '@assets/icons/blue-row-double-down.png';
 import Styles from '../styles';
 import i18n from '@utils/i18n';
+import { getCommissionPoints, getExecutedPointsTransactions, getGatewayPointsBalance, getLiquidPointsBalance, getRewardsPoints } from '../../../store/actions/points.actions';
+import { moneyFormatter, thousandsSeparator } from '../../../utils/formatters';
 
-const HomeBalance = ({ navigation, step, onPress, label }) => {
+const HomeBalance = ({ navigation }) => {
+  const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const dataUser = redux?.user;
+  const points = redux?.points;
   const userProfile = dataUser?.dataUser?.usersProfile[0]
   const accounts = userProfile?.accounts
-  console.log('dataUser',dataUser);
+  const [referenceN1, setReferenceN1] = useState(0);
+  const [referenceN2, setReferenceN2] = useState(0);
+  const [gatewayPoints, setGatewayPoints] = useState(0);
+  const [liquidPoints, setLiquidPoints] = useState(0);
+  const [totalLicenses, setTotalLicenses] = useState(0);
+  const [rewardsPoints, setRewardsPoints] = useState(0);
+  const [commissionBalance, setCommissionBalance] = useState(0);
+  const [checkDateStart, setCheckDateStart] = useState(false);
+  const RewardsData = points?.rewardsData;
+  const gatewayData = points?.gatewayData;
+  const liquidData = points?.liquidData;
+  console.log('liquidData',liquidData);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getBatchedTransaction();
+      getTransactions();
+    });
+    return unsubscribe;
+  }, []);
+
 
   const copyToClipboard = () => {
-    Clipboard.setString(accounts?.id)
+    Clipboard.setString(accounts?.id);
   }
 
+  function getTransactions() {
+    dispatch(getRewardsPoints({ id: dataUser?.dataUser?.clients[0]?.account?.id }))
+    dispatch(getCommissionPoints({ id: dataUser?.dataUser?.clients[0]?.account?.id }))
+    dispatch(getGatewayPointsBalance({ id: dataUser?.dataUser?.clients[0]?.account?.id }))
+    dispatch(getLiquidPointsBalance({ id: dataUser?.dataUser?.clients[0]?.account?.id }))
+    dispatch(getExecutedPointsTransactions({ id: dataUser?.dataUser?.clients[0]?.account?.id }))
+  }
+
+  function getBatchedTransaction() {
+    dataUser?.dataUser?.bachedTransaction?.forEach(transaction => {
+      if (transaction.status === 1 || transaction.status === 3) setTotalLicenses(totalLicenses + transaction.routingNumber ? parseInt(transaction.routingNumber) : transaction.routingNumber);
+    });
+    setReferenceN1(dataUser?.dataUser?.licensesReferences?.length)
+    setRewardsPoints(RewardsData?.total);
+    setCommissionBalance(points?.commissionData?.total);
+    setGatewayPoints(gatewayData?.total);
+    setLiquidPoints(liquidData?.total)
+  }
 
   return (
     <View flex-1>
@@ -33,8 +75,8 @@ const HomeBalance = ({ navigation, step, onPress, label }) => {
             {accounts?.avatarImage&&(
               <ImageResize
               source={{uri:accounts?.avatarImage}}
-              height={'100%'}
-              width={'100%'}
+              height={verticalScale(35)}
+              width={verticalScale(35)}
             />
             )}
             {!accounts?.avatarImage&&(
@@ -88,22 +130,22 @@ const HomeBalance = ({ navigation, step, onPress, label }) => {
       <View row>
         <View flex-1 column>
           <Text h12 blue02>{i18n.t('home.myBatchedBalance.textRewardPoints')}</Text>
-          <Text h16 semibold>5,765,085</Text>
+          <Text h16 semibold>{thousandsSeparator(rewardsPoints)}</Text>
         </View>
         <View flex-1 column right>
           <Text h12 blue02>{i18n.t('home.myBatchedBalance.textMyLicenses')}</Text>
-          <Text h16 semibold>03</Text>
+          <Text h16 semibold>{totalLicenses}</Text>
         </View>
       </View>
       <Divider height-10 />
       <View row>
         <View flex-1 column>
           <Text h12 blue02>{i18n.t('home.myBatchedBalance.textCommissionBalance')}</Text>
-          <Text h16 semibold>123,456</Text>
+          <Text h16 semibold>{thousandsSeparator(commissionBalance)}</Text>
         </View>
         <View flex-1 column right>
           <Text h12 blue02>{i18n.t('home.myBatchedBalance.textMyReferred')}</Text>
-          <Text h16 semibold>12</Text>
+          <Text h16 semibold>{referenceN1}</Text>
         </View>
       </View>
       <Divider height-15 />
@@ -126,17 +168,17 @@ const HomeBalance = ({ navigation, step, onPress, label }) => {
       <View row>
         <View flex-1 column>
           <Text h12 blue02>{i18n.t('home.myBatchedBalance.textInTransactionGateway')}</Text>
-          <Text h16 semibold2>100,000</Text>
+          <Text h16 semibold>{thousandsSeparator(gatewayPoints)}</Text>
         </View>
         <View flex-1 column right>
           <Text h12 blue02>{i18n.t('home.myBatchedBalance.textExecutedPoints')}</Text>
-          <Text h16 semibold>30,000</Text>
+          <Text h16 semibold>{thousandsSeparator(liquidPoints)}</Text>
         </View>
       </View>
       <Divider height-10 />
       <View flex-1>
         <Text h12 blue02>{i18n.t('home.myBatchedBalance.textLiquidityPool')}</Text>
-        <Text h16 semibold>$1,236.00 USD</Text>
+        <Text h16 semibold>{moneyFormatter(liquidPoints * 0.1)}</Text>
       </View>
       <Divider height-15 />
       <Text h10 white>{i18n.t('home.myBatchedBalance.textLiquidityPoolBalance')}</Text>

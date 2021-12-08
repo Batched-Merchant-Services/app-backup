@@ -37,7 +37,7 @@ const Dashboard = ({ navigation }) => {
   const appResources = redux?.app;
   const rewardsData = redux?.rewards;
   const [percent, setPercent] = useState(0);
-  const [statusAvailable, setStatusAvailable] = useState(rewardsData?.inProcess?false:true);
+  const [statusAvailable, setStatusAvailable] = useState(false);
   const [statusParticipate, setStatusParticipate] = useState(appResources?.changeStatus === 1?true:false);
   const [statusStayOnline, setStatusStayOnline] = useState(false);
   const [totalLicenses, setTotalLicenses] = useState(0);
@@ -51,8 +51,6 @@ const Dashboard = ({ navigation }) => {
 
   
   useEffect(() => {
-    console.log('inProcess',rewardsData?.inProcess)
-    console.log('appResources?.changeStatus',appResources?.changeStatus)
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanErrorLicenses());
       dispatch(toggleSnackbarClose());
@@ -66,10 +64,11 @@ const Dashboard = ({ navigation }) => {
   }, []);
 
   function getBatchedTransaction() {
-    console.log('transaction',infoUser)
+    console.log('transaction',infoUser,rewardsData.successReward,statusAvailable)
     infoUser?.dataUser?.bachedTransaction?.forEach(transaction => {
       if (transaction.status === 1 || transaction.status === 3) setTotalLicenses(totalLicenses + transaction.routingNumber ? parseInt(transaction.routingNumber) : transaction.routingNumber);
     });
+    setStatusAvailable(rewardsData?.inProcess)
   }
 
 
@@ -106,7 +105,7 @@ const Dashboard = ({ navigation }) => {
   
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={Menu} childrenRight={Wallet} menu onPressRight={handleNavigationWallet} navigation={navigation}>
-      {appResources?.showStatusTimers === 'blueLight' && statusAvailable &&(
+      {appResources?.showStatusTimers === 'blueLight' &&(
         <>
           <View style={Styles.borderBlue}>
             <View style={Styles.borderGreen}>
@@ -114,7 +113,7 @@ const Dashboard = ({ navigation }) => {
                 <Text h11 white center medium>
                   {i18n.t('home.textTimeRemaining')}:
                 </Text>
-                <CountDownDateGreen show={true} changeStateColor={(value) => handleStateChange(value)} navigation={navigation} />
+                <CountDownDateGreen show={rewardsData?.successReward} changeStateColor={(value) => handleStateChange(value)} navigation={navigation} />
               </ButtonRounded>
             </View>
           </View>
@@ -153,11 +152,11 @@ const Dashboard = ({ navigation }) => {
           <Divider height-10 />
         </>
       )}
-      { appResources?.showStatusTimers === 'blueDark' && statusAvailable && (
+      { appResources?.showStatusTimers === 'blueDark' && !rewardsData?.inProcess && (
         <>
           <View blue03 height-45 centerH centerV>
             <Text h12 white>{i18n.t('home.textValidationOfReward')}</Text>
-            <CountDownDates showBlue={true} changeStateColor={(value) => handleStateChange(value)} navigation={navigation} />
+            <CountDownDates showBlue={rewardsData?.successReward} changeStateColor={(value) => handleStateChange(value)} navigation={navigation} />
           </View>
           <Divider height-10 />
         </>
