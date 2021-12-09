@@ -16,7 +16,6 @@ import { toggleSnackbarOpen } from './app.actions';
 export const getDataUser = () => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
   const uuid = await LocalStorage.get('uuid');
-  console.log('uuid',uuid);
 
   try {
     dispatch({ type: GET_USER_DATA });

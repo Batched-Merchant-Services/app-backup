@@ -54,12 +54,10 @@ export const setValidateRewardsProcess = ({isStart}) => async (dispatch) => {
         isStart: isStart
       }
     }).then(async (response) => {
-        console.log('setValidateRewardsProcess',response)
       if (response.data) {
         dispatch({ type: VALIDATE_REWARDS_SUCCESS, payload: response?.data['getValidateSessionToken'] });
       }
     }).catch((error) => {
-      console.log('setValidateRewardsProcess error',error)
       dispatch({ type: REWARDS_ERROR, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
@@ -83,17 +81,14 @@ export const getRewardsConfig = () => async (dispatch) => {
         token: token
       }
     }).then(async (response) => {
-      console.log('response rewards CONFIG',response)
       if (response.data) {
         dispatch({ type: CONFIG_REWARDS_SUCCESS, payload: response?.data['getLastTimeRewards'] });
       }
     }).catch((error) => {
-      console.log('error 1',error)
       dispatch({ type: REWARDS_ERROR, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('error 2',error)
     dispatch({ type: REWARDS_ERROR, payload: error });
     //dispatch(toggleSnackbarOpen(error));
   }

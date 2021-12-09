@@ -37,6 +37,7 @@ import BackgroundTimer from 'react-native-background-timer';
 import { panResponder } from './SessionTimeout'
 import { validateSession } from './src/store/actions/auth.actions';
 import {useNavigationState} from '@react-navigation/native';
+import { userInactivity } from './src/store/actions/app.actions';
 
 
 const store = configureStore()
@@ -65,8 +66,10 @@ export default function App() {
   useEffect(async () => {
   
     const configStore = await configureStore()
-    const loginId = configStore?.getState()?.auth?.isSession
-    console.log('loginId',loginId)
+    const loginId = configStore?.getState()?.auth?.isSession;
+    const statusUserActive = configStore?.getState()?.app?.statusUserActive;
+    console.log('statusUserActive',statusUserActive,loginId)
+    configStore?.dispatch(userInactivity(false))
     setTimerOn(loginId?true:false);
     setIsReady(true);
     setStorePromise(configStore)
@@ -106,9 +109,6 @@ export default function App() {
     if (active && secondsLeft === 0){
       console.log('active && secondsLeft === 0')
       onReset();
-    } else if (!active && secondsLeft === 0) {
-      console.log('!active && secondsLeft === 0')
-      onStop();
     }
   }, [secondsLeft])
 
@@ -129,8 +129,11 @@ export default function App() {
   }
 
   const onAction = async(active) => {
-    console.log('onAction',active)
+    console.log('onAction',active,secondsLeft)
     setActive(active);
+    if (!active) {
+      onStop();
+    }
   }  
 
 
@@ -153,7 +156,7 @@ export default function App() {
             <Provider store={storePromise} theme={theme}>
             <UserInactivity
               isActive={active}
-              timeForInactivity={16200}
+              timeForInactivity={270000}
               onAction={onAction}
             >
               <NavigationContainer theme={MyTheme} independent={true} ref={navigatorRef => { NavigationService.setTopLevelNavigator(navigatorRef);}} >

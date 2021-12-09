@@ -4,7 +4,8 @@ import {
     TOGGLE_STATUS_CHANGE,
     TOGGLE_STATUS_CHANGE_STATUS,
     GET_APP_RESOURCES,
-    SET_ERROR_APP
+    SET_ERROR_APP,
+    USER_ACTIVE
 } from '../constants';
 
 const initialState = {
@@ -13,6 +14,7 @@ const initialState = {
     changeStatus: 0,
     changeSeconds: 0,
     showStatusTimers: 'blueDark',
+    statusUserActive:false,
     snackbarMessage: null,
     getAppResources: null,
     showError: false,
@@ -57,6 +59,11 @@ export default appReducer = (state = initialState, action) => {
                 ...state,
                 changeStatus: action.payload,
                 showStatusTimers: action.showStatusTimers ?? ''
+            };
+        case USER_ACTIVE:
+            return {
+                ...state,
+                statusUserActive: action.payload
             };
         case TOGGLE_STATUS_CHANGE_STATUS:
             return {

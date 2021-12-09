@@ -57,9 +57,6 @@ const ReferralCode = ({ navigation }) => {
     dispatch(validateReference({ referenceCode }));
   }
 
-  console.log('licensesData?.dataLicenses?.statusCodeReferral',licensesData?.statusCodeReferral)
-
-
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
       <Divider height-10 />

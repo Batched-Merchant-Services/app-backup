@@ -15,7 +15,7 @@ import i18n from '@utils/i18n';
 import Colors from '@styles/Colors';
 import Loading from '../Loading';
 //actions
-import { toggleSnackbarClose, changeStatusTimers } from '@store/actions/app.actions';
+import { toggleSnackbarClose, changeStatusTimers,userInactivity } from '@store/actions/app.actions';
 import { cleanErrorLicenses, getTotalLicensesInNetwork } from '@store/actions/licenses.actions';
 import { getValidateRewardsByUser, getRewardsConfig } from '@store/actions/rewards.actions';
 import { getDataUser } from '@store/actions/user.action';
@@ -24,6 +24,8 @@ import { verticalScale } from 'react-native-size-matters';
 import CountDownDateGreen from './components/CountDownDateGreen';
 import CountDownSeconds from './components/CountDownSeconds';
 import CountDownDates from './components/CountDownDates';
+import { getCommissionPoints, getExecutedPointsTransactions, getGatewayPointsBalance, getLiquidPointsBalance, getRewardsPoints  } from '../../store/actions/points.actions';
+import { getLocalDateFromUTC } from '../../utils/formatters';
 //import moment from 'moment';
 
 
@@ -36,39 +38,47 @@ const Dashboard = ({ navigation }) => {
   const infoUser = redux?.user;
   const appResources = redux?.app;
   const rewardsData = redux?.rewards;
-  const [percent, setPercent] = useState(0);
+
   const [statusAvailable, setStatusAvailable] = useState(false);
-  const [statusParticipate, setStatusParticipate] = useState(appResources?.changeStatus === 1?true:false);
   const [statusStayOnline, setStatusStayOnline] = useState(false);
   const [totalLicenses, setTotalLicenses] = useState(0);
-  const [timeLeft, setTimeLeft] = useState([]);
-  const [statusActive, setsStatusActive] = useState(rewardsData?.inProcess);
   const [statusFinish, setsStatusFinish] = useState(false);
-  const [starTimer, setStarTimer] = useState(false);
-  const [showButtonStart, setShowButtonStart] = useState(true);
+  const [inRange, setInRange] = useState(false);
+  const [rewardsPerUser, setRewardsPerUser] = useState(0);
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
-
+  const currentDate = new Date();
 
   
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(cleanErrorLicenses());
       dispatch(toggleSnackbarClose());
       dispatch(getTotalLicensesInNetwork());
       dispatch(getValidateRewardsByUser());
       dispatch(getRewardsConfig());
-      getBatchedTransaction();
       dispatch(getDataUser());
+      dispatch(userInactivity(true));
+      getBatchedTransaction();
     });
     return unsubscribe;
   }, []);
 
   function getBatchedTransaction() {
-    console.log('transaction',infoUser,rewardsData.successReward,statusAvailable)
+    const startDate = rewardsData?.configRewards?.startDate?getLocalDateFromUTC(rewardsData?.configRewards?.startDate):0;
+    const endDate = rewardsData?.configRewards?.endDate? getLocalDateFromUTC(rewardsData?.configRewards?.endDate):0;
     infoUser?.dataUser?.bachedTransaction?.forEach(transaction => {
       if (transaction.status === 1 || transaction.status === 3) setTotalLicenses(totalLicenses + transaction.routingNumber ? parseInt(transaction.routingNumber) : transaction.routingNumber);
     });
-    setStatusAvailable(rewardsData?.inProcess)
+    const id = infoUser?.dataUser?.clients? infoUser?.dataUser?.clients[0]?.account?.id:0;
+    dispatch(getRewardsPoints({id}));
+    dispatch(getCommissionPoints({id}));
+    dispatch(getGatewayPointsBalance({id}));
+    dispatch(getLiquidPointsBalance({id}));
+    dispatch(getExecutedPointsTransactions({id} ));
+    if(totalLicenses !== 0) setRewardsPerUser(rewardsData?.configRewards?.amount) / totalLicenses;
+    if (currentDate <= endDate) setInRange(currentDate <= endDate)
+    if (currentDate >= startDate) setInRange(currentDate >= startDate)
+    setStatusAvailable(rewardsData?.inProcess);
+    console.log('startDate',startDate,'endDate',endDate);
   }
 
 
@@ -77,7 +87,6 @@ const Dashboard = ({ navigation }) => {
   }
 
   function handleStateChange(value) {
-    console.log('value',value)
     switch (value) {
       case 'blueDark':
           return  dispatch(changeStatusTimers(0,'blueDark'));
@@ -87,25 +96,12 @@ const Dashboard = ({ navigation }) => {
           return dispatch(changeStatusTimers(0,'blueDark'));
     }
   }
-  // function showPercent(value) {
-  //   if (value) {
-  //     const parse = parseInt(value);
-  //     if (parse === 0) {
-  //       setPercent(0)
-  //       setShowButtonStart(true);
-  //       setStarTimer(false);
-  //     }else{
-  //       setPercent(value)
-  //       setShowButtonStart(false);
-  //     }
-      
-  //   }
-   
-  // }
+ 
+  console.log('inRange',inRange,appResources?.showStatusTimers);
   
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={Menu} childrenRight={Wallet} menu onPressRight={handleNavigationWallet} navigation={navigation}>
-      {appResources?.showStatusTimers === 'blueLight' &&(
+      {appResources?.showStatusTimers === 'blueLight' && inRange &&(
         <>
           <View style={Styles.borderBlue}>
             <View style={Styles.borderGreen}>
@@ -133,7 +129,7 @@ const Dashboard = ({ navigation }) => {
           <Divider height-10 />
         </>
       )}
-      { appResources?.showStatusTimers === 'green'  && (
+      { appResources?.showStatusTimers === 'green' && statusAvailable && (
         <>
           <View height-65 green centerH centerV>
             <Text h14 white bold>You are fully active today!</Text>
@@ -152,7 +148,7 @@ const Dashboard = ({ navigation }) => {
           <Divider height-10 />
         </>
       )}
-      { appResources?.showStatusTimers === 'blueDark' && !rewardsData?.inProcess && (
+      { appResources?.showStatusTimers === 'blueDark' && !inRange && (
         <>
           <View blue03 height-45 centerH centerV>
             <Text h12 white>{i18n.t('home.textValidationOfReward')}</Text>
@@ -210,7 +206,7 @@ const Dashboard = ({ navigation }) => {
         <Divider style={Styles.borderDoted} />
         <View flex-1 paddingH-15>
           <Text h9 blue02 center>{i18n.t('home.textPointsPerLicence')}</Text>
-          <Text h11 white center semibold>00</Text>
+          <Text h11 white center semibold>{thousandsSeparator(rewardsPerUser)}</Text>
         </View>
         <Divider style={Styles.borderDoted} />
         <View flex-1 paddingH-15>

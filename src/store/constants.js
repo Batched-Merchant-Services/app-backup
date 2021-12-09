@@ -5,6 +5,8 @@ export const GET_APP_RESOURCES = 'GET_APP_RESOURCES';
 export const SET_ERROR_APP = 'SET_ERROR_APP'; 
 export const TOGGLE_STATUS_CHANGE = 'TOGGLE_STATUS_CHANGE'; 
 export const TOGGLE_STATUS_CHANGE_STATUS = 'TOGGLE_STATUS_CHANGE_STATUS'; 
+export const USER_ACTIVE = 'USER_ACTIVE'; 
+export const USER_INACTIVE = 'USER_INACTIVE'; 
 
 /* ********************************************* */ 
 

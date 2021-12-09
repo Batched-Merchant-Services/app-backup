@@ -43,7 +43,6 @@ const CountDownSeconds = ({ navigation, ...props }) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      console.log('inProcess focus',inProcess)
       setShowButtonStart(appResources?.changeStatus !== 0 ? inProcess ? true : false : false)
     });
     return unsubscribe;
@@ -108,7 +107,6 @@ const CountDownSeconds = ({ navigation, ...props }) => {
   const minutes = String(Math.floor(countDown / 60)).padStart(2, 0);
   const percent = counterPercent.toFixed(2)
 
-  console.log('inProcess',showButtonStart,inProcess)
   return (
     <View flex-1 height-280>
       <View flex-1>

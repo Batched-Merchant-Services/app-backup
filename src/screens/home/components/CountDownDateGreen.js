@@ -43,11 +43,9 @@ const CountDownDateGreen = ({ navigation, changeStateColor,show, ...props }) => 
 
   useEffect(() => {
     let timerId;
-    console.log('show green',show)
     if (timerStart || show) {
       setDateLeft(0);
       getTransformDateEnd();
-      console.log('timerStart',timerStart,show);
       timerId = setInterval(() => {
         setDateLeft((countDown) => countDown - 1);
       }, 1000);
@@ -60,10 +58,8 @@ const CountDownDateGreen = ({ navigation, changeStateColor,show, ...props }) => 
 
 
   function getTransformDateEnd() {
-    console.log('end')
     var now = new Date(); 
     var end = getLocalDateFromUTC(endDate)
-    console.log('now', now, end)
     var diffr = moment.duration(moment(end).diff(moment(now)));
     var days = parseInt(diffr.asDays())
     var hours = parseInt(diffr.asHours());
@@ -86,75 +82,6 @@ const CountDownDateGreen = ({ navigation, changeStateColor,show, ...props }) => 
   }, [dateLeft, timerStart]);
 
 
-
-
-
-
-  // function checkTwo(value) {
-
-  //   var dateOne = 'Thu Nov 25 2021 11:28:10 GMT-0600 (Central Standard Time)'  //Year, Month, Date  
-  //   var dateTwo = 'Thu Nov 25 2021 11:29:10 GMT-0600 (Central Standard Time)'
-  //   var enddd = 'Fri Nov 26 2021 04:00:00 GMT-0600 (Central Standard Time)'
-
-
-  //   if (appResources?.changeStatus === 0) {
-  //     getTransformDateStart(dateTwo)
-  //   }else if (appResources?.changeStatus === 1) {
-  //     getTransformDateEnd(enddd)
-  //   }
-  // }
-
-
-
-
-  // function getTransformDateStart(date) {
-  //   console.log('start')
-  //   changeStateColor('blueDark')
-  //   //var now = new Date(); 
-  //   var now = 'Thu Nov 25 2021 11:28:20 GMT-0600 (Central Standard Time)'
-  //   //var start = date;
-  //   var start = 'Thu Nov 25 2021 11:29:00 GMT-0600 (Central Standard Time)'
-  //   console.log('now', now, start)
-  //   var diffr = moment.duration(moment(start).diff(moment(now)));
-  //   var days = parseInt(diffr.asDays())
-  //   var hours = parseInt(diffr.asHours());
-  //   var minutes = parseInt(diffr.minutes());
-  //   var seconds = parseInt(diffr.seconds());
-  //   var Timer = days + hours * 60 * 60 + minutes * 60 + seconds;
-  //   setDateLeft(Timer)
-  //   setTimerStart(true);
-  //   setStatusStart(true);
-
-  // }
-
-
-
-
-
-
-  // function checkStatusDate() {
-  //   console.log('checkstart')
-  //   // var dateOne = new Date(); //Year, Month, Date  
-  //   // var dateTwo = getLocalDateFromUTC(props.startDate);   
-  //   var dateOne = 'Thu Nov 25 2021 11:28:20 GMT-0600 (Central Standard Time)'  //Year, Month, Date  
-  //   var dateTwo = 'Thu Nov 25 2021 16:32:00 GMT-0600 (Central Standard Time)'
-  //   var enddd = 'Fri Nov 26 2021 04:00:00 GMT-0600 (Central Standard Time)'
-  //   //var dateTwo = new Date('2011,00,15'); //Year, Month, Date  
-  //   console.log('dateOne < dateTwo', dateOne < dateTwo)
-  //   if (appResources?.changeStatus !== 2) {
-  //     if (dateOne < dateTwo) {
-  //       dispatch(changeStatusTimers(0, 'blueDark'));
-  //       changeStateColor('blueDark')
-  //       getTransformDateNow(dateTwo)
-  //       setCheckDateStart(false)
-  //     } else {
-  //       dispatch(changeStatusTimers(1, 'blueLight'));
-  //       getTransformDateNow(enddd)
-  //       changeStateColor('blueLight')
-  //       setCheckDateStart(true)
-  //     }
-  //   }
-  // }
 
   const clockify = () => {
     var days = Math.floor(dateLeft / (3600 * 24));

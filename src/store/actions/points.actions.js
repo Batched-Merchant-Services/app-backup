@@ -36,18 +36,15 @@ export const getCommissionPoints = ({ id }) => async (dispatch) => {
         pool: pointsConstants.POOLS.COMMISSION
       }
     }).then(async (response) => {
-      console.log('getCommissionPoints',response)
       if (response.data) {
         dispatch({ type: COMMISSION_POINTS_SUCCESS, payload: response?.data['getBalanceTokens'] });
       }
     }).catch((error) => {
-      console.log('getCommissionPoints error1',error)
       dispatch({ type: POINTS_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('getCommissionPoints error2',error)
-    dispatch({ type: CLEAN_ERROR_POINTS, payload: error });
+    dispatch({ type: POINTS_ERROR, payload: error });
   }
 
 };
@@ -65,18 +62,15 @@ export const getRewardsPoints = ({ id }) => async (dispatch) => {
         pool: pointsConstants.POOLS.REWARDS
       }
     }).then(async (response) => {
-      console.log('getRewardsPoints',response)
       if (response.data) {
         dispatch({ type: REWARDS_POINTS_SUCCESS, payload: response?.data['getBalanceTokens'] });
       }
     }).catch((error) => {
-      console.log('getRewardsPoints error 1',response)
       dispatch({ type: POINTS_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('getRewardsPoints error 2',response)
-    dispatch({ type: CLEAN_ERROR_POINTS, payload: error });
+    dispatch({ type: POINTS_ERROR, payload: error });
   }
 
 };
@@ -94,18 +88,15 @@ export const getGatewayPointsBalance = ({ id }) => async (dispatch) => {
         pool: pointsConstants.POOLS.GATEWAY
       }
     }).then(async (response) => {
-      console.log('getGatewayPointsBalance',response)
       if (response.data) {
         dispatch({ type: GATEWAY_POINTS_SUCCESS, payload: response?.data['getBalanceTokens'] });
       }
     }).catch((error) => {
-      console.log('getGatewayPointsBalance error 1',response)
       dispatch({ type: POINTS_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('getGatewayPointsBalance error 2',response)
-    dispatch({ type: CLEAN_ERROR_POINTS, payload: error });
+    dispatch({ type: POINTS_ERROR, payload: error });
   }
 
 };
@@ -123,18 +114,15 @@ export const getLiquidPointsBalance = ({ id }) => async (dispatch) => {
         pool: pointsConstants.POOLS.LIQUIDITY
       }
     }).then(async (response) => {
-      console.log('getLiquidPointsBalance',response)
       if (response.data) {
         dispatch({ type: LIQUID_POINTS_SUCCESS, payload: response?.data['getBalanceTokens'] });
       }
     }).catch((error) => {
-      console.log('getLiquidPointsBalance error 1',response)
       dispatch({ type: POINTS_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('getLiquidPointsBalance error 2',response)
-    dispatch({ type: CLEAN_ERROR_POINTS, payload: error });
+    dispatch({ type: POINTS_ERROR, payload: error });
   }
 
 };
@@ -153,25 +141,22 @@ export const getExecutedPointsTransactions = ({ id }) => async (dispatch) => {
         pool: pointsConstants.POOLS.LIQUIDITY
       }
     }).then(async (response) => {
-      console.log('getExecutedPointsTransactions',response)
       if (response.data) {
         dispatch({ type: EXECUTES_POINTS_SUCCESS, payload: response?.data['getAccountTransactionsTokens'] });
       }
     }).catch((error) => {
-      console.log('getExecutedPointsTransactions error 1',response)
       dispatch({ type: POINTS_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('getExecutedPointsTransactions error 2',response)
-    dispatch({ type: CLEAN_ERROR_POINTS, payload: error });
+    dispatch({ type: POINTS_ERROR, payload: error });
   }
 
 };
 
 
 
-export const cleanErrorPints = () => async (dispatch) => {
+export const cleanErrorPoints = () => async (dispatch) => {
   try {
     dispatch({ type: CLEAN_ERROR_POINTS })
   } catch (error) {

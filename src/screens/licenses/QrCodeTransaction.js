@@ -17,7 +17,6 @@ const QrCodeTransaction = ({ navigation,navigation: { goBack }  }) => {
   const redux = useSelector(state => state);
   const licensesData = redux?.licenses;
 
-console.log('licensesData?.addressCurrency?.address',licensesData?.addressCurrency?.address)
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
       <Text h18 regular blue02>{i18n.t('Licenses.textQRCodeForTransaction')}</Text>

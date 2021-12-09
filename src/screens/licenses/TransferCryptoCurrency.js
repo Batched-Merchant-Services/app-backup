@@ -27,7 +27,6 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const licensesData = redux?.licenses;
-  console.log(licensesData?.addressCurrency)
   const amount = useValidatedInput('amount', '');
   const address = useValidatedInput('address', licensesData?.addressCurrency?.address);
   const transactionIdValue = useValidatedInput(id === 1 ? 'transactionId' : id === 2 ? 'transactionIdETH' : 'transactionId', '');
@@ -68,7 +67,7 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
   if (licensesData?.successCreateLicense) {
     navigation.navigate("ConfirmationLicenses")
   }
-  console.log('id', id)
+
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>

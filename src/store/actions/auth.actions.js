@@ -20,7 +20,6 @@ const device = DeviceInfo.getUniqueId();
 
 
 export const getLogin = ({ email, password }) => async (dispatch) => {
-  console.log
   try {
     dispatch({ type: LOGIN });
    

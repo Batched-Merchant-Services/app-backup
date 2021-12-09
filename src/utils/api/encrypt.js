@@ -1,5 +1,4 @@
 import { PUBLIC_KEY } from '@env';
-console.log('PUBLIC_KEY',PUBLIC_KEY);
 export const generateRSA = (text) => {
   try {
     var JSEncrypt = require('jsencrypt');

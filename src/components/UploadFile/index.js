@@ -32,9 +32,7 @@ const UploadFile = ({ value, error, onChangeText,navigation,labelInput,labelButt
   
       const resultBase = await convertImage(fileBase64);
       const nameFile = fileBase64?.name;
-      console.log('nameFile',nameFile);
       dispatch(setFile({ nameFile, resultBase }));
-      console.log('userData?',userData?.setFile)
       onChangeText(userData?.setFile);
    
   };

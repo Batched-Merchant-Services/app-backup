@@ -3,7 +3,8 @@ import {
   TOGGLE_STATUS_CHANGE,
   VALIDATE_REWARDS_STATUS,
   TOGGLE_STATUS_CHANGE_STATUS,
-  SET_ERROR_APP
+  SET_ERROR_APP,
+  USER_ACTIVE
 } from '../constants'
 
 import { APP_RESOURCES } from '@utils/api/queries/app.queries';
@@ -61,8 +62,11 @@ export const getValidateReward = () => async (dispatch) => {
 
 }
 
+export const userInactivity = (status) => async (dispatch) => {
+  return dispatch({ type: USER_ACTIVE, payload:status })
+};
+
 export const changeStatusTimers = (status,colorStatus) => async (dispatch) => {
-  console.log('changeStatusTimers',status,colorStatus)
   return dispatch({ type: TOGGLE_STATUS_CHANGE, payload:status, showStatusTimers:colorStatus })
 };
 

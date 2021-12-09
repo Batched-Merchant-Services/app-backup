@@ -49,8 +49,7 @@ const Login = ({ navigation }) => {
 
   if (authData?.isLoggedIn) {
     navigation.navigate('DrawerScreen',{
-      screen: 'Dashboard',
-      merge: true
+      screen: 'Dashboard'
     });
   }
 

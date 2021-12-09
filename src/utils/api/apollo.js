@@ -9,11 +9,10 @@ import { API_URL_STAGING,PUBLIC_KEY } from '@env';
 import i18n from '@utils/i18n';
 
 
-console.log('API_URL_STAGING',API_URL_STAGING,PUBLIC_KEY);
 
   const httpLink = new HttpLink({
-    uri: `https://batched-services.apps-uulala.io/UulalaOAuth/graphql`
-    //uri: `https://services-test.apps-uulala.io/UulalaAuth/graphql`
+    //uri: `https://batched-services.apps-uulala.io/UulalaOAuth/graphql`
+    uri: `https://services-test.apps-uulala.io/UulalaAuth/graphql`
     //prod https://batched-services.apps-uulala.io/UulalaOAuth/graphql
   });
 

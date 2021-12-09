@@ -41,17 +41,14 @@ export const validateReference = ({ referenceCode }) => async (dispatch) => {
         id: referenceCode?.value
       }
     }).then(async (response) => {
-      console.log('response response',response)
       if (response.data) {
         dispatch({ type: VALIDATE_CODE_LICENSES_SUCCESS, payload: response?.data['getUserReferer'] });
       }
     }).catch((error) => {
-      console.log('error 1',error)
       dispatch({ type: LICENSES_ERROR, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('error 2',error)
     dispatch({ type: LICENSES_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
@@ -139,7 +136,6 @@ export const getTotalLicenses = () => async (dispatch) => {
         filter: ''
       }
     }).then(async (response) => {
-      console.log('response total licenses',response)
       if (response.data) {
         dispatch({ type: GET_TOTAL_LICENSES_SUCCESS, payload: response?.data['getTotalTypeLicenses'] });
       }
@@ -207,8 +203,6 @@ export const saveCurrentLicense = ({ selectLicense }) => async (dispatch) => {
 
 export const createLicense = ({createLicenses}) => async (dispatch) => {
   
-  console.log('createLicenses action',createLicenses)
-
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: CREATE_LICENSE });
@@ -219,17 +213,14 @@ export const createLicense = ({createLicenses}) => async (dispatch) => {
         ...createLicenses
       }
     }).then(async (response) => {
-      console.log('response create', response)
       if (response.data) {
         dispatch({ type: CREATE_LICENSE_SUCCESS, payload: response.data['createLicensesCryptoTransactionDeposit'] });
       }
     }).catch((error) => {
-      console.log('error 1', error)
       dispatch({ type: LICENSES_ERROR, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('error 2', error)
     dispatch({ type: LICENSES_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
@@ -273,17 +264,14 @@ export const getTotalLicensesInNetwork = () => async (dispatch) => {
         token: token
       }
     }).then(async (response) => {
-      console.log('response getTotalLicensesInNetwork', response)
       if (response.data) {
         dispatch({ type: GET_TOTAL_LICENSES_IN_NETWORK_SUCCESS, payload: response?.data['getTotalLicensesInNetwork'] });
       }
     }).catch((error) => {
-      console.log('error1',error)
       dispatch({ type: LICENSES_ERROR, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('error2',error)
     dispatch({ type: LICENSES_ERROR, payload: error });
     //dispatch(toggleSnackbarOpen(error));
   }

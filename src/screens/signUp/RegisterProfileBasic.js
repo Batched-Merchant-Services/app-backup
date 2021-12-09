@@ -44,8 +44,7 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack },route }) => {
     changeHandlerSelect: 'onSelect'
   });
   const isValid = isFormValid(firstName, mediumName, lastName, ssn,gender,birthDay);
-  console.log('referralCode',referralCode)
-
+ 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanErrorRegister());
