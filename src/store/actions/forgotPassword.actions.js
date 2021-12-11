@@ -9,10 +9,6 @@ import {
 
 import { SET_FORGOT_PASSWORD,SET_CONFIRM_PASSWORD } from '@utils/api/queries/forgotPassword.queries';
 import { client } from '@utils/api/apollo';
-import LocalStorage from '@utils/localStorage';
-import DeviceInfo from 'react-native-device-info';
-import { generateRSA } from '@utils/api/encrypt';
-const device = DeviceInfo.getUniqueId();
 
 
 export const getForgotPassword = ({dataRecovery }) => async (dispatch) => {
@@ -20,7 +16,7 @@ export const getForgotPassword = ({dataRecovery }) => async (dispatch) => {
     dispatch({ type: FORGOT_YOUR_PASSWORD });
     client.mutate({
       mutation: SET_FORGOT_PASSWORD,
-      variables: dataRecovery
+      variables: dataRecovery,
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: FORGOT_YOUR_PASSWORD_SUCCESS, payload: response?.data });
@@ -32,7 +28,6 @@ export const getForgotPassword = ({dataRecovery }) => async (dispatch) => {
     dispatch({ type: FORGOT_ERROR, payload: error });
   }
 };
-
 
 
 export const confirmForgotPassword = ({dataConfirm }) => async (dispatch) => {
@@ -51,10 +46,7 @@ export const confirmForgotPassword = ({dataConfirm }) => async (dispatch) => {
   } catch (error) {
     dispatch({ type: FORGOT_ERROR, payload: error });
   }
-
 };
-
-
 
 export const cleanErrorForgot = () => async (dispatch) => {
   try {

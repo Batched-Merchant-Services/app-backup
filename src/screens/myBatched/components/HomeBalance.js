@@ -14,7 +14,7 @@ const HomeBalance = ({ navigation }) => {
   const redux = useSelector(state => state);
   const dataUser = redux?.user;
   const points = redux?.points;
-  const userProfile = dataUser?.dataUser?.usersProfile[0]
+  const userProfile = dataUser?.dataUser?.usersProfile ?dataUser?.dataUser?.usersProfile[0]:''
   const accounts = userProfile?.accounts
   const [referenceN1, setReferenceN1] = useState(0);
   const [referenceN2, setReferenceN2] = useState(0);
@@ -44,7 +44,7 @@ const HomeBalance = ({ navigation }) => {
     });
   }
 
- 
+ console.log('accounts?.email',accounts)
   return (
     <View flex-1>
       <View height-100 blue03 paddingH-10 centerV>
@@ -55,14 +55,14 @@ const HomeBalance = ({ navigation }) => {
             <Text h16 white semibold>{accounts?.firstName}{' '}{accounts?.middleName}{' '}{accounts?.lastName}</Text>
           </View>
           <View width-38 height-36 centerH centerV style={Styles.borderImages}>
-            {accounts?.avatarImage&&(
+            {accounts?.avatarImage !== '' &&(
               <ImageResize
               source={{uri:accounts?.avatarImage}}
               height={verticalScale(35)}
               width={verticalScale(35)}
             />
             )}
-            {!accounts?.avatarImage&&(
+            {accounts?.avatarImage === '' &&(
              <Text h20 semibold>{accounts?.alias}</Text>
             )}
           </View>

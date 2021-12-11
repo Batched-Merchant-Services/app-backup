@@ -44,7 +44,7 @@ export const initialState = {
 };
 
 export default licensesReducer = (state = initialState, action) => {
-  console.log(action?.payload?.firstName !== ''?true:false)
+
   switch (action.type) {
     case VALIDATE_CODE_LICENSES:
       return { ...state, isLoadingLicenses: true, showErrorLicenses: false };

@@ -46,15 +46,9 @@ const NewPassword = ({ navigation, navigation: { goBack },route }) => {
   const error = useSelector(state => state?.forgotPassword?.showError);
  
 
-  if (forgotData?.isLoadingForgot) {
-    return <Loading />;
-  }
-
   if (forgotData?.finishForgotSuccess) {
     navigation.navigate("ConfirmationForgot");
   }
-
-
 
   function handleSetPassword() {
     let dataConfirm = {
@@ -114,11 +108,14 @@ const NewPassword = ({ navigation, navigation: { goBack },route }) => {
             </Text>
           </ButtonRounded>
       </View>
-      <SnackNotice
-        visible={error}
-        message={forgotData?.error?.message}
-        timeout={3000}
-      />
+      <Loading modalVisible={forgotData?.isLoadingForgot} />
+      <View  bottom>
+        <SnackNotice
+          visible={error}
+          message={forgotData?.error?.message}
+          timeout={3000}
+        />
+      </View>
     </BackgroundWrapper>
 
 

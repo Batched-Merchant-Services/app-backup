@@ -15,12 +15,10 @@ import {
 } from '../constants'
 import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
-import DeviceInfo from 'react-native-device-info';
 import { generateRSA } from '@utils/api/encrypt';
 import { toggleSnackbarOpen } from './app.actions';
-
 import { GET_POOL_BALANCE, GET_TRANSACTIONS_TOKENS } from '../../utils/api/queries/points.queries';
-const device = DeviceInfo.getUniqueId();
+import { getUTCDateString } from '@utils/formatters';
 
 
 export const getCommissionPoints = ({ id }) => async (dispatch) => {
@@ -34,7 +32,7 @@ export const getCommissionPoints = ({ id }) => async (dispatch) => {
         token:token,
         id:id,
         pool: pointsConstants.POOLS.COMMISSION
-      }
+      },
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: COMMISSION_POINTS_SUCCESS, payload: response?.data['getBalanceTokens'] });
@@ -60,7 +58,7 @@ export const getRewardsPoints = ({ id }) => async (dispatch) => {
         token:token,
         id:id,
         pool: pointsConstants.POOLS.REWARDS
-      }
+      },
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: REWARDS_POINTS_SUCCESS, payload: response?.data['getBalanceTokens'] });
@@ -86,7 +84,7 @@ export const getGatewayPointsBalance = ({ id }) => async (dispatch) => {
         token:token,
         id:id,
         pool: pointsConstants.POOLS.GATEWAY
-      }
+      },
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: GATEWAY_POINTS_SUCCESS, payload: response?.data['getBalanceTokens'] });
@@ -112,7 +110,7 @@ export const getLiquidPointsBalance = ({ id }) => async (dispatch) => {
         token:token,
         id:id,
         pool: pointsConstants.POOLS.LIQUIDITY
-      }
+      },
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: LIQUID_POINTS_SUCCESS, payload: response?.data['getBalanceTokens'] });

@@ -15,6 +15,12 @@ export const getLocalDateFromUTC = (value)  =>{
   return new Date(Date.UTC(localDate.getFullYear(), localDate.getMonth(), localDate.getDate(),  localDate.getHours(), localDate.getMinutes(), localDate.getSeconds()));
 }
 
+export const getUTCDateString = ()  =>{
+  let utcDate = new Date();
+  let response = `${utcDate.getUTCFullYear()}-${  utcDate.getUTCMonth() + 1 }-${ utcDate.getUTCDate()} ${ utcDate.getUTCHours() }:${ utcDate.getUTCMinutes() }:${ utcDate.getUTCSeconds() }`
+  return response;
+}
+
 export const formatDate = stringDate => {
   const date = new Date(stringDate);
   const year = date.getFullYear();

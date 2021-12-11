@@ -20,8 +20,6 @@ import {
 	GET_TOTAL_LICENSES_IN_NETWORK,
   GET_TOTAL_LICENSES_IN_NETWORK_SUCCESS
 } from '../constants';
-
-
 import { GET_REFERRED_ID, GET_CURRENT_TYPE_LICENSES, GET_LICENSES_QUERY,
   GET_TOTAL_LICENSES_QUERY, GET_CRYPTO_CURRENCY_QUERY, GET_CREATE_LICENSES_CRYPTO,
   GET_ADDRESS_CURRENCY,GET_TOTAL_LICENSES_IN_NETWORK_QUERY
@@ -29,8 +27,11 @@ import { GET_REFERRED_ID, GET_CURRENT_TYPE_LICENSES, GET_LICENSES_QUERY,
 import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
 import { toggleSnackbarOpen } from './app.actions';
+import { getUTCDateString } from '../../utils/formatters';
+import { generateRSA } from '../../utils/api/encrypt';
 
 
+const utc = getUTCDateString();
 export const validateReference = ({ referenceCode }) => async (dispatch) => {
   try {
     dispatch({ type: VALIDATE_CODE_LICENSES });
@@ -39,7 +40,7 @@ export const validateReference = ({ referenceCode }) => async (dispatch) => {
       query: GET_REFERRED_ID,
       variables: {
         id: referenceCode?.value
-      }
+      },
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: VALIDATE_CODE_LICENSES_SUCCESS, payload: response?.data['getUserReferer'] });
@@ -64,7 +65,7 @@ export const getLicenses = () => async (dispatch) => {
       query: GET_CURRENT_TYPE_LICENSES,
       variables: {
         token: token
-      }
+      },
     }).then(async (response) => {
 
       if (response.data) {
@@ -91,7 +92,7 @@ export const getListLicenses = () => async (dispatch) => {
       variables: {
         token: token,
         filter: ''
-      }
+      },
     }).then(async (response) => {
       if (response.data) {
         nameLicenses(response.data);
@@ -134,7 +135,7 @@ export const getTotalLicenses = () => async (dispatch) => {
       variables: {
         token: token,
         filter: ''
-      }
+      },
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: GET_TOTAL_LICENSES_SUCCESS, payload: response?.data['getTotalTypeLicenses'] });
@@ -161,7 +162,7 @@ export const getCryptoCurrency = () => async (dispatch) => {
       variables: {
         token: token,
         filter: ''
-      }
+      },
     }).then(async (response) => {
       if (response.data) {
         nameCryptoCurrencies(response.data)
@@ -211,7 +212,7 @@ export const createLicense = ({createLicenses}) => async (dispatch) => {
       variables: {
         token: token,
         ...createLicenses
-      }
+      },
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: CREATE_LICENSE_SUCCESS, payload: response.data['createLicensesCryptoTransactionDeposit'] });
@@ -237,7 +238,7 @@ export const getAddressCurrency = (currencyId) => async (dispatch) => {
       variables: {
         token: token,
         currencyId:currencyId
-      }
+      },
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: GET_ADDRESS_CURRENCIES_SUCCESS, payload: response?.data?.getCryptoCurrencyAddress[0] });
@@ -262,7 +263,7 @@ export const getTotalLicensesInNetwork = () => async (dispatch) => {
       query: GET_TOTAL_LICENSES_IN_NETWORK_QUERY,
       variables: {
         token: token
-      }
+      },
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: GET_TOTAL_LICENSES_IN_NETWORK_SUCCESS, payload: response?.data['getTotalLicensesInNetwork'] });

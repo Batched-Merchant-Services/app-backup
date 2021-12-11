@@ -11,12 +11,14 @@ import { GET_USER_BATCHED,SET_FILE } from '@utils/api/queries/user.queries';
 import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
 import { toggleSnackbarOpen } from './app.actions';
+import { getUTCDateString } from '@utils/formatters';
+import { generateRSA } from '@utils/api/encrypt';
 
+const utc = getUTCDateString();
 
 export const getDataUser = () => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
   const uuid = await LocalStorage.get('uuid');
-
   try {
     dispatch({ type: GET_USER_DATA });
 
@@ -68,11 +70,7 @@ export const setFile = ({nameFile,resultBase}) => async (dispatch) => {
     dispatch({ type: USER_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
-
 };
-
-
-
 
 
 export const cleanDataUser = () => async (dispatch) => {

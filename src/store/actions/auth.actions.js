@@ -13,16 +13,15 @@ import DeviceInfo from 'react-native-device-info';
 import { generateRSA } from '@utils/api/encrypt';
 import { toggleSnackbarOpen } from './app.actions';
 import { VALIDATE_SESSION_QUERY } from '../../utils/api/queries/user.queries';
+import { getUTCDateString } from '../../utils/formatters';
 const device = DeviceInfo.getUniqueId();
 
 
 
-
-
+const utc = getUTCDateString();
 export const getLogin = ({ email, password }) => async (dispatch) => {
   try {
     dispatch({ type: LOGIN });
-   
     client.query({
       query: LOGIN_QUERY,
       variables: {
@@ -31,7 +30,7 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
         languaje: "2",
         id: generateRSA(device),
         groupid: "320"
-      }
+      },
     }).then(async (response) => {
       if (response.data) {
         const { token,uuid } = response?.data['getLoggin'];
@@ -44,7 +43,6 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-
     dispatch({ type: LOGIN_ERROR, payload: error });
   }
 

@@ -12,6 +12,10 @@ import { client } from '@utils/api/apollo';
 import { GET_VALIDATE_REWARDS_PROCESS } from '../../utils/api/queries/rewards.queries';
 import { VALIDATE_SESSION } from '../../utils/api/queries/user.queries';
 import LocalStorage from '@utils/localStorage';
+import { getUTCDateString } from '@utils/formatters';
+import { generateRSA } from '../../utils/api/encrypt';
+
+const utc = getUTCDateString();
 
 export const toggleSnackbarOpen = (message) => ({
   type: "TOGGLE_SNACKBAR_OPEN",
@@ -21,6 +25,7 @@ export const toggleSnackbarOpen = (message) => ({
 export const toggleSnackbarClose = () => ({
   type: "TOGGLE_SNACKBAR_CLOSE",
 });
+
 
 export const showAppResources = () => async (dispatch) => {
   try {
@@ -48,7 +53,7 @@ export const getValidateReward = () => async (dispatch) => {
       query: GET_VALIDATE_REWARDS_PROCESS,
       variables: {
         id:320
-      }
+      },
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: VALIDATE_REWARDS_STATUS, payload: response?.data['getValidateSessionToken'] });

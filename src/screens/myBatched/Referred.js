@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { TouchableOpacity, ViewBase } from 'react-native';
 import { View, Text, Divider, ImageResize, ButtonRounded, DropDownPicker } from '@components';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import { scale, verticalScale } from 'react-native-size-matters';
-
+import { useSelector, useDispatch } from 'react-redux';
 import whiteWallet from '@assets/icons/white-wallet.png';
 import blueReferred from '@assets/icons/blue-referred.png';
 import blueRow from '@assets/icons/blue-row-double-down.png';
@@ -13,6 +13,11 @@ import Styles from './styles';
 import i18n from '@utils/i18n';
 
 const Referred = ({ navigation, step, onPress, label }) => {
+  const dispatch = useDispatch();
+  const redux = useSelector(state => state);
+  const dataUser = redux?.user;
+  const userProfile = dataUser?.dataUser?.usersProfile ?dataUser?.dataUser?.usersProfile[0]:''
+  const accounts = userProfile?.accounts
   const dateSelect =useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
@@ -20,7 +25,30 @@ const Referred = ({ navigation, step, onPress, label }) => {
     changeHandlerSelect: 'onSelect'
   });
   const [showImageProfile, setShowImageProfile] = useState(false);
-  const [showData, setShowData] = useState(true);
+  const [showData, setShowData] = useState(false);
+  const [dataInfo, setDataInfo] = useState('');
+  const [idUulala, setIdUulala] = useState('');
+  const [nameData, setNameData] = useState('');
+  const [alias, setAlias] = useState('');
+  const [imageData, setImageData] = useState('');
+  const [levelData, setLevelData] = useState('');
+  const [incomeData, setIncomeData] = useState('');
+  const [dataReferred, setDataReferred] = useState('');
+
+  useEffect(() => {
+    if (dataUser?.dataUser?.licensesReferences) 
+      if (dataUser?.dataUser?.licensesReferences.length > 0) {
+        setShowData(true);
+        dataUser?.dataUser?.licensesReferences.forEach(reference2 => {
+          console.log('reference2',reference2)
+  
+        });
+        setDataInfo(dataUser?.dataUser?.licensesReferences);
+      }
+      else setShowData(false);
+
+  }, []);
+
 
   const generateColor = () => {
     const randomColor = Math.floor(Math.random() * 16777215)
@@ -29,13 +57,14 @@ const Referred = ({ navigation, step, onPress, label }) => {
     return `#${randomColor}`;
   };
 
+  console.log('dataUser',dataUser);
 
   return (
     <View flex-1>
       <View row>
         <View flex-1>
           <Text h14 blue02 light>{i18n.t('home.referred.textMyReferrenceCode')}</Text>
-          <Text h14 green semibold>udefinode.com/cni4w7y3u</Text>
+          <Text h13 green semibold>{accounts?.id}</Text>
         </View>
         <View>
           <ButtonRounded

@@ -16,7 +16,7 @@ import i18n from '@utils/i18n';
 import Styles from './styles'
 
 //actions
-import { toggleSnackbarClose,toggleSnackbarOpen } from '@store/actions/app.actions';
+import { toggleSnackbarClose, toggleSnackbarOpen } from '@store/actions/app.actions';
 import { cleanErrorForgot, getForgotPassword } from '@store/actions/forgotPassword.actions';
 import Loading from '../Loading';
 
@@ -28,7 +28,7 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
   const userData = redux?.user;
   const email = useValidatedInput('email', '');
   const referenceCode = useValidatedInput('sms', '');
-  const isValid = isFormValid(email,referenceCode);
+  const isValid = isFormValid(email, referenceCode);
   const [snackVisible, setSnackVisible] = useState(false);
 
   useEffect(() => {
@@ -41,29 +41,24 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
   }, []);
 
   const error = useSelector(state => state?.forgotPassword?.showError);
- 
-  
+
+
   function handleForgotPassword() {
-    navigation.navigate("NewPassword",{ code: referenceCode?.value });
+    navigation.navigate("NewPassword", { code: referenceCode?.value });
   }
+
   function handleSendCode() {
     let dataRecovery = {
-      email:email?.value,
-      phone:'',
+      email: email?.value,
+      phone: '',
       type: 2
     }
     dispatch(getForgotPassword({ dataRecovery }));
     setTimeout(() => {
-    if (forgotData?.sendMessage) {
-    dispatch(toggleSnackbarOpen(i18n.t('ForgotPassword.snackNotice.textTheCodeHasBeen')))
-    }
+      if (forgotData?.sendMessage) {
+        dispatch(toggleSnackbarOpen(i18n.t('ForgotPassword.snackNotice.textTheCodeHasBeen')))
+      }
     }, 2000);
-  }
-
-  
-
-  if (forgotData?.isLoadingForgot) {
-    return <Loading />;
   }
 
 
@@ -115,22 +110,25 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
           </Text>
         </ButtonRounded>
         <Divider width-10 />
-          <ButtonRounded
-            onPress={handleForgotPassword}
-            disabled={!isValid}
-            blue
-            size='sm'
-          >
-            <Text h14 semibold>
+        <ButtonRounded
+          onPress={handleForgotPassword}
+          disabled={!isValid}
+          blue
+          size='sm'
+        >
+          <Text h14 semibold>
             {i18n.t('General.buttonNext')}
-            </Text>
-          </ButtonRounded>
+          </Text>
+        </ButtonRounded>
       </View>
-      <SnackNotice
-        visible={snackVisible?snackVisible:error}
-        message={forgotData?.error?.message}
-        timeout={3000}
-      />
+      <Loading modalVisible={forgotData?.isLoadingForgot} />
+      <View bottom>
+        <SnackNotice
+          visible={error}
+          message={forgotData?.error?.message}
+          timeout={3000}
+        />
+      </View>
     </BackgroundWrapper>
 
   );

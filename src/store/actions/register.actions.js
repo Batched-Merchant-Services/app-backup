@@ -26,13 +26,15 @@ import LocalStorage from '@utils/localStorage';
 import DeviceInfo from 'react-native-device-info';
 import { generateRSA } from '@utils/api/encrypt';
 import { getLanguage } from '@utils/api/getLanguage';
+import { getUTCDateString } from '../../utils/formatters';
 
 
+const utc = getUTCDateString();
 
 export const getCodeReference = ({ reference }) => async (dispatch) => {
+
   try {
     dispatch({ type: VALIDATE_CODE });
-   
     client.query({
       query: COMPANY_REFERENCE,
       variables: {
@@ -98,7 +100,7 @@ export const getGender =() => async (dispatch) => {
       variables: {
         id: 'GENDER', 
         languaje:getLanguage()
-      }
+      },
     }).then(async (response) => {
       if (response.data) {
         nameGender(response.data);

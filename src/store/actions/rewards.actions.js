@@ -15,8 +15,10 @@ import LocalStorage from '@utils/localStorage';
 import { toggleSnackbarOpen } from './app.actions';
 import { GET_VALIDATE_REWARDS_PROCESS_BY_USER,GET_CONFIG_REWARDS_TOKEN } from '@utils/api/queries/rewards.queries';
 import { GET_VALIDATE_REWARDS_PROCESS } from '../../utils/api/queries/rewards.queries';
+import { generateRSA } from '@utils/api/encrypt';
+import { getUTCDateString } from '@utils/formatters';
 
-
+const utc = getUTCDateString();
 export const getValidateRewardsByUser = () => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
   try {
@@ -26,7 +28,7 @@ export const getValidateRewardsByUser = () => async (dispatch) => {
       query: GET_VALIDATE_REWARDS_PROCESS_BY_USER,
       variables: {
         token: token
-      }
+      },
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: VALIDATE_REWARDS_BY_USER_SUCCESS, payload: response?.data['getTotalLicensesInNetworkByUser'] });
@@ -52,7 +54,7 @@ export const setValidateRewardsProcess = ({isStart}) => async (dispatch) => {
       variables: {
         token: token,
         isStart: isStart
-      }
+      },
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: VALIDATE_REWARDS_SUCCESS, payload: response?.data['getValidateSessionToken'] });
@@ -79,7 +81,7 @@ export const getRewardsConfig = () => async (dispatch) => {
       query: GET_CONFIG_REWARDS_TOKEN,
       variables: {
         token: token
-      }
+      },
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: CONFIG_REWARDS_SUCCESS, payload: response?.data['getLastTimeRewards'] });

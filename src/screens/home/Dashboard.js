@@ -28,8 +28,6 @@ import { getCommissionPoints, getExecutedPointsTransactions, getGatewayPointsBal
 import { getLocalDateFromUTC } from '../../utils/formatters';
 //import moment from 'moment';
 
-
-
  
 const Dashboard = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -50,6 +48,7 @@ const Dashboard = ({ navigation }) => {
 
   
   useEffect(() => {
+    getBatchedTransaction();
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(toggleSnackbarClose());
       dispatch(getTotalLicensesInNetwork());
@@ -57,10 +56,10 @@ const Dashboard = ({ navigation }) => {
       dispatch(getRewardsConfig());
       dispatch(getDataUser());
       dispatch(userInactivity(true));
-      getBatchedTransaction();
     });
     return unsubscribe;
   }, []);
+
 
   function getBatchedTransaction() {
     const startDate = rewardsData?.configRewards?.startDate?getLocalDateFromUTC(rewardsData?.configRewards?.startDate):0;
@@ -73,12 +72,12 @@ const Dashboard = ({ navigation }) => {
     dispatch(getCommissionPoints({id}));
     dispatch(getGatewayPointsBalance({id}));
     dispatch(getLiquidPointsBalance({id}));
-    dispatch(getExecutedPointsTransactions({id} ));
+    //dispatch(getExecutedPointsTransactions({id} ));
     if(totalLicenses !== 0) setRewardsPerUser(rewardsData?.configRewards?.amount) / totalLicenses;
     if (currentDate <= endDate) setInRange(currentDate <= endDate)
     if (currentDate >= startDate) setInRange(currentDate >= startDate)
     setStatusAvailable(rewardsData?.inProcess);
-    console.log('startDate',startDate,'endDate',endDate);
+
   }
 
 
@@ -97,7 +96,6 @@ const Dashboard = ({ navigation }) => {
     }
   }
  
-  console.log('inRange',inRange,appResources?.showStatusTimers);
   
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={Menu} childrenRight={Wallet} menu onPressRight={handleNavigationWallet} navigation={navigation}>
