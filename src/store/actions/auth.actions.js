@@ -11,9 +11,10 @@ import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
 import DeviceInfo from 'react-native-device-info';
 import { generateRSA } from '@utils/api/encrypt';
-import { toggleSnackbarOpen } from './app.actions';
+import { toggleSnackbarOpen, userInactivity } from './app.actions';
 import { VALIDATE_SESSION_QUERY } from '../../utils/api/queries/user.queries';
 import { getUTCDateString } from '../../utils/formatters';
+import { getDataUser } from './user.action';
 const device = DeviceInfo.getUniqueId();
 
 
@@ -37,6 +38,8 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
         dispatch({ type: LOGIN_SUCCESS, payload: response?.data['getLoggin'] });
         await LocalStorage.set('auth_token', token);
         await LocalStorage.set('uuid', uuid);
+        dispatch(userInactivity(true));
+        dispatch(getDataUser({token,uuid}))
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });

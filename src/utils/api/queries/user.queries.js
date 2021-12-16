@@ -70,21 +70,15 @@ export const GET_USER_BATCHED = gql`
         email
         name
         description
-        estimateAmount
         level
         total
-        type
-        statusKraken
         status
         transactionId
-        approvedAmount
         amountReferrer
         percentageReferrer
-        amountSponsor
-        percentageSponsor
-        isPaid
         currency
-        amountKraken
+        referenceDate
+        avatarImage
         licensesReferences
         {
           id
@@ -92,21 +86,15 @@ export const GET_USER_BATCHED = gql`
           email
           name
           description
-          estimateAmount
           level
           total
-          type
-          statusKraken
           status
           transactionId
-          approvedAmount
           amountReferrer
           percentageReferrer
-          amountSponsor
-          percentageSponsor
-          isPaid
           currency
-          amountKraken
+          referenceDate
+          avatarImage
         } 
       } 
       bachedTransaction

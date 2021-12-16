@@ -21,10 +21,11 @@ export const initialState = {
   successLiquidPoints: false,
   successExecutePoints:false,
   errorPoints: false,
-  rewardsData: null,
-  commissionData: null,
-  gatewayData: null,
-  liquidData: null,
+  rewardsData: [],
+  commissionData: [],
+  gatewayData: [],
+  liquidData: [],
+  executeData:[],
   error: {},
   success: {},
 };
@@ -93,6 +94,7 @@ export default pointsReducer = (state = initialState, action) => {
         isLoadingRewardsPoints: false,
         errorPoints: true,
         error: action.payload,
+        success: {},
       };
     case CLEAN_ERROR_POINTS:
       return {

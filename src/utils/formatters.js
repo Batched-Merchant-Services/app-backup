@@ -11,9 +11,17 @@ export const formatDateGMT = stringDate => {
 };
 
 export const getLocalDateFromUTC = (value)  =>{
+  console.log('value',value)
   let localDate = new Date(value);
   return new Date(Date.UTC(localDate.getFullYear(), localDate.getMonth(), localDate.getDate(),  localDate.getHours(), localDate.getMinutes(), localDate.getSeconds()));
 }
+
+export const convertUtc = (value)  =>{
+  var dt = new Date(value);
+  return dt.toLocaleString()
+}
+
+
 
 export const getUTCDateString = ()  =>{
   let utcDate = new Date();

@@ -11,12 +11,13 @@ import blueRow from '@assets/icons/blue-row-double-down.png';
 import EmptyState from '../EmptyState';
 import Styles from './styles';
 import i18n from '@utils/i18n';
+import { convertUtc, formatDate, formatDateGMT, formatDateSend, getLocalDateFromUTC } from '../../utils/formatters';
 
 const Referred = ({ navigation, step, onPress, label }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const dataUser = redux?.user;
-  const userProfile = dataUser?.dataUser?.usersProfile ?dataUser?.dataUser?.usersProfile[0]:''
+  const userProfile = dataUser?.dataUser?.usersProfile? dataUser?.dataUser?.usersProfile[0]:''
   const accounts = userProfile?.accounts
   const dateSelect =useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
@@ -24,25 +25,13 @@ const Referred = ({ navigation, step, onPress, label }) => {
   const levelSelect =useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
-  const [showImageProfile, setShowImageProfile] = useState(false);
   const [showData, setShowData] = useState(false);
-  const [dataInfo, setDataInfo] = useState('');
-  const [idUulala, setIdUulala] = useState('');
-  const [nameData, setNameData] = useState('');
-  const [alias, setAlias] = useState('');
-  const [imageData, setImageData] = useState('');
-  const [levelData, setLevelData] = useState('');
-  const [incomeData, setIncomeData] = useState('');
-  const [dataReferred, setDataReferred] = useState('');
+  const [dataInfo, setDataInfo] = useState([]);
 
   useEffect(() => {
     if (dataUser?.dataUser?.licensesReferences) 
       if (dataUser?.dataUser?.licensesReferences.length > 0) {
         setShowData(true);
-        dataUser?.dataUser?.licensesReferences.forEach(reference2 => {
-          console.log('reference2',reference2)
-  
-        });
         setDataInfo(dataUser?.dataUser?.licensesReferences);
       }
       else setShowData(false);
@@ -56,6 +45,15 @@ const Referred = ({ navigation, step, onPress, label }) => {
       .padStart(6, '0');
     return `#${randomColor}`;
   };
+
+  const orderByDate=()=>{
+    const sortedActivities = dataInfo.slice().sort((a, b) => b.referenceDate - a.referenceDate)
+    setDataInfo(sortedActivities);
+  }
+  const orderByLevel=()=>{
+    const sortedActivities = dataInfo.slice().sort((a, b) => b.level - a.level)
+    setDataInfo(sortedActivities);
+  }
 
   console.log('dataUser',dataUser);
 
@@ -84,13 +82,14 @@ const Referred = ({ navigation, step, onPress, label }) => {
       {showData && (
         <>
           <Divider height-25 />
-          <View flex-1 row>
+          <View row>
             <View centerV>
               <Text h12 regular white>{i18n.t('home.referred.textMyReferredUsers')}</Text>
             </View>
             <Divider width-10 />
             <View flex-1>
               <ButtonRounded
+                onPress={orderByDate}
                 disabled={false}
                 dark
               >
@@ -108,6 +107,7 @@ const Referred = ({ navigation, step, onPress, label }) => {
             <Divider width-10 />
             <View flex-1>
               <ButtonRounded
+              onPress={orderByLevel}
                 disabled={false}
                 dark
               >
@@ -123,26 +123,29 @@ const Referred = ({ navigation, step, onPress, label }) => {
               </ButtonRounded>
             </View>
           </View>
+          <Divider height-10 />
           <Divider style={Styles.borderDoted} />
           <Divider height-10 />
-          <View style={Styles.borderViewDoted} padding-15>
+          {dataInfo.length ? (
+            dataInfo.map((data) => (
+            <View style={Styles.borderViewDoted} padding-15 marginB-10>
             <View row>
               <View flex-1 >
-                <Text h12 light blue02>{i18n.t('General.textUulalaId')} IMCG4WHEIILNM</Text>
-                <Text h12 semibold>Victor Urquides Torres</Text>
+                <Text h12 light blue02>{i18n.t('General.textUulalaId')} {data?.uuid}</Text>
+                <Text h12 semibold>{data?.name}</Text>
               </View>
-              {showImageProfile && (
+              {data?.avatarImage !== '' && (
                 <View width-35 height-34 centerH centerV style={Styles.borderImages}>
                   <ImageResize
-                    source={blueRow}
-                    height={verticalScale(16)}
-                    width={scale(14)}
+                    source={{uri:data?.avatarImage}}
+                    height={verticalScale(32)}
+                    width={verticalScale(30)}
                   />
                 </View>
               )}
-              {!showImageProfile && (
+              {data?.avatarImage === '' && (
                 <View width-35 height-34 centerH centerV style={{ backgroundColor: generateColor() }}>
-                  <Text h16 white bold>VU</Text>
+                  <Text h16 white bold></Text>
                 </View>
               )}
             </View>
@@ -150,135 +153,22 @@ const Referred = ({ navigation, step, onPress, label }) => {
             <View row >
               <View>
                 <Text h12 blue02 light>{i18n.t('home.referred.textLevel')}</Text>
-                <Text h12 white regular>First</Text>
+                <Text h12 white regular>{data?.level}</Text>
               </View>
               <View marginH-15>
                 <Text h12 blue02 light>{i18n.t('home.referred.textIncome')}</Text>
-                <Text h12 white regular>30%</Text>
+                <Text h12 white regular>{data?.percentageReferrer}</Text>
               </View>
               <View>
                 <Text h12 blue02 light>{i18n.t('home.referred.textReferred')}</Text>
-                <Text h12 white regular>06/08/2023 12:43</Text>
+                <Text h12 white regular>{formatDate(data?.referenceDate)}</Text>
               </View>
             </View>
           </View>
-          <Divider height-10 />
-          <View style={Styles.borderViewDoted} padding-15>
-            <View row>
-              <View flex-1 >
-                <Text h12 light blue02>Uulala ID: IMCG4WHEIILNM</Text>
-                <Text h12 semibold>Urbano Ballesteros Hernández</Text>
-              </View>
-              {showImageProfile && (
-                <View width-35 height-34 centerH centerV style={Styles.borderImages}>
-                  <ImageResize
-                    source={blueRow}
-                    height={verticalScale(16)}
-                    width={scale(14)}
-                  />
-                </View>
-              )}
-
-              {!showImageProfile && (
-                <View width-35 height-34 centerH centerV style={{ backgroundColor: generateColor() }}>
-                  <Text h16 white bold>UB</Text>
-                </View>
-              )}
-            </View>
-            <Divider height-10 />
-            <View row >
-              <View>
-                <Text h12 blue02 light>{i18n.t('home.referred.textLevel')}</Text>
-                <Text h12 white regular>First</Text>
-              </View>
-              <View marginH-15>
-                <Text h12 blue02 light>{i18n.t('home.referred.textIncome')}</Text>
-                <Text h12 white regular>30%</Text>
-              </View>
-              <View>
-                <Text h12 blue02 light>{i18n.t('home.referred.textReferred')}</Text>
-                <Text h12 white regular>06/08/2023 12:43</Text>
-              </View>
-            </View>
-          </View>
-          <Divider height-10 />
-          <View style={Styles.borderViewDoted} padding-15>
-            <View row>
-              <View flex-1 >
-                <Text h12 light blue02>Uulala ID: IMCG4WHEIILNM</Text>
-                <Text h12 semibold>Guadalupe Torres Puentes</Text>
-              </View>
-              {showImageProfile && (
-                <View width-35 height-34 centerH centerV style={Styles.borderImages}>
-                  <ImageResize
-                    source={blueRow}
-                    height={verticalScale(16)}
-                    width={scale(14)}
-                  />
-                </View>
-              )}
-
-              {!showImageProfile && (
-                <View width-35 height-34 centerH centerV style={{ backgroundColor: generateColor() }}>
-                  <Text h16 white bold>GT</Text>
-                </View>
-              )}
-            </View>
-            <Divider height-10 />
-            <View row >
-              <View>
-                <Text h12 blue02 light>{i18n.t('home.referred.textLevel')}</Text>
-                <Text h12 white regular>First</Text>
-              </View>
-              <View marginH-15>
-                <Text h12 blue02 light>{i18n.t('home.referred.textIncome')}</Text>
-                <Text h12 white regular>30%</Text>
-              </View>
-              <View>
-                <Text h12 blue02 light>{i18n.t('home.referred.textReferred')}</Text>
-                <Text h12 white regular>06/08/2023 12:43</Text>
-              </View>
-            </View>
-          </View>
-          <Divider height-10 />
-          <View style={Styles.borderViewDoted} padding-15>
-            <View row>
-              <View flex-1 >
-                <Text h12 light blue02>Uulala ID: IMCG4WHEIILNM</Text>
-                <Text h12 semibold>Fernando Moráles Gonzáles</Text>
-              </View>
-              {showImageProfile && (
-                <View width-35 height-34 centerH centerV style={Styles.borderImages}>
-                  <ImageResize
-                    source={blueRow}
-                    height={verticalScale(16)}
-                    width={scale(14)}
-                  />
-                </View>
-              )}
-
-              {!showImageProfile && (
-                <View width-35 height-34 centerH centerV style={{ backgroundColor: generateColor() }}>
-                  <Text h16 white bold>FM</Text>
-                </View>
-              )}
-            </View>
-            <Divider height-10 />
-            <View row >
-              <View>
-                <Text h12 blue02 light>{i18n.t('home.referred.textLevel')}</Text>
-                <Text h12 white regular>First</Text>
-              </View>
-              <View marginH-15>
-                <Text h12 blue02 light>{i18n.t('home.referred.textIncome')}</Text>
-                <Text h12 white regular>30%</Text>
-              </View>
-              <View>
-                <Text h12 blue02 light>{i18n.t('home.referred.textReferred')}</Text>
-                <Text h12 white regular>06/08/2023 12:43</Text>
-              </View>
-            </View>
-          </View>
+            ))
+          ) : (
+            null
+          )}
         </>
       )}
     </View>

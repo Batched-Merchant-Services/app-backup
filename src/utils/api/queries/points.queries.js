@@ -11,8 +11,8 @@ query($token:String!,$id:Int!, $pool: Int!) {
 }`
 
 export const GET_TRANSACTIONS_TOKENS = gql`
-query($token:String!, $id:Int!, $pool: Int!) {
-  getAccountTransactionsTokens(token:$token,id:$id,pool:$pool){
+query($token:String!, $id:Int!, $pool: Int!,$pageNumber:Int!,$rowsOfPage:Int!) {
+  getAccountTransactionsTokens(token:$token,id:$id,pool:$pool,pageNumber:$pageNumber,rowsOfPage:$rowsOfPage){
       id
       accountId
       transactionDate

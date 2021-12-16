@@ -43,6 +43,7 @@ export const getCommissionPoints = ({ id }) => async (dispatch) => {
     })
   } catch (error) {
     dispatch({ type: POINTS_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
   }
 
 };
@@ -69,6 +70,7 @@ export const getRewardsPoints = ({ id }) => async (dispatch) => {
     })
   } catch (error) {
     dispatch({ type: POINTS_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
   }
 
 };
@@ -95,6 +97,7 @@ export const getGatewayPointsBalance = ({ id }) => async (dispatch) => {
     })
   } catch (error) {
     dispatch({ type: POINTS_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
   }
 
 };
@@ -121,12 +124,14 @@ export const getLiquidPointsBalance = ({ id }) => async (dispatch) => {
     })
   } catch (error) {
     dispatch({ type: POINTS_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
   }
 
 };
 
 
-export const getExecutedPointsTransactions = ({ id }) => async (dispatch) => {
+export const getExecutedPointsTransactions = ({ id, pool,offset }) => async (dispatch) => {
+  console.log('values',id, pool,offset)
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: EXECUTES_POINTS });
@@ -136,18 +141,26 @@ export const getExecutedPointsTransactions = ({ id }) => async (dispatch) => {
       variables: {
         token:token,
         id:id,
-        pool: pointsConstants.POOLS.LIQUIDITY
+        pool: pool,
+        pageNumber:8,
+        rowsOfPage:offset
       }
     }).then(async (response) => {
+      console.log('getExecutedPointsTransactions response',response)
       if (response.data) {
-        dispatch({ type: EXECUTES_POINTS_SUCCESS, payload: response?.data['getAccountTransactionsTokens'] });
+        const executeResponse = response?.data['getAccountTransactionsTokens'] ? response?.data['getAccountTransactionsTokens'].length > 0 ? response?.data['getAccountTransactionsTokens']:[]:[] 
+        console.log('executeResponse',executeResponse)
+        dispatch({ type: EXECUTES_POINTS_SUCCESS, payload: executeResponse });
       }
     }).catch((error) => {
+      console.log('getExecutedPointsTransactions error1',error)
       dispatch({ type: POINTS_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
+    console.log('getExecutedPointsTransactions error2',error)
     dispatch({ type: POINTS_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
   }
 
 };

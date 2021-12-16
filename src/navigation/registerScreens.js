@@ -51,19 +51,15 @@ const DrawerScreen = () => {
       }} component={Dashboard} />
       <Drawer.Screen options={{
         headerShown: false,
-        category: 'dashboard',
       }} name="ActivationConfirmation" component={ActivationConfirmation} screenOptions={{ headerShown: false }} />
       <Drawer.Screen options={{
         headerShown: false,
-        category: 'dashboard',
       }} name="HomeMyBatched" component={HomeMyBatched} screenOptions={{ headerShown: false }} />
       <Drawer.Screen options={{
         headerShown: false,
-        category: 'dashboard',
       }} name="HomeProfile" component={HomeProfile} screenOptions={{ headerShown: false }} />
       <Drawer.Screen options={{
         headerShown: false,
-        category: 'dashboard',
       }} name="HomeContact" component={HomeContact} screenOptions={{ headerShown: false }} />
     </Drawer.Navigator>
 

@@ -271,8 +271,8 @@
         "textSelectTheKindOf":"Select the kind of data and period you need to download a full report.",
         "dropDownMonth":"Month",
         "dropDownYear":"Year",
-        "buttonDownloadPDF":"Download PDF"
-
+        "buttonDownloadPDF":"Download PDF",
+        "linkShowMore":"Show More"
       }
     },
     "myProfile":{

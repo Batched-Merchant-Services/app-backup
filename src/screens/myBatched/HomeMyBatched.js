@@ -3,11 +3,9 @@ import {
   Text,
   View,
   Divider,
-  ImageResize,
-  ButtonRounded,
+  SnackNotice,
   BackgroundWrapper
 } from '@components';
-import { TouchableOpacity } from 'react-native';
 import { useSelector } from 'react-redux';
 import menu from '@assets/icons/hamburgerMenu.png';
 import clock from '@assets/icons/blue-clock.png';
@@ -21,12 +19,26 @@ import History from './History';
 import Referred from './Referred';
 import Styles from './styles';
 import i18n from '@utils/i18n';
+import Loading from '../Loading';
 
-const HomeMyBatched = ({ navigation, navigation: { goBack } }) => {
+const HomeMyBatched = ({ navigation}) => {
   const redux = useSelector(state => state);
+  const points = redux?.points;
   const [showStep1, setShowStep1] = useState(true);
   const [showStep2, setShowStep2] = useState(false);
   const [showStep3, setShowStep3] = useState(false);
+  const error = useSelector(state => state?.points?.errorPoints);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      console.log('mi batched',showStep1,showStep2,showStep3)
+      setShowStep1(true);
+      setShowStep2(false);
+      setShowStep3(false);
+    });
+    return unsubscribe;
+   
+  }, [showStep1])
+
 
   function showBalance(){
     setShowStep1(true);
@@ -44,7 +56,7 @@ const HomeMyBatched = ({ navigation, navigation: { goBack } }) => {
     setShowStep3(true);
   }
 
-  function handleDashboard(){
+  const handleDashboard = () =>{
     navigation.navigate("Dashboard")
   }
 
@@ -67,7 +79,14 @@ const HomeMyBatched = ({ navigation, navigation: { goBack } }) => {
       {showStep3&&(
         <History navigation={navigation}/>
       )}
-     
+      <Loading modalVisible={points?.isLoadingRewardsPoints} />
+      <View flex-1 bottom>
+        <SnackNotice
+          visible={error}
+          message={points?.error?.message}
+          timeout={3000}
+        />
+      </View>
     </BackgroundWrapper>
 
 

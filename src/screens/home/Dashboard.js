@@ -15,7 +15,7 @@ import i18n from '@utils/i18n';
 import Colors from '@styles/Colors';
 import Loading from '../Loading';
 //actions
-import { toggleSnackbarClose, changeStatusTimers,userInactivity } from '@store/actions/app.actions';
+import { toggleSnackbarClose, changeStatusTimers, userInactivity } from '@store/actions/app.actions';
 import { cleanErrorLicenses, getTotalLicensesInNetwork } from '@store/actions/licenses.actions';
 import { getValidateRewardsByUser, getRewardsConfig } from '@store/actions/rewards.actions';
 import { getDataUser } from '@store/actions/user.action';
@@ -24,11 +24,12 @@ import { verticalScale } from 'react-native-size-matters';
 import CountDownDateGreen from './components/CountDownDateGreen';
 import CountDownSeconds from './components/CountDownSeconds';
 import CountDownDates from './components/CountDownDates';
-import { getCommissionPoints, getExecutedPointsTransactions, getGatewayPointsBalance, getLiquidPointsBalance, getRewardsPoints  } from '../../store/actions/points.actions';
+import { getCommissionPoints, getGatewayPointsBalance, getLiquidPointsBalance, getRewardsPoints } from '../../store/actions/points.actions';
 import { getLocalDateFromUTC } from '../../utils/formatters';
+import { cleanError } from '../../store/actions/auth.actions';
 //import moment from 'moment';
 
- 
+
 const Dashboard = ({ navigation }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
@@ -36,7 +37,6 @@ const Dashboard = ({ navigation }) => {
   const infoUser = redux?.user;
   const appResources = redux?.app;
   const rewardsData = redux?.rewards;
-
   const [statusAvailable, setStatusAvailable] = useState(false);
   const [statusStayOnline, setStatusStayOnline] = useState(false);
   const [totalLicenses, setTotalLicenses] = useState(0);
@@ -46,34 +46,29 @@ const Dashboard = ({ navigation }) => {
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
   const currentDate = new Date();
 
-  
+
   useEffect(() => {
+    dispatch(cleanError());
+    dispatch(toggleSnackbarClose());
+    dispatch(getTotalLicensesInNetwork());
+    dispatch(getValidateRewardsByUser());
+    dispatch(getRewardsConfig());
     getBatchedTransaction();
-    const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(toggleSnackbarClose());
-      dispatch(getTotalLicensesInNetwork());
-      dispatch(getValidateRewardsByUser());
-      dispatch(getRewardsConfig());
-      dispatch(getDataUser());
-      dispatch(userInactivity(true));
-    });
-    return unsubscribe;
-  }, []);
+  }, [dispatch]);
 
 
   function getBatchedTransaction() {
-    const startDate = rewardsData?.configRewards?.startDate?getLocalDateFromUTC(rewardsData?.configRewards?.startDate):0;
-    const endDate = rewardsData?.configRewards?.endDate? getLocalDateFromUTC(rewardsData?.configRewards?.endDate):0;
+    const startDate = rewardsData?.configRewards?.startDate ? getLocalDateFromUTC(rewardsData?.configRewards?.startDate) : 0;
+    const endDate = rewardsData?.configRewards?.endDate ? getLocalDateFromUTC(rewardsData?.configRewards?.endDate) : 0;
     infoUser?.dataUser?.bachedTransaction?.forEach(transaction => {
       if (transaction.status === 1 || transaction.status === 3) setTotalLicenses(totalLicenses + transaction.routingNumber ? parseInt(transaction.routingNumber) : transaction.routingNumber);
     });
-    const id = infoUser?.dataUser?.clients? infoUser?.dataUser?.clients[0]?.account?.id:0;
-    dispatch(getRewardsPoints({id}));
-    dispatch(getCommissionPoints({id}));
-    dispatch(getGatewayPointsBalance({id}));
-    dispatch(getLiquidPointsBalance({id}));
-    //dispatch(getExecutedPointsTransactions({id} ));
-    if(totalLicenses !== 0) setRewardsPerUser(rewardsData?.configRewards?.amount) / totalLicenses;
+    const id = infoUser?.dataUser?.clients ? infoUser?.dataUser?.clients[0]?.account?.id : 0;
+    dispatch(getRewardsPoints({ id }));
+    dispatch(getCommissionPoints({ id }));
+    dispatch(getGatewayPointsBalance({ id }));
+    dispatch(getLiquidPointsBalance({ id }));
+    if (totalLicenses !== 0) setRewardsPerUser(rewardsData?.configRewards?.amount) / totalLicenses;
     if (currentDate <= endDate) setInRange(currentDate <= endDate)
     if (currentDate >= startDate) setInRange(currentDate >= startDate)
     setStatusAvailable(rewardsData?.inProcess);
@@ -88,18 +83,18 @@ const Dashboard = ({ navigation }) => {
   function handleStateChange(value) {
     switch (value) {
       case 'blueDark':
-          return  dispatch(changeStatusTimers(0,'blueDark'));
+        return dispatch(changeStatusTimers(0, 'blueDark'));
       case 'blueLight':
-        return  dispatch(changeStatusTimers(1,'blueLight')); 
+        return dispatch(changeStatusTimers(1, 'blueLight'));
       default:
-          return dispatch(changeStatusTimers(0,'blueDark'));
+        return dispatch(changeStatusTimers(0, 'blueDark'));
     }
   }
- 
-  
+
+
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={Menu} childrenRight={Wallet} menu onPressRight={handleNavigationWallet} navigation={navigation}>
-      {appResources?.showStatusTimers === 'blueLight' && inRange &&(
+      {appResources?.showStatusTimers === 'blueLight' && inRange && (
         <>
           <View style={Styles.borderBlue}>
             <View style={Styles.borderGreen}>
@@ -127,7 +122,7 @@ const Dashboard = ({ navigation }) => {
           <Divider height-10 />
         </>
       )}
-      { appResources?.showStatusTimers === 'green' && statusAvailable && (
+      {appResources?.showStatusTimers === 'green' && statusAvailable && (
         <>
           <View height-65 green centerH centerV>
             <Text h14 white bold>You are fully active today!</Text>
@@ -146,7 +141,7 @@ const Dashboard = ({ navigation }) => {
           <Divider height-10 />
         </>
       )}
-      { appResources?.showStatusTimers === 'blueDark' && !inRange && (
+      {appResources?.showStatusTimers === 'blueDark' && !inRange && (
         <>
           <View blue03 height-45 centerH centerV>
             <Text h12 white>{i18n.t('home.textValidationOfReward')}</Text>
@@ -172,7 +167,7 @@ const Dashboard = ({ navigation }) => {
         </View>
         <Divider style={Styles.borderDoted} />
       </View>
-      <CountDownSeconds navigation={navigation}/>
+      <CountDownSeconds navigation={navigation} />
       {/* <View flex-1 height-280>
         <ImageBackground source={CircleTimer} resizeMode="cover" style={Styles.image}>
           {showButtonStart && (
@@ -223,7 +218,7 @@ const Dashboard = ({ navigation }) => {
           {i18n.t('home.buttonLicensesActivation')}
         </Text>
       </ButtonRounded>
-      <Loading modalVisible={licensesData?.isLoadingLicenses} />
+      {/* <Loading modalVisible={licensesData?.isLoadingLicenses} /> */}
       <View flex-1 bottom>
         <SnackNotice
           visible={error}

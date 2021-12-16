@@ -23,7 +23,9 @@ import Loading from '../Loading';
 import Colors from '@styles/Colors';
 import close from '@assets/icons/white-x.png';
 import { toggleSnackbarClose } from '@store/actions/app.actions';
-
+import { getDataUser } from '../../store/actions/user.action';
+import { userInactivity } from '../../store/actions/app.actions';
+  
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
@@ -35,19 +37,17 @@ const Login = ({ navigation }) => {
 
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(cleanError());
-      dispatch(toggleSnackbarClose());
-    });
-    return unsubscribe;
-  }, []);
+    console.log('ya esta en login')
+    dispatch(cleanError());
+    dispatch(toggleSnackbarClose());
+  }, [dispatch]);
 
-  async function fetchSession() {
+  function fetchSession() {
     dispatch(getLogin({ email, password }));
   }
 
 
-  if (authData?.isLoggedIn) {
+  if (authData?.isSession) {
     navigation.navigate('DrawerScreen',{
       screen: 'Dashboard'
     });

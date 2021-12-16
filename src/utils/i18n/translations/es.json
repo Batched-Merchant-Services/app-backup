@@ -257,6 +257,22 @@
         "textLevel":"Level",
         "textIncome":"Income",
         "textReferred":"Referred"
+      },
+      "history":{
+        "textRegisterOfMovements":"Register of Movements",
+        "buttonLastMovements":"Last movements",
+        "buttonDownloadReport":"Download report",
+        "dropDownKindOfData":"Kind of data",
+        "textDate/Hour":"Date/Hour",
+        "textRPAmount":"RP Amount*",
+        "textTransactionID":"Transaction ID",
+        "textDescription":"Description",
+        "textSelectTheKindOf":"Select the kind of data and period you need to download a full report.",
+        "dropDownMonth":"Month",
+        "dropDownYear":"Year",
+        "buttonDownloadPDF":"Download PDF",
+        "linkShowMore":"Ver mas"
+
       }
     }
   }

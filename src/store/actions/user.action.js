@@ -16,9 +16,9 @@ import { generateRSA } from '@utils/api/encrypt';
 
 const utc = getUTCDateString();
 
-export const getDataUser = () => async (dispatch) => {
-  const token = await LocalStorage.get('auth_token');
-  const uuid = await LocalStorage.get('uuid');
+export const getDataUser = ({token,uuid}) => async (dispatch) => {
+  // const token = await LocalStorage.get('auth_token');
+  // const uuid = await LocalStorage.get('uuid');
   try {
     dispatch({ type: GET_USER_DATA });
 

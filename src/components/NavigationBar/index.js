@@ -12,9 +12,9 @@ import Back from '@assets/icons/backBlue.png';
 
 
 const RenderLeftBack = ({ navigation,onPressLeft, Style, brandTheme, left,menu }) => {
-  function handleBack() {
-    navigation.goBack();
-  }
+  // function handleBack() {
+  //   navigation.goBack();
+  // }
 
   function handleOpenMenuDrawer() {
     navigation.openDrawer();
@@ -31,7 +31,7 @@ const RenderLeftBack = ({ navigation,onPressLeft, Style, brandTheme, left,menu }
         borderColor: brandTheme?.textBlueDark ?? Colors?.blue02,
         borderWidth: menu? 0:1
       }, Style]}
-      onPress={onPressLeft ? onPressLeft: menu ? handleOpenMenuDrawer:handleBack}
+      onPress={onPressLeft ? onPressLeft: menu ? handleOpenMenuDrawer:onPressLeft}
     >
     <ImageResize source={left !== true ? left : Back} height={verticalScale(menu?28:20)} width={scale(menu?28:20)} />
     </TouchableOpacity>

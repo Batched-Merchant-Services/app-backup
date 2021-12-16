@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.blue04,
   },
   borderViewDoted:{
-    flex:1,
+
     borderRadius:0.1,
     borderStyle: 'dashed' ,
     borderWidth: 1,

@@ -3,7 +3,7 @@ import {
   InMemoryCache,
   HttpLink,
   ApolloLink,
-  from
+  concat
 } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
 import { API_URL_STAGING,PUBLIC_KEY } from '@env';
@@ -37,7 +37,7 @@ console.log('API_URL_STAGING',API_URL_STAGING,PUBLIC_KEY);
 
 
 const errorLink = onError(({ forward, networkError, operation,graphQLErrors }) => {
-  console.log('graphQLErrors',graphQLErrors);
+  console.log('graphQLErrors',graphQLErrors,networkError?.result);
   if (networkError) {
     const trimMessage = networkError?.result?.Message?.replace('GraphQL.ExecutionError:', '').replace('|','').trim();
     switch (trimMessage) {
@@ -57,13 +57,13 @@ const errorLink = onError(({ forward, networkError, operation,graphQLErrors }) =
         break;
     }
   }
-  forward(operation);
+   forward(operation);
 });
 
 
   const cache = new InMemoryCache()
 
   export const client = new ApolloClient({
-    link: activityMiddleware.concat(httpLink,errorLink),
+    link: ApolloLink.from([errorLink,activityMiddleware, httpLink]),
     cache: cache
   })
