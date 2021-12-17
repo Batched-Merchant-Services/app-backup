@@ -70,9 +70,9 @@
      const loginId = configStore?.getState()?.auth?.isSession;
      setIsLoginId(loginId)
      const statusUserActive = configStore?.getState()?.app?.statusUserActive;
-     console.log('statusUserActive',statusUserActive,loginId)
-     configStore?.dispatch(userInactivity(false))
-     setTimerOn(loginId?true:false);
+     //console.log('statusUserActive',statusUserActive,loginId)
+     //configStore?.dispatch(userInactivity(false))
+     setTimerOn(true);
      setIsReady(true);
      setStorePromise(configStore)
      SplashScreen.hide(); // here
@@ -107,7 +107,7 @@
  
  
    useEffect(() => {
-     console.log('active',active);
+     //console.log('active',active);
      if (active && secondsLeft === 0){
        console.log('active && secondsLeft === 0')
        onReset();
@@ -139,7 +139,7 @@
    }  
  
  
-   console.log('secondsLeft',secondsLeft,isLoginId)
+   //console.log('secondsLeft',secondsLeft,isLoginId)
    const isDarkMode = useColorScheme() === 'dark';
  
    const backgroundStyle = {

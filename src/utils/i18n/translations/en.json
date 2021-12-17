@@ -266,7 +266,7 @@
         "dropDownKindOfData":"Kind of data",
         "textDate/Hour":"Date/Hour",
         "textRPAmount":"RP Amount*",
-        "textTransactionID":"Transaction ID",
+        "textTransactionID":"Transaction \n ID",
         "textDescription":"Description",
         "textSelectTheKindOf":"Select the kind of data and period you need to download a full report.",
         "dropDownMonth":"Month",

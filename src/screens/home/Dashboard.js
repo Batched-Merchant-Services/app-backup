@@ -45,6 +45,7 @@ const Dashboard = ({ navigation }) => {
   const [rewardsPerUser, setRewardsPerUser] = useState(0);
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
   const currentDate = new Date();
+  //console.log('infoUser',infoUser);
 
 
   useEffect(() => {

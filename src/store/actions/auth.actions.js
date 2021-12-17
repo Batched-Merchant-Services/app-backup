@@ -35,6 +35,7 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
     }).then(async (response) => {
       if (response.data) {
         const { token,uuid } = response?.data['getLoggin'];
+        console.log('token',token)
         dispatch({ type: LOGIN_SUCCESS, payload: response?.data['getLoggin'] });
         await LocalStorage.set('auth_token', token);
         await LocalStorage.set('uuid', uuid);

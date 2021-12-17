@@ -142,8 +142,8 @@ export const getExecutedPointsTransactions = ({ id, pool,offset }) => async (dis
         token:token,
         id:id,
         pool: pool,
-        pageNumber:8,
-        rowsOfPage:offset
+        pageNumber:offset,
+        rowsOfPage:11
       }
     }).then(async (response) => {
       console.log('getExecutedPointsTransactions response',response)
