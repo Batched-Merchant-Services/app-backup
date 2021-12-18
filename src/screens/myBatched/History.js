@@ -94,35 +94,43 @@ const History = ({ navigation }) => {
 
   useEffect(() => {
     var arrayTransactions = [];
+    var arrayBuy = [];
     if (infoUser?.dataUser?.bachedTransaction) {
       if (infoUser?.dataUser?.bachedTransaction?.length > 0) {
-        arrayTransactions.push(...infoUser?.dataUser?.bachedTransaction);
+        arrayBuy.push(...infoUser?.dataUser?.bachedTransaction);
         if (points?.executeData.length > 0 ) {
-          console.log('true poinst 1')
-          arrayTransactions.push(...points?.executeData)
-          setDataHistory(arrayTransactions);
+          const newBuy = [...arrayBuy,...points?.executeData];
+          console.log('true poinst 1',arrayTransactions)
+          arrayTransactions.push(newBuy)
+          setDataHistory(newBuy);
           setShowMore(true)
         }else{
-          console.log('false poinst 1')
-
+          console.log('false poinst 1',dataHistory)
           setDataHistory(dataHistory);
         }
         if (points?.executeData.length > 0 ) {
           setNewArray(points?.executeData)
-          console.log('true new array')
+          console.log('true new array',newArray)
         }
         setShowData(true);
       }
     }
    
     if (showNewPagination  && points?.executeData.length > 0 ) {
-      const newData = [...points?.executeData,...newArray];
-      console.log('newData',newData.length)
-      //setShowMore(false)
-      setDataHistory(newData);
+      const newData = [...arrayBuy,...points?.executeData,...newArray];
+      const d = remove_duplicates_es6(newData);
+      console.log('it',d)
+      //console.log('newData',points?.executeData,newArray)
+      setShowMore(false)
+      setDataHistory(d);
     }
   }, [points?.executeData,showNewPagination]);
 
+  function remove_duplicates_es6(arr) {
+    let s = new Set(arr);
+    let it = s.values();
+    return Array.from(it);
+}
 
   useEffect(() => {
   
@@ -228,7 +236,7 @@ const History = ({ navigation }) => {
         {...kindOfData}
         label={i18n.t('home.history.dropDownKindOfData')}
         options={data}
-        onFill={(code) => filterPays(code)}
+        onSelect={(code) => filterPays(code)}
       />
       {!showData && (
         <EmptyState />

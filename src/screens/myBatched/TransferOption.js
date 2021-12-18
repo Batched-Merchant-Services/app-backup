@@ -11,24 +11,27 @@ import {
   BackgroundWrapper
 } from '@components';
 import { scale, verticalScale } from 'react-native-size-matters';
-
+import { useSelector, useDispatch } from 'react-redux';
 import blueRow from '@assets/icons/blue-row-double-down.png';
 import Styles from './styles';
 import i18n from '@utils/i18n';
+import { thousandsSeparator } from '../../utils/formatters';
 
 const TransferOption = ({ navigation, step, onPress, label }) => {
+  const redux = useSelector(state => state);
   const [showPointAvailable, setShowPointAvailable] = useState(true);
   const amount = useValidatedInput('amount', '');
+  const points = redux?.points;
   const typeTransfer = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
   const [items, setItems] = useState([
-    { id: '1', name: 'Rewards points to Transaction Gateway', value: 'q1' },
-    { id: '2', name: 'Commission Balance to Liquidity Pool', value: 'q2' },
-    { id: '3', name: 'Liquidity Pool to Uulala Wallet', value: 'q3' }
+    { id: '1', name: 'Transfer from Gateway to Rewards', value: 'q1' },
+    { id: '2', name: 'Transfer rewards to Gateway', value: 'q2' },
+    { id: '3', name: 'Transfer commission amount to liquid', value: 'q3' },
   ]);
   const isValid = isFormValid(typeTransfer, amount);
-
+  const RewardsData = points?.rewardsData;
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
@@ -46,7 +49,7 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
        {showPointAvailable&&(
          <View>
           <Text h12 blue02>{i18n.t('home.myBatchedTransfer.textRewardPoints')}</Text>
-          <Text h16 white semibold>5,765,085</Text>
+          <Text h16 white semibold>{thousandsSeparator(RewardsData?.total)}</Text>
           <Divider height-20 />
          </View>
        )}

@@ -109,7 +109,7 @@
    useEffect(() => {
      //console.log('active',active);
      if (active && secondsLeft === 0){
-       console.log('active && secondsLeft === 0')
+       console.log('active && secondsLeft === 0',active && secondsLeft === 0)
        onReset();
      }
    }, [secondsLeft])
@@ -123,6 +123,7 @@
    }
  
    const onStop = () => {
+     console.log('onStop')
      NavigationService.navigate('SignOut',{
        screen: 'Login'
      });
@@ -161,7 +162,7 @@
                timeForInactivity={270000}
                onAction={onAction}
              >
-               <NavigationContainer theme={MyTheme} independent={true}>
+               <NavigationContainer theme={MyTheme} independent={true} ref={navigatorRef => { NavigationService.setTopLevelNavigator(navigatorRef)}}>
                  <AppNavigation />
                </NavigationContainer>
                </UserInactivity>

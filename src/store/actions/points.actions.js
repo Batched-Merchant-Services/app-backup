@@ -9,6 +9,8 @@ import {
   LIQUID_POINTS_SUCCESS,
   EXECUTES_POINTS,
   EXECUTES_POINTS_SUCCESS,
+  SET_POINTS_GATEWAY,
+  SET_POINTS_GATEWAYS_SUCCESS,
   pointsConstants,
   POINTS_ERROR,
   CLEAN_ERROR_POINTS
@@ -17,7 +19,7 @@ import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
 import { generateRSA } from '@utils/api/encrypt';
 import { toggleSnackbarOpen } from './app.actions';
-import { GET_POOL_BALANCE, GET_TRANSACTIONS_TOKENS } from '../../utils/api/queries/points.queries';
+import { CREATE_POOL_TRANSACTION_BY_TOKEN_ADDRESS, GET_POOL_BALANCE, GET_TRANSACTIONS_TOKENS } from '../../utils/api/queries/points.queries';
 import { getUTCDateString } from '@utils/formatters';
 
 
@@ -143,7 +145,7 @@ export const getExecutedPointsTransactions = ({ id, pool,offset }) => async (dis
         id:id,
         pool: pool,
         pageNumber:offset,
-        rowsOfPage:11
+        rowsOfPage:10
       }
     }).then(async (response) => {
       console.log('getExecutedPointsTransactions response',response)
@@ -151,6 +153,40 @@ export const getExecutedPointsTransactions = ({ id, pool,offset }) => async (dis
         const executeResponse = response?.data['getAccountTransactionsTokens'] ? response?.data['getAccountTransactionsTokens'].length > 0 ? response?.data['getAccountTransactionsTokens']:[]:[] 
         console.log('executeResponse',executeResponse)
         dispatch({ type: EXECUTES_POINTS_SUCCESS, payload: executeResponse });
+      }
+    }).catch((error) => {
+      console.log('getExecutedPointsTransactions error1',error)
+      dispatch({ type: POINTS_ERROR , payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    console.log('getExecutedPointsTransactions error2',error)
+    dispatch({ type: POINTS_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
+  }
+};
+
+
+export const setPointsToGateway = ({ address, amount }) => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: SET_POINTS_GATEWAY });
+    client.query({
+      query: CREATE_POOL_TRANSACTION_BY_TOKEN_ADDRESS,
+      variables: {
+        token:token,
+        withdrawalAddress: withdrawalAddress,
+        withdrawalPool: withdrawalPool,
+        depositAddress: depositAddress,
+        depositPool: depositPool,
+        amount: amount,
+        transactionDate: transactionDate,
+        note: note
+      }
+    }).then(async (response) => {
+      console.log('getExecutedPointsTransactions response',response)
+      if (response.data) {
+        dispatch({ type: SET_POINTS_GATEWAYS_SUCCESS, payload: response?.data['createPoolTransactionByTokenAddress'] });
       }
     }).catch((error) => {
       console.log('getExecutedPointsTransactions error1',error)

@@ -32,3 +32,19 @@ query($token:String!, $id:Int!, $pool: Int!,$pageNumber:Int!,$rowsOfPage:Int!) {
   
 }`
 
+export const CREATE_POOL_TRANSACTION_BY_TOKEN_ADDRESS = gql`
+mutation($token: String!,$withdrawalAddress: String!, $withdrawalPool: Int!,$depositAddress: String!,$depositPool: Int!,$amount: Float!$transactionDate: DateTime! $note: String!){
+  createPoolTransactionByTokenAddress(token: $token, withdrawalAddress: $withdrawalAddress, withdrawalPool: $withdrawalPool, depositAddress: $depositAddress, depositPool: $depositPool, amount: $amount, transactionDate: $transactionDate, note: $note){
+      id
+  }
+}`
+
+export const CREATE_POOL_TRANSACTION_BY_TOKEN_ADDRESS_TO_CLIENT = gql`
+mutation($token: String!,    $withdrawalAddress: String!,     $withdrawalPool: Int!,    $amountAddress: Float!,    $depositClient: String!,    $depositPool: Int!,    $amountClient: Float!    $transactionDate: DateTime!,    $note: String!){
+  createPoolTransactionByTokenAddressToClient(token: $token,     withdrawalAddress: $withdrawalAddress,     withdrawalPool: $withdrawalPool,     amountAddress: $amountAddress,     depositClient: $depositClient,     depositPool: $depositPool,     amountClient: $amountClient,     transactionDate: $transactionDate,     note: $note){
+      id
+  }
+}`
+
+
+

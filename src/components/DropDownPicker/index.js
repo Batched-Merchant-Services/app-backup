@@ -25,7 +25,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
   const handleSelect = index => {
     setSelectValue(true);
     onSelect(options[index]);
-    onFill(options[index])
+    //onFill(options[index]);
   };
 
 
