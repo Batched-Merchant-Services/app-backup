@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import {
   View,
   Text,
   Divider,
   ImageResize,
+  SnackNotice,
   ButtonRounded,
   FloatingInput,
   DropDownPicker,
@@ -16,23 +17,62 @@ import blueRow from '@assets/icons/blue-row-double-down.png';
 import Styles from './styles';
 import i18n from '@utils/i18n';
 import { thousandsSeparator } from '../../utils/formatters';
+import { cleanErrorPoints, setCommissionBalanceToLiquidityPool, setLiquidityPoolToUulalaWallet, setRewardsPointsToTransactionGateway } from '../../store/actions/points.actions';
+import Loading from '../Loading';
+import { toggleSnackbarClose } from '../../store/actions/app.actions';
 
 const TransferOption = ({ navigation, step, onPress, label }) => {
+  const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const [showPointAvailable, setShowPointAvailable] = useState(true);
+  const [valueSelect, setValueSelect] = useState('');
   const amount = useValidatedInput('amount', '');
   const points = redux?.points;
-  const typeTransfer = useValidatedInput('select', '',{
+  const infoUser = redux?.user;
+  const typeTransfer = useValidatedInput('select', '', {
     changeHandlerSelect: 'onSelect'
   });
   const [items, setItems] = useState([
-    { id: '1', name: 'Transfer from Gateway to Rewards', value: 'q1' },
-    { id: '2', name: 'Transfer rewards to Gateway', value: 'q2' },
-    { id: '3', name: 'Transfer commission amount to liquid', value: 'q3' },
+    { id: '1', name: 'Rewards points to Transaction Gateway', value: 'rewards' },
+    { id: '2', name: 'Commission Balance to Liquidity Pool', value: 'pool' },
+    { id: '3', name: 'Liquidity Pool to Uulala Wallet', value: 'wallet' },
+    { id: '3', name: 'Transaction Gateway to Rewards point', value: 'gateway' },
   ]);
   const isValid = isFormValid(typeTransfer, amount);
   const RewardsData = points?.rewardsData;
+  const error = useSelector(state => state?.points?.errorPoints);
 
+  useEffect(() => {
+    dispatch(cleanErrorPoints());
+    dispatch(toggleSnackbarClose());
+  }, [])
+
+  const selectTypeTransfer = (code) => {
+    const value = code.value;
+    setValueSelect(value);
+
+  }
+
+
+  const handleCreateTransfer = () => {
+    const address = infoUser?.dataUser?.clients ? infoUser?.dataUser?.clients[0]?.account?.address : 0;
+    if (valueSelect === 'rewards') {
+      dispatch(setRewardsPointsToTransactionGateway({ address: address, amount: amount?.value }));
+    } else if (valueSelect === 'pool') {
+      dispatch(setCommissionBalanceToLiquidityPool({ address: address, amount: amount?.value }));
+    } else if (valueSelect === 'wallet') {
+      dispatch(setLiquidityPoolToUulalaWallet({ address: address, amount: amount?.value }));
+    }else if (valueSelect === 'gateway') {
+      //dispatch(setLiquidityPoolToUulalaWallet({ address: address, amount: amount?.value }));
+    } else return null;
+  };
+
+
+  if (points?.successTransferGatewayLiquid) {
+    navigation.navigate('ConfirmationTransfer',{ amount: amount?.value});
+  }
+
+  console.log('points?.successTransferGatewayLiquid',points)
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
       <Text h16 blue02 regular>{i18n.t('home.myBatchedTransfer.textTransferOptions')}</Text>
@@ -43,23 +83,23 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
         {...typeTransfer}
         label={i18n.t('home.myBatchedTransfer.dropDownTransfers')}
         options={items}
-      //onFill={(code)=> filterPays(code)}
+        onSelect={(code) => selectTypeTransfer(code)}
       />
-       <Divider height-10 />
-       {showPointAvailable&&(
-         <View>
+      <Divider height-10 />
+      {showPointAvailable && (
+        <View>
           <Text h12 blue02>{i18n.t('home.myBatchedTransfer.textRewardPoints')}</Text>
           <Text h16 white semibold>{thousandsSeparator(RewardsData?.total)}</Text>
           <Divider height-20 />
-         </View>
-       )}
-     
+        </View>
+      )}
+
       <Text h10 white>{i18n.t('home.myBatchedBalance.textCommissionBalanceCan')}</Text>
       <Divider height-5 />
       <Text h10 white>{i18n.t('home.myBatchedBalance.textLiquidityPoolBalance')}</Text>
       <Divider height-15 />
       <View row centerV>
-        <View  flex-1 style={Styles.borderDoted} />
+        <View flex-1 style={Styles.borderDoted} />
         <Divider width-5 />
         <ImageResize
           source={blueRow}
@@ -67,7 +107,7 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
           width={scale(16)}
         />
         <Divider width-5 />
-        <View  flex-1 style={Styles.borderDoted} />
+        <View flex-1 style={Styles.borderDoted} />
       </View>
       <Divider height-10 />
       <Text h12 white>{i18n.t('home.myBatchedTransfer.textSelectTheAmount')}</Text>
@@ -79,13 +119,8 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
       />
       <Divider height-15 />
       <ButtonRounded
-        onPress={() => {
-          navigation.navigate('SignOut',{
-            screen: 'PinConfirmation',
-            params: { page: 'transferOption' }
-          });
-        }}
-        disabled={!isValid}
+        onPress={handleCreateTransfer}
+      //disabled={!isValid}
       >
         <Text h14 semibold white>
           {i18n.t('home.myBatchedTransfer.buttonConfirmTransfer')}
@@ -95,6 +130,14 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
       <Text h10 white light>Morbi aliquam nisi diam, vitae laoreet neque ultrices sed. Maecenas at dui auctor arcu condimentum congue. </Text>
       <Divider height-10 />
       <Text h10 blue01 light>{i18n.t('General.textAllRightsReserved')} Batched.com</Text>
+      <Loading modalVisible={points?.isLoadingRewardsPoints} />
+      <View flex-1 bottom>
+        <SnackNotice
+          visible={error}
+          message={points?.error?.message}
+          timeout={3000}
+        />
+      </View>
     </BackgroundWrapper>
   );
 };

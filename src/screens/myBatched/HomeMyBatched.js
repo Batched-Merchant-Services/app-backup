@@ -6,7 +6,7 @@ import {
   SnackNotice,
   BackgroundWrapper
 } from '@components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import menu from '@assets/icons/hamburgerMenu.png';
 import clock from '@assets/icons/blue-clock.png';
 import history from '@assets/icons/blue-history.png';
@@ -20,17 +20,19 @@ import Referred from './Referred';
 import Styles from './styles';
 import i18n from '@utils/i18n';
 import Loading from '../Loading';
+import { cleanErrorPoints } from '@store/actions/points.actions';
 
 const HomeMyBatched = ({ navigation}) => {
   const redux = useSelector(state => state);
+  const dispatch = useDispatch();
   const points = redux?.points;
   const [showStep1, setShowStep1] = useState(true);
   const [showStep2, setShowStep2] = useState(false);
   const [showStep3, setShowStep3] = useState(false);
   const error = useSelector(state => state?.points?.errorPoints);
   useEffect(() => {
+    dispatch(cleanErrorPoints());
     const unsubscribe = navigation.addListener('focus', () => {
-      console.log('mi batched',showStep1,showStep2,showStep3)
       setShowStep1(true);
       setShowStep2(false);
       setShowStep3(false);

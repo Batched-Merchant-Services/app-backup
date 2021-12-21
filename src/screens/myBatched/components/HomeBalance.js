@@ -8,6 +8,8 @@ import blueRow from '@assets/icons/blue-row-double-down.png';
 import Styles from '../styles';
 import i18n from '@utils/i18n';
 import { moneyFormatter, thousandsSeparator } from '../../../utils/formatters';
+import { cleanErrorPoints } from '../../../store/actions/points.actions';
+import { toggleSnackbarClose } from '../../../store/actions/app.actions';
 
 const HomeBalance = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -27,6 +29,18 @@ const HomeBalance = ({ navigation }) => {
   const gatewayData = points?.gatewayData;
   const liquidData = points?.liquidData;
  
+
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      console.log('home balance')
+      dispatch(cleanErrorPoints());
+      dispatch(toggleSnackbarClose());
+    });
+    return unsubscribe;
+   
+  }, []);
+
 
   useEffect(() => {
     setDataPoints();
@@ -95,7 +109,6 @@ const HomeBalance = ({ navigation }) => {
         </ButtonRounded>
         <Divider width-8 />
         <ButtonRounded
-
           disabled={false}
           success
           size='sm'

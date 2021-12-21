@@ -9,8 +9,10 @@ import {
   LIQUID_POINTS_SUCCESS,
   EXECUTES_POINTS,
   EXECUTES_POINTS_SUCCESS,
-  SET_POINTS_GATEWAY,
-  SET_POINTS_GATEWAYS_SUCCESS,
+  SET_POINTS_GATEWAY_LIQUIDITY,
+  SET_POINTS_GATEWAY_LIQUIDITY_SUCCESS,
+  SET_POINTS_WALLET,
+  SET_POINTS_WALLET_SUCCESS,
   POINTS_ERROR,
   CLEAN_ERROR_POINTS
 } from '../constants';
@@ -22,12 +24,14 @@ export const initialState = {
   successGatewayPoints: false,
   successLiquidPoints: false,
   successExecutePoints:false,
+  successTransferGatewayLiquid:false,
   errorPoints: false,
   rewardsData: [],
   commissionData: [],
   gatewayData: [],
   liquidData: [],
   executeData:[],
+  transferData:null,
   error: {},
   success: {},
 };
@@ -90,10 +94,38 @@ export default pointsReducer = (state = initialState, action) => {
         executeData: action.payload,
         error: {}
       };
+      case SET_POINTS_GATEWAY_LIQUIDITY:
+      return { ...state, isLoadingRewardsPoints: true, errorPoints: false };
+    case SET_POINTS_GATEWAY_LIQUIDITY_SUCCESS:
+      return {
+        ...state,
+        isLoadingRewardsPoints: false,
+        successTransferGatewayLiquid: true,
+        errorPoints: false,
+        transferData: action.payload,
+        error: {}
+      };
+      case SET_POINTS_WALLET:
+      return { ...state, isLoadingRewardsPoints: true, errorPoints: false };
+    case SET_POINTS_WALLET_SUCCESS:
+      return {
+        ...state,
+        isLoadingRewardsPoints: false,
+        successTransferWallet: true,
+        errorPoints: false,
+        transferData: action.payload,
+        error: {}
+      };
     case POINTS_ERROR:
       return {
         ...state,
         isLoadingRewardsPoints: false,
+        successRewardsPoints: false,
+        successCommissionPoints: false,
+        successGatewayPoints: false,
+        successLiquidPoints: false,
+        successExecutePoints:false,
+        successTransferGatewayLiquid:false,
         errorPoints: true,
         error: action.payload,
         success: {},
@@ -102,7 +134,14 @@ export default pointsReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoadingRewardsPoints: false,
+        successRewardsPoints: false,
+        successCommissionPoints: false,
+        successGatewayPoints: false,
+        successLiquidPoints: false,
+        successExecutePoints:false,
+        successTransferGatewayLiquid:false,
         errorPoints: false,
+        transferData:null,
         error: {},
       };
 

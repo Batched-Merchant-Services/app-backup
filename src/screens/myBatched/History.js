@@ -35,7 +35,6 @@ const History = ({ navigation }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const infoUser = redux?.user;
-  const userProfile = infoUser?.dataUser?.usersProfile ? infoUser?.dataUser?.usersProfile[0] : '';
   const points = redux?.points;
   const kindOfData = useValidatedInput('select', '', {
     changeHandlerSelect: 'onSelect'

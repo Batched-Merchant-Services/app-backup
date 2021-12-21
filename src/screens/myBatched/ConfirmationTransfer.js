@@ -7,7 +7,7 @@ import {
   ButtonRounded,
   BackgroundWrapper
 } from '@components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
 import { scale, verticalScale } from 'react-native-size-matters';
 import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
@@ -15,14 +15,20 @@ import rectangleConfirm from '@assets/icons/rectangleConfirm.png';
 import confirmationCheck from '@assets/icons/confirmationCheckRectangle.png';
 import Styles from './styles'
 import i18n from '@utils/i18n';
+import { formatDate, moneyFormatter } from '../../utils/formatters';
 
 
-const ConfirmationTransfer = ({ navigation, navigation: { goBack } }) => {
+const ConfirmationTransfer = ({ navigation, navigation: { goBack },route }) => {
+  const dispatch = useDispatch();
   const redux = useSelector(state => state);
-  const referenceCode = useValidatedInput('sms', '');
-
-
-
+  const points = redux?.points;
+  const params = route?.params;
+  const paramsAmount = params;
+  
+  const transferData = points?.transferData;
+  const NewDate = new Date();
+  
+  console.log('params',paramsAmount)
 
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
@@ -42,18 +48,18 @@ const ConfirmationTransfer = ({ navigation, navigation: { goBack } }) => {
       <Text h16 white>{i18n.t('home.myBatchedTransfer.confirmation.textTransactionGateway')}</Text>
       <Divider height-25 />
       <Text h12 white >{i18n.t('home.myBatchedTransfer.confirmation.textBalanceTransferredToCard')}</Text>
-      <Text h16 green semibold>$1,200.00</Text>
+      <Text h16 green semibold>{moneyFormatter(params?.amount)}</Text>
       <Divider height-15 />
       <Text h12 white light>{i18n.t('home.myBatchedTransfer.confirmation.textDate')}</Text>
-      <Text h16 white semibold>12/09/2024</Text>
+      <Text h16 white semibold>{formatDate(NewDate)}</Text>
       <Divider height-15 />
       <Text h12 white light>{i18n.t('home.myBatchedTransfer.confirmation.textTransactionID')}</Text>
-      <Text h16 white semibold>INX348IGFEHDCJZ</Text>
+      <Text h16 white semibold>{transferData.id}</Text>
       <View flex-1 bottom>
         <ButtonRounded
           onPress={() => {
-            navigation.navigate('SignOut',{
-              screen: 'Login',
+            navigation.navigate('DrawerScreen',{
+              screen: 'HomeMyBatched',
               merge: true
             });
           }}

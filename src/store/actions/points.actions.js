@@ -9,17 +9,18 @@ import {
   LIQUID_POINTS_SUCCESS,
   EXECUTES_POINTS,
   EXECUTES_POINTS_SUCCESS,
-  SET_POINTS_GATEWAY,
-  SET_POINTS_GATEWAYS_SUCCESS,
+  SET_POINTS_GATEWAY_LIQUIDITY,
+  SET_POINTS_GATEWAY_LIQUIDITY_SUCCESS,
   pointsConstants,
   POINTS_ERROR,
-  CLEAN_ERROR_POINTS
+  CLEAN_ERROR_POINTS,
+  walletConstants
 } from '../constants'
 import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
 import { generateRSA } from '@utils/api/encrypt';
 import { toggleSnackbarOpen } from './app.actions';
-import { CREATE_POOL_TRANSACTION_BY_TOKEN_ADDRESS, GET_POOL_BALANCE, GET_TRANSACTIONS_TOKENS } from '../../utils/api/queries/points.queries';
+import { CREATE_POOL_TRANSACTION_BY_TOKEN_ADDRESS, CREATE_POOL_TRANSACTION_BY_TOKEN_ADDRESS_TO_CLIENT, GET_POOL_BALANCE, GET_TRANSACTIONS_TOKENS } from '../../utils/api/queries/points.queries';
 import { getUTCDateString } from '@utils/formatters';
 
 
@@ -167,39 +168,109 @@ export const getExecutedPointsTransactions = ({ id, pool,offset }) => async (dis
 };
 
 
-export const setPointsToGateway = ({ address, amount }) => async (dispatch) => {
+export const setRewardsPointsToTransactionGateway = ({ address, amount }) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
   try {
-    dispatch({ type: SET_POINTS_GATEWAY });
-    client.query({
-      query: CREATE_POOL_TRANSACTION_BY_TOKEN_ADDRESS,
+    dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY });
+    client.mutate({
+      mutation: CREATE_POOL_TRANSACTION_BY_TOKEN_ADDRESS,
       variables: {
         token:token,
-        withdrawalAddress: withdrawalAddress,
-        withdrawalPool: withdrawalPool,
-        depositAddress: depositAddress,
-        depositPool: depositPool,
+        withdrawalAddress: address??'',
+        withdrawalPool: pointsConstants.POOLS.REWARDS??'',
+        depositAddress: address??'',
+        depositPool: pointsConstants.POOLS.GATEWAY,
         amount: amount,
-        transactionDate: transactionDate,
-        note: note
+        transactionDate: new Date(),
+        note: `Send points to gateway for ${address}`
       }
     }).then(async (response) => {
-      console.log('getExecutedPointsTransactions response',response)
+      console.log('createPoolTransactionByTokenAddress GATEWAY response',response)
       if (response.data) {
-        dispatch({ type: SET_POINTS_GATEWAYS_SUCCESS, payload: response?.data['createPoolTransactionByTokenAddress'] });
+        dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY_SUCCESS, payload: response?.data['createPoolTransactionByTokenAddress'] });
       }
     }).catch((error) => {
-      console.log('getExecutedPointsTransactions error1',error)
+      console.log('createPoolTransactionByTokenAddress GATEWAY error1',error)
       dispatch({ type: POINTS_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('getExecutedPointsTransactions error2',error)
+    console.log('createPoolTransactionByTokenAddress GATEWAY error2',error)
     dispatch({ type: POINTS_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
-
 };
+
+
+
+export const setCommissionBalanceToLiquidityPool = ({ address, amount }) => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY });
+    client.mutate({
+      mutation: CREATE_POOL_TRANSACTION_BY_TOKEN_ADDRESS,
+      variables: {
+        token:token,
+        withdrawalAddress: address??'',
+        withdrawalPool: pointsConstants.POOLS.COMMISSION??'',
+        depositAddress: address??'',
+        depositPool: pointsConstants.POOLS.LIQUIDITY,
+        amount: amount,
+        transactionDate: new Date(),
+        note: `Liquidity points for ${address}`
+      }
+    }).then(async (response) => {
+      console.log('createPoolTransactionByTokenAddress LIQUIDITY response',response)
+      if (response.data) {
+        dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY_SUCCESS, payload: response?.data['createPoolTransactionByTokenAddress'] });
+      }
+    }).catch((error) => {
+      console.log('createPoolTransactionByTokenAddress  LIQUIDITYerror1',error)
+      dispatch({ type: POINTS_ERROR , payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    console.log('createPoolTransactionByTokenAddress LIQUIDITY error2',error)
+    dispatch({ type: POINTS_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
+  }
+};
+
+
+export const setLiquidityPoolToUulalaWallet = ({ address, amount,depositClient }) => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY });
+    client.mutate({
+      mutation: CREATE_POOL_TRANSACTION_BY_TOKEN_ADDRESS_TO_CLIENT,
+      variables: {
+        token:token,
+        withdrawalAddress: address??'',
+        withdrawalPool:pointsConstants.POOLS.LIQUIDITY??'',
+        amountAddress:amount / 0.1??0,
+        depositClient:depositClient??'',
+        depositPool: walletConstants.POOLS.PENDING,
+        amountClient: amount,
+        transactionDate: new Date(),
+        note: `Sent points to wallet for ${address}`
+      }
+    }).then(async (response) => {
+      console.log('createPoolTransactionByTokenAddressToClient response',response)
+      if (response.data) {
+        dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY_SUCCESS, payload: response?.data['createPoolTransactionByTokenAddressToClient'] });
+      }
+    }).catch((error) => {
+      console.log('createPoolTransactionByTokenAddressToClient error1',error)
+      dispatch({ type: POINTS_ERROR , payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    console.log('createPoolTransactionByTokenAddressToClient error2',error)
+    dispatch({ type: POINTS_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
+  }
+};
+
 
 
 
