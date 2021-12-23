@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import EmptyState from '../EmptyState';
 import i18n from '@utils/i18n';
 import Colors from '@styles/Colors';
-import { formatDate, getLocalDateFromUTC, moneyFormatter } from '../../utils/formatters';
+import {  formatDateSend, getLocalDateFromUTC, moneyFormatter } from '../../utils/formatters';
 import { pointsConstants } from '../../store/constants';
 import { cleanErrorPoints, getExecutedPointsTransactions } from '../../store/actions/points.actions';
 import { useIsFocused } from "@react-navigation/native";
@@ -19,7 +19,7 @@ const DataHistory = (dataHistory) => {
       return (
         <>
           <View key={i.id} row height-28>
-            <View flex-1><Text h10 blue02 white center>{formatDate(i.createdDate)}</Text></View>
+            <View flex-1><Text h10 blue02 white center>{formatDateSend(i.createdDate)}</Text></View>
             <View flex-1><Text h10 blue02 white center>{moneyFormatter(i?.amount)}</Text></View>
             <View flex-1><Text h10 blue02 white center>{i?.transactionId || i?.note?.transactionId}</Text></View>
             <View flex-1><Text h10 blue02 white center>{i?.description || i?.note?.noteDescription}</Text></View>
@@ -35,6 +35,7 @@ const History = ({ navigation }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const infoUser = redux?.user;
+  const userProfile = infoUser?.dataUser?.usersProfile ? infoUser?.dataUser?.usersProfile[0] : '';
   const points = redux?.points;
   const kindOfData = useValidatedInput('select', '', {
     changeHandlerSelect: 'onSelect'
@@ -75,39 +76,26 @@ const History = ({ navigation }) => {
 
 
   const someFetchActionCreator = () => {
-    const tokens = pointsConstants.POOLS.TOKENS;
     const commissions = pointsConstants.POOLS.COMMISSION;
-    const rewards = pointsConstants.POOLS.REWARDS;
-    const liquidity = pointsConstants.POOLS.LIQUIDITY;
-    const gateway = pointsConstants.POOLS.GATEWAY;
     const id = infoUser?.dataUser?.clients ? infoUser?.dataUser?.clients[0]?.account?.id : 0;
-    dispatch(getExecutedPointsTransactions({ id, pool: tokens, offset }));
     dispatch(getExecutedPointsTransactions({ id, pool: commissions, offset }));
-    dispatch(getExecutedPointsTransactions({ id, pool: rewards, offset }));
-    dispatch(getExecutedPointsTransactions({ id, pool: liquidity, offset }));
-    dispatch(getExecutedPointsTransactions({ id, pool: gateway, offset }));
-
-    //getTransactionsPoints();
+    
   }
 
 
   useEffect(() => {
-    var arrayTransactions = [];
     var arrayBuy = [];
+
     if (infoUser?.dataUser?.bachedTransaction) {
       if (infoUser?.dataUser?.bachedTransaction?.length > 0) {
         arrayBuy.push(...infoUser?.dataUser?.bachedTransaction);
-        if (points?.executeData.length > 0 ) {
-          const newBuy = [...arrayBuy,...points?.executeData];
-          console.log('true poinst 1',arrayTransactions)
-          arrayTransactions.push(newBuy)
+        if (points?.executeDataCommission?.length > 0) {
+          const newBuy = [...arrayBuy,...points?.executeDataCommission];
+          console.log('points?.executeDataCommission',newBuy)
           setDataHistory(newBuy);
-          setShowMore(true)
-        }else{
-          console.log('false poinst 1',dataHistory)
-          setDataHistory(dataHistory);
+          if (points?.executeDataCommission?.length < 11) setShowMore(false)
         }
-        if (points?.executeData.length > 0 ) {
+        if (points?.executeData?.length > 0 ) {
           setNewArray(points?.executeData)
           console.log('true new array',newArray)
         }
@@ -115,27 +103,20 @@ const History = ({ navigation }) => {
       }
     }
    
-    if (showNewPagination  && points?.executeData.length > 0 ) {
+    if (showNewPagination  && points?.executeData?.length > 0 ) {
       const newData = [...arrayBuy,...points?.executeData,...newArray];
-      const d = remove_duplicates_es6(newData);
-      console.log('it',d)
-      //console.log('newData',points?.executeData,newArray)
       setShowMore(false)
-      setDataHistory(d);
+      setDataHistory(newData);
     }
   }, [points?.executeData,showNewPagination]);
 
-  function remove_duplicates_es6(arr) {
-    let s = new Set(arr);
-    let it = s.values();
-    return Array.from(it);
-}
+
 
   useEffect(() => {
   
     if (showFilter) {
       if (points?.executeData) {
-        if (points?.executeData.length > 0) {
+        if (points?.executeData?.length > 0) {
           console.log(' true newArray filter',newArray)
           const newData = [...points?.executeData]
           setDataHistory(newData);

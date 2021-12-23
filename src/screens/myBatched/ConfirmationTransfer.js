@@ -16,10 +16,12 @@ import confirmationCheck from '@assets/icons/confirmationCheckRectangle.png';
 import Styles from './styles'
 import i18n from '@utils/i18n';
 import { formatDate, moneyFormatter } from '../../utils/formatters';
+import { cleanError } from '@store/actions/auth.actions';
 
 
 const ConfirmationTransfer = ({ navigation, navigation: { goBack },route }) => {
   const dispatch = useDispatch();
+  
   const redux = useSelector(state => state);
   const points = redux?.points;
   const params = route?.params;
@@ -29,6 +31,9 @@ const ConfirmationTransfer = ({ navigation, navigation: { goBack },route }) => {
   const NewDate = new Date();
   
   console.log('params',paramsAmount)
+  useEffect(() => {
+    dispatch(cleanError());
+  }, [dispatch])
 
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>

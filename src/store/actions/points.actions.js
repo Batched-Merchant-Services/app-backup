@@ -9,6 +9,7 @@ import {
   LIQUID_POINTS_SUCCESS,
   EXECUTES_POINTS,
   EXECUTES_POINTS_SUCCESS,
+  EXECUTES_POINTS_COMMISSION_SUCCESS,
   SET_POINTS_GATEWAY_LIQUIDITY,
   SET_POINTS_GATEWAY_LIQUIDITY_SUCCESS,
   pointsConstants,
@@ -149,11 +150,15 @@ export const getExecutedPointsTransactions = ({ id, pool,offset }) => async (dis
         rowsOfPage:10
       }
     }).then(async (response) => {
-      console.log('getExecutedPointsTransactions response',response)
+      console.log('pool',pool);
       if (response.data) {
-        const executeResponse = response?.data['getAccountTransactionsTokens'] ? response?.data['getAccountTransactionsTokens'].length > 0 ? response?.data['getAccountTransactionsTokens']:[]:[] 
-        console.log('executeResponse',executeResponse)
+        const executeResponse = response?.data['getAccountTransactionsTokens'];  
         dispatch({ type: EXECUTES_POINTS_SUCCESS, payload: executeResponse });
+        switch (pool) {
+          case 1:
+            dispatch({ type: EXECUTES_POINTS_COMMISSION_SUCCESS , payload: executeResponse });
+            break;
+        }
       }
     }).catch((error) => {
       console.log('getExecutedPointsTransactions error1',error)
@@ -168,7 +173,7 @@ export const getExecutedPointsTransactions = ({ id, pool,offset }) => async (dis
 };
 
 
-export const setRewardsPointsToTransactionGateway = ({ address, amount }) => async (dispatch) => {
+export const setRewardsPointsToTransactionGateway = ({ address, amount,code }) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY });
@@ -182,7 +187,8 @@ export const setRewardsPointsToTransactionGateway = ({ address, amount }) => asy
         depositPool: pointsConstants.POOLS.GATEWAY,
         amount: amount,
         transactionDate: new Date(),
-        note: `Send points to gateway for ${address}`
+        note: `Send points to gateway for ${address}`,
+        code:code
       }
     }).then(async (response) => {
       console.log('createPoolTransactionByTokenAddress GATEWAY response',response)
@@ -202,8 +208,42 @@ export const setRewardsPointsToTransactionGateway = ({ address, amount }) => asy
 };
 
 
+export const setGatewayPointsToTransactionRewards = ({ address, amount,code }) => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY });
+    client.mutate({
+      mutation: CREATE_POOL_TRANSACTION_BY_TOKEN_ADDRESS,
+      variables: {
+        token:token,
+        withdrawalAddress: address??'',
+        withdrawalPool: pointsConstants.POOLS.GATEWAY??'',
+        depositAddress: address??'',
+        depositPool: pointsConstants.POOLS.REWARDS,
+        amount: amount,
+        transactionDate: new Date(),
+        note: `Send points to gateway for ${address}`,
+        code:code
+      }
+    }).then(async (response) => {
+      console.log('createPoolTransactionByTokenAddress GATEWAY response',response)
+      if (response.data) {
+        dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY_SUCCESS, payload: response?.data['createPoolTransactionByTokenAddress'] });
+      }
+    }).catch((error) => {
+      console.log('createPoolTransactionByTokenAddress GATEWAY error1',error)
+      dispatch({ type: POINTS_ERROR , payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    console.log('createPoolTransactionByTokenAddress GATEWAY error2',error)
+    dispatch({ type: POINTS_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
+  }
+};
 
-export const setCommissionBalanceToLiquidityPool = ({ address, amount }) => async (dispatch) => {
+
+export const setCommissionBalanceToLiquidityPool = ({ address, amount,code }) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY });
@@ -217,7 +257,8 @@ export const setCommissionBalanceToLiquidityPool = ({ address, amount }) => asyn
         depositPool: pointsConstants.POOLS.LIQUIDITY,
         amount: amount,
         transactionDate: new Date(),
-        note: `Liquidity points for ${address}`
+        note: `Liquidity points for ${address}`,
+        code:code
       }
     }).then(async (response) => {
       console.log('createPoolTransactionByTokenAddress LIQUIDITY response',response)
@@ -237,7 +278,7 @@ export const setCommissionBalanceToLiquidityPool = ({ address, amount }) => asyn
 };
 
 
-export const setLiquidityPoolToUulalaWallet = ({ address, amount,depositClient }) => async (dispatch) => {
+export const setLiquidityPoolToUulalaWallet = ({ address, amount,depositClient,code }) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY });
@@ -252,7 +293,8 @@ export const setLiquidityPoolToUulalaWallet = ({ address, amount,depositClient }
         depositPool: walletConstants.POOLS.PENDING,
         amountClient: amount,
         transactionDate: new Date(),
-        note: `Sent points to wallet for ${address}`
+        note: `Sent points to wallet for ${address}`,
+        code:code
       }
     }).then(async (response) => {
       console.log('createPoolTransactionByTokenAddressToClient response',response)

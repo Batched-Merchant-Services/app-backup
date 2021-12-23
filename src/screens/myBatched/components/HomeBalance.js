@@ -33,7 +33,6 @@ const HomeBalance = ({ navigation }) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      console.log('home balance')
       dispatch(cleanErrorPoints());
       dispatch(toggleSnackbarClose());
     });
@@ -56,6 +55,10 @@ const HomeBalance = ({ navigation }) => {
     dataUser?.dataUser?.bachedTransaction?.forEach(transaction => {
       if (transaction?.status === 1 || transaction?.status === 3) setTotalLicenses(totalLicenses + transaction?.routingNumber ? parseInt(transaction?.routingNumber) : transaction?.routingNumber);
     });
+  }
+
+  function handleGetLicenses(){
+    navigation.navigate('GetLicenses'); 
   }
 
  console.log('accounts?.email',accounts)
@@ -110,6 +113,7 @@ const HomeBalance = ({ navigation }) => {
         <Divider width-8 />
         <ButtonRounded
           disabled={false}
+          onPress={handleGetLicenses}
           success
           size='sm'
         >

@@ -27,7 +27,8 @@
       "transactionId":"Please enter a Transaction ID",
       "transactionIdFormat":"The transaction id don't exist",
       "amount":"please enter amount",
-      "file":"please select file"
+      "file":"please select file",
+      "codeSms":"please enter code"
     },
     "General":{
       "linkTermsAndConditions":"Terms and Conditions",

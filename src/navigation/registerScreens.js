@@ -28,6 +28,7 @@ import Dashboard from '@screens/home/Dashboard';
 import ActivationConfirmation from '@screens/home/ActivationConfirmation';
 import HomeMyBatched from '@screens/myBatched/HomeMyBatched';
 import TransferOption from '@screens/myBatched/TransferOption';
+import ConfirmSms from '@screens/myBatched/ConfirmSms';
 import ConfirmationTransfer from '@screens/myBatched/ConfirmationTransfer';
 import HomeProfile from '@screens/myProfile/HomeProfile';
 import PersonalInformation from '@screens/myProfile/PersonalInformation';
@@ -98,6 +99,7 @@ const signInScreens = () => {
  return (
    <Stack.Navigator initialRouteName="ConfirmationTransfer" screenOptions={{ headerShown: false,gestureEnabled: false }}>
      <Stack.Screen name="ConfirmationTransfer" component={ConfirmationTransfer} />
+     <Stack.Screen name="ConfirmSms" component={ConfirmSms} />
      <Stack.Screen name="TransferOption" component={TransferOption} />
      <Stack.Screen name="PersonalInformation" component={PersonalInformation} />
      <Stack.Screen name="ContactInformation" component={ContactInformation} />

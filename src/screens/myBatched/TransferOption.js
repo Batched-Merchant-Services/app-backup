@@ -17,9 +17,10 @@ import blueRow from '@assets/icons/blue-row-double-down.png';
 import Styles from './styles';
 import i18n from '@utils/i18n';
 import { thousandsSeparator } from '../../utils/formatters';
-import { cleanErrorPoints, setCommissionBalanceToLiquidityPool, setLiquidityPoolToUulalaWallet, setRewardsPointsToTransactionGateway } from '../../store/actions/points.actions';
+import { cleanErrorPoints, setCommissionBalanceToLiquidityPool, setGatewayPointsToTransactionRewards, setLiquidityPoolToUulalaWallet, setRewardsPointsToTransactionGateway } from '../../store/actions/points.actions';
 import Loading from '../Loading';
 import { toggleSnackbarClose } from '../../store/actions/app.actions';
+import { validateCodeSms } from '../../store/actions/auth.actions';
 
 const TransferOption = ({ navigation, step, onPress, label }) => {
   const dispatch = useDispatch();
@@ -27,17 +28,20 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
   const [showPointAvailable, setShowPointAvailable] = useState(true);
   const [valueSelect, setValueSelect] = useState('');
   const amount = useValidatedInput('amount', '');
+  const codeSecurity = useValidatedInput('code', '');
   const points = redux?.points;
+  const auth = redux?.auth;
   const infoUser = redux?.user;
   const typeTransfer = useValidatedInput('select', '', {
     changeHandlerSelect: 'onSelect'
   });
   const [items, setItems] = useState([
     { id: '1', name: 'Rewards points to Transaction Gateway', value: 'rewards' },
-    { id: '2', name: 'Commission Balance to Liquidity Pool', value: 'pool' },
-    { id: '3', name: 'Liquidity Pool to Uulala Wallet', value: 'wallet' },
-    { id: '3', name: 'Transaction Gateway to Rewards point', value: 'gateway' },
+    { id: '2', name: 'Gateway to Rewards point', value: 'gateway' },
+    { id: '3', name: 'Commission Balance to Liquidity Pool', value: 'commission' },
+    { id: '4', name: 'Liquidity Pool to Uulala Wallet', value: 'wallet' },
   ]);
+  cons
   const isValid = isFormValid(typeTransfer, amount);
   const RewardsData = points?.rewardsData;
   const error = useSelector(state => state?.points?.errorPoints);
@@ -45,34 +49,33 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
   useEffect(() => {
     dispatch(cleanErrorPoints());
     dispatch(toggleSnackbarClose());
+    //dispatch(validateCodeSms())
   }, [])
+
+  console.log('dataCode',auth?.dataCode);
 
   const selectTypeTransfer = (code) => {
     const value = code.value;
     setValueSelect(value);
-
   }
 
+  // const handleCreateTransfer = () => {
+  //   const address = infoUser?.dataUser?.clients ? infoUser?.dataUser?.clients[0]?.account?.address : 0;
+  //   if (valueSelect === 'rewards') {
+  //     dispatch(setRewardsPointsToTransactionGateway({ address: address, amount: amount?.value,code: auth?.dataCode}));
+  //   } else if (valueSelect === 'commission') {
+  //     dispatch(setCommissionBalanceToLiquidityPool({ address: address, amount: amount?.value,code: auth?.dataCode }));
+  //   } else if (valueSelect === 'wallet') {
+  //     dispatch(setLiquidityPoolToUulalaWallet({ address: address, amount: amount?.value,code: auth?.dataCode }));
+  //   }else if (valueSelect === 'gateway') {
+  //     dispatch(setGatewayPointsToTransactionRewards({ address: address, amount: amount?.value,code: auth?.dataCode }));
+  //   } else return null;
+  // };
 
-  const handleCreateTransfer = () => {
-    const address = infoUser?.dataUser?.clients ? infoUser?.dataUser?.clients[0]?.account?.address : 0;
-    if (valueSelect === 'rewards') {
-      dispatch(setRewardsPointsToTransactionGateway({ address: address, amount: amount?.value }));
-    } else if (valueSelect === 'pool') {
-      dispatch(setCommissionBalanceToLiquidityPool({ address: address, amount: amount?.value }));
-    } else if (valueSelect === 'wallet') {
-      dispatch(setLiquidityPoolToUulalaWallet({ address: address, amount: amount?.value }));
-    }else if (valueSelect === 'gateway') {
-      //dispatch(setLiquidityPoolToUulalaWallet({ address: address, amount: amount?.value }));
-    } else return null;
-  };
-
-
-  if (points?.successTransferGatewayLiquid) {
-    navigation.navigate('ConfirmationTransfer',{ amount: amount?.value});
+  function handleGoToSms(){
+    navigation.navigate('ConfirmSms',{ amount: amount,valueSelect:valueSelect});
   }
 
-  console.log('points?.successTransferGatewayLiquid',points)
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
       <Text h16 blue02 regular>{i18n.t('home.myBatchedTransfer.textTransferOptions')}</Text>
@@ -117,13 +120,13 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
         label={i18n.t('home.myBatchedTransfer.inputAmountToTransfer')}
         autoCapitalize={'none'}
       />
-      <Divider height-15 />
+        <Divider height-15 />
       <ButtonRounded
-        onPress={handleCreateTransfer}
-      //disabled={!isValid}
+        onPress={handleGoToSms}
+        disabled={!isValid}
       >
         <Text h14 semibold white>
-          {i18n.t('home.myBatchedTransfer.buttonConfirmTransfer')}
+         send
         </Text>
       </ButtonRounded>
       <Divider height-20 />

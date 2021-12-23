@@ -9,6 +9,7 @@ import {
   LIQUID_POINTS_SUCCESS,
   EXECUTES_POINTS,
   EXECUTES_POINTS_SUCCESS,
+  EXECUTES_POINTS_COMMISSION_SUCCESS,
   SET_POINTS_GATEWAY_LIQUIDITY,
   SET_POINTS_GATEWAY_LIQUIDITY_SUCCESS,
   SET_POINTS_WALLET,
@@ -31,6 +32,7 @@ export const initialState = {
   gatewayData: [],
   liquidData: [],
   executeData:[],
+  executeDataCommission:[],
   transferData:null,
   error: {},
   success: {},
@@ -94,6 +96,15 @@ export default pointsReducer = (state = initialState, action) => {
         executeData: action.payload,
         error: {}
       };
+      case EXECUTES_POINTS_COMMISSION_SUCCESS:
+      return {
+        ...state,
+        isLoadingRewardsPoints: false,
+        successExecutePoints: true,
+        errorPoints: false,
+        executeDataCommission: action.payload,
+        error: {}
+      };
       case SET_POINTS_GATEWAY_LIQUIDITY:
       return { ...state, isLoadingRewardsPoints: true, errorPoints: false };
     case SET_POINTS_GATEWAY_LIQUIDITY_SUCCESS:
@@ -142,6 +153,12 @@ export default pointsReducer = (state = initialState, action) => {
         successTransferGatewayLiquid:false,
         errorPoints: false,
         transferData:null,
+        rewardsData: null,
+        commissionData: null,
+        gatewayData: null,
+        liquidData: null,
+        executeData:null,
+        executeDataCommission:null,
         error: {},
       };
 

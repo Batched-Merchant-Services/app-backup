@@ -5,6 +5,8 @@ import {
   CLEAN_ERROR ,
   VALIDATE_SESSION,
   VALIDATE_SESSION_SUCCESS,
+  VALIDATE_CODE_SMS,
+  VALIDATE_CODE_SMS_SUCCESS,
 } from '../constants'
 import { LOGIN_QUERY } from '@utils/api/queries/auth.queries';
 import { client } from '@utils/api/apollo';
@@ -15,6 +17,7 @@ import { toggleSnackbarOpen, userInactivity } from './app.actions';
 import { VALIDATE_SESSION_QUERY } from '../../utils/api/queries/user.queries';
 import { getUTCDateString } from '../../utils/formatters';
 import { getDataUser } from './user.action';
+import { AUTHENTICATION_TWO_FACTORS } from '../../utils/api/queries/auth.queries';
 const device = DeviceInfo.getUniqueId();
 
 
@@ -65,6 +68,29 @@ export const validateSession = () => async (dispatch) => {
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: VALIDATE_SESSION_SUCCESS, payload: response?.data['getValidateSession'] });
+      }
+    }).catch((error) => {
+      dispatch({ type: LOGIN_ERROR, payload: error });
+    })
+  } catch (error) {
+    dispatch({ type: LOGIN_ERROR, payload: error });
+  }
+
+}
+
+export const validateCodeSms = () => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: VALIDATE_CODE_SMS });
+    client.query({
+      query: AUTHENTICATION_TWO_FACTORS,
+      variables: {
+        token:token
+      }
+    }).then(async (response) => {
+      console.log('response code sms',response)
+      if (response.data) {
+        dispatch({ type: VALIDATE_CODE_SMS_SUCCESS, payload: response?.data['getSecurityCodeDirect'] });
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });

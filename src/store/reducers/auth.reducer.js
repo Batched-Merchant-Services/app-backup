@@ -6,6 +6,8 @@ import {
   CLEAN_ERROR,
   VALIDATE_SESSION,
   VALIDATE_SESSION_SUCCESS,
+  VALIDATE_CODE_SMS,
+  VALIDATE_CODE_SMS_SUCCESS,
 } from '../constants';
 
 export const initialState = {
@@ -18,6 +20,9 @@ export const initialState = {
   showError: false,
   isResettingPassword: false,
   isUpdating: true,
+  isValidateCode:false,
+  successValidateCode:false,
+  dataCode:null,
   error: {},
   success: {},
 };
@@ -60,7 +65,6 @@ export default authReducer = (state = initialState, action) => {
       };
     case VALIDATE_SESSION:
       return { ...state, isLoggingIn: true, showError: false, };
-
     case VALIDATE_SESSION_SUCCESS:
       return {
         ...state,
@@ -71,13 +75,26 @@ export default authReducer = (state = initialState, action) => {
         error: {},
         success: {},
       };
+    case VALIDATE_CODE_SMS:
+      return { ...state, isValidateCode: true, showError: false, };
+    case VALIDATE_CODE_SMS_SUCCESS:
+      return {
+        ...state,
+        isValidateCode: false,
+        successValidateCode: true,
+        showError: false,
+        dataCode: action.payload,
+        error: {},
+        success: {},
+      };
     case CLEAN_ERROR:
       return {
         ...state,
         isLoggingIn: false,
-        isSession:false,
+        isSession: false,
         isLoggedIn: false,
         showError: false,
+        dataCode: null,
         error: {},
       };
 

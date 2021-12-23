@@ -19,3 +19,9 @@ export const LOGOUT = gql`
       locked
     }
   }`;
+
+
+export const AUTHENTICATION_TWO_FACTORS = gql`
+query($token:String!) {
+  getSecurityCodeDirect(token:$token)
+}`

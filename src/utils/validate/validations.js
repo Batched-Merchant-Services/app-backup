@@ -152,6 +152,11 @@ const Validations = {
     presence: {
       message: i18n.t('validations.file')
     },
+  },
+  codeSms:{
+    presence: {
+      message: i18n.t('validations.codeSms')
+    },
   }
   
 
