@@ -41,8 +41,8 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
     { id: '3', name: 'Commission Balance to Liquidity Pool', value: 'commission' },
     { id: '4', name: 'Liquidity Pool to Uulala Wallet', value: 'wallet' },
   ]);
-  cons
-  const isValid = isFormValid(typeTransfer, amount);
+
+  const isValid = isFormValid(amount);
   const RewardsData = points?.rewardsData;
   const error = useSelector(state => state?.points?.errorPoints);
 
@@ -50,9 +50,7 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
     dispatch(cleanErrorPoints());
     dispatch(toggleSnackbarClose());
     //dispatch(validateCodeSms())
-  }, [])
-
-  console.log('dataCode',auth?.dataCode);
+  }, []);
 
   const selectTypeTransfer = (code) => {
     const value = code.value;
@@ -123,7 +121,7 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
         <Divider height-15 />
       <ButtonRounded
         onPress={handleGoToSms}
-        disabled={!isValid}
+        disabled={!(isValid && valueSelect !== '')}
       >
         <Text h14 semibold white>
          send

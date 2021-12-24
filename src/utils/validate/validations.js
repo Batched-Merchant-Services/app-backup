@@ -157,6 +157,11 @@ const Validations = {
     presence: {
       message: i18n.t('validations.codeSms')
     },
+    length: {
+      minimum: 6,
+      maximum: 6,
+      message: i18n.t('validations.codeSms')
+    },
   }
   
 

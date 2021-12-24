@@ -209,6 +209,7 @@ export const setRewardsPointsToTransactionGateway = ({ address, amount,code }) =
 
 
 export const setGatewayPointsToTransactionRewards = ({ address, amount,code }) => async (dispatch) => {
+  console.log('setGatewayPointsToTransactionRewards',amount,address,code)
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY });

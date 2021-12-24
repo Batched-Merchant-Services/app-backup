@@ -11,11 +11,9 @@ export default StyleSheet.create({
     textAlign : 'center',
     width     : scale(38),
     fontFamily: 'BaiJamjuree-Medium',
-    fontSize  : verticalScale(38),
+    fontSize  : verticalScale(32),
     padding   : 0,
-    margin    : 0
+    margin    : 0,
   },
-  underLine: {
-    height: verticalScale(4),
-  },
+
 });

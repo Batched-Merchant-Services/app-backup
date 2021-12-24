@@ -17,6 +17,7 @@ import Styles from './styles'
 import i18n from '@utils/i18n';
 import { formatDate, moneyFormatter } from '../../utils/formatters';
 import { cleanError } from '@store/actions/auth.actions';
+import { cleanErrorPoints } from '@store/actions/points.actions';
 
 
 const ConfirmationTransfer = ({ navigation, navigation: { goBack },route }) => {
@@ -34,6 +35,14 @@ const ConfirmationTransfer = ({ navigation, navigation: { goBack },route }) => {
   useEffect(() => {
     dispatch(cleanError());
   }, [dispatch])
+
+  function handleGoToHomeBatched() {
+    navigation.navigate('DrawerScreen',{
+      screen: 'HomeMyBatched',
+      merge: true
+    });
+    dispatch(cleanErrorPoints());
+  }
 
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
@@ -62,12 +71,7 @@ const ConfirmationTransfer = ({ navigation, navigation: { goBack },route }) => {
       <Text h16 white semibold>{transferData.id}</Text>
       <View flex-1 bottom>
         <ButtonRounded
-          onPress={() => {
-            navigation.navigate('DrawerScreen',{
-              screen: 'HomeMyBatched',
-              merge: true
-            });
-          }}
+          onPress={handleGoToHomeBatched}
           disabled={false}
           blue
         >

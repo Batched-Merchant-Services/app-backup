@@ -7,6 +7,8 @@ import {
   VALIDATE_SESSION_SUCCESS,
   VALIDATE_CODE_SMS,
   VALIDATE_CODE_SMS_SUCCESS,
+  VALIDATE_CODE_EMAIL,
+  VALIDATE_CODE_EMAIL_SUCCESS
 } from '../constants'
 import { LOGIN_QUERY } from '@utils/api/queries/auth.queries';
 import { client } from '@utils/api/apollo';
@@ -17,7 +19,7 @@ import { toggleSnackbarOpen, userInactivity } from './app.actions';
 import { VALIDATE_SESSION_QUERY } from '../../utils/api/queries/user.queries';
 import { getUTCDateString } from '../../utils/formatters';
 import { getDataUser } from './user.action';
-import { AUTHENTICATION_TWO_FACTORS } from '../../utils/api/queries/auth.queries';
+import { AUTHENTICATION_TWO_FACTORS, AUTHENTICATION_TWO_FACTORS_EMAIL } from '../../utils/api/queries/auth.queries';
 const device = DeviceInfo.getUniqueId();
 
 
@@ -96,6 +98,32 @@ export const validateCodeSms = () => async (dispatch) => {
       dispatch({ type: LOGIN_ERROR, payload: error });
     })
   } catch (error) {
+    dispatch({ type: LOGIN_ERROR, payload: error });
+  }
+
+}
+
+export const validateCodeEmail = () => async (dispatch) => {
+  console.log('validateCodeEmail')
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: VALIDATE_CODE_EMAIL });
+    client.query({
+      query: AUTHENTICATION_TWO_FACTORS_EMAIL,
+      variables: {
+        token:token
+      }
+    }).then(async (response) => {
+      console.log('response code email',response)
+      if (response.data) {
+        dispatch({ type: VALIDATE_CODE_EMAIL_SUCCESS, payload: response?.data['getSecurityCodeDirectSES'] });
+      }
+    }).catch((error) => {
+      console.log('response code error 1',error)
+      dispatch({ type: LOGIN_ERROR, payload: error });
+    })
+  } catch (error) {
+    console.log('response code error 2',error)
     dispatch({ type: LOGIN_ERROR, payload: error });
   }
 

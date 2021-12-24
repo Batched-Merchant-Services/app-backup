@@ -8,6 +8,8 @@ import {
   VALIDATE_SESSION_SUCCESS,
   VALIDATE_CODE_SMS,
   VALIDATE_CODE_SMS_SUCCESS,
+  VALIDATE_CODE_EMAIL,
+  VALIDATE_CODE_EMAIL_SUCCESS,
 } from '../constants';
 
 export const initialState = {
@@ -23,6 +25,7 @@ export const initialState = {
   isValidateCode:false,
   successValidateCode:false,
   dataCode:null,
+  dataCodeEmail:null,
   error: {},
   success: {},
 };
@@ -78,6 +81,18 @@ export default authReducer = (state = initialState, action) => {
     case VALIDATE_CODE_SMS:
       return { ...state, isValidateCode: true, showError: false, };
     case VALIDATE_CODE_SMS_SUCCESS:
+      return {
+        ...state,
+        isValidateCode: false,
+        successValidateCode: true,
+        showError: false,
+        dataCode: action.payload,
+        error: {},
+        success: {},
+      };
+      case VALIDATE_CODE_EMAIL:
+      return { ...state, isValidateCode: true, showError: false, };
+    case VALIDATE_CODE_EMAIL_SUCCESS:
       return {
         ...state,
         isValidateCode: false,

@@ -3,12 +3,11 @@ import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import {
   View,
   Text,
+  Link,
   Divider,
-  ImageResize,
+  PinInput,
   SnackNotice,
   ButtonRounded,
-  FloatingInput,
-  DropDownPicker,
   BackgroundWrapper
 } from '@components';
 import { scale, verticalScale } from 'react-native-size-matters';
@@ -16,18 +15,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import blueRow from '@assets/icons/blue-row-double-down.png';
 import Styles from './styles';
 import i18n from '@utils/i18n';
-import { thousandsSeparator } from '../../utils/formatters';
+import { maskNumbers, thousandsSeparator } from '../../utils/formatters';
 import { cleanErrorPoints, setCommissionBalanceToLiquidityPool, setGatewayPointsToTransactionRewards, setLiquidityPoolToUulalaWallet, setRewardsPointsToTransactionGateway } from '../../store/actions/points.actions';
 import Loading from '../Loading';
 import { toggleSnackbarClose } from '../../store/actions/app.actions';
-import { validateCodeSms } from '../../store/actions/auth.actions';
+import { validateCodeEmail, validateCodeSms } from '../../store/actions/auth.actions';
 
 const TransferOption = ({ navigation, route, onPress, label }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const valueSelect = route?.params?.valueSelect;
+  const dataUser = redux?.user;
   const amount = route?.params?.amount;
+  const userProfile = dataUser?.dataUser?.usersProfile ?dataUser?.dataUser?.usersProfile[0]:''
+  const accounts = userProfile?.accounts
   const codeSecurity = useValidatedInput('codeSms', '');
+  const [valuePhone, setValuePhone] = useState(accounts?.phoneNumber);
+  const [codeSmsEmail, setCodeSmsEmail] = useState(auth?.dataCode);
   const points = redux?.points;
   const auth = redux?.auth;
   const infoUser = redux?.user;
@@ -48,41 +52,68 @@ const TransferOption = ({ navigation, route, onPress, label }) => {
   useEffect(() => {
     dispatch(cleanErrorPoints());
     dispatch(toggleSnackbarClose());
-    dispatch(validateCodeSms())
+    dispatch(validateCodeSms());
   }, [])
 
+  useEffect(() => {
+    setCodeSmsEmail(auth?.dataCode)
+  }, [auth?.dataCode])
 
-  const handleCreateTransfer = () => {
+
+  const handleCreateTransfer = (codeSecurity) => {
+    console.log('auth?.dataCode',codeSecurity)
     const address = infoUser?.dataUser?.clients ? infoUser?.dataUser?.clients[0]?.account?.address : 0;
     if (valueSelect === 'rewards') {
-      dispatch(setRewardsPointsToTransactionGateway({ address: address, amount: amount?.value,code: auth?.dataCode+'-'+codeSecurity?.value}));
+      dispatch(setRewardsPointsToTransactionGateway({ address: address, amount: amount?.value,code: codeSmsEmail+'-'+codeSecurity}));
     } else if (valueSelect === 'commission') {
-      dispatch(setCommissionBalanceToLiquidityPool({ address: address, amount: amount?.value,code: auth?.dataCode+'-'+codeSecurity?.value }));
+      dispatch(setCommissionBalanceToLiquidityPool({ address: address, amount: amount?.value,code: codeSmsEmail+'-'+codeSecurity }));
     } else if (valueSelect === 'wallet') {
-      dispatch(setLiquidityPoolToUulalaWallet({ address: address, amount: amount?.value,code: auth?.dataCode+'-'+codeSecurity?.value }));
+      dispatch(setLiquidityPoolToUulalaWallet({ address: address, amount: amount?.value,code: codeSmsEmail+'-'+codeSecurity }));
     }else if (valueSelect === 'gateway') {
-      dispatch(setGatewayPointsToTransactionRewards({ address: address, amount: amount?.value,code: auth?.dataCode+'-'+codeSecurity?.value }));
+      dispatch(setGatewayPointsToTransactionRewards({ address: address, amount: amount?.value,code: codeSmsEmail+'-'+codeSecurity }));
     } else return null;
   };
 
+  function getInfo(code) {
+    handleCreateTransfer(code); 
+  }
+  function onPressResendCode() {
+    dispatch(validateCodeEmail());
+    setValuePhone(accounts?.email);
+  }
+  
+
+  console.log('codeSecurity',codeSecurity)
 
   if (points?.successTransferGatewayLiquid) {
     navigation.navigate('ConfirmationTransfer',{ amount: amount?.value});
   }
 
-  console.log('points?.successTransferGatewayLiquid',points)
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
-      <Text h16 blue02 regular>Confirmacion</Text>
+      <Text h16 blue02 regular>Confirm the transfer</Text>
       <Divider height-10 />
-      <Text h12 white>Confirmacion SMS</Text>
+      <Text h14 blue02>{i18n.t('home.myBatchedTransfer.textRewardPoints')}</Text>
+        <Text h16 white semibold>{thousandsSeparator(RewardsData?.total)}</Text>
       <Divider height-10 />
-      <FloatingInput
+      <Text h16 blue02>We have sent you a 6 digit code to the phone <Text h12 white>{maskNumbers(valuePhone)}</Text></Text>
+      <Divider height-20 />
+      <Text h12 blue02>Confirmation Code:</Text>
+      <Divider height-10 />
+      <PinInput {...codeSecurity} onSubmit={(code)=>getInfo(code) }/>
+      {/* <FloatingInput
         {...codeSecurity}
         label={i18n.t('ForgotPassword.inputSixDigits')}
         autoCapitalize={'none'}
-      />
-        <Divider height-15 />
+      /> */}
+      <Divider height-25 />
+      <Divider style={Styles.borderDoted} />
+      <Divider height-25 />
+      <Text h12 white> The code will be valid for 4:38, If you haven’t receive it you can{' '}
+      <Link onPress={onPressResendCode}>
+        <Text h12 white>Resend code</Text>
+      </Link></Text>
+      <Divider height-30 />
       <ButtonRounded
         onPress={handleCreateTransfer}
         disabled={!isValid}

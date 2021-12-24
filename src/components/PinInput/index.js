@@ -22,23 +22,36 @@ const PinInput = ({ value, error, onChangeText, onSubmit,pinLength = 6, ...props
   const moveNext = (value, index) => {
     if (value && index < values.length - 1 && !values[index + 1].trim()) {
       refs[index + 1].focus();
-    }else{
-      onSubmit();
+    }
+  };
+
+  const moveMinus = (value, index) => {
+    if (index > 0) {
+      refs[index - 1].focus();
     }
   };
 
   const makeHandleTextChange = index => text => {
     text = text.replace(/[^0-9]/g, '');
-
     if (text.length) {
       moveNext(text, index);
+      if (index + 1 === pinLength) {
+        onSubmit(values.join(''));
+      }
+    }else{
+      moveMinus(text, index);
     }
     values[index] = text.length ? text : '';
     onChangeText(values.join(''));
+   
   };
 
   const makeHandleFocus = index => () => setFocused(index);
-  const handleBlur = () => setFocused(null);
+
+  const handleBlur = () => {
+    setFocused(null)
+  };
+
 
   return (
     <View style={Styles.container}>
@@ -53,7 +66,10 @@ const PinInput = ({ value, error, onChangeText, onSubmit,pinLength = 6, ...props
             returnKeyType={'done'}
             maxLength={1}
             value={v ? v : ''}
-            style={[Styles.input,{color: brandTheme?.white??Colors?.white}]}
+            style={[Styles.input,
+                  {color: brandTheme?.white??Colors?.white},{ borderColor:brandTheme?.blue02??Colors?.blue02,borderWidth:1 },
+                  ...(focused === index ? [{borderColor:brandTheme?.blue01??Colors?.blue01,borderWidth:1}] : [])
+                  ]}
             ref={input => (refs[index] = input)}
             onChangeText={makeHandleTextChange(index)}
             onFocus={makeHandleFocus(index)}
@@ -61,12 +77,7 @@ const PinInput = ({ value, error, onChangeText, onSubmit,pinLength = 6, ...props
             blurOnSubmit
             {...props}
           />
-          <View
-            style={[
-              Styles.underLine,{ backgroundColor: brandTheme?.blue02??Colors?.blue02},
-              ...(focused === index ? [{backgroundColor: brandTheme?.blue01??Colors?.blue01}] : [])
-            ]}
-          />
+          
         </View>
       ))}
     </View>

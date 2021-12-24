@@ -25,3 +25,9 @@ export const AUTHENTICATION_TWO_FACTORS = gql`
 query($token:String!) {
   getSecurityCodeDirect(token:$token)
 }`
+
+export const AUTHENTICATION_TWO_FACTORS_EMAIL = gql`
+query($token:String!) {
+  getSecurityCodeDirectSES(token:$token)
+}`
+

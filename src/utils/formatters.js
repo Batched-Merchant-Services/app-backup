@@ -69,18 +69,18 @@ export const formatCard = cardNumber => {
   return '';
 };
 
-export const maskCardNumber = cardNumber => {
+export const maskNumbers = cardNumber => {
   if (cardNumber) {
-    const chunks = String(cardNumber).match(/.{1,4}/g);
+    const chunks = String(cardNumber).match(/.{0,3}/g);
     const maskedArray = chunks.map((element, index) => {
-      if (index === 1 || index === 2) {
+      if (index === 0 || index === 1) {
         return element.replace(/[0-9]/g, '*');
       } else {
         return element;
       }
     });
 
-    return maskedArray.join(' ');
+    return maskedArray.join('');
   }
   return '';
 };
