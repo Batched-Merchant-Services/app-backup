@@ -80,6 +80,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
 
   const dropSize = { width: !size ==='lg' ? getSize(size): getSize(width) };
 
+  console.log('labelDefault',labelDefault);
   return (
     <View onLayout={handleWrapperLayout}>
       <View style={[
@@ -91,7 +92,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
         </View>
         <ModalDropdown
           options={options}
-          //defaultValue={labelDefault ? labelDefault : 'Select Option'}
+          defaultValue={labelDefault ? labelDefault : 'Select Option'}
           onSelect={handleSelect}
           onDropdownWillHide={handleWillShowHide}
           renderSeparator={(rowID) => renderSeparator(rowID)}

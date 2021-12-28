@@ -11,30 +11,80 @@ import {
   DropDownPicker,
   BackgroundWrapper
 } from '@components';
-import { useSelector } from 'react-redux';
-import { useValidatedInput,isFormValid } from '@hooks/validation-hooks';
+import { useSelector, useDispatch } from 'react-redux';
+import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import Logo from '@assets/brandBatched/logo.svg';
 import camera from '@assets/icons/camera.png';
 
 import Styles from './styles'
 import i18n from '@utils/i18n';
+import { getGender } from '../../store/actions/register.actions';
+import { updateUserProfileInfo } from '../../store/actions/profile.actions';
 
 
 const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
-  const firstName = useValidatedInput('firstName', '');
-  const mediumName = useValidatedInput('', '');
-  const lastName = useValidatedInput('lastName', '');
-  const ssn = useValidatedInput('ssn', '');
+  const redux = useSelector(state => state);
+  const dispatch = useDispatch();
+  const dataUser = redux?.user;
+  const registerData = redux?.register;
+  const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
+  const accounts = userProfile?.accounts
+  const firstName = useValidatedInput('firstName', accounts?.firstName + accounts?.middleName);
+  const mediumName = useValidatedInput('', accounts?.mediumName);
+  const lastName = useValidatedInput('lastName', accounts?.lastName);
+  const ssn = useValidatedInput('ssn', accounts?.ssn);
   const [items, setItems] = useState([
     { id: '1', value: 'value1', name: 'value1' },
     { id: '2', value: 'value2', name: 'value2' }
   ]);
-  const gender = useValidatedInput('select', '',{
+  const [valueGender, setValueGender] = useState([]);
+  const gender = useValidatedInput('select', accounts?.gender, {
     changeHandlerSelect: 'onSelect'
   });
-  const birthDay = useValidatedInput('select', '',{
+  const birthDay = useValidatedInput('select', accounts?.birthday, {
     changeHandlerSelect: 'onSelect'
   });
+
+
+  useEffect(() => {
+      dispatch(getGender());
+      getShowGender();
+  }, [dispatch]);
+
+  async function getShowGender() {
+    if (registerData?.gender) {
+      if (registerData?.gender?.length >0) {
+        setItems(registerData?.gender)
+        const valueGender = registerData?.gender?.filter(key => key?.value.toString() === accounts?.gender );
+        setValueGender(...valueGender);
+        console.log('valueGender',...valueGender)
+      } 
+    }
+   
+  }
+
+
+  function handleUpdateInfo() {
+    const genderValues = gender?.value;
+    console.log('gender?.value',gender)
+    const dataProfile = {
+      id: accounts?.id ?? '',
+      firstName: firstName?.value??'',
+      middleName: mediumName?.value??'',
+      lastName: lastName?.value??'',
+      secondLastName: mediumName?.value??'',
+      birthday: birthDay?.value,
+      nationalId: '',
+      otherNationalId: '',
+      gender: genderValues?.value??gender?.value,
+      alias: accounts.alias ?? "",
+      countryCode: accounts.countryCode ?? "",
+      isComplete: true
+
+    }
+
+    dispatch(updateUserProfileInfo({ dataProfile }))
+  }
 
   //const isValid = isFormValid(firstName, mediumName, lastName, ssn, gender, birthDay);
   return (
@@ -65,17 +115,17 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
           autoCapitalize={'none'}
         />
         <Divider height-5 />
-        <FloatingInput
+       {/* <FloatingInput
           {...ssn}
           label={i18n.t('Register.inputSocialSecurityNumber')}
           autoCapitalize={'none'}
-        />
-        <Divider height-5 />
+        /> 
+        <Divider height-5 /> */}
         <DropDownPicker
           {...gender}
           label={i18n.t('Register.inputGender')}
           options={items}
-        //onFill={(code)=> filterPays(code)}
+          labelDefault={valueGender?.name}
         />
         <Divider height-5 />
         <DatePicker
@@ -85,10 +135,10 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
       </View>
       <Divider height-20 />
       <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
-      
+
       <View flex-1 row bottom >
         <ButtonRounded
-          onPress={() => goBack()}
+          onPress={handleUpdateInfo}
           disabled={false}
           dark
           size='sm'
@@ -100,7 +150,7 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
         <Divider width-10 />
         <ButtonRounded
           onPress={() => {
-            navigation.navigate('SignIn',{
+            navigation.navigate('SignIn', {
               screen: 'ContactInformation',
               merge: true
             });

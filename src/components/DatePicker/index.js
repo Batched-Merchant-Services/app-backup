@@ -20,7 +20,7 @@ const DatePicker = ({ error, label, value, onSelect, languages, onFill, ...props
   const brandTheme = appData?.Theme?.colors;
   const [mode, setMode] = useState('date');
   const [showModalDates, setShowModalDates] = useState(false);
-  const [valueData, setValueData] = useState('');
+  const [valueData, setValueData] = useState(value);
   const [date, setDate] = useState(new Date());
 
 

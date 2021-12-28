@@ -9,17 +9,25 @@ import {
   DropDownPicker,
   BackgroundWrapper
 } from '@components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import Styles from './styles'
 import i18n from '@utils/i18n';
+import { getCountries } from '../../store/actions/register.actions';
 
 const ContactInformation = ({ navigation, navigation: { goBack } }) => {
-  const phone = useValidatedInput('phone', '55 2303 3632');
+  const redux = useSelector(state => state);
+  const dispatch = useDispatch();
+  const dataUser = redux?.user;
+  const registerData = redux?.register;
+  const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
+  const accounts = userProfile?.accounts
+  const phone = useValidatedInput('phone', accounts?.phoneNumber);
   const addressOne = useValidatedInput('addressOne', '');
   const addressTwo = useValidatedInput('addressTwo', '');
   const postalCode = useValidatedInput('postalCode', '');
-  const email = useValidatedInput('email', 'loremipsum@batched.com');
+  const email = useValidatedInput('email', accounts?.email);
+  const [valueCountries, setValueCountries] = useState([]);
   const [items, setItems] = useState([
     { id: '1', value: 'value1', name: 'value1' },
     { id: '2', value: 'value2', name: 'value2' }
@@ -27,10 +35,27 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
   const country = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
-  const birthDay = useValidatedInput('select', '',{
-    changeHandlerSelect: 'onSelect'
-  });
 
+
+  useEffect(() => {
+    dispatch(getCountries());
+    getShowCountry();
+}, [dispatch]);
+
+
+async function getShowCountry() {
+  if (registerData?.countries) {
+    if (registerData?.countries?.length >0) {
+      setItems(registerData?.countries)
+      const valueCountry = registerData?.countries?.filter(key => console.log('key',key?.value === accounts?.countryCode));
+      setValueCountries(...valueCountry);
+      //
+    } 
+  }
+ 
+}
+
+  console.log('valueCountries',valueCountries,userProfile)
   //const isValid = isFormValid(firstName, mediumName, lastName, ssn, gender, birthDay);
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
@@ -46,7 +71,7 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
           {...country}
           label={i18n.t('myProfile.dropDownCountry')}
           options={items}
-        //onFill={(code)=> filterPays(code)}
+          labelDefault={valueCountries?.name}
         />
         <Divider height-5 />
         <FloatingInput

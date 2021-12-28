@@ -16,8 +16,6 @@ import {
   UPDATE_PROFILE_INFO, 
   UPDATE_PROFILE_INFO_SUCCESS 
 } from '../constants';
-
-import { client } from '@utils/api/apollo';
 import { 
   CREATE_ADDRESS_QUERY, 
   CREATE_BANK_INFO_QUERY, 
@@ -26,28 +24,36 @@ import {
   EDIT_ADDRESS_QUERY, 
   EDIT_BANK_INFO_QUERY, 
   EDIT_KYC_QUERY 
-} from '../../utils/api/queries/profile.queries';
+} from '@utils/api/queries/profile.queries';
+import { toggleSnackbarOpen } from './app.actions';
+import { client } from '@utils/api/apollo';
+import LocalStorage from '@utils/localStorage';
+
 
 export const updateUserProfileInfo = ({dataProfile}) => async (dispatch) => {
+  console.log('dataProfile',dataProfile)
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: UPDATE_PROFILE_INFO });
    
-    client.query({
-      query: EDIT_ACCOUNT,
+    client.mutate({
+      mutation: EDIT_ACCOUNT,
       variables: {
         token:token,
         data: dataProfile
       },
     }).then(async (response) => {
+      console.log('response update prof',response)
       if (response.data) {
         dispatch({ type: UPDATE_PROFILE_INFO_SUCCESS, payload: response?.data['editAccountData'] });
       }
     }).catch((error) => {
+      console.log('error update 1',error)
       dispatch({ type: PROFILE_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
+    console.log('error update 2',error)
     dispatch({ type: PROFILE_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
@@ -58,8 +64,8 @@ export const createAddress = ({dataAddress}) => async (dispatch) => {
   try {
     dispatch({ type: CREATE_ADDRESS });
    
-    client.query({
-      query: CREATE_ADDRESS_QUERY,
+    client.mutate({
+      mutation: CREATE_ADDRESS_QUERY,
       variables: {
         token:token,
         data: dataAddress
@@ -83,8 +89,8 @@ export const editAddress = ({dataEditAddress}) => async (dispatch) => {
   try {
     dispatch({ type: EDIT_ADDRESS });
    
-    client.query({
-      query: EDIT_ADDRESS_QUERY,
+    client.mutate({
+      mutation: EDIT_ADDRESS_QUERY,
       variables: {
         token:token,
         data: dataEditAddress
@@ -108,8 +114,8 @@ export const editKYC = ({dataKYC}) => async (dispatch) => {
   try {
     dispatch({ type: EDIT_KYC });
    
-    client.query({
-      query: EDIT_KYC_QUERY,
+    client.mutate({
+      mutation: EDIT_KYC_QUERY,
       variables: {
         token:token,
         data: dataKYC
@@ -135,8 +141,8 @@ export const createKYC = ({dataKYC}) => async (dispatch) => {
   try {
     dispatch({ type: CREATE_KYC });
    
-    client.query({
-      query: CREATE_KYC_QUERY,
+    client.mutate({
+      mutation: CREATE_KYC_QUERY,
       variables: {
         token:token,
         data: dataKYC
@@ -162,8 +168,8 @@ export const createBankInfo = ({dataKYC}) => async (dispatch) => {
   try {
     dispatch({ type: CREATE_BANK_INFO });
    
-    client.query({
-      query: CREATE_BANK_INFO_QUERY,
+    client.mutate({
+      mutation: CREATE_BANK_INFO_QUERY,
       variables: {
         token:token,
         data: dataKYC
@@ -188,8 +194,8 @@ export const editBankInfo = ({dataKYC}) => async (dispatch) => {
   try {
     dispatch({ type: EDIT_BANK_INFO });
    
-    client.query({
-      query: EDIT_BANK_INFO_QUERY,
+    client.mutate({
+      mutation: EDIT_BANK_INFO_QUERY,
       variables: {
         token:token,
         data: dataKYC

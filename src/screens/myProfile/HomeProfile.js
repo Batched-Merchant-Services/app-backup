@@ -21,6 +21,10 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
   const [showImage, setShowImage] = useState(false);
   const [showReferralCode, setShowReferralCode] = useState(false);
+  const dataUser = redux?.user;
+  const points = redux?.points;
+  const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
+  const accounts = userProfile?.accounts
   return (
     <BackgroundWrapper childrenLeft={Menu} menu showNavigation={true} navigation={navigation}>
       <Divider height-10 />
@@ -33,55 +37,46 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
         </View>
       </View>
       <Divider height-10 />
-      {showReferralCode&&(
+      {showReferralCode && (
         <Text h12 white light>{i18n.t('myProfile.textReferredBy')} Victor Hugo U**** P*******</Text>
       )}
-      {!showReferralCode&&(
+      {!showReferralCode && (
         <View left>
           <Link>
             <Text h12 white medium left>{i18n.t('myProfile.textReferredCode')}</Text>
           </Link>
         </View>
-        
+
       )}
-     
+
       <Divider height-10 />
       <View blue03 height-230 paddingH-12 paddingV-15>
         <View row>
           <View flex-1>
-            <Text h12 blue02 light>oscargarcia@uulala.io</Text>
+            <Text h12 blue02 light>{accounts?.email}</Text>
             <Divider height-10 />
-            <Text h16 blue02 semibold>Oscar</Text>
-            <Text h16 white light>García Lorem Ipsum</Text>
+            <Text h16 blue02 semibold>{accounts?.firstName}</Text>
+            <Text h16 white light>{accounts?.middleName}{' '}{accounts?.lastName}</Text>
             <Divider height-10 />
             <Text h12 blue02 light>Uulala ID:</Text>
-            <Text h12 white light>IMCG4WHEIILNM</Text>
+            <Text h12 white light>{accounts?.id}</Text>
             <Divider height-10 />
             <Text h12 blue02 light>{i18n.t('myProfile.textReferenceCode')}</Text>
-            <Text h12 green semibold>udefinode.com/cni4w7y3u</Text>
+            <Text h12 green semibold>{accounts?.id}</Text>
           </View>
           <View right>
-            <View width-80 height-80 style={{ borderColor: Colors.blue02, borderWidth: 1 }}>
-              {showImage&&(
-                <ImageResize
-                  source={camera}
-                  height={verticalScale(16)}
-                  width={scale(16)}
-                />
-              )}
-              {!showImage&&(
-                <View flex-1 blue02 centerH centerV>
-                  <Text h32 white semibold>OG</Text>
-                </View>
-              )}
-              <View centerH centerV blue02 width-20 height-20 style={{position:'absolute', bottom:0,right:0}}>
-                <ImageResize
-                  source={camera}
-                  height={verticalScale(16)}
-                  width={scale(16)}
-                />
+            {accounts?.avatarImage !== '' && (
+              <ImageResize
+                source={{ uri: accounts?.avatarImage }}
+                height={verticalScale(80)}
+                width={scale(80)}
+              />
+            )}
+            {accounts?.avatarImage === '' && (
+              <View width-80 height-80 style={{ borderColor: Colors.blue02, borderWidth: 1 }}>
+                <Text h20 semibold>{accounts?.alias}</Text>
               </View>
-            </View>
+            )}
           </View>
         </View>
         <Divider height-12 />
@@ -101,11 +96,11 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
         disabled={false}
         blue
         onPress={() => {
-            navigation.navigate('SignIn',{
-              screen: 'PersonalInformation',
-              merge: true
-            });
-          }}
+          navigation.navigate('SignIn', {
+            screen: 'PersonalInformation',
+            merge: true
+          });
+        }}
       >
         <Text h14 white semibold>{i18n.t('myProfile.buttonCompleteInformation')}</Text>
       </ButtonRounded>
