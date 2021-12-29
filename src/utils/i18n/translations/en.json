@@ -74,7 +74,7 @@
       "inputFirstName":"First Name*",
       "inputMediumName":"Medium Name",
       "inputLastName":"Last Name*",
-      "inputSocialSecurityNumber":"Social Security Number*",
+      "inputSocialSecurityNumber":"SSN/National Id Number*",
       "inputGender":"Gender",
       "inputDateOfBirth":"Date of birth",
       "textDefineYourPassword":"Define your password",

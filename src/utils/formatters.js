@@ -25,7 +25,14 @@ export const convertUtc = (value)  =>{
 
 export const getUTCDateString = ()  =>{
   let utcDate = new Date();
-  let response = `${utcDate.getUTCFullYear()}-${  utcDate.getUTCMonth() + 1 }-${ utcDate.getUTCDate()} ${ utcDate.getUTCHours() }:${ utcDate.getUTCMinutes() }:${ utcDate.getUTCSeconds() }`
+  const year = utcDate.getUTCFullYear();
+  const month = ('0' + (utcDate.getUTCMonth()+1)).slice(-2);
+  const day = ('0' + utcDate.getUTCDate()).slice(-2);
+  const hours = ('0' + utcDate.getUTCHours()).slice(-2);
+  const mins = ('0' + utcDate.getUTCMinutes()).slice(-2);
+  const secs = ('0' + utcDate.getUTCSeconds()).slice(-2);
+  
+  let response = `${year}-${ month}-${day} ${hours }:${ mins }:${ secs }`
   return response;
 }
 

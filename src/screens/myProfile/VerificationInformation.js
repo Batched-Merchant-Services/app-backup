@@ -14,7 +14,7 @@ import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import Styles from './styles'
 import i18n from '@utils/i18n';
 import { getCountries } from '../../store/actions/register.actions';
-import { createAddress, editAddress } from '../../store/actions/profile.actions';
+import { createAddress, createKYC, editAddress, editKYC } from '../../store/actions/profile.actions';
 
 const ContactInformation = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -38,69 +38,49 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
     { id: '1', value: 'value1', name: 'value1' },
     { id: '2', value: 'value2', name: 'value2' }
   ]);
-  const country = useValidatedInput('select', '', {
+  const typeIdentification = useValidatedInput('select', '', {
     changeHandlerSelect: 'onSelect'
   });
 
 
-  useEffect(() => {
-    dispatch(getCountries());
-    getShowCountry();
-  }, [dispatch]);
+  // useEffect(() => {
 
+  // }, [dispatch]);
 
-  async function getShowCountry() {
-    if (registerData?.countries) {
-      if (registerData?.countries?.length > 0) {
-        setItems(registerData?.countries)
-        const valueCountry = registerData?.countries?.filter(key => console.log('key', key?.value === accounts?.countryCode));
-        setValueCountries(...valueCountry);
-        //
-      }
-    }
-  }
  
   function getUpdateAddress() {
-    const dataUpdateAddress = {
-      id: accounts.address.id??'',
-      accountId: userProfile.accountId??'',
-      suburb: suburb?.value,
-      city: municipality?.value,
-      country: country?.value,
-      state: state?.value,
-      street: street?.value,
-      number: number?.value,
-      typeAddress: accounts.address.typeAddress??'',
-      zipCode: zipCode?.value,
-      shortName: accounts.address.shortName??'',
+    const dataUpdateKYC = {
+      id: accounts.kyc.id?? "",
+      accountId: userProfile.accountId?? "",
+      frontId:'',
+      backId: '',
+      faceId: '',
+      typeIdentification: typeIdentification,
+      documentId: '',
+      kycid: accounts.kyc.kycid?? "0",
       isComplete: true
     }
-    dispatch(editAddress({ dataUpdateAddress }))
+    dispatch(editKYC({ dataUpdateKYC }))
   }
 
 
 
-  function getCreateAddress() {
-    const dataCreateAddress = {
-      accountId: userProfile?.accountId ?? "",
-      suburb: suburb?.value,
-      city: municipality?.value,
-      country: country?.value,
-      state: state?.value,
-      street: street?.value,
-      number: number?.value,
-      typeAddress: accounts.address.typeAddress??'',
-      zipCode: zipCode?.value,
-      shortName: accounts.address.shortName??'',
+  function getCreateKYC() {
+    const dataCreateKYC = {
+      accountId: userProfile.accountId?? "",
+      frontId:'',
+      backId: '',
+      faceId: '',
+      typeIdentification: '',
+      documentId:'',
+      kycid: accounts.kyc.kycid?? "0",
+      status: "0",
       isComplete: true
     }
-    dispatch(createAddress({ dataCreateAddress }))
+    dispatch(createKYC({ dataCreateKYC }))
   }
 
 
-
-  console.log('valueCountries', valueCountries, userProfile)
-  //const isValid = isFormValid(firstName, mediumName, lastName, ssn, gender, birthDay);
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
       <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
@@ -112,49 +92,18 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
       <Divider height-25 />
       <View style={Styles.container}>
         <DropDownPicker
-          {...country}
+          {...typeIdentification}
           label={i18n.t('myProfile.dropDownCountry')}
           options={items}
-          labelDefault={valueCountries?.name}
+          //labelDefault={valueCountries?.name}
         />
         <Divider height-5 />
-        <FloatingInput
-          {...phone}
-          editable={false}
-          label={i18n.t('myProfile.inputPhone')}
-          autoCapitalize={'none'}
-        />
-        <Divider height-5 />
-        <FloatingInput
-          {...addressOne}
-          label={i18n.t('myProfile.inputAddressOne')}
-          autoCapitalize={'none'}
-        />
-        <Divider height-5 />
-        <FloatingInput
-          {...addressTwo}
-          label={i18n.t('myProfile.inputAddressTwo')}
-          autoCapitalize={'none'}
-        />
-        <Divider height-5 />
-        <FloatingInput
-          {...postalCode}
-          label={i18n.t('myProfile.inputPostalCode')}
-          autoCapitalize={'none'}
-        />
-        <Divider height-5 />
-        <FloatingInput
-          {...email}
-          editable={false}
-          label={i18n.t('myProfile.inputEmail')}
-          autoCapitalize={'none'}
-        />
       </View>
       <Divider height-20 />
       <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
       <Divider height-20 />
       <ButtonRounded
-        onPress={getCreateAddress}
+        onPress={getCreateKYC}
         disabled={false}
         dark
       >

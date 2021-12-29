@@ -57,7 +57,6 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
         setItems(registerData?.gender)
         const valueGender = registerData?.gender?.filter(key => key?.value.toString() === accounts?.gender );
         setValueGender(...valueGender);
-        console.log('valueGender',...valueGender)
       } 
     }
    
@@ -115,12 +114,12 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
           autoCapitalize={'none'}
         />
         <Divider height-5 />
-       {/* <FloatingInput
+       <FloatingInput
           {...ssn}
           label={i18n.t('Register.inputSocialSecurityNumber')}
           autoCapitalize={'none'}
         /> 
-        <Divider height-5 /> */}
+        <Divider height-5 />
         <DropDownPicker
           {...gender}
           label={i18n.t('Register.inputGender')}
