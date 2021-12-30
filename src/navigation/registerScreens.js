@@ -32,7 +32,9 @@ import ConfirmSms from '@screens/myBatched/ConfirmSms';
 import ConfirmationTransfer from '@screens/myBatched/ConfirmationTransfer';
 import HomeProfile from '@screens/myProfile/HomeProfile';
 import PersonalInformation from '@screens/myProfile/PersonalInformation';
+import ContactInformation from '@screens/myProfile/ContactInformation';
 import BankInformation from '@screens/myProfile/BankInformation';
+import ProfilePicture from '@screens/myProfile/ProfilePicture';
 import VerificationInformation from '@screens/myProfile/VerificationInformation';
 
 import HomeContact from '@screens/contact/HomeContact';
@@ -106,6 +108,7 @@ const signInScreens = () => {
      <Stack.Screen name="PersonalInformation" component={PersonalInformation} />
      <Stack.Screen name="ContactInformation" component={ContactInformation} />
      <Stack.Screen name="BankInformation" component={BankInformation} />
+     <Stack.Screen name="ProfilePicture" component={ProfilePicture} />
      <Stack.Screen name="VerificationInformation" component={VerificationInformation} />
      <Stack.Screen name="ConfirmationContact" component={ConfirmationContact} />
      <Stack.Screen name="LogOut" component={LogOut} />

@@ -32,9 +32,7 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
         <View flex-1>
           <Text h16 blue02 light>{i18n.t('myProfile.textMyProfile')}</Text>
         </View>
-        <View flex-1 right>
-          <Text h12 green medium>{i18n.t('myProfile.textCompleted')}</Text>
-        </View>
+       
       </View>
       <Divider height-10 />
       {showReferralCode && (
@@ -42,15 +40,13 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
       )}
       {!showReferralCode && (
         <View left>
-          <Link>
-            <Text h12 white medium left>{i18n.t('myProfile.textReferredCode')}</Text>
-          </Link>
+        <Text h12 white light>Referred by:</Text>
         </View>
 
       )}
 
       <Divider height-10 />
-      <View blue03 height-230 paddingH-12 paddingV-15>
+      <View blue03  paddingH-12 paddingV-15>
         <View row>
           <View flex-1>
             <Text h12 blue02 light>{accounts?.email}</Text>
@@ -60,6 +56,9 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
             <Divider height-10 />
             <Text h12 blue02 light>Uulala ID:</Text>
             <Text h12 white light>{accounts?.id}</Text>
+            <Divider height-10 />
+            <Text h12 blue02 light>Phone</Text>
+            <Text h12 white light>{accounts?.phoneNumber}</Text>
             <Divider height-10 />
             <Text h12 blue02 light>{i18n.t('myProfile.textReferenceCode')}</Text>
             <Text h12 green semibold>{accounts?.id}</Text>
@@ -88,7 +87,13 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
         </ButtonRounded>
       </View>
       <Divider height-15 />
+      <View row>
       <Text h14 white medium>{i18n.t('myProfile.textPersonalInformation')}</Text>
+        <View flex-1 right>
+          <Text h12 green medium>{i18n.t('myProfile.textCompleted')}</Text>
+        </View>
+      </View>
+     
       <Divider height-15 />
       <Text h10 white regular>{i18n.t('myProfile.textItIsVeryImportant')}</Text>
       <Divider height-15 />
@@ -104,6 +109,10 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
       >
         <Text h14 white semibold>{i18n.t('myProfile.buttonCompleteInformation')}</Text>
       </ButtonRounded>
+      <Divider height-15 />
+      <Text h10 white light>Morbi aliquam nisi diam, vitae laoreet neque ultrices sed. Maecenas at dui auctor arcu condimentum congue.</Text>
+      <Divider height-10 />
+      <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
     </BackgroundWrapper>
   );
 }

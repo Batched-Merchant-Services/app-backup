@@ -31,7 +31,7 @@ import LocalStorage from '@utils/localStorage';
 
 
 export const updateUserProfileInfo = ({dataProfile}) => async (dispatch) => {
-  console.log('dataProfile',dataProfile)
+ 
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: UPDATE_PROFILE_INFO });
@@ -59,7 +59,8 @@ export const updateUserProfileInfo = ({dataProfile}) => async (dispatch) => {
   }
 };
 
-export const createAddress = ({dataAddress}) => async (dispatch) => {
+export const createAddress = ({dataCreateAddress}) => async (dispatch) => {
+  console.log('dataCreateAddress',dataCreateAddress)
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: CREATE_ADDRESS });
@@ -68,17 +69,20 @@ export const createAddress = ({dataAddress}) => async (dispatch) => {
       mutation: CREATE_ADDRESS_QUERY,
       variables: {
         token:token,
-        data: dataAddress
+        data: dataCreateAddress
       },
     }).then(async (response) => {
+      console.log('response update address',response)
       if (response.data) {
         dispatch({ type: CREATE_ADDRESS_SUCCESS, payload: response?.data['createAccountsAddress'] });
       }
     }).catch((error) => {
+      console.log('error address 1',error)
       dispatch({ type: PROFILE_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
+    console.log('error address 2',error)
     dispatch({ type: PROFILE_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }

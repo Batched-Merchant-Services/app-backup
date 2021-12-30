@@ -30,6 +30,8 @@ const HEADERS = [
   'h10',
   'h7',
   'h5',
+  'h3',
+  'h2',
 ];
 const FONT_WEIGHTS = ['regular', 'medium', 'semibold', 'bold','light'];
 const TEXT_ALIGNMENTS = ['center', 'left', 'right'];

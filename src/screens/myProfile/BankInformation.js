@@ -25,7 +25,14 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
   const accounts = userProfile?.accounts
   const phone = useValidatedInput('phone', accounts?.phoneNumber);
   const bankName = useValidatedInput('bankName', '');
+  const routingNumber = useValidatedInput('routingNumber', '');
   const accountNumber = useValidatedInput('accountNumber', '');
+  const beneficiary = useValidatedInput('beneficiary', '');
+  const bankAddress = useValidatedInput('bankAddress', '');
+  const bankCity = useValidatedInput('bankCity', '');
+  const bankZipCode = useValidatedInput('bankZipCode', '');
+  const bankCountry = useValidatedInput('bankCountry', '');
+  const bankSate = useValidatedInput('bankSate', '');
   const clabeInterbank = useValidatedInput('clabeInterbank', '');
   const [valueCountries, setValueCountries] = useState([]);
   const [items, setItems] = useState([
@@ -81,51 +88,101 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
         <StepIndicator step={2} totalSteps={2} />
       </View>
       <Divider height-10 />
-      <Text h14 blue02 regular>{i18n.t('myProfile.textContactInformation')}</Text>
+      <Text h14 blue02 regular>{i18n.t('myProfile.bankInformation.titleBankInformation')}</Text>
       <Divider height-10 />
-      <Divider height-25 />
       <View style={Styles.container}>
-        <DropDownPicker
-          {...country}
-          label={i18n.t('myProfile.dropDownCountry')}
-          options={items}
-          labelDefault={valueCountries?.name}
+        <FloatingInput
+          {...bankName}
+          label={i18n.t('myProfile.bankInformation.inputBankName')}
+          autoCapitalize={'none'}
         />
         <Divider height-5 />
         <FloatingInput
-          {...phone}
-          editable={false}
-          label={'bank name'}
+          {...routingNumber}
+          label={i18n.t('myProfile.bankInformation.inputRoutingNumber')}
+          autoCapitalize={'none'}
+        />
+        <Divider height-5 />
+        <FloatingInput
+          {...accountNumber}
+          label={i18n.t('myProfile.bankInformation.inputAccountNumber')}
           autoCapitalize={'none'}
         />
         <Divider height-5 />
         <FloatingInput
           {...phone}
-          editable={false}
-          label={'account number'}
+          label={i18n.t('myProfile.bankInformation.inputPhoneNumber')}
           autoCapitalize={'none'}
         />
         <Divider height-5 />
         <FloatingInput
-          {...phone}
-          editable={false}
-          label={'interbank clabe'}
+          {...beneficiary}
+          label={i18n.t('myProfile.bankInformation.inputSWIFTCode')}
           autoCapitalize={'none'}
         />
-        
+        <Divider height-5 />
+        <FloatingInput
+          {...bankAddress}
+          label={i18n.t('myProfile.bankInformation.inputBankStreetAddress')}
+          autoCapitalize={'none'}
+        />
+        <Divider height-5 />
+        <FloatingInput
+          {...bankCity}
+          label={i18n.t('myProfile.bankInformation.inputCity')}
+          autoCapitalize={'none'}
+        />
+        <Divider height-5 />
+        <FloatingInput
+          {...bankZipCode}
+          label={i18n.t('myProfile.bankInformation.inputZipCode')}
+          autoCapitalize={'none'}
+        />
+        <Divider height-5 />
+        <FloatingInput
+          {...bankCountry}
+          label={i18n.t('myProfile.bankInformation.inputCountry')}
+          autoCapitalize={'none'}
+        />
+        <Divider height-5 />
+        <FloatingInput
+          {...bankSate}
+          label={i18n.t('myProfile.bankInformation.inputState')}
+          autoCapitalize={'none'}
+        />
       </View>
-      <Divider height-20 />
       <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
-      <Divider height-20 />
-      <ButtonRounded
-        onPress={getCreateBankInformation}
-        disabled={false}
-        dark
-      >
-        <Text h14 semibold blue02>
-          {i18n.t('myProfile.buttonSaveChanges')}
-        </Text>
-      </ButtonRounded>
+      <Divider height-10 />
+      <View flex-1 row bottom >
+        <ButtonRounded
+          onPress={getCreateBankInformation}
+          disabled={false}
+          dark
+          size='sm'
+        >
+          <Text h14 semibold blue02>
+            {i18n.t('General.buttonSaveChanges')}
+          </Text>
+        </ButtonRounded>
+        <Divider width-10 />
+        <ButtonRounded
+          onPress={() => {
+            navigation.navigate('SignIn', {
+              screen: 'ContactInformation',
+              merge: true
+            });
+          }}
+          //disabled={!isValid}
+          dark
+          size='sm'
+        >
+          <Text h14 blue02 semibold>
+            {i18n.t('myProfile.bankInformation.buttonExit')}
+          </Text>
+        </ButtonRounded>
+      </View>
+      <Divider height-10 />
+      <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
     </BackgroundWrapper>
   );
 }

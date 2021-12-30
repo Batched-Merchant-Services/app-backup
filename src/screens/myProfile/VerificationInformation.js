@@ -87,30 +87,57 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
         <StepIndicator step={2} totalSteps={2} />
       </View>
       <Divider height-10 />
-      <Text h14 blue02 regular>{i18n.t('myProfile.textContactInformation')}</Text>
+      <Text h14 blue02 regular>Official Documents:</Text>
       <Divider height-10 />
-      <Divider height-25 />
+      <Text h10 white light><Text blue02 h5>{'\u2B24'}</Text> Your images should have good lighting readability</Text>
+      <Text h10 white light><Text blue02 h5>{'\u2B24'}</Text> The format must be .jpg or .png</Text>
+      <Text h10 white light><Text blue02 h5>{'\u2B24'}</Text> The maximun size is 2.5 MB</Text>
+      <Divider height-10 />
+      <Text h12 white light>To be approved, photos must be taken in good lighting, without reflections, without obstructing objects, clear and legible.</Text>
+      <Divider height-10 />
+      <Text h12 white bold>If the photos are discarded, you will need to retake them for approval.</Text>
       <View style={Styles.container}>
         <DropDownPicker
           {...typeIdentification}
-          label={i18n.t('myProfile.dropDownCountry')}
+          label={i18n.t('myProfile.dropDownTypeIdentification')}
           options={items}
           //labelDefault={valueCountries?.name}
         />
         <Divider height-5 />
       </View>
-      <Divider height-20 />
+      <Divider height-10 />
       <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
-      <Divider height-20 />
-      <ButtonRounded
-        onPress={getCreateKYC}
-        disabled={false}
-        dark
-      >
-        <Text h14 semibold blue02>
-          {i18n.t('myProfile.buttonSaveChanges')}
-        </Text>
-      </ButtonRounded>
+      <Divider height-5 />
+      <View flex-1 row bottom >
+        <ButtonRounded
+          onPress={getCreateKYC}
+          disabled={false}
+          dark
+          size='sm'
+        >
+          <Text h14 semibold blue02>
+            {i18n.t('General.buttonSaveChanges')}
+          </Text>
+        </ButtonRounded>
+        <Divider width-10 />
+        <ButtonRounded
+          onPress={() => {
+            navigation.navigate('SignIn', {
+              screen: 'ProfilePicture',
+              merge: true
+            });
+          }}
+          //disabled={!isValid}
+          dark
+          size='sm'
+        >
+          <Text h14 blue02 semibold>
+            {i18n.t('General.buttonNext')}
+          </Text>
+        </ButtonRounded>
+      </View>
+      <Divider height-10 />
+      <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
     </BackgroundWrapper>
   );
 }

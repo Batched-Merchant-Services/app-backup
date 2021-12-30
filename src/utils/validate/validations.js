@@ -115,6 +115,31 @@ const Validations = {
       message: i18n.t('validations.postalCode')
     },
   },
+  suburb:{
+    presence: {
+      message: i18n.t('validations.suburb')
+    },
+  },
+  city:{
+    presence: {
+      message: i18n.t('validations.city')
+    },
+  },
+  state:{
+    presence: {
+      message: i18n.t('validations.state')
+    },
+  },
+  street:{
+    presence: {
+      message: i18n.t('validations.street')
+    },
+  },
+  number:{
+    presence: {
+      message: i18n.t('validations.number')
+    },
+  },
   gender: {
     presence: {
       message: i18n.t('validations.dropdownSelect')

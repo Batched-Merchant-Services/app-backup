@@ -23,16 +23,13 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
   const registerData = redux?.register;
   const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
   const accounts = userProfile?.accounts
-  const phone = useValidatedInput('phone', accounts?.phoneNumber);
-  const addressOne = useValidatedInput('addressOne', '');
-  const addressTwo = useValidatedInput('addressTwo', '');
+
   const suburb = useValidatedInput('suburb', '');
-  const municipality = useValidatedInput('municipality', '');
+  const city = useValidatedInput('city', '');
   const state = useValidatedInput('state', '');
   const street = useValidatedInput('street', '');
   const number = useValidatedInput('number', '');
   const zipCode = useValidatedInput('postalCode', '');
-  const email = useValidatedInput('email', accounts?.email);
   const [valueCountries, setValueCountries] = useState([]);
   const [items, setItems] = useState([
     { id: '1', value: 'value1', name: 'value1' },
@@ -41,6 +38,8 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
   const country = useValidatedInput('select', '', {
     changeHandlerSelect: 'onSelect'
   });
+  const isValid = isFormValid(suburb,city,state,street,number,zipCode);
+  console.log('accounts',dataUser?.dataUser)
 
 
   useEffect(() => {
@@ -62,10 +61,10 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
  
   function getUpdateAddress() {
     const dataUpdateAddress = {
-      id: accounts.address.id??'',
+      id: accounts?.address.id??'',
       accountId: userProfile.accountId??'',
       suburb: suburb?.value,
-      city: municipality?.value,
+      city: city?.value,
       country: country?.value,
       state: state?.value,
       street: street?.value,
@@ -84,14 +83,14 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
     const dataCreateAddress = {
       accountId: userProfile?.accountId ?? "",
       suburb: suburb?.value,
-      city: municipality?.value,
+      city: city?.value,
       country: country?.value,
       state: state?.value,
       street: street?.value,
       number: number?.value,
-      typeAddress: accounts.address.typeAddress??'',
+      typeAddress: accounts?.address?.typeAddress??'',
       zipCode: zipCode?.value,
-      shortName: accounts.address.shortName??'',
+      shortName: accounts?.address?.shortName??'',
       isComplete: true
     }
     dispatch(createAddress({ dataCreateAddress }))
@@ -104,13 +103,42 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
       <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
-        <StepIndicator step={2} totalSteps={2} />
+        <StepIndicator step={2} totalSteps={5} />
       </View>
       <Divider height-10 />
       <Text h14 blue02 regular>{i18n.t('myProfile.textContactInformation')}</Text>
       <Divider height-10 />
-      <Divider height-25 />
       <View style={Styles.container}>
+        <FloatingInput
+          {...street }
+          label={i18n.t('myProfile.inputStreet')}
+          autoCapitalize={'sentences'}
+        />
+        <Divider height-5 />
+        <FloatingInput
+          {...number}
+          label={i18n.t('myProfile.inputSuiteNumber')}
+          keyboardType="numeric"
+        />
+        <Divider height-5 />
+        <FloatingInput
+          {...suburb}
+          label={i18n.t('myProfile.inputSuburb')}
+          autoCapitalize={'sentences'}
+        />
+        <Divider height-5 />
+        <FloatingInput
+          {...city}
+          label={i18n.t('myProfile.inputCity')}
+          autoCapitalize={'sentences'}
+        />
+        <Divider height-5 />
+        <FloatingInput
+          {...state}
+          label={i18n.t('myProfile.inputState')}
+          autoCapitalize={'sentences'}
+        />
+        <Divider height-5 />
         <DropDownPicker
           {...country}
           label={i18n.t('myProfile.dropDownCountry')}
@@ -119,49 +147,43 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
         />
         <Divider height-5 />
         <FloatingInput
-          {...phone}
-          editable={false}
-          label={i18n.t('myProfile.inputPhone')}
-          autoCapitalize={'none'}
-        />
-        <Divider height-5 />
-        <FloatingInput
-          {...addressOne}
-          label={i18n.t('myProfile.inputAddressOne')}
-          autoCapitalize={'none'}
-        />
-        <Divider height-5 />
-        <FloatingInput
-          {...addressTwo}
-          label={i18n.t('myProfile.inputAddressTwo')}
-          autoCapitalize={'none'}
-        />
-        <Divider height-5 />
-        <FloatingInput
-          {...postalCode}
+          {...zipCode}
           label={i18n.t('myProfile.inputPostalCode')}
-          autoCapitalize={'none'}
-        />
-        <Divider height-5 />
-        <FloatingInput
-          {...email}
-          editable={false}
-          label={i18n.t('myProfile.inputEmail')}
-          autoCapitalize={'none'}
+          keyboardType='numeric'
         />
       </View>
-      <Divider height-20 />
+      <Divider height-10 />
       <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
-      <Divider height-20 />
-      <ButtonRounded
-        onPress={getCreateAddress}
-        disabled={false}
-        dark
-      >
-        <Text h14 semibold blue02>
-          {i18n.t('myProfile.buttonSaveChanges')}
-        </Text>
-      </ButtonRounded>
+      <View flex-1 row bottom >
+        <ButtonRounded
+          onPress={getCreateAddress}
+          disabled={!isValid}
+          dark
+          size='sm'
+        >
+          <Text h14 semibold blue02>
+            {i18n.t('General.buttonSaveChanges')}
+          </Text>
+        </ButtonRounded>
+        <Divider width-10 />
+        <ButtonRounded
+          onPress={() => {
+            navigation.navigate('SignIn', {
+              screen: 'VerificationInformation',
+              merge: true
+            });
+          }}
+          //disabled={!isValid}
+          dark
+          size='sm'
+        >
+          <Text h14 blue02 semibold>
+            {i18n.t('General.buttonNext')}
+          </Text>
+        </ButtonRounded>
+      </View>
+      <Divider height-10 />
+      <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
     </BackgroundWrapper>
   );
 }
