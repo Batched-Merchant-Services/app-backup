@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import {
   Text,
   View,
   Divider,
+  ImageResize,
   StepIndicator,
   FloatingInput,
   ButtonRounded,
@@ -15,6 +16,21 @@ import Styles from './styles'
 import i18n from '@utils/i18n';
 import { getCountries } from '../../store/actions/register.actions';
 import { createAddress, createKYC, editAddress, editKYC } from '../../store/actions/profile.actions';
+import ImagePicker from 'react-native-image-picker';
+import { TouchableOpacity,Platform } from 'react-native';
+import Front from '@assets/icons/blue-frontId.png';
+import Back from '@assets/icons/blue-backId.png';
+import Selfie from '@assets/icons/blue-selfie.png';
+import Address from '@assets/icons/blue-address.png';
+import { scale, verticalScale } from 'react-native-size-matters';
+import Colors from "@styles/Colors";
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
+const options = {
+  title: 'Choose an Image',
+  includeBase64: true
+};
+
 
 const ContactInformation = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -47,17 +63,20 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
 
   // }, [dispatch]);
 
- 
+
+
+
+
   function getUpdateAddress() {
     const dataUpdateKYC = {
-      id: accounts.kyc.id?? "",
-      accountId: userProfile.accountId?? "",
-      frontId:'',
+      id: accounts.kyc.id ?? "",
+      accountId: userProfile.accountId ?? "",
+      frontId: '',
       backId: '',
       faceId: '',
       typeIdentification: typeIdentification,
       documentId: '',
-      kycid: accounts.kyc.kycid?? "0",
+      kycid: accounts.kyc.kycid ?? "0",
       isComplete: true
     }
     dispatch(editKYC({ dataUpdateKYC }))
@@ -67,18 +86,42 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
 
   function getCreateKYC() {
     const dataCreateKYC = {
-      accountId: userProfile.accountId?? "",
-      frontId:'',
+      accountId: userProfile.accountId ?? "",
+      frontId: '',
       backId: '',
       faceId: '',
       typeIdentification: '',
-      documentId:'',
-      kycid: accounts.kyc.kycid?? "0",
+      documentId: '',
+      kycid: accounts.kyc.kycid ?? "0",
       status: "0",
       isComplete: true
     }
     dispatch(createKYC({ dataCreateKYC }))
   }
+
+
+  function handleImageFront() {
+    launchImageLibrary(options, (response) => { // Use launchImageLibrary to open image gallery
+      console.log('Response = ', response);
+    
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = 'data:image/jpeg;base64,' + response?.assets[0].base64;
+
+    
+        // You can also display the image using data:
+        // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+    
+        console.log(source)
+      }
+    });
+  }
+
 
 
   return (
@@ -96,16 +139,76 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
       <Text h12 white light>To be approved, photos must be taken in good lighting, without reflections, without obstructing objects, clear and legible.</Text>
       <Divider height-10 />
       <Text h12 white bold>If the photos are discarded, you will need to retake them for approval.</Text>
+      <Divider height-10 />
       <View style={Styles.container}>
         <DropDownPicker
           {...typeIdentification}
           label={i18n.t('myProfile.dropDownTypeIdentification')}
           options={items}
-          //labelDefault={valueCountries?.name}
+        //labelDefault={valueCountries?.name}
         />
         <Divider height-5 />
+        <Fragment>
+          <View blue02 padding-5>
+            <Text h12 white semibold>Front*</Text>
+          </View>
+          <TouchableOpacity onPress={handleImageFront}>
+            <View flex-1 centerH centerV height-150 textBlue01 style={{ borderColor: Colors.blue02, borderWidth: 1 }}>
+              <ImageResize
+                source={Front}
+                width={scale(130)}
+                height={verticalScale(130)}
+              />
+            </View>
+          </TouchableOpacity>
+        </Fragment>
+        <Divider height-15 />
+        <Fragment>
+          <View blue02 padding-5>
+            <Text h12 white semibold>Back*</Text>
+          </View>
+          <TouchableOpacity >
+            <View flex-1 centerH centerV height-160 textBlue01 style={{ borderColor: Colors.blue02, borderWidth: 1 }}>
+              <ImageResize
+                source={Back}
+                width={scale(130)}
+                height={verticalScale(130)}
+              />
+            </View>
+          </TouchableOpacity>
+        </Fragment>
+        <Divider height-15 />
+        <Fragment>
+          <View blue02 padding-5>
+            <Text h12 white semibold>Your photo holding your ID in front*</Text>
+          </View>
+          <TouchableOpacity >
+            <View flex-1 centerH centerV height-160 textBlue01 style={{ borderColor: Colors.blue02, borderWidth: 1 }}>
+              <ImageResize
+                source={Selfie}
+                width={scale(130)}
+                height={verticalScale(130)}
+              />
+            </View>
+          </TouchableOpacity>
+        </Fragment>
+        <Divider height-15 />
+        <Fragment>
+          <View blue02 padding-5>
+            <Text h12 white semibold>Proof of address*</Text>
+          </View>
+          <TouchableOpacity >
+            <View flex-1 centerH centerV height-160 textBlue01 style={{ borderColor: Colors.blue02, borderWidth: 1 }}>
+              <ImageResize
+                source={Address}
+                width={scale(130)}
+                height={verticalScale(130)}
+              />
+            </View>
+          </TouchableOpacity>
+        </Fragment>
       </View>
-      <Divider height-10 />
+      <Divider height-15 />
       <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
       <Divider height-5 />
       <View flex-1 row bottom >

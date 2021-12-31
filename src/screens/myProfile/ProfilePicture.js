@@ -18,6 +18,7 @@ import upload from '@assets/icons/white-upload.png';
 import Styles from './styles'
 import i18n from '@utils/i18n';
 import Colors from '@styles/Colors';
+import { TouchableHighlight } from 'react-native';
 
 const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -28,9 +29,8 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
   const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
   const accounts = userProfile?.accounts
   return (
-    <BackgroundWrapper childrenLeft={Menu} menu showNavigation={true} navigation={navigation}>
+    <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
       <Text h14 blue02 regular>Profile picture:</Text>
-      <Divider height-10 />
       <View flex-1 centerH centerV>
         {/* {accounts?.avatarImage !== '' && (
           <ImageResize
@@ -40,18 +40,18 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
           />
         )} */}
         {accounts?.avatarImage !== '' && (
-          <View  width-320 height-320 blue02 >
+          <View  width-320 height-300 blue02 >
             <View flex-1 centerH centerV>
               <Text semibold white style={{ fontSize: 110 }}>{accounts?.alias}</Text>
             </View>
-            <View flex-1 right bottom style={{width:'100%'}}>
-            <View blue04 width-40 height-40 centerV centerH >
+            <View right bottom style={{width:'100%'}}>
+            <TouchableHighlight style={[Styles.containerProfile,{backgroundColor:Colors.blue04}]} >
               <ImageResize
                 source={upload}
-                height={verticalScale(30)}
-                width={scale(30)}
+                height={verticalScale(28)}
+                width={scale(28)}
               />
-            </View>
+            </TouchableHighlight>
             </View>
             
           </View>

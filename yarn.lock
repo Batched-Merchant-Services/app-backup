@@ -5951,6 +5951,11 @@
   "resolved" "https://registry.npmjs.org/react-native-image-base64/-/react-native-image-base64-0.1.4.tgz"
   "version" "0.1.4"
 
+"react-native-image-picker@^4.6.1":
+  "integrity" "sha512-JkxToOgT3FsaiU8I5QCZnUFg87r3jIzlKkWM8/CKRo6ixpW9usP/tnL3nAHb3Vfx3A4iNtV3WdcoCrlmIyoC4Q=="
+  "resolved" "https://registry.npmjs.org/react-native-image-picker/-/react-native-image-picker-4.6.1.tgz"
+  "version" "4.6.1"
+
 "react-native-image-resizer@^1.4.5":
   "integrity" "sha512-33EgL3C9pyvjKpullAB6fWyD5QhoYEpNNB9rxNvUsrpAnL2mHBW7PTrUCCZudJeB6Weg7nbweKrSw1nnto5aqg=="
   "resolved" "https://registry.npmjs.org/react-native-image-resizer/-/react-native-image-resizer-1.4.5.tgz"
