@@ -6,6 +6,7 @@ import {
   Divider,
   ImageResize,
   ButtonRounded,
+  StepIndicator,
   BackgroundWrapper
 } from '@components';
 import { useSelector } from 'react-redux';
@@ -30,6 +31,10 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
   const accounts = userProfile?.accounts
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
+      <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
+      <StepIndicator step={4} totalSteps={5} />
+      </View>
+      <Divider height-10 />
       <Text h14 blue02 regular>Profile picture:</Text>
       <View flex-1 centerH centerV>
         {/* {accounts?.avatarImage !== '' && (

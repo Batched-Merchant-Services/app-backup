@@ -12,6 +12,7 @@ import DropDownPicker from '@components/DropDownPicker';
 import LinksTerms from '@components/LinksTerms';
 import NavigationBar from '@components/NavigationBar';
 import UploadFile from '@components/UploadFile';
+import ImageUploadPiker from '@components/ImageUploadPiker';
 import PinInput from '@components/PinInput';
 import DatePicker from '@components/DatePicker';
 import SnackNotice from '@components/SnackNotice';
@@ -31,8 +32,8 @@ export {
   NavigationBar,
   StepIndicator,
   ButtonRounded,
-  DropDownPicker,
-  BackgroundWrapper,
   FloatingInput,
-  
+  DropDownPicker,
+  ImageUploadPiker,
+  BackgroundWrapper
 };

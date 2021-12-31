@@ -4,7 +4,8 @@ import {
   USER_ERROR,
   CLEAN_DATA_USER,
 	SET_FILE_URL,
-	SET_FILE_URL_SUCCESS
+	SET_FILE_URL_SUCCESS,
+  SET_FILE_URL_ERROR
 } from '../constants';
 
 import { GET_USER_BATCHED,SET_FILE } from '@utils/api/queries/user.queries';
@@ -63,11 +64,11 @@ export const setFile = ({nameFile,resultBase}) => async (dispatch) => {
         dispatch({ type: SET_FILE_URL_SUCCESS, payload: response?.data['setFile'] });
       }
     }).catch((error) => {
-      dispatch({ type: USER_ERROR, payload: error });
+      dispatch({ type: SET_FILE_URL_ERROR, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    dispatch({ type: USER_ERROR, payload: error });
+    dispatch({ type: SET_FILE_URL_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
 };

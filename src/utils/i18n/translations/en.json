@@ -315,6 +315,22 @@
         "inputCountry":"Country",
         "inputState":"State",
         "buttonExit":"Exit"
+       },
+       "kyc":{
+          "tittleOfficialDocuments":"Official Documents:",
+          "textYourImagesShould":"Your images should have good lighting readability",
+          "textTheFormatMust":"The format must be .jpg or .png",
+          "textTheMaximumSizeIs":"The maximum size is 2.5 MB",
+          "textToBeApprovedPhotos":"To be approved, photos must be taken in good lighting, without reflections, without obstructing objects, clear and legible.",
+          "textIfThePhotosAreDiscarded":"If the photos are discarded, you will need to retake them for approval.",
+          "buttonImageFront":"Front*",
+          "buttonImageBack":"Back*",
+          "buttonSelfie":"Your photo holding your ID in front*",
+          "buttonProofOfAddress":"Proof of address*"
+       },
+       "errors":{
+        "textRejectedImage":"Rejected image, please take it again.",
+        "textUserCancelledImage":"User cancelled image picker"
        }
     },
     "contact":{

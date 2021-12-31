@@ -4,15 +4,19 @@ import {
 	USER_ERROR,
 	CLEAN_DATA_USER,
 	SET_FILE_URL,
-	SET_FILE_URL_SUCCESS
+	SET_FILE_URL_SUCCESS,
+	SET_FILE_URL_ERROR
 } from '../constants';
 
 export const initialState = {
 	isLoadingData: false,
 	showErrorUser: false,
+	showErrorFile:false,
 	setFile:null,
 	dataUser: [],
 	error: {},
+	errorFile: {}
+	
 };
 
 export default userReducer = (state = initialState, action) => {
@@ -40,6 +44,13 @@ export default userReducer = (state = initialState, action) => {
 				setFile: action.payload,
 				error: {},
 			};
+			case SET_FILE_URL_ERROR:
+			return {
+				...state,
+				isLoadingData: false,
+				showErrorFile: true,
+				errorFile: action.payload,
+			};
 		case USER_ERROR:
 			return {
 				...state,
@@ -53,8 +64,10 @@ export default userReducer = (state = initialState, action) => {
 				...state,
 				isLoadingData: false,
 				showErrorUser: false,
+				showErrorFile:false,
 				dataUser: null,
 				error: {},
+				errorFile: {}
 			};
 
 		default:
