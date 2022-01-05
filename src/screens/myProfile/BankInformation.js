@@ -3,10 +3,10 @@ import {
   Text,
   View,
   Divider,
+  SnackNotice,
   StepIndicator,
   FloatingInput,
   ButtonRounded,
-  DropDownPicker,
   BackgroundWrapper
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,26 +14,29 @@ import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import Styles from './styles'
 import i18n from '@utils/i18n';
 import { getCountries } from '../../store/actions/register.actions';
-import { createAddress, editAddress } from '../../store/actions/profile.actions';
+import { createBankInfo,editBankInfo } from '../../store/actions/profile.actions';
 import { generateRSA } from '@utils/api/encrypt';
+import Loading from '../Loading';
 const BankInformation = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
   const dispatch = useDispatch();
   const dataUser = redux?.user;
   const registerData = redux?.register;
   const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
-  const accounts = userProfile?.accounts
-  const phone = useValidatedInput('phone', accounts?.phoneNumber);
-  const bankName = useValidatedInput('bankName', '');
-  const routingNumber = useValidatedInput('routingNumber', '');
-  const accountNumber = useValidatedInput('accountNumber', '');
-  const beneficiary = useValidatedInput('beneficiary', '');
-  const bankAddress = useValidatedInput('bankAddress', '');
-  const bankCity = useValidatedInput('bankCity', '');
-  const bankZipCode = useValidatedInput('bankZipCode', '');
-  const bankCountry = useValidatedInput('bankCountry', '');
-  const bankSate = useValidatedInput('bankSate', '');
-  const clabeInterbank = useValidatedInput('clabeInterbank', '');
+  const accounts = userProfile?.accounts;
+  const profile = redux?.profile;
+  const bank = accounts?.bankInformation?.length > 0 ? accounts?.bankInformation[0]:'';
+  const phone = useValidatedInput('phone',bank?.phoneNumber);
+  const bankName = useValidatedInput('bankName', bank?.bankName);
+  const routingNumber = useValidatedInput('routingNumber', bank?.routingNumber);
+  const accountNumber = useValidatedInput('accountNumber', bank?.accountNumber);
+  const beneficiary = useValidatedInput('beneficiary', bank?.beneficiary);
+  const bankAddress = useValidatedInput('bankAddress',  bank?.streetAddress);
+  const bankCity = useValidatedInput('bankCity',  bank?.city);
+  const bankZipCode = useValidatedInput('bankZipCode', bank?.postalCode);
+  const bankCountry = useValidatedInput('bankCountry', bank?.countryCode);
+  const bankSate = useValidatedInput('bankSate', bank?.state);
+  const swiftCode = useValidatedInput('swiftCode', bank?.swiftCode);
   const [valueCountries, setValueCountries] = useState([]);
   const [items, setItems] = useState([
     { id: '1', value: 'value1', name: 'value1' },
@@ -42,6 +45,7 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
   const country = useValidatedInput('select', '', {
     changeHandlerSelect: 'onSelect'
   });
+  const error = useSelector(state => state?.profile?.errorProfile);
 
 
   useEffect(() => {
@@ -54,30 +58,47 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
     if (registerData?.countries) {
       if (registerData?.countries?.length > 0) {
         setItems(registerData?.countries)
-        const valueCountry = registerData?.countries?.filter(key => console.log('key', key?.value === accounts?.countryCode));
+        const valueCountry = registerData?.countries?.filter(key => key?.value === bank?.country);
         setValueCountries(...valueCountry);
         //
       }
     }
   }
  
-  function getUpdateBankInformation() {
+  function updateBankInformation() {
     const dataUpdateBank = {
-      accountId: userProfile.accountId?? "",
+      id: bank.id,
+      accountId:  userProfile.accountId?? "",
       bankName: bankName?.value,
-      accountNumber:generateRSA(accountNumber?.value),
-      routingNumber: generateRSA(clabeInterbank?.value)
+      accountNumber: generateRSA(accountNumber?.value),
+      routingNumber: generateRSA(routingNumber?.value),
+      beneficiary: beneficiary?.value,
+      phoneNumber: phone?.value,
+      swiftCode: swiftCode?.value,
+      streetAddress: bankAddress?.value,
+      city: bankCity?.value,
+      postalCode: bankZipCode?.value,
+      state: bankSate?.value,
+      countryCode: bankCountry?.value
     }
     dispatch(editBankInfo({ dataUpdateBank }))
   }
 
 
-  function getCreateBankInformation() {
+  function createBankInformation() {
     const dataCreateBank = {
-      accountId: userProfile.accountId?? "",
+      accountId:  userProfile.accountId?? "",
       bankName: bankName?.value,
-      accountNumber:generateRSA(accountNumber?.value),
-      routingNumber: generateRSA(clabeInterbank?.value)
+      accountNumber: generateRSA(accountNumber?.value),
+      routingNumber:generateRSA(routingNumber?.value),
+      beneficiary: beneficiary?.value,
+      phoneNumber: phone?.value,
+      swiftCode: swiftCode?.value,
+      streetAddress: bankAddress?.value,
+      city: bankCity?.value,
+      postalCode: bankZipCode?.value,
+      state: bankSate?.value,
+      countryCode: bankCountry?.value
     }
     dispatch(createBankInfo({ dataCreateBank }))
   }
@@ -94,68 +115,73 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
         <FloatingInput
           {...bankName}
           label={i18n.t('myProfile.bankInformation.inputBankName')}
-          autoCapitalize={'none'}
+         autoCapitalize={'sentences'}
         />
         <Divider height-5 />
         <FloatingInput
           {...routingNumber}
           label={i18n.t('myProfile.bankInformation.inputRoutingNumber')}
-          autoCapitalize={'none'}
+          keyboardType="numeric"
         />
         <Divider height-5 />
         <FloatingInput
           {...accountNumber}
           label={i18n.t('myProfile.bankInformation.inputAccountNumber')}
-          autoCapitalize={'none'}
-        />
-        <Divider height-5 />
-        <FloatingInput
-          {...phone}
-          label={i18n.t('myProfile.bankInformation.inputPhoneNumber')}
-          autoCapitalize={'none'}
+         autoCapitalize={'sentences'}
         />
         <Divider height-5 />
         <FloatingInput
           {...beneficiary}
+          label={i18n.t('myProfile.bankInformation.inputBeneficiary')}
+         autoCapitalize={'sentences'}
+        />
+        <FloatingInput
+          {...phone}
+          label={i18n.t('myProfile.bankInformation.inputPhoneNumber')}
+          keyboardType="numeric"
+        />
+        <Divider height-5 />
+        <FloatingInput
+          {...swiftCode}
           label={i18n.t('myProfile.bankInformation.inputSWIFTCode')}
-          autoCapitalize={'none'}
+         autoCapitalize={'sentences'}
         />
         <Divider height-5 />
         <FloatingInput
           {...bankAddress}
           label={i18n.t('myProfile.bankInformation.inputBankStreetAddress')}
-          autoCapitalize={'none'}
+         autoCapitalize={'sentences'}
         />
         <Divider height-5 />
         <FloatingInput
           {...bankCity}
           label={i18n.t('myProfile.bankInformation.inputCity')}
-          autoCapitalize={'none'}
+         autoCapitalize={'sentences'}
         />
         <Divider height-5 />
         <FloatingInput
           {...bankZipCode}
           label={i18n.t('myProfile.bankInformation.inputZipCode')}
-          autoCapitalize={'none'}
+         autoCapitalize={'sentences'}
         />
         <Divider height-5 />
         <FloatingInput
           {...bankCountry}
           label={i18n.t('myProfile.bankInformation.inputCountry')}
-          autoCapitalize={'none'}
+         autoCapitalize={'sentences'}
         />
         <Divider height-5 />
         <FloatingInput
           {...bankSate}
           label={i18n.t('myProfile.bankInformation.inputState')}
-          autoCapitalize={'none'}
+         autoCapitalize={'sentences'}
         />
       </View>
       <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
       <Divider height-10 />
       <View flex-1 row bottom >
         <ButtonRounded
-          onPress={getCreateBankInformation}
+          onPress={accounts?.bankInformation?.length > 0? updateBankInformation:createBankInformation}
           disabled={false}
           dark
           size='sm'
@@ -183,6 +209,14 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
       </View>
       <Divider height-10 />
       <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
+      <Loading modalVisible={profile?.isLoadingProfile} />
+      <View flex-1 bottom>
+        <SnackNotice
+          visible={error}
+          message={profile?.error?.message}
+          timeout={3000}
+        />
+      </View>
     </BackgroundWrapper>
   );
 }

@@ -12,9 +12,13 @@ import {
   EDIT_BANK_INFO_SUCCESS,
   EDIT_KYC,
   EDIT_KYC_SUCCESS,
+  TYPE_IDENTIFICATION,
+  TYPE_IDENTIFICATION_SUCCESS,
   PROFILE_ERROR,
   UPDATE_PROFILE_INFO, 
-  UPDATE_PROFILE_INFO_SUCCESS 
+  UPDATE_PROFILE_INFO_SUCCESS,
+  UPDATE_PROFILE_AVATAR,
+  UPDATE_PROFILE_AVATAR_SUCCESS 
 } from '../constants';
 import { 
   CREATE_ADDRESS_QUERY, 
@@ -26,12 +30,14 @@ import {
   EDIT_KYC_QUERY 
 } from '@utils/api/queries/profile.queries';
 import { toggleSnackbarOpen } from './app.actions';
+import { getLanguage } from '@utils/api/getLanguage';
 import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
+import i18n from '@utils/i18n';
+import { GET_TYPE_IDENTIFICATION } from '../../utils/api/queries/dropdown.queries';
 
 
 export const updateUserProfileInfo = ({dataProfile}) => async (dispatch) => {
- 
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: UPDATE_PROFILE_INFO });
@@ -43,24 +49,46 @@ export const updateUserProfileInfo = ({dataProfile}) => async (dispatch) => {
         data: dataProfile
       },
     }).then(async (response) => {
-      console.log('response update prof',response)
       if (response.data) {
         dispatch({ type: UPDATE_PROFILE_INFO_SUCCESS, payload: response?.data['editAccountData'] });
       }
     }).catch((error) => {
-      console.log('error update 1',error)
       dispatch({ type: PROFILE_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('error update 2',error)
     dispatch({ type: PROFILE_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
 };
 
+export const updateUserAvatar = ({dataUpdateAvatar}) => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: UPDATE_PROFILE_AVATAR });
+   
+    client.mutate({
+      mutation: EDIT_ACCOUNT,
+      variables: {
+        token:token,
+        data: dataUpdateAvatar
+      },
+    }).then(async (response) => {
+      if (response.data) {
+        dispatch({ type: UPDATE_PROFILE_AVATAR_SUCCESS, payload: response?.data['editAccountData'] });
+      }
+    }).catch((error) => {
+      dispatch({ type: PROFILE_ERROR , payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    dispatch({ type: PROFILE_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
+  }
+};
+
+
 export const createAddress = ({dataCreateAddress}) => async (dispatch) => {
-  console.log('dataCreateAddress',dataCreateAddress)
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: CREATE_ADDRESS });
@@ -72,23 +100,21 @@ export const createAddress = ({dataCreateAddress}) => async (dispatch) => {
         data: dataCreateAddress
       },
     }).then(async (response) => {
-      console.log('response update address',response)
       if (response.data) {
         dispatch({ type: CREATE_ADDRESS_SUCCESS, payload: response?.data['createAccountsAddress'] });
       }
     }).catch((error) => {
-      console.log('error address 1',error)
       dispatch({ type: PROFILE_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('error address 2',error)
     dispatch({ type: PROFILE_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
 };
 
-export const editAddress = ({dataEditAddress}) => async (dispatch) => {
+
+export const editAddress = ({ dataUpdateAddress}) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: EDIT_ADDRESS });
@@ -97,7 +123,7 @@ export const editAddress = ({dataEditAddress}) => async (dispatch) => {
       mutation: EDIT_ADDRESS_QUERY,
       variables: {
         token:token,
-        data: dataEditAddress
+        data: dataUpdateAddress
       },
     }).then(async (response) => {
       if (response.data) {
@@ -112,6 +138,7 @@ export const editAddress = ({dataEditAddress}) => async (dispatch) => {
     dispatch(toggleSnackbarOpen(error));
   }
 };
+
 
 export const editKYC = ({dataKYC}) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
@@ -139,8 +166,7 @@ export const editKYC = ({dataKYC}) => async (dispatch) => {
 };
 
 
-
-export const createKYC = ({dataKYC}) => async (dispatch) => {
+export const createKYC = ({dataCreateKYC}) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: CREATE_KYC });
@@ -149,7 +175,7 @@ export const createKYC = ({dataKYC}) => async (dispatch) => {
       mutation: CREATE_KYC_QUERY,
       variables: {
         token:token,
-        data: dataKYC
+        data: dataCreateKYC
       },
     }).then(async (response) => {
       if (response.data) {
@@ -167,7 +193,7 @@ export const createKYC = ({dataKYC}) => async (dispatch) => {
 
 
 
-export const createBankInfo = ({dataKYC}) => async (dispatch) => {
+export const createBankInfo = ({dataCreateBank}) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: CREATE_BANK_INFO });
@@ -176,7 +202,7 @@ export const createBankInfo = ({dataKYC}) => async (dispatch) => {
       mutation: CREATE_BANK_INFO_QUERY,
       variables: {
         token:token,
-        data: dataKYC
+        data: dataCreateBank
       },
     }).then(async (response) => {
       if (response.data) {
@@ -193,7 +219,7 @@ export const createBankInfo = ({dataKYC}) => async (dispatch) => {
 };
 
 
-export const editBankInfo = ({dataKYC}) => async (dispatch) => {
+export const editBankInfo = ({dataUpdateBank}) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: EDIT_BANK_INFO });
@@ -202,7 +228,7 @@ export const editBankInfo = ({dataKYC}) => async (dispatch) => {
       mutation: EDIT_BANK_INFO_QUERY,
       variables: {
         token:token,
-        data: dataKYC
+        data: dataUpdateBank
       },
     }).then(async (response) => {
       if (response.data) {
@@ -218,6 +244,47 @@ export const editBankInfo = ({dataKYC}) => async (dispatch) => {
   }
 };
 
+
+export const getTypeIdentification = ({countryCode}) => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: TYPE_IDENTIFICATION });
+   
+    client.query({
+      query: GET_TYPE_IDENTIFICATION,
+      variables: {
+        token:token,
+        id: `Identificacion-${countryCode}`,
+        languaje:getLanguage()
+      },
+    }).then(async (response) => {
+      if (response.data) {
+        nameTypeIdentification(response.data);
+        dispatch({ type: TYPE_IDENTIFICATION_SUCCESS, payload: nameTypeIdentification(response.data) });
+      }
+    }).catch((error) => {
+      dispatch({ type: PROFILE_ERROR , payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    dispatch({ type: PROFILE_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
+  }
+};
+
+export const nameTypeIdentification = (data) => {
+  const typeIdentificationArray = [];
+  data['getUserCombo'].forEach(typeIdentification => {
+    console.log('typeIdentification',typeIdentification)
+    typeIdentificationArray.push(
+      {
+        value: typeIdentification.value,
+        name: `${i18n.t(typeIdentification.description)}`
+      }
+    )
+  });
+  return typeIdentificationArray;
+};
 
 
 

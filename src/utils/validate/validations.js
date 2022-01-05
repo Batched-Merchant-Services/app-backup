@@ -187,7 +187,8 @@ const Validations = {
       maximum: 6,
       message: i18n.t('validations.codeSms')
     },
-  }
+  },
+  
   
 
 };

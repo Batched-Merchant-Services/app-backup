@@ -32,7 +32,6 @@ const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, image
   const redux = useSelector(state => state);
   const userData = redux?.user;
   const brandTheme = userData?.Theme?.colors;
-  const [singleFile, setSingleFile] = useState(null);
   const [fileError, setFileError] = useState('pending');
 
   const errorFile = useSelector(state => state?.user?.showErrorFile);
@@ -50,9 +49,11 @@ const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, image
     }
     switch (typeImage) {
       case 'front':
+        console.log('front',userData?.setFile)
         onChangeText(userData?.setFile)
         setFileError(null);
       case 'back':
+        console.log('back',userData?.setFile)
         onChangeText(userData?.setFile)
         setFileError(null);
       case 'address':
@@ -67,17 +68,25 @@ const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, image
 
   function handleImages(value) {
     launchImageLibrary(options, (response) => {
+
+      
+
       if (response.didCancel) {
         console.log('User cancelled image picker');
-      } else if (response.error) {
+      }else if (response.error) {
         setFileError(response.error);
       } else if (response.customButton) {
         console.log('User tapped custom button:', response.customButton);
       } else {
-        if (response.assets) {
-          const source = { uri: 'data:image/jpeg;base64,' + response?.assets[0]?.base64, name: response?.assets[0]?.fileName }
-          uploadImage(source, value);
+        if (response?.assets[0]?.fileName.match(/\.(jpg|jpeg|png|gif)$/)) {
+          if (response.assets) {
+            const source = { uri: 'data:image/jpeg;base64,' + response?.assets[0]?.base64, name: response?.assets[0]?.fileName }
+            uploadImage(source, value);
+          }
+        }else{
+          setFileError('Imagen rechazada, favor de volver a tomarla.');
         }
+        
       }
     });
   }
@@ -91,23 +100,27 @@ const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, image
       } else if (response.customButton) {
         console.log('User tapped custom button:', response.customButton);
       } else {
-        if (response.assets) {
-          const source = { uri: 'data:image/jpeg;base64,' + response?.assets[0]?.base64, name: response?.assets[0]?.fileName }
-          uploadImage(source, value);
+        if (response?.assets[0]?.fileName.match(/\.(jpg|jpeg|png|gif)$/)) {
+          if (response.assets) {
+            const source = { uri: 'data:image/jpeg;base64,' + response?.assets[0]?.base64, name: response?.assets[0]?.fileName }
+            uploadImage(source, value);
+          }
+        }else{
+          setFileError('Imagen rechazada, favor de volver a tomarla.');
         }
       }
     });
   }
-
+  console.log('value',value?true:false);
   return (
     <Fragment>
       <View blue02 padding-5>
         <Text h12 white semibold>{label}</Text>
       </View>
-      <TouchableOpacity onPress={() => typeImage === 'selfie' ? handleImagesSelfie(typeImage) : handleImages(typeImage)}>
+      <TouchableOpacity onPress={() => typeImage === 'selfie' ? handleImages(typeImage) : handleImages(typeImage)}>
         <View flex-1 centerH centerV height-160 textBlue01 style={fileError === 'pending' ? { borderColor: Colors.blue02, borderWidth: 1 } : fileError ? { borderColor: brandTheme?.error ?? Colors.error, borderWidth: 1 } : { borderColor: brandTheme?.success ?? Colors.success, borderWidth: 1 }}>
           <ImageResize
-            source={value ? { uri: value } : imageEmpty}
+            source={value ? { uri: 'https://uulala-public.s3-us-west-2.amazonaws.com/Accounts/AccountManagement/AttachFiles/image-step-four.svg' } : imageEmpty}
             width={value ? '80%' : scale(130)}
             height={value ? '80%' : verticalScale(130)}
           />

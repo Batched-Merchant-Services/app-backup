@@ -12,6 +12,10 @@ import {
   EDIT_BANK_INFO_SUCCESS,
   EDIT_KYC,
   EDIT_KYC_SUCCESS,
+  TYPE_IDENTIFICATION,
+  TYPE_IDENTIFICATION_SUCCESS,
+  UPDATE_PROFILE_AVATAR,
+  UPDATE_PROFILE_AVATAR_SUCCESS,
   PROFILE_ERROR,
   UPDATE_PROFILE_INFO,
   UPDATE_PROFILE_INFO_SUCCESS
@@ -19,6 +23,7 @@ import {
 
 export const initialState = {
   isLoadingProfile: false,
+  errorProfile: false,
   finishProfileSuccess: false,
   successCreateAddress: false,
   successCreateKYC: false,
@@ -27,8 +32,12 @@ export const initialState = {
   successEditBankInfo: false,
   successEditBankInfo: false,
   successEditKYC: false,
-  successUpdateInfo:false,
-  dataUpdateProfile:null,
+  successTypeIdentification: false,
+  successUpdateAvatar: false,
+  imageProfile: null,
+  successUpdateInfo: false,
+  dataUpdateProfile: null,
+  dropDownIdentification: null,
   dataCreateKYC: null,
   dataCreateBankInfo: null,
   dataCreateBankInfo: null,
@@ -42,80 +51,102 @@ export const initialState = {
 export default profileReducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_PROFILE_INFO:
-      return { ...state, isLoadingProfile: true, errorPoints: false };
+      return { ...state, isLoadingProfile: true, errorProfile: false };
     case UPDATE_PROFILE_INFO_SUCCESS:
       return {
         ...state,
         isLoadingProfile: false,
         successUpdateInfo: true,
-        errorPoints: false,
+        errorProfile: false,
         dataUpdateProfile: action.payload,
         error: {}
       };
+    case UPDATE_PROFILE_AVATAR:
+      return { ...state, isLoadingProfile: true, errorProfile: false };
+    case UPDATE_PROFILE_AVATAR_SUCCESS:
+      return {
+        ...state,
+        isLoadingProfile: false,
+        successUpdateAvatar: true,
+        errorProfile: false,
+        imageProfile: action.payload,
+        error: {}
+      };
     case CREATE_ADDRESS:
-      return { ...state, isLoadingProfile: true, errorPoints: false };
+      return { ...state, isLoadingProfile: true, errorProfile: false };
     case CREATE_ADDRESS_SUCCESS:
       return {
         ...state,
         isLoadingProfile: false,
         successCreateAddress: true,
-        errorPoints: false,
+        errorProfile: false,
         dataCreateAddress: action.payload,
         error: {}
       };
     case EDIT_ADDRESS:
-      return { ...state, isLoadingProfile: true, errorPoints: false };
+      return { ...state, isLoadingProfile: true, errorProfile: false };
     case EDIT_ADDRESS_SUCCESS:
       return {
         ...state,
         isLoadingProfile: false,
         successEditAddress: true,
-        errorPoints: false,
+        errorProfile: false,
         dataCreateAddress: action.payload,
         error: {}
       };
     case CREATE_KYC:
-      return { ...state, isLoadingProfile: true, errorPoints: false };
+      return { ...state, isLoadingProfile: true, errorProfile: false };
     case CREATE_KYC_SUCCESS:
       return {
         ...state,
         isLoadingProfile: false,
         successCreateKYC: true,
-        errorPoints: false,
+        errorProfile: false,
         dataCreateKYC: action.payload,
         error: {}
       };
     case EDIT_KYC:
-      return { ...state, isLoadingProfile: true, errorPoints: false };
+      return { ...state, isLoadingProfile: true, errorProfile: false };
     case EDIT_KYC_SUCCESS:
       return {
         ...state,
         isLoadingProfile: false,
         successEditKYC: true,
-        errorPoints: false,
+        errorProfile: false,
         dataCreateKYC: action.payload,
         error: {}
       };
     case CREATE_BANK_INFO:
-      return { ...state, isLoadingProfile: true, errorPoints: false };
+      return { ...state, isLoadingProfile: true, errorProfile: false };
     case CREATE_BANK_INFO_SUCCESS:
       return {
         ...state,
         isLoadingProfile: false,
         successCreateBankInfo: true,
-        errorPoints: false,
+        errorProfile: false,
         dataCreateBankInfo: action.payload,
         error: {}
       };
     case EDIT_BANK_INFO:
-      return { ...state, isLoadingProfile: true, errorPoints: false };
+      return { ...state, isLoadingProfile: true, errorProfile: false };
     case EDIT_BANK_INFO_SUCCESS:
       return {
         ...state,
         isLoadingProfile: false,
         successEditBankInfo: true,
-        errorPoints: false,
+        errorProfile: false,
         dataCreateBankInfo: action.payload,
+        error: {}
+      };
+    case TYPE_IDENTIFICATION:
+      return { ...state, isLoadingProfile: true, errorProfile: false };
+    case TYPE_IDENTIFICATION_SUCCESS:
+      return {
+        ...state,
+        isLoadingProfile: false,
+        successTypeIdentification: true,
+        errorProfile: false,
+        dropDownIdentification: action.payload,
         error: {}
       };
     case PROFILE_ERROR:

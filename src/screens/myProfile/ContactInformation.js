@@ -3,6 +3,7 @@ import {
   Text,
   View,
   Divider,
+  SnackNotice,
   StepIndicator,
   FloatingInput,
   ButtonRounded,
@@ -15,6 +16,7 @@ import Styles from './styles'
 import i18n from '@utils/i18n';
 import { getCountries } from '../../store/actions/register.actions';
 import { createAddress, editAddress } from '../../store/actions/profile.actions';
+import Loading from '../Loading';
 
 const ContactInformation = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -22,14 +24,15 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
   const dataUser = redux?.user;
   const registerData = redux?.register;
   const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
-  const accounts = userProfile?.accounts
-
-  const suburb = useValidatedInput('suburb', '');
-  const city = useValidatedInput('city', '');
-  const state = useValidatedInput('state', '');
-  const street = useValidatedInput('street', '');
-  const number = useValidatedInput('number', '');
-  const zipCode = useValidatedInput('postalCode', '');
+  const accounts = userProfile?.accounts;
+  const profile = redux?.profile;
+  const address = accounts?.address?.length > 0 ? accounts?.address[0]:'';
+  const suburb = useValidatedInput('suburb', address?.suburb);
+  const city = useValidatedInput('city', address?.city);
+  const state = useValidatedInput('state', address?.state);
+  const street = useValidatedInput('street', address?.street);
+  const number = useValidatedInput('number', address?.number);
+  const zipCode = useValidatedInput('postalCode', address?.zipCode);
   const [valueCountries, setValueCountries] = useState([]);
   const [items, setItems] = useState([
     { id: '1', value: 'value1', name: 'value1' },
@@ -39,9 +42,9 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
     changeHandlerSelect: 'onSelect'
   });
   const isValid = isFormValid(suburb,city,state,street,number,zipCode);
-  console.log('accounts',dataUser?.dataUser)
+  const error = useSelector(state => state?.profile?.errorProfile);
 
-
+ 
   useEffect(() => {
     dispatch(getCountries());
     getShowCountry();
@@ -52,7 +55,7 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
     if (registerData?.countries) {
       if (registerData?.countries?.length > 0) {
         setItems(registerData?.countries)
-        const valueCountry = registerData?.countries?.filter(key => console.log('key', key?.value === accounts?.countryCode));
+        const valueCountry = registerData?.countries?.filter(key => key?.value === address?.country);
         setValueCountries(...valueCountry);
         //
       }
@@ -60,23 +63,23 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
   }
  
   function getUpdateAddress() {
+    const valueCountry = country?.value ?? '';
     const dataUpdateAddress = {
-      id: accounts?.address.id??'',
+      id: address?.id??'',
       accountId: userProfile.accountId??'',
       suburb: suburb?.value,
       city: city?.value,
-      country: country?.value,
+      country: valueCountry?.value,
       state: state?.value,
       street: street?.value,
       number: number?.value,
-      typeAddress: accounts.address.typeAddress??'',
+      typeAddress: address?.typeAddress??'',
       zipCode: zipCode?.value,
-      shortName: accounts.address.shortName??'',
+      shortName: address?.shortName??'',
       isComplete: true
     }
     dispatch(editAddress({ dataUpdateAddress }))
   }
-
 
 
   function getCreateAddress() {
@@ -96,9 +99,6 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
     dispatch(createAddress({ dataCreateAddress }))
   }
 
-
-
-  console.log('valueCountries', valueCountries, userProfile)
   //const isValid = isFormValid(firstName, mediumName, lastName, ssn, gender, birthDay);
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
@@ -156,7 +156,7 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
       <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
       <View flex-1 row bottom >
         <ButtonRounded
-          onPress={getCreateAddress}
+          onPress={accounts?.address?.length > 0 ? getUpdateAddress:getCreateAddress}
           disabled={!isValid}
           dark
           size='sm'
@@ -184,6 +184,14 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
       </View>
       <Divider height-10 />
       <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
+      <Loading modalVisible={profile?.isLoadingProfile} />
+      <View flex-1 bottom>
+        <SnackNotice
+          visible={error}
+          message={profile?.error?.message}
+          timeout={3000}
+        />
+      </View>
     </BackgroundWrapper>
   );
 }

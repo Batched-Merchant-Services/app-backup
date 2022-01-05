@@ -5,7 +5,8 @@ import {
 	CLEAN_DATA_USER,
 	SET_FILE_URL,
 	SET_FILE_URL_SUCCESS,
-	SET_FILE_URL_ERROR
+	SET_FILE_URL_ERROR,
+	CLEAN_DATA_FILE
 } from '../constants';
 
 export const initialState = {
@@ -66,6 +67,16 @@ export default userReducer = (state = initialState, action) => {
 				showErrorUser: false,
 				showErrorFile:false,
 				dataUser: null,
+				error: {},
+				errorFile: {}
+			};
+			case CLEAN_DATA_FILE:
+			return {
+				...state,
+				isLoadingData: false,
+				showErrorUser: false,
+				showErrorFile:false,
+				setFile: null,
 				error: {},
 				errorFile: {}
 			};

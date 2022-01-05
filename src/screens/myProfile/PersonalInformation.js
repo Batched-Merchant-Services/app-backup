@@ -5,6 +5,7 @@ import {
   Link,
   Divider,
   DatePicker,
+  SnackNotice,
   StepIndicator,
   FloatingInput,
   ButtonRounded,
@@ -20,6 +21,7 @@ import Styles from './styles'
 import i18n from '@utils/i18n';
 import { getGender } from '../../store/actions/register.actions';
 import { updateUserProfileInfo } from '../../store/actions/profile.actions';
+import Loading from '../Loading';
 
 
 const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
@@ -28,7 +30,8 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
   const dataUser = redux?.user;
   const registerData = redux?.register;
   const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
-  const accounts = userProfile?.accounts
+  const accounts = userProfile?.accounts;
+  const profile = redux?.profile;
   const firstName = useValidatedInput('firstName', accounts?.firstName + accounts?.middleName);
   const mediumName = useValidatedInput('', accounts?.mediumName);
   const lastName = useValidatedInput('lastName', accounts?.lastName);
@@ -46,46 +49,44 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
   const birthDay = useValidatedInput('select', accounts?.birthday, {
     changeHandlerSelect: 'onSelect'
   });
+  const error = useSelector(state => state?.profile?.errorProfile);
 
 
   useEffect(() => {
-      dispatch(getGender());
-      getShowGender();
+    dispatch(getGender());
+    getShowGender();
   }, [dispatch]);
 
   async function getShowGender() {
     if (registerData?.gender) {
-      if (registerData?.gender?.length >0) {
+      if (registerData?.gender?.length > 0) {
         setItems(registerData?.gender)
-        const valueGender = registerData?.gender?.filter(key => key?.value.toString() === accounts?.gender );
+        const valueGender = registerData?.gender?.filter(key => key?.value.toString() === accounts?.gender);
         setValueGender(...valueGender);
-      } 
+      }
     }
-   
   }
-
 
   function handleUpdateInfo() {
     const genderValues = gender?.value;
-    console.log('gender?.value',gender)
+    console.log('gender?.value', gender)
     const dataProfile = {
       id: accounts?.id ?? '',
-      firstName: firstName?.value??'',
-      middleName: mediumName?.value??'',
-      lastName: lastName?.value??'',
-      secondLastName: mediumName?.value??'',
+      firstName: firstName?.value ?? '',
+      middleName: mediumName?.value ?? '',
+      lastName: lastName?.value ?? '',
+      secondLastName: mediumName?.value ?? '',
       birthday: birthDay?.value,
       nationalId: '',
       otherNationalId: '',
-      gender: genderValues?.value??gender?.value,
+      gender: genderValues?.value ?? gender?.value,
       alias: accounts.alias ?? "",
       countryCode: accounts.countryCode ?? "",
       isComplete: true
-
     }
-
     dispatch(updateUserProfileInfo({ dataProfile }))
   }
+
 
   //const isValid = isFormValid(firstName, mediumName, lastName, ssn, gender, birthDay);
   return (
@@ -115,11 +116,11 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
           autoCapitalize={'none'}
         />
         <Divider height-5 />
-       <FloatingInput
+        <FloatingInput
           {...ssn}
           label={i18n.t('Register.inputSocialSecurityNumber')}
           autoCapitalize={'none'}
-        /> 
+        />
         <Divider height-5 />
         <DropDownPicker
           {...gender}
@@ -138,14 +139,14 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
           editable={false}
           label={i18n.t('Register.email')}
           autoCapitalize={'none'}
-        /> 
+        />
         <Divider height-5 />
         <FloatingInput
           {...phone}
           editable={false}
           label={i18n.t('myProfile.inputPhone')}
           autoCapitalize={'none'}
-        /> 
+        />
       </View>
       <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
       <Divider height-5 />
@@ -179,6 +180,14 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
       </View>
       <Divider height-10 />
       <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
+      <Loading modalVisible={profile?.isLoadingProfile} />
+      <View flex-1 bottom>
+        <SnackNotice
+          visible={error}
+          message={profile?.error?.message}
+          timeout={3000}
+        />
+      </View>
     </BackgroundWrapper>
   );
 }

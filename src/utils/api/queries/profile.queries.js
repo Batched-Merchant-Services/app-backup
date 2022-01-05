@@ -76,3 +76,4 @@ mutation ($token:String!, $data:AccountsBankInformationEditInputType!)
 
 
 
+

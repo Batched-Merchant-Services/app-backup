@@ -60,6 +60,46 @@ export const GET_USER_BATCHED = gql`
               pin
               customerId
               isComplete
+              address
+                {
+                  id
+                  city
+                  suburb
+                  country
+                  state
+                  street
+                  number
+                  typeAddress
+                  zipCode
+                  shortName
+                  isComplete
+                }
+                kyc{
+                  id
+                  typeIdentification
+                  frontId
+                  backId
+                  kycid
+                  faceId
+                  documentId
+                  status
+                  isComplete
+                }
+                bankInformation
+                {
+                  id
+                  bankName
+                  routingNumber
+                  accountNumber
+                  beneficiary
+                  phoneNumber
+                  swiftCode
+                  streetAddress
+                  city
+                  postalCode
+                  state
+                  countryCode
+                }
           }
 
       },

@@ -279,6 +279,13 @@
         "linkShowMore":"Show More"
       }
     },
+    "dropdown":{
+      "identificacion":{
+        "passport":"Passport",
+        "militar":"Militar",
+        "ine":"Ine"
+      }
+    },
     "myProfile":{
       "textMyProfile":"My profile",
       "textCompleted":"Completed",

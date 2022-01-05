@@ -7,9 +7,10 @@ import forgotPassword from '@store/reducers/forgotPassword.reducer';
 import licenses from '@store/reducers/licenses.reducer';
 import rewards from '@store/reducers/rewards.reducer';
 import points from '@store/reducers/points.reducer';
+import profile from '@store/reducers/profile.reducer';
 
 
-const rootReducer = combineReducers({ app, user,auth,register,forgotPassword,licenses,rewards,points });
+const rootReducer = combineReducers({ app, user,auth,register,forgotPassword,licenses,rewards,points,profile });
 
 export default rootReducer;
 

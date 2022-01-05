@@ -245,7 +245,13 @@
         "textRejectedImage":"Imagen rechazada, favor de volver a tomarla.",
         "textUserCancelledImage":"User cancelled image picker"
       }
-   
+    },
+    "dropdown":{
+      "identificacion":{
+        "passport":"Passport",
+        "militar":"Militar",
+        "ine":"Ine"
+      }
     },
     "home":{
       "textParticipateInToday":"Participate in today’s distribution cycle",
