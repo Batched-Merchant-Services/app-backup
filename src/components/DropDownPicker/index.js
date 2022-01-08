@@ -10,7 +10,7 @@ import InputIconSuccess from '@components/FloatingLabelInput/InputIconSuccess';
 import { scale, verticalScale } from 'react-native-size-matters';
 import Colors from '@styles/Colors';
 
-const DropDownPicker = ({ error, label, value, options, size, onSelect, languages, onFill, labelDefault, ...props }) => {
+const DropDownPicker = ({ error, label, value, options, size, onSelect, languages, onFill, labelDefault, navigation,...props }) => {
 
   const [width, setWidth] = useState(null);
   const [open, setOpen] = useState(false);
@@ -21,6 +21,21 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
   const appData = redux.user;
   const brandTheme = appData?.Theme?.colors;
   const brandThemeImages = appData?.Theme?.images;
+
+  useEffect(() => {
+      getTypeIdentity();
+     
+  }, [options])
+
+  function getTypeIdentity() {
+    if (options) {
+      if (options?.length > 0) {
+        const valueCountry = options?.filter(key => key?.name === labelDefault);
+        onSelect(valueCountry[0]);
+      }
+    }
+  }
+
 
   const handleSelect = index => {
     setSelectValue(true);

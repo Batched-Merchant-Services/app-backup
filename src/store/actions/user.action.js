@@ -4,7 +4,15 @@ import {
   USER_ERROR,
   CLEAN_DATA_USER,
 	SET_FILE_URL,
+  SET_FILE_FRONT,
+  SET_FILE_BACK,
+  SET_FILE_ADDRESS,
+  SET_FILE_SELFIE,
 	SET_FILE_URL_SUCCESS,
+  SET_FILE_FRONT_SUCCESS,
+  SET_FILE_BACK_SUCCESS,
+  SET_FILE_ADDRESS_SUCCESS,
+  SET_FILE_SELFIE_SUCCESS,
   SET_FILE_URL_ERROR,
   CLEAN_DATA_FILE
 } from '../constants';
@@ -74,6 +82,121 @@ export const setFile = ({nameFile,resultBase}) => async (dispatch) => {
     dispatch(toggleSnackbarOpen(error));
   }
 };
+
+
+
+
+export const setFileFront = ({nameFile,resultBase}) => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: SET_FILE_FRONT });
+
+    client.mutate({
+      mutation: SET_FILE,
+      variables: {
+        token: token,
+        fileName: nameFile,
+        file64: resultBase
+      }
+    }).then(async (response) => {
+      console.log('response true ',response)
+      if (response.data) {
+        dispatch({ type: SET_FILE_FRONT_SUCCESS, payload: response?.data['setFile'] });
+      }
+    }).catch((error) => {
+      console.log('error 1 ',response)
+      dispatch({ type: SET_FILE_URL_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    console.log('error 2 ',response)
+    dispatch({ type: SET_FILE_URL_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
+  }
+};
+
+
+
+export const setFileBack = ({nameFile,resultBase}) => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: SET_FILE_BACK });
+
+    client.mutate({
+      mutation: SET_FILE,
+      variables: {
+        token: token,
+        fileName: nameFile,
+        file64: resultBase
+      }
+    }).then(async (response) => {
+      if (response.data) {
+        dispatch({ type: SET_FILE_BACK_SUCCESS, payload: response?.data['setFile'] });
+      }
+    }).catch((error) => {
+      dispatch({ type: SET_FILE_URL_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    dispatch({ type: SET_FILE_URL_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
+  }
+};
+
+
+
+export const setFileAddress = ({nameFile,resultBase}) => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: SET_FILE_ADDRESS });
+
+    client.mutate({
+      mutation: SET_FILE,
+      variables: {
+        token: token,
+        fileName: nameFile,
+        file64: resultBase
+      }
+    }).then(async (response) => {
+      if (response.data) {
+        dispatch({ type: SET_FILE_ADDRESS_SUCCESS, payload: response?.data['setFile'] });
+      }
+    }).catch((error) => {
+      dispatch({ type: SET_FILE_URL_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    dispatch({ type: SET_FILE_URL_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
+  }
+};
+
+export const setFileSelfie = ({nameFile,resultBase}) => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: SET_FILE_SELFIE });
+
+    client.mutate({
+      mutation: SET_FILE,
+      variables: {
+        token: token,
+        fileName: nameFile,
+        file64: resultBase
+      }
+    }).then(async (response) => {
+      if (response.data) {
+        dispatch({ type: SET_FILE_SELFIE_SUCCESS, payload: response?.data['setFile'] });
+      }
+    }).catch((error) => {
+      dispatch({ type: SET_FILE_URL_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    dispatch({ type: SET_FILE_URL_ERROR, payload: error });
+    dispatch(toggleSnackbarOpen(error));
+  }
+};
+
 
 
 export const cleanDataUser = () => async (dispatch) => {

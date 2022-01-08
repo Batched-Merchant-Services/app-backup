@@ -35,6 +35,7 @@ import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
 import i18n from '@utils/i18n';
 import { GET_TYPE_IDENTIFICATION } from '../../utils/api/queries/dropdown.queries';
+import { SET_FILE } from '../../utils/api/queries/user.queries';
 
 
 export const updateUserProfileInfo = ({dataProfile}) => async (dispatch) => {
@@ -62,7 +63,7 @@ export const updateUserProfileInfo = ({dataProfile}) => async (dispatch) => {
   }
 };
 
-export const updateUserAvatar = ({dataUpdateAvatar}) => async (dispatch) => {
+export const updateUserAvatar = ({ dataUpdateAvatar }) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: UPDATE_PROFILE_AVATAR });
@@ -140,7 +141,7 @@ export const editAddress = ({ dataUpdateAddress}) => async (dispatch) => {
 };
 
 
-export const editKYC = ({dataKYC}) => async (dispatch) => {
+export const editKYC = ({ dataUpdateKYC }) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: EDIT_KYC });
@@ -149,7 +150,7 @@ export const editKYC = ({dataKYC}) => async (dispatch) => {
       mutation: EDIT_KYC_QUERY,
       variables: {
         token:token,
-        data: dataKYC
+        data: dataUpdateKYC
       },
     }).then(async (response) => {
       if (response.data) {
@@ -285,7 +286,6 @@ export const nameTypeIdentification = (data) => {
   });
   return typeIdentificationArray;
 };
-
 
 
 

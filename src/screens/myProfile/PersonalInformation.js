@@ -38,10 +38,7 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
   const ssn = useValidatedInput('ssn', accounts?.ssn);
   const phone = useValidatedInput('phone', accounts?.phoneNumber);
   const email = useValidatedInput('phone', accounts?.email);
-  const [items, setItems] = useState([
-    { id: '1', value: 'value1', name: 'value1' },
-    { id: '2', value: 'value2', name: 'value2' }
-  ]);
+  const [items, setItems] = useState([]);
   const [valueGender, setValueGender] = useState([]);
   const gender = useValidatedInput('select', accounts?.gender, {
     changeHandlerSelect: 'onSelect'

@@ -4,6 +4,7 @@ import {
   View,
   Divider,
   ImageResize,
+  SnackNotice,
   StepIndicator,
   FloatingInput,
   ButtonRounded,
@@ -20,8 +21,7 @@ import Front from '@assets/icons/blue-frontId.png';
 import Back from '@assets/icons/blue-backId.png';
 import Selfie from '@assets/icons/blue-selfie.png';
 import Address from '@assets/icons/blue-address.png';
-
-
+import Loading from '../Loading';
 
 const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -31,29 +31,39 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
   const accounts = userProfile?.accounts
   const profile = redux?.profile;
   const kyc = accounts?.kyc?.length > 0 ? accounts?.kyc[0]:'';
-  const imageFront = useValidatedInput('file', kyc?.frontId);
+  const imageFront = useValidatedInput('file',kyc?.frontId);
   const imageBack = useValidatedInput('file', kyc?.backId);
-  const imageProofAddress = useValidatedInput('file', kyc?.documentId);
-  const imageSelfie = useValidatedInput('file', kyc?.faceId);
-
+  const imageProofAddress = useValidatedInput('file', kyc?.faceId);
+  const imageSelfie = useValidatedInput('file', kyc?.documentId);
   const [typeIdentity, setTypeIdentity] = useState([]);
+  const [valueIdentity, setValueIdentity] = useState([]);
   const typeIdentificationD = useValidatedInput('select', '', {
     changeHandlerSelect: 'onSelect'
   });
+  const error = useSelector(state => state?.profile?.errorProfile);
+  const successEdit = useSelector(state => state?.profile?.successEditKYC);
+  
 
-  console.log('accounts',imageFront,imageBack)
   useEffect(() => {
     const countryCode =accounts?.countryCode;
     dispatch(getTypeIdentification({countryCode}));
     getTypeIdentity();
-  }, [dispatch])
+  }, [])
 
   function getTypeIdentity() {
-    setTypeIdentity(profile?.dropDownIdentification)
+    if (profile?.dropDownIdentification) {
+      if (profile?.dropDownIdentification?.length > 0) {
+        setTypeIdentity(profile?.dropDownIdentification)
+        const valueCountry = profile?.dropDownIdentification?.filter(key => key?.value?.toString() === kyc?.typeIdentification);
+        setValueIdentity(...valueCountry);
+      }
+    }
   }
 
+  console.log('successEdit',successEdit)
+
   function getUpdateAddress() {
-    const typeIdent = typeIdentificationD?.value
+    const typeIdent = typeIdentificationD?.value;
     const dataUpdateKYC = {
       id: kyc?.id ?? "",
       accountId: userProfile.accountId ?? "",
@@ -106,7 +116,7 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
           {...typeIdentificationD}
           label={i18n.t('myProfile.dropDownTypeIdentification')}
           options={typeIdentity}
-        //labelDefault={valueCountries?.name}
+          labelDefault={valueIdentity?.name}
         />
         <Divider height-5 />
         <ImageUploadPiker
@@ -173,6 +183,20 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
       </View>
       <Divider height-10 />
       <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
+      <Loading modalVisible={profile?.isLoadingProfile} />
+      <View flex-1 bottom>
+        <SnackNotice
+          visible={error}
+          message={profile?.error?.message}
+          timeout={3000}
+        />
+        <SnackNotice
+          visible={false}
+          message={'Informacion actualizada con exito'}
+          timeout={3000}
+        />
+      </View>
+     
     </BackgroundWrapper>
   );
 }

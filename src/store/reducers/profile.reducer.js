@@ -106,7 +106,7 @@ export default profileReducer = (state = initialState, action) => {
         error: {}
       };
     case EDIT_KYC:
-      return { ...state, isLoadingProfile: true, errorProfile: false };
+      return { ...state, isLoadingProfile: true, errorProfile: false, successEditKYC: false };
     case EDIT_KYC_SUCCESS:
       return {
         ...state,
@@ -149,6 +149,7 @@ export default profileReducer = (state = initialState, action) => {
         dropDownIdentification: action.payload,
         error: {}
       };
+      
     case PROFILE_ERROR:
       return {
         ...state,

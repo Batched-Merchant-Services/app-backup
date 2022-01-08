@@ -34,10 +34,7 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
   const number = useValidatedInput('number', address?.number);
   const zipCode = useValidatedInput('postalCode', address?.zipCode);
   const [valueCountries, setValueCountries] = useState([]);
-  const [items, setItems] = useState([
-    { id: '1', value: 'value1', name: 'value1' },
-    { id: '2', value: 'value2', name: 'value2' }
-  ]);
+  const [items, setItems] = useState([]);
   const country = useValidatedInput('select', '', {
     changeHandlerSelect: 'onSelect'
   });

@@ -8,6 +8,9 @@ const styles = StyleSheet.create({
     height: verticalScale(45),
     alignItems:'center',
     justifyContent:'center',
+    position:'absolute',
+    right:verticalScale(0),
+    bottom:verticalScale(0),
     paddingRight: verticalScale(10)
   }
 });

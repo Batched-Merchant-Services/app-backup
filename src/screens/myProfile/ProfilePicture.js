@@ -30,6 +30,7 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
   const dispatch = useDispatch();
   const [fileError, setFileError] = useState('pending');
+  const [nameAvatar, setNameAvatar] = useState('pending');
   const dataUser = redux?.user;
   const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
   const accounts = userProfile?.accounts;
@@ -43,6 +44,8 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
     const resultBase = await convertImage(fileBase64);
     const nameFile = fileBase64?.name;
     dispatch(setFile({ nameFile, resultBase }));
+    setNameAvatar(fileBase64?.uri)
+    console.log('profile avatar', fileBase64?.uri);
     profileUpdateAvatar();
     if (errorFile) {
       setFileError('Imagen rechazada, favor de volver a tomarla.');
@@ -50,12 +53,12 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
   };
 
   function profileUpdateAvatar() {
-    console.log('profile avatar')
+
     const dataUpdateAvatar = {
       id: accounts.id,
       image: dataUser?.setFile
     }
-    dispatch(updateUserAvatar({dataUpdateAvatar}))
+    dispatch(updateUserAvatar({ dataUpdateAvatar }))
   }
 
   function handleImages() {
@@ -85,40 +88,37 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
       <Divider height-10 />
       <Text h14 blue02 regular>Profile picture:</Text>
       <View flex-1 centerH centerV>
-       
-        {accounts?.avatarImage !== '' && (
-          <View width-320 height-320 blue02 centerH>
-          {accounts?.avatarImage === '' && (
-          <ImageResize
-            source={{ uri: accounts?.avatarImage }}
-            height={verticalScale(320)}
-            width={scale(320)}
-          />
-        )}
+        <View width-320 height-320 blue02 centerH>
+          {accounts?.avatarImage !== '' &&  nameAvatar === 'pending' && (
+            <ImageResize
+              source={{ uri: accounts?.avatarImage }}
+              height={verticalScale(320)}
+              width={scale(320)}
+            />
+          )}
 
-          {dataUser?.setFile === '' && (
+          {nameAvatar === '' && (
             <View flex-1 centerH centerV>
               <Text semibold white style={{ fontSize: 110 }}>{accounts?.alias}</Text>
             </View>
           )}
-            {dataUser?.setFile !== '' && (
+          {nameAvatar !== '' && (
             <ImageResize
-              source={{ uri: dataUser?.setFile }}
-              height={'100%'}
+              source={{ uri: nameAvatar }}
+              height={'86%'}
               width={'90%'}
             />
           )}
-            <View right bottom blue02 style={{ width: '100%' }}>
-              <TouchableHighlight style={[Styles.containerProfile, { backgroundColor: Colors.blue04 }]} onPress={handleImages} >
-                <ImageResize
-                  source={upload}
-                  height={verticalScale(28)}
-                  width={scale(28)}
-                />
-              </TouchableHighlight>
-            </View>
-          </View>
-        )}
+
+          <TouchableHighlight style={[Styles.containerProfile, { backgroundColor: Colors.blue04 }]} onPress={handleImages} >
+              <ImageResize
+                source={upload}
+                height={verticalScale(28)}
+                width={scale(28)}
+              />
+            </TouchableHighlight>
+        </View>
+
       </View>
       <View flex-1 bottom >
         <ButtonRounded
