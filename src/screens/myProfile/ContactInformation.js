@@ -17,6 +17,7 @@ import i18n from '@utils/i18n';
 import { getCountries } from '../../store/actions/register.actions';
 import { createAddress, editAddress } from '../../store/actions/profile.actions';
 import Loading from '../Loading';
+import { getDataUser } from '../../store/actions/user.action';
 
 const ContactInformation = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -43,8 +44,16 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
 
  
   useEffect(() => {
-    dispatch(getCountries());
-    getShowCountry();
+   
+    
+    const unsubscribe = navigation.addListener('focus', () => {
+      console.log('getuser')
+      dispatch(getDataUser());
+      dispatch(getCountries());
+      getShowCountry();
+    });
+    return unsubscribe;
+   
   }, [dispatch]);
 
 

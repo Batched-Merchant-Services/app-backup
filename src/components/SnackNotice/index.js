@@ -50,7 +50,7 @@ const SnackNotice = ({
 //   }, []);
 
 
-  if (SHOW || visible) {
+  if (SHOW) {
     return (
       <View centerH>
         <View

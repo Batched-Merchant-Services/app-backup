@@ -1,0 +1,50 @@
+import {
+  SET_CONTACT,
+  SET_CONTACT_SUCCESS,
+  ERROR_CONTACT,
+  CLEAN_CONTACT_ERROR
+} from '../constants';
+
+export const initialState = {
+  isLoadingContact: false,
+  showContactError: false,
+  contactSuccess:null,
+  error: {},
+  success: {},
+};
+
+export default authReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case SET_CONTACT:
+      return { ...state, isLoadingContact: true, showContactError: false };
+    case SET_CONTACT_SUCCESS:
+      return {
+        ...state,
+        isLoadingContact: true,
+        showContactError: false,
+        contactSuccess: action.payload,
+        error: {},
+        success: {},
+      };
+    case ERROR_CONTACT:
+      return {
+        ...state,
+        isLoadingContact: false,
+        showContactError: false,
+        error: {},
+      };
+
+    case CLEAN_CONTACT_ERROR:
+      return {
+        ...state,
+        isLoadingContact: false,
+        showContactError: false,
+        contactSuccess:null,
+        error: {},
+      };
+
+
+    default:
+      return state;
+  }
+};

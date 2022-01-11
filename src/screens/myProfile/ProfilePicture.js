@@ -40,25 +40,23 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
     dispatch(cleanDataFile());
   }, [dispatch])
 
+  useEffect(() => {
+    profileUpdateAvatar();
+  }, [dataUser?.setFile])
+
   const uploadImage = async (fileBase64) => {
     const resultBase = await convertImage(fileBase64);
     const nameFile = fileBase64?.name;
+    console.log('resultBase',resultBase,'nameFile',nameFile)
     dispatch(setFile({ nameFile, resultBase }));
-    setNameAvatar(fileBase64?.uri)
-    console.log('profile avatar', fileBase64?.uri);
-    profileUpdateAvatar();
+    setNameAvatar(fileBase64?.uri); 
     if (errorFile) {
       setFileError('Imagen rechazada, favor de volver a tomarla.');
     }
   };
 
   function profileUpdateAvatar() {
-
-    const dataUpdateAvatar = {
-      id: accounts.id,
-      image: dataUser?.setFile
-    }
-    dispatch(updateUserAvatar({ dataUpdateAvatar }))
+    dispatch(updateUserAvatar({id: accounts.id,image: dataUser?.setFile }))
   }
 
   function handleImages() {

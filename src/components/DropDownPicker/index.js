@@ -24,7 +24,6 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
 
   useEffect(() => {
       getTypeIdentity();
-     
   }, [options])
 
   function getTypeIdentity() {
@@ -95,7 +94,6 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
 
   const dropSize = { width: !size ==='lg' ? getSize(size): getSize(width) };
 
-  console.log('labelDefault',labelDefault);
   return (
     <View onLayout={handleWrapperLayout}>
       <View style={[

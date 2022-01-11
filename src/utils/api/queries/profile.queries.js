@@ -71,6 +71,12 @@ mutation ($token:String!, $data:AccountsBankInformationEditInputType!)
 }`
 
 
+export const CHANGE_PROFILE_PICTURE = gql`
+mutation($token:String!,$id:String!,$image:String!){
+  setPictureChange(token:$token,id:$id,image:$image)
+}`
+
+
 
 
 

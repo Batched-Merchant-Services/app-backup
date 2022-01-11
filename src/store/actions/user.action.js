@@ -45,10 +45,12 @@ export const getDataUser = () => async (dispatch) => {
         dispatch({ type: GET_USER_DATA_SUCCESS, payload: response?.data?.getUsersByField[0] });
       }
     }).catch((error) => {
+      console.log('error 1 getData',error)
       dispatch({ type: USER_ERROR, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
+    console.log('error 2 getData',error)
     dispatch({ type: USER_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
@@ -82,8 +84,6 @@ export const setFile = ({nameFile,resultBase}) => async (dispatch) => {
     dispatch(toggleSnackbarOpen(error));
   }
 };
-
-
 
 
 export const setFileFront = ({nameFile,resultBase}) => async (dispatch) => {
@@ -170,6 +170,8 @@ export const setFileAddress = ({nameFile,resultBase}) => async (dispatch) => {
     dispatch(toggleSnackbarOpen(error));
   }
 };
+
+
 
 export const setFileSelfie = ({nameFile,resultBase}) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');

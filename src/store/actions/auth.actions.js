@@ -90,7 +90,6 @@ export const validateCodeSms = () => async (dispatch) => {
         token:token
       }
     }).then(async (response) => {
-      console.log('response code sms',response)
       if (response.data) {
         dispatch({ type: VALIDATE_CODE_SMS_SUCCESS, payload: response?.data['getSecurityCodeDirect'] });
       }
@@ -104,7 +103,6 @@ export const validateCodeSms = () => async (dispatch) => {
 }
 
 export const validateCodeEmail = () => async (dispatch) => {
-  console.log('validateCodeEmail')
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: VALIDATE_CODE_EMAIL });
@@ -114,19 +112,15 @@ export const validateCodeEmail = () => async (dispatch) => {
         token:token
       }
     }).then(async (response) => {
-      console.log('response code email',response)
       if (response.data) {
         dispatch({ type: VALIDATE_CODE_EMAIL_SUCCESS, payload: response?.data['getSecurityCodeDirectSES'] });
       }
     }).catch((error) => {
-      console.log('response code error 1',error)
       dispatch({ type: LOGIN_ERROR, payload: error });
     })
   } catch (error) {
-    console.log('response code error 2',error)
     dispatch({ type: LOGIN_ERROR, payload: error });
   }
-
 }
 
 

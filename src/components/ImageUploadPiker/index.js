@@ -47,13 +47,13 @@ const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, image
 
   function onchangeSendImage( file ){
     if (typeImagesSend === 'front') {
-      onChangeText(userData?.fileFront);
+      onChangeText(userData?.fileFront??'');
     }else if (typeImagesSend === 'back') {
-      onChangeText(userData?.fileBack);
+      onChangeText(userData?.fileBack??'');
     }else if (typeImagesSend === 'address') {
-      onChangeText(userData?.fileAddress);
+      onChangeText(userData?.fileAddress??'');
     }else if (typeImagesSend === 'selfie') {
-      onChangeText(userData?.fileSelfie);
+      onChangeText(userData?.fileSelfie??'');
     }
   }
 
