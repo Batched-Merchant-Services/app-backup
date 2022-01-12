@@ -29,9 +29,11 @@
       "postalCode":"Please enter a postal code",
       "transactionId":"Please enter a Transaction ID",
       "transactionIdFormat":"The transaction id don't exist",
-      "amount":"please enter amount",
-      "file":"please select file",
-      "codeSms":"please enter code"
+      "amount":"Please enter amount",
+      "file":"Please select file",
+      "codeSms":"Please enter code",
+      "subject":"Please enter subject",
+      "message":"Please enter message"
     },
     "General":{
       "linkTermsAndConditions":"Terms and Conditions",
@@ -347,7 +349,8 @@
       "textNote":"Note",
       "buttonSendMessage":"Send message",
       "textMessageSent":"Message sent",
-      "textGoToDistribution":"Go to distribution cycle"
+      "textGoToDistribution":"Go to distribution cycle",
+      "textWeHaveReceived":"We have received your message and we will contact you soon."
     },
     "Logout":{
       "textLogout":"Logout",

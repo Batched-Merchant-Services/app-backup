@@ -25,3 +25,7 @@ export const getLanguage =() => {
   return languageValue[sliceLanguage].apiLanguaje;
 }
 
+export const getLanguageName =() => {
+  return languageValue[sliceLanguage].systemLanguage;
+}
+

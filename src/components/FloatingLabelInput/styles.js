@@ -8,8 +8,8 @@ const Styles = StyleSheet.create({
     borderRadius     : moderateScale(8, 0.2),
     borderWidth      : moderateScale(1, 0.2),
     height           : moderateScale(50, 0.2),
-    paddingTop       : moderateScale(18, 0.2),
-    paddingHorizontal: moderateScale(10, 0.2)
+    paddingTop       : moderateScale(5, 0.2),
+    paddingHorizontal: moderateScale(10, 0.2),
   },
   label: {
     left    : moderateScale(10, 0.2),

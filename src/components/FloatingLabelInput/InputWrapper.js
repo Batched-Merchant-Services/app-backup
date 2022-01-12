@@ -4,6 +4,7 @@ import View from '@components/View';
 import Colors from '@styles/Colors';
 import Styles from '@components/FloatingLabelInput/styles';
 import { useSelector } from 'react-redux';
+import { verticalScale } from 'react-native-size-matters';
 
 const InputWrapper = ({ multiInput, numberOfLines, children, isFocused, hasError,borderLight,multiline,styleMultiline,...props }) => {
   const redux = useSelector(state => state);
@@ -13,12 +14,11 @@ const InputWrapper = ({ multiInput, numberOfLines, children, isFocused, hasError
     <View
       {...props}
       row
-      bottom
       style={[
         Styles.wrapper,{borderColor: brandTheme?.blue02??Colors.blue02},
         ...(borderLight ?[{ borderColor: brandTheme?.blue02??Colors?.blue02 }]:[]),
         ...(multiInput ? [{height: 50 * (numberOfLines || 2)}] : []),
-        ...(multiline ? [styleMultiline?styleMultiline:{height: 80 }] : []),
+        ...(multiline ? [styleMultiline?styleMultiline:{height: verticalScale(90)},{paddingTop:verticalScale(15)}] : []),
         ...(isFocused ? [{ backgroundColor:'transparent',borderColor: brandTheme?.blue02?? Colors.blue02}] : []),
         ...(hasError  === 'pending' ? [] : hasError ? [{borderColor: brandTheme?.error??Colors.error}] : [{borderColor: brandTheme?.success??Colors.success}]),
         

@@ -15,12 +15,12 @@ import rectangleConfirm from '@assets/icons/rectangleConfirm.png';
 import confirmationCheck from '@assets/icons/confirmationCheckRectangle.png';
 import Styles from './styles'
 import i18n from '@utils/i18n';
+import { cleanContactError } from '@store/actions/contact.actions';
 
 
 const ConfirmationContact = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
   const referenceCode = useValidatedInput('sms', '');
-
 
 
   return (
@@ -38,13 +38,16 @@ const ConfirmationContact = ({ navigation, navigation: { goBack } }) => {
       <Divider height-20 />
       <View blue01 width-36 height-1 />
       <Divider height-20 />
-      <Text h16 white>Morbi varius a nulla pellentesque dapibus.</Text>
-      <Divider height-25 />
-      <Text h12 white >Mauris consequat est sem, vel blandit augue pharetra sit amet. Sed facilisis aliquam diam eu pharetra. </Text>
+      <Text h16 white>{i18n.t('contact.textWeHaveReceived')}</Text>
       <Divider height-25 />
       <View flex-1 bottom>
         <ButtonRounded
-          onPress={() => {navigation.navigate('HomeContact')}}
+          onPress={() => {
+            navigation.navigate('DrawerScreen', {
+              screen: 'Dashboard',
+              merge: true
+            })
+          }}
           disabled={false}
           blue
         >

@@ -1,32 +1,71 @@
-import { 
+import {
   SET_CONTACT,
   SET_CONTACT_SUCCESS,
   ERROR_CONTACT,
   CLEAN_CONTACT_ERROR
 } from '../constants'
-import { LOGIN_QUERY } from '@utils/api/queries/auth.queries';
 import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
-import DeviceInfo from 'react-native-device-info';
-import { generateRSA } from '@utils/api/encrypt';
-import { toggleSnackbarOpen, userInactivity } from './app.actions';
-import { VALIDATE_SESSION_QUERY } from '../../utils/api/queries/user.queries';
-import { getUTCDateString } from '../../utils/formatters';
-import { getDataUser } from './user.action';
-import { AUTHENTICATION_TWO_FACTORS, AUTHENTICATION_TWO_FACTORS_EMAIL } from '../../utils/api/queries/auth.queries';
+import { getLanguageName } from '@utils/api/getLanguage';
+import { toggleSnackbarOpen } from './app.actions';
 import { CONTACT_QUERIES } from '../../utils/api/queries/contact.queries';
-const device = DeviceInfo.getUniqueId();
-
-
 
 export const setContact = ({ dataContact }) => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: SET_CONTACT });
-    client.query({
-      query: CONTACT_QUERIES,
+    client.mutate({
+      mutation: CONTACT_QUERIES,
       variables: {
-        token: email?.value,
-        process: dataContact
+        token: token,
+        process: {
+          "module": "12",
+          "process": "120001",
+          "key": "",
+          "description": "Mensaje de soporte",
+          "parameters": [
+            {
+              "name": "emailUser",
+              "value": dataContact?.email ? dataContact?.email : ""
+            },
+            {
+              "name": "template",
+              "value": getLanguageName() === 'es' ? "user_template_contact_client_es" : "user_template_contact_client_en"
+            },
+            {
+              "name": "subject",
+              "value": dataContact?.subject || ""
+            },
+            {
+              "name": "message",
+              "value": dataContact?.message || ""
+            },
+            {
+              "name": "param1",
+              "value": dataContact?.message || ""
+            },
+            {
+              "name": "param2",
+              "value": dataContact?.email || ""
+            },
+            {
+              "name": "param3",
+              "value": dataContact?.clientId || ""
+            },
+            {
+              "name": "param4",
+              "value": dataContact?.clientName || ""
+            },
+            {
+              "name": "param5",
+              "value": dataContact?.clientPhone || ""
+            },
+            {
+              "name": "param6",
+              "value": dataContact?.clientCompany || ""
+            }
+          ]
+        }
       },
     }).then(async (response) => {
       if (response.data) {
@@ -39,9 +78,7 @@ export const setContact = ({ dataContact }) => async (dispatch) => {
   } catch (error) {
     dispatch({ type: ERROR_CONTACT, payload: error });
   }
-
 };
-
 
 export const cleanContactError = () => async (dispatch) => {
   try {

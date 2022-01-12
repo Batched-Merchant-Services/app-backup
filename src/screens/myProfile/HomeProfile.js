@@ -22,9 +22,10 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
   const [showImage, setShowImage] = useState(false);
   const [showReferralCode, setShowReferralCode] = useState(false);
   const dataUser = redux?.user;
-  const points = redux?.points;
   const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
-  const accounts = userProfile?.accounts
+  const accounts = userProfile?.accounts;
+
+
   return (
     <BackgroundWrapper childrenLeft={Menu} menu showNavigation={true} navigation={navigation}>
       <Divider height-10 />

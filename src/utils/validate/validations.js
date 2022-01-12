@@ -188,6 +188,18 @@ const Validations = {
       message: i18n.t('validations.codeSms')
     },
   },
+  subject:{
+    presence: {
+      message: i18n.t('validations.subject')
+    },
+  },
+  message:{
+    presence: {
+      message: i18n.t('validations.message')
+    },
+  },
+  
+
   
   
 

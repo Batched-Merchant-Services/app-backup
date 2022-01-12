@@ -27,6 +27,12 @@ export const GET_USER_BATCHED = gql`
             currency
           }
         }
+        companies {
+          id 
+          pathLogo 
+          name 
+          feePhysicalCard
+        }
       }
       usersProfile
       {

@@ -8,6 +8,7 @@ import {
 export const initialState = {
   isLoadingContact: false,
   showContactError: false,
+  successContact: false,
   contactSuccess:null,
   error: {},
   success: {},
@@ -20,17 +21,19 @@ export default authReducer = (state = initialState, action) => {
     case SET_CONTACT_SUCCESS:
       return {
         ...state,
-        isLoadingContact: true,
+        isLoadingContact: false,
         showContactError: false,
+        successContact: true,
         contactSuccess: action.payload,
-        error: {},
-        success: {},
+        error: {}
       };
     case ERROR_CONTACT:
       return {
         ...state,
         isLoadingContact: false,
         showContactError: false,
+        successContact: false,
+        error: action.payload,
         error: {},
       };
 
@@ -39,6 +42,7 @@ export default authReducer = (state = initialState, action) => {
         ...state,
         isLoadingContact: false,
         showContactError: false,
+        successContact: false,
         contactSuccess:null,
         error: {},
       };

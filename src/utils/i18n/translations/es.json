@@ -31,7 +31,9 @@
       "transactionIdFormat":"The transaction id don't exist",
       "amount":"please enter amount",
       "file":"please select file",
-      "codeSms":"please enter code"
+      "codeSms":"please enter code",
+      "subject":"Please enter subject",
+      "message":"Please enter message"
     },
     "General":{
       "linkTermsAndConditions":"Terms and Conditions",
@@ -338,6 +340,23 @@
         "buttonDownloadPDF":"Download PDF",
         "linkShowMore":"Ver mas"
 
+      },
+      "contact":{
+        "textContactUs":"Contact us",
+        "textFillUpTheForm":"Fill up the form and out team will get back to you as soon as possible.",
+        "textReason":"Reason",
+        "textNote":"Note",
+        "buttonSendMessage":"Send message",
+        "textMessageSent":"Message sent",
+        "textGoToDistribution":"Go to distribution cycle",
+        "textWeHaveReceived":"Hemos recibido tu mensaje y pronto nos pondremos en contacto contigo."
+      },
+      "Logout":{
+        "textLogout":"Logout",
+        "textAreYouSure":"Are you sure you want to leave?",
+        "textIfYouAreFullActive":"If you are full active today you can come back tomorrow from 06:00 UTC.",
+        "buttonStayLoggedIn":"Stay logged in",
+        "buttonLogout":"Logout"
       }
     }
   }

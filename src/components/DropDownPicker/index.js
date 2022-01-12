@@ -26,6 +26,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
       getTypeIdentity();
   }, [options])
 
+
   function getTypeIdentity() {
     if (options) {
       if (options?.length > 0) {
@@ -39,7 +40,6 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
   const handleSelect = index => {
     setSelectValue(true);
     onSelect(options[index]);
-    //onFill(options[index]);
   };
 
 
@@ -91,6 +91,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
 
     );
   };
+  console.log('value',value)
 
   const dropSize = { width: !size ==='lg' ? getSize(size): getSize(width) };
 

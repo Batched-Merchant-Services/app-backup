@@ -25,19 +25,20 @@ export const useValidatedInput = (
   }, [value]);
 
   function handleChangeText(text) {
-    if (text.name === '') {
+    if (text?.name === '') {
       setError(Validate(name, value, ...validationParams));
     } else {
-      setError(Validate(text.name, text.value, ...validationParams));
+      setError(Validate(text?.name, text?.value, ...validationParams));
       setValue(text);
     }
   }
 
   function handleChangeSelect(text) {
-    if (text.name === '') {
+    console.log('text',text)
+    if (text?.name === '') {
       setError(Validate(name, value, ...validationParams));
     } else {
-      setError(Validate(text.name, text.value, ...validationParams));
+      setError(Validate(text?.name, text?.value, ...validationParams));
       setValue(text);
     }
   }
