@@ -33,10 +33,10 @@ const ReferralCode = ({ navigation }) => {
   const licensesData = redux?.licenses;
   const [userID, setUserID] = useState(false);
   const referenceCode = useValidatedInput('referenceCode', '');
-  const [statusBar, setStatusBar] = useState(0);
+  const [statusBar, setStatusBar] = useState(false);
   const showData = licensesData?.dataLicenses?.firstName ? true : false
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
-
+  const isValidReferred = isFormValid(referenceCode);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanError());
@@ -55,7 +55,11 @@ const ReferralCode = ({ navigation }) => {
   }
   async function handleReferralCode() {
     dispatch(validateReference({ referenceCode }));
+    console.log('licensesData?.statusCodeReferral',!showData)
+    setStatusBar(!showData)
   }
+
+  console.log('licensesData?.statusCodeReferral',statusBar)
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
@@ -78,7 +82,7 @@ const ReferralCode = ({ navigation }) => {
       <Divider height-5 />
       <ButtonRounded
           onPress={handleReferralCode}
-          disabled={false}
+          disabled={!isValidReferred}
           dark
         >
           <Text h14 semibold blue02 center>

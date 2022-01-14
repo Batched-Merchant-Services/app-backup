@@ -24,9 +24,9 @@ import { verticalScale } from 'react-native-size-matters';
 import CountDownDateGreen from './components/CountDownDateGreen';
 import CountDownSeconds from './components/CountDownSeconds';
 import CountDownDates from './components/CountDownDates';
-import { getCommissionPoints, getGatewayPointsBalance, getLiquidPointsBalance, getRewardsPoints } from '../../store/actions/points.actions';
-import { getLocalDateFromUTC } from '../../utils/formatters';
-import { cleanError } from '../../store/actions/auth.actions';
+import { getCommissionPoints, getGatewayPointsBalance, getLiquidPointsBalance, getRewardsPoints } from '@store/actions/points.actions';
+import { getLocalDateFromUTC } from '@utils/formatters';
+import { cleanError } from '@store/actions/auth.actions';
 //import moment from 'moment';
 
 
@@ -45,17 +45,20 @@ const Dashboard = ({ navigation }) => {
   const [rewardsPerUser, setRewardsPerUser] = useState(0);
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
   const currentDate = new Date();
-  //console.log('infoUser',infoUser);
-
+  
 
   useEffect(() => {
-    dispatch(cleanError());
-    dispatch(toggleSnackbarClose());
-    dispatch(getTotalLicensesInNetwork());
-    dispatch(getValidateRewardsByUser());
-    dispatch(getRewardsConfig());
-    getBatchedTransaction();
-  }, [dispatch]);
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanError());
+      dispatch(toggleSnackbarClose());
+      dispatch(getTotalLicensesInNetwork());
+      dispatch(getValidateRewardsByUser());
+      dispatch(getRewardsConfig());
+      dispatch(getDataUser());
+      getBatchedTransaction();
+    });
+    return unsubscribe;
+  }, []);
 
 
   function getBatchedTransaction() {

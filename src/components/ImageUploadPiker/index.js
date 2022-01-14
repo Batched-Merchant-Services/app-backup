@@ -42,7 +42,6 @@ const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, image
   useEffect(() => {
     setFileError(fileError)
     onchangeSendImage();
-    console.log('value',value)
   }, [fileError,userData])
 
   function onchangeSendImage( file ){
@@ -85,36 +84,9 @@ const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, image
         default:
           return typeImage;
       }
-    //dispatch(setFile({ nameFile, resultBase }));
     if (errorFile) {
       setFileError('Imagen rechazada, favor de volver a tomarla.');
     }
-   
-  
-    // switch (typeImage) {
-    //   case 'front':
-    //     //console.log('front',userData?.setFile)
-    //     onChangeText(userData?.setFile)
-    //     setValueImages(fileBase64?.uri)
-    //     setFileError(null);
-    //     break;
-    //   case 'back':
-    //     //console.log('back',userData?.setFile)
-    //     onChangeText(userData?.setFile)
-    //     setValueImages(fileBase64?.uri)
-    //     setFileError(null);
-    //     break;
-    //   case 'address':
-    //     //console.log('address',userData?.setFile)
-    //     onChangeText(userData?.setFile)
-    //     setValueImages(fileBase64?.uri)
-    //     setFileError(null);
-    //     break;
-    //   default:
-    //     // onChangeText(userData?.setFile)
-    //     // setValueImages(fileBase64?.uri)
-    //     setFileError(null);
-    // }
   };
 
 
@@ -160,7 +132,7 @@ const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, image
       }
     });
   }
-  console.log('value',value);
+
   return (
     <Fragment>
       <View blue02 padding-5>

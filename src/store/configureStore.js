@@ -42,7 +42,7 @@ function applyMiddlewares(...middlewares) {
        rootReducer, 
        initialState, 
        composeEnhancers(
-        applyMiddleware(thunkMiddleware, promiseMiddleware)
+        applyMiddlewares(thunkMiddleware, promiseMiddleware)
       )
        //applyMiddlewares(thunkMiddleware, promiseMiddleware)
       )

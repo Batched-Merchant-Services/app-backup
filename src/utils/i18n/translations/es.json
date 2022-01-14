@@ -33,7 +33,8 @@
       "file":"please select file",
       "codeSms":"please enter code",
       "subject":"Please enter subject",
-      "message":"Please enter message"
+      "message":"Please enter message",
+      "referenceCode":"Please enter a reference code"
     },
     "General":{
       "linkTermsAndConditions":"Terms and Conditions",
@@ -98,7 +99,10 @@
       "textTheInformationRequested":"The information requested is intended to create a user profile and to offer you the best benefits tailored to your needs.",
       "textIDontHaveACode":"I don't have a code",
       "textJustOneMoreStep":"Just one more step.",
-      "textCompanyCode":"Company code"
+      "textCompanyCode":"Company code",
+      "errorMessages":{
+        "textUserNotFound":"Usuario no encontrado, Intenta de nuevo"
+      }
     },
     "ForgotPassword":{
       "textRecoverYourPassword":"Recover your password",

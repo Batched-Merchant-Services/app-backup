@@ -27,11 +27,9 @@ import { GET_REFERRED_ID, GET_CURRENT_TYPE_LICENSES, GET_LICENSES_QUERY,
 import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
 import { toggleSnackbarOpen } from './app.actions';
-import { getUTCDateString } from '../../utils/formatters';
-import { generateRSA } from '../../utils/api/encrypt';
+import i18n from '@utils/i18n';
 
 
-const utc = getUTCDateString();
 export const validateReference = ({ referenceCode }) => async (dispatch) => {
   try {
     dispatch({ type: VALIDATE_CODE_LICENSES });
@@ -44,6 +42,7 @@ export const validateReference = ({ referenceCode }) => async (dispatch) => {
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: VALIDATE_CODE_LICENSES_SUCCESS, payload: response?.data['getUserReferer'] });
+        if(response?.data['getUserReferer']?.firstName === '') dispatch(toggleSnackbarOpen(i18n.t('Register.errorMessages.textUserNotFound')));
       }
     }).catch((error) => {
       dispatch({ type: LICENSES_ERROR, payload: error });
@@ -53,7 +52,6 @@ export const validateReference = ({ referenceCode }) => async (dispatch) => {
     dispatch({ type: LICENSES_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
-
 };
 
 export const getLicenses = () => async (dispatch) => {
@@ -79,7 +77,6 @@ export const getLicenses = () => async (dispatch) => {
     dispatch({ type: LICENSES_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
-
 };
 
 export const getListLicenses = () => async (dispatch) => {
@@ -106,7 +103,6 @@ export const getListLicenses = () => async (dispatch) => {
     dispatch({ type: LICENSES_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
-
 };
 
 export const nameLicenses = (data) => {
@@ -122,10 +118,7 @@ export const nameLicenses = (data) => {
   return typeLicensesArray;
 };
 
-
-
 export const getTotalLicenses = () => async (dispatch) => {
-
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: GET_TOTAL_LICENSES });
@@ -148,11 +141,10 @@ export const getTotalLicenses = () => async (dispatch) => {
     dispatch({ type: LICENSES_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
+};
 
-}
 
 export const getCryptoCurrency = () => async (dispatch) => {
-
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: GET_CRYPTO_CURRENCY });
@@ -176,8 +168,7 @@ export const getCryptoCurrency = () => async (dispatch) => {
     dispatch({ type: LICENSES_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
-
-}
+};
 
 export const nameCryptoCurrencies = (data) => {
   const cryptoCurryArray = [{value: 'UUL',name: 'Uulala Tokens'}];
@@ -200,10 +191,9 @@ export const saveCurrentLicense = ({ selectLicense }) => async (dispatch) => {
   } catch (error) {
     dispatch({ type: LICENSES_ERROR, payload: error });
   }
-}
+};
 
 export const createLicense = ({createLicenses}) => async (dispatch) => {
-  
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: CREATE_LICENSE });
@@ -228,7 +218,6 @@ export const createLicense = ({createLicenses}) => async (dispatch) => {
 }
 
 export const getAddressCurrency = (currencyId) => async (dispatch) => {
-
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: GET_ADDRESS_CURRENCIES });
@@ -251,7 +240,7 @@ export const getAddressCurrency = (currencyId) => async (dispatch) => {
     dispatch({ type: LICENSES_ERROR, payload: error });
     //dispatch(toggleSnackbarOpen(error));
   }
-}
+};
 
 
 export const getTotalLicensesInNetwork = () => async (dispatch) => {
@@ -276,7 +265,6 @@ export const getTotalLicensesInNetwork = () => async (dispatch) => {
     dispatch({ type: LICENSES_ERROR, payload: error });
     //dispatch(toggleSnackbarOpen(error));
   }
-
 };
 
 

@@ -198,6 +198,11 @@ const Validations = {
       message: i18n.t('validations.message')
     },
   },
+  referenceCode:{
+    presence: {
+      message: i18n.t('validations.referenceCode')
+    },
+  },
   
 
   

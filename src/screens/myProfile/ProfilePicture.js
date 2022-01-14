@@ -38,16 +38,18 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
 
   useEffect(() => {
     dispatch(cleanDataFile());
+    setNameAvatar('pending')
   }, [dispatch])
 
   useEffect(() => {
-    profileUpdateAvatar();
+    if (nameAvatar !== 'pending' ) {
+      profileUpdateAvatar();
+    }
   }, [dataUser?.setFile])
 
   const uploadImage = async (fileBase64) => {
     const resultBase = await convertImage(fileBase64);
     const nameFile = fileBase64?.name;
-    console.log('resultBase',resultBase,'nameFile',nameFile)
     dispatch(setFile({ nameFile, resultBase }));
     setNameAvatar(fileBase64?.uri); 
     if (errorFile) {

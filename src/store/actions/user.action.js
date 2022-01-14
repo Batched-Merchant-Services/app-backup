@@ -31,16 +31,17 @@ export const getDataUser = () => async (dispatch) => {
     const uuid = await LocalStorage.get('uuid');
   try {
     dispatch({ type: GET_USER_DATA });
-
     client.query({
       query: GET_USER_BATCHED,
       variables: {
         token: token,
         field:'id',
         id:uuid
-      }
+      },
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
     }).then(async (response) => {
-      console.log('get dataaaa',response)
+      console.log('get dataaaa',response.data);
       if (response.data) {
         dispatch({ type: GET_USER_DATA_SUCCESS, payload: response?.data?.getUsersByField[0] });
       }

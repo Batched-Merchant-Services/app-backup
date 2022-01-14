@@ -262,7 +262,6 @@ export const setCommissionBalanceToLiquidityPool = ({ address, amount,code }) =>
         code:code
       }
     }).then(async (response) => {
-      console.log('createPoolTransactionByTokenAddress LIQUIDITY response',response)
       if (response.data) {
         dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY_SUCCESS, payload: response?.data['createPoolTransactionByTokenAddress'] });
       }
@@ -303,12 +302,10 @@ export const setLiquidityPoolToUulalaWallet = ({ address, amount,depositClient,c
         dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY_SUCCESS, payload: response?.data['createPoolTransactionByTokenAddressToClient'] });
       }
     }).catch((error) => {
-      console.log('createPoolTransactionByTokenAddressToClient error1',error)
       dispatch({ type: POINTS_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('createPoolTransactionByTokenAddressToClient error2',error)
     dispatch({ type: POINTS_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }

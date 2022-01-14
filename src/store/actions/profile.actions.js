@@ -35,25 +35,28 @@ import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
 import i18n from '@utils/i18n';
 import { GET_TYPE_IDENTIFICATION } from '../../utils/api/queries/dropdown.queries';
-import { SET_FILE } from '../../utils/api/queries/user.queries';
+import { GET_USER_BATCHED, SET_FILE } from '../../utils/api/queries/user.queries';
 import { CHANGE_PROFILE_PICTURE } from '../../utils/api/queries/profile.queries';
 import { getDataUser } from './user.action';
 
 
 export const updateUserProfileInfo = ({dataProfile}) => async (dispatch) => {
+  console.log('data info',dataProfile)
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: UPDATE_PROFILE_INFO });
-   
     client.mutate({
       mutation: EDIT_ACCOUNT,
       variables: {
         token:token,
         data: dataProfile
       },
+    fetchPolicy : 'network-only' ,  
+    nextFetchPolicy : 'network-only'
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: UPDATE_PROFILE_INFO_SUCCESS, payload: response?.data['editAccountData'] });
+        dispatch(getDataUser());
       }
     }).catch((error) => {
       dispatch({ type: PROFILE_ERROR , payload: error });
@@ -67,7 +70,6 @@ export const updateUserProfileInfo = ({dataProfile}) => async (dispatch) => {
 
 export const updateUserAvatar = ({ id,image }) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
-  const uuid = await LocalStorage.get('uuid');
   try {
     dispatch({ type: UPDATE_PROFILE_AVATAR });
     client.mutate({
@@ -77,11 +79,13 @@ export const updateUserAvatar = ({ id,image }) => async (dispatch) => {
         id: id,
         image: image
       },
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
     }).then(async (response) => {
       console.log('response.data avatar file',response)
       if (response.data) {
         dispatch({ type: UPDATE_PROFILE_AVATAR_SUCCESS, payload: response?.data['setPictureChange'] });
-        dispatch(getDataUser({token,uuid}));
+        dispatch(getDataUser());
       }
     }).catch((error) => {
       console.log('error 1 avatar',error)
@@ -98,7 +102,6 @@ export const updateUserAvatar = ({ id,image }) => async (dispatch) => {
 
 export const createAddress = ({dataCreateAddress}) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
-  const uuid = await LocalStorage.get('uuid');
   try {
     dispatch({ type: CREATE_ADDRESS });
    
@@ -108,10 +111,12 @@ export const createAddress = ({dataCreateAddress}) => async (dispatch) => {
         token:token,
         data: dataCreateAddress
       },
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: CREATE_ADDRESS_SUCCESS, payload: response?.data['createAccountsAddress'] });
-        dispatch(getDataUser({token,uuid}));
+         dispatch(getDataUser());
       }
     }).catch((error) => {
       dispatch({ type: PROFILE_ERROR , payload: error });
@@ -127,7 +132,6 @@ export const createAddress = ({dataCreateAddress}) => async (dispatch) => {
 export const editAddress = ({ dataUpdateAddress}) => async (dispatch) => {
   console.log('dataUpdateAddress',dataUpdateAddress);
   const token = await LocalStorage.get('auth_token');
-  const uuid = await LocalStorage.get('uuid');
   try {
     dispatch({ type: EDIT_ADDRESS });
    
@@ -137,10 +141,12 @@ export const editAddress = ({ dataUpdateAddress}) => async (dispatch) => {
         token:token,
         data: dataUpdateAddress
       },
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: EDIT_ADDRESS_SUCCESS, payload: response?.data['editAccountsAddress'] });
-        dispatch(getDataUser({token,uuid}));
+         dispatch(getDataUser());
       }
     }).catch((error) => {
       dispatch({ type: PROFILE_ERROR , payload: error });
@@ -155,7 +161,6 @@ export const editAddress = ({ dataUpdateAddress}) => async (dispatch) => {
 
 export const editKYC = ({ dataUpdateKYC }) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
-  const uuid = await LocalStorage.get('uuid');
   try {
     dispatch({ type: EDIT_KYC });
    
@@ -165,10 +170,12 @@ export const editKYC = ({ dataUpdateKYC }) => async (dispatch) => {
         token:token,
         data: dataUpdateKYC
       },
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: EDIT_KYC_SUCCESS, payload: response?.data['editAccountsKyc'] });
-        dispatch(getDataUser({token,uuid}));
+         dispatch(getDataUser());
       }
     }).catch((error) => {
       dispatch({ type: PROFILE_ERROR , payload: error });
@@ -183,7 +190,6 @@ export const editKYC = ({ dataUpdateKYC }) => async (dispatch) => {
 
 export const createKYC = ({dataCreateKYC}) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
-  const uuid = await LocalStorage.get('uuid');
   try {
     dispatch({ type: CREATE_KYC });
    
@@ -193,10 +199,12 @@ export const createKYC = ({dataCreateKYC}) => async (dispatch) => {
         token:token,
         data: dataCreateKYC
       },
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: CREATE_KYC_SUCCESS, payload: response?.data['editAccountsKyc'] });
-        dispatch(getDataUser({token,uuid}));
+         dispatch(getDataUser());
       }
     }).catch((error) => {
       dispatch({ type: PROFILE_ERROR , payload: error });
@@ -212,7 +220,6 @@ export const createKYC = ({dataCreateKYC}) => async (dispatch) => {
 
 export const createBankInfo = ({dataCreateBank}) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
-  const uuid = await LocalStorage.get('uuid');
   try {
     dispatch({ type: CREATE_BANK_INFO });
    
@@ -222,10 +229,12 @@ export const createBankInfo = ({dataCreateBank}) => async (dispatch) => {
         token:token,
         data: dataCreateBank
       },
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: CREATE_BANK_INFO_SUCCESS, payload: response?.data['createAccountsBankInformation'] });
-        dispatch(getDataUser({token,uuid}));
+         dispatch(getDataUser());
       }
     }).catch((error) => {
       dispatch({ type: PROFILE_ERROR , payload: error });
@@ -240,7 +249,6 @@ export const createBankInfo = ({dataCreateBank}) => async (dispatch) => {
 
 export const editBankInfo = ({dataUpdateBank}) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
-  const uuid = await LocalStorage.get('uuid');
   try {
     dispatch({ type: EDIT_BANK_INFO });
    
@@ -250,10 +258,12 @@ export const editBankInfo = ({dataUpdateBank}) => async (dispatch) => {
         token:token,
         data: dataUpdateBank
       },
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: EDIT_BANK_INFO_SUCCESS, payload: response?.data['editAccountsBankInformation']});
-        dispatch(getDataUser({token,uuid}));
+         dispatch(getDataUser());
       }
     }).catch((error) => {
       dispatch({ type: PROFILE_ERROR , payload: error });
@@ -268,7 +278,6 @@ export const editBankInfo = ({dataUpdateBank}) => async (dispatch) => {
 
 export const getTypeIdentification = ({countryCode}) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
-  const uuid = await LocalStorage.get('uuid');
   try {
     dispatch({ type: TYPE_IDENTIFICATION });
    
@@ -279,11 +288,13 @@ export const getTypeIdentification = ({countryCode}) => async (dispatch) => {
         id: `Identificacion-${countryCode}`,
         languaje:getLanguage()
       },
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
     }).then(async (response) => {
       if (response.data) {
         nameTypeIdentification(response.data);
         dispatch({ type: TYPE_IDENTIFICATION_SUCCESS, payload: nameTypeIdentification(response.data)});
-        dispatch(getDataUser({token,uuid}));
+         dispatch(getDataUser());
       }
     }).catch((error) => {
       dispatch({ type: PROFILE_ERROR , payload: error });

@@ -1,5 +1,7 @@
 import {
   LOGIN,
+  LOGOUT,
+  LOGOUT_SUCCESS,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
   SET_ERROR,
@@ -17,6 +19,7 @@ export const initialState = {
   headers: {},
   isLoggedIn: false,
   isLoggingIn: false,
+  isLoggedOut: false,
   isSession: false,
   finishSuccess: false,
   showError: false,
@@ -43,6 +46,19 @@ export default authReducer = (state = initialState, action) => {
         isSession: true,
         showError: false,
         user: action.payload,
+        error: {},
+        success: {},
+      };
+      case LOGOUT:
+      return { ...state, isLoggingIn: true, showError: false, };
+
+    case LOGOUT_SUCCESS:
+      return {
+        ...state,
+        isLoggingIn: false,
+        isLoggedOut: true,
+        isSession: false,
+        showError: false,
         error: {},
         success: {},
       };
@@ -108,6 +124,7 @@ export default authReducer = (state = initialState, action) => {
         isLoggingIn: false,
         isSession: false,
         isLoggedIn: false,
+        isLoggedOut: false,
         showError: false,
         dataCode: null,
         error: {},

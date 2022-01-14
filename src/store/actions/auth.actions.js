@@ -1,7 +1,9 @@
 import { 
   LOGIN,
+  LOGOUT,
   LOGIN_ERROR,
   LOGIN_SUCCESS,
+  LOGOUT_SUCCESS,
   CLEAN_ERROR ,
   VALIDATE_SESSION,
   VALIDATE_SESSION_SUCCESS,
@@ -19,12 +21,10 @@ import { toggleSnackbarOpen, userInactivity } from './app.actions';
 import { VALIDATE_SESSION_QUERY } from '../../utils/api/queries/user.queries';
 import { getUTCDateString } from '../../utils/formatters';
 import { getDataUser } from './user.action';
-import { AUTHENTICATION_TWO_FACTORS, AUTHENTICATION_TWO_FACTORS_EMAIL } from '../../utils/api/queries/auth.queries';
+import { AUTHENTICATION_TWO_FACTORS,AUTHENTICATION_TWO_FACTORS_EMAIL,LOGOUT_QUERY } from '../../utils/api/queries/auth.queries';
 const device = DeviceInfo.getUniqueId();
 
 
-
-const utc = getUTCDateString();
 export const getLogin = ({ email, password }) => async (dispatch) => {
   try {
     dispatch({ type: LOGIN });
@@ -37,15 +37,15 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
         id: generateRSA(device),
         groupid: "320"
       },
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
     }).then(async (response) => {
       if (response.data) {
         const { token,uuid } = response?.data['getLoggin'];
-        console.log('token',token)
         dispatch({ type: LOGIN_SUCCESS, payload: response?.data['getLoggin'] });
         await LocalStorage.set('auth_token', token);
         await LocalStorage.set('uuid', uuid);
         dispatch(userInactivity(true));
-        dispatch(getDataUser({token,uuid}))
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });
@@ -66,10 +66,14 @@ export const validateSession = () => async (dispatch) => {
       query: VALIDATE_SESSION_QUERY,
       variables: {
         token:token
-      }
+      },
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
     }).then(async (response) => {
       if (response.data) {
+        const { token } = response?.data['getValidateSession'];
         dispatch({ type: VALIDATE_SESSION_SUCCESS, payload: response?.data['getValidateSession'] });
+        await LocalStorage.set('auth_token', token);
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });
@@ -88,7 +92,9 @@ export const validateCodeSms = () => async (dispatch) => {
       query: AUTHENTICATION_TWO_FACTORS,
       variables: {
         token:token
-      }
+      },
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: VALIDATE_CODE_SMS_SUCCESS, payload: response?.data['getSecurityCodeDirect'] });
@@ -110,7 +116,9 @@ export const validateCodeEmail = () => async (dispatch) => {
       query: AUTHENTICATION_TWO_FACTORS_EMAIL,
       variables: {
         token:token
-      }
+      },
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: VALIDATE_CODE_EMAIL_SUCCESS, payload: response?.data['getSecurityCodeDirectSES'] });
@@ -122,6 +130,33 @@ export const validateCodeEmail = () => async (dispatch) => {
     dispatch({ type: LOGIN_ERROR, payload: error });
   }
 }
+
+
+export const logoutSession = () => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: LOGOUT });
+    client.query({
+      query: LOGOUT_QUERY,
+      variables: {
+       token:token
+      },
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
+    }).then(async (response) => {
+      if (response.data) {
+        dispatch({ type: LOGOUT_SUCCESS, payload: response?.data['getLogout'] });
+        dispatch(userInactivity(true));
+      }
+    }).catch((error) => {
+      dispatch({ type: LOGIN_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    dispatch({ type: LOGIN_ERROR, payload: error });
+  }
+
+};
 
 
 export const cleanError = () => async (dispatch) => {

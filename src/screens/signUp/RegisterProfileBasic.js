@@ -59,12 +59,7 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack },route }) => {
   async function getShowGender() {
     setItems(registerData?.gender)
   }
-
   const error = useSelector(state => state?.register?.showError);
-
-  // if (registerData?.isLoading) {
-  //   return <Loading />;
-  // }
 
   if (registerData?.finishRProfileSuccess) {
     navigation.navigate("AccountConfirmation");

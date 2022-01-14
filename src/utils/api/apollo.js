@@ -16,9 +16,7 @@ console.log('API_URL_STAGING', API_URL_STAGING, PUBLIC_KEY);
 
 const getTicks = () => {
   const date = new Date(getUTCDateString());
-  console.log('date',(new Date(date.getTime() + date.getTimezoneOffset() * 60000)))
-  return ((new Date(date.getTime() + date.getTimezoneOffset() * 60000) * 10000) + 621355968000000000)
-  
+  return ((new Date(date.getTime() + date.getTimezoneOffset() * 60000) * 10000) + 621355968000000000);
 }
 
 const httpLink = new HttpLink({
@@ -31,7 +29,6 @@ const httpLink = new HttpLink({
 
 
 const activityMiddleware = new ApolloLink((operation, forward) => {
-  const utc = getUTCDateString();
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,

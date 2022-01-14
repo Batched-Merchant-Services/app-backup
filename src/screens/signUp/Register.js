@@ -67,10 +67,6 @@ const Register = ({ navigation }) => {
     dispatch(setRegister({ dataRegister }));
   }
 
-  // if (registerData?.isLoading) {
-  //   return <Loading />;
-  // }
-
   if (registerData?.finishRegisterSuccess) {
     navigation.navigate("CodeSms")
   }

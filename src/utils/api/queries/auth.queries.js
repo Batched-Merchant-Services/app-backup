@@ -10,7 +10,7 @@ query ($user:String!,$password:String!, $id: String!, $languaje: Int!, $groupid:
   }
 }`;
 
-export const LOGOUT = gql`
+export const LOGOUT_QUERY = gql`
   query($token:String!){
     getLogout(token:$token){
       token

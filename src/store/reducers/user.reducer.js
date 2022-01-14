@@ -33,7 +33,6 @@ export const initialState = {
 
 export default userReducer = (state = initialState, action) => {
 	switch (action.type) {
-
 		case GET_USER_DATA:
 			return { ...state, isLoadingData: true, showErrorUser: false };
 

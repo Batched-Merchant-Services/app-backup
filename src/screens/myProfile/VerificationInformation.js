@@ -60,7 +60,6 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
     }
   }
 
-  console.log('successEdit',successEdit)
 
   function getUpdateAddress() {
     const typeIdent = typeIdentificationD?.value;

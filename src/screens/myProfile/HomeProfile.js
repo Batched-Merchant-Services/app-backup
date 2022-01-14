@@ -2,29 +2,33 @@ import React, { useEffect, useState } from 'react';
 import {
   Text,
   View,
-  Link,
   Divider,
   ImageResize,
   ButtonRounded,
   BackgroundWrapper
 } from '@components';
-import { useSelector } from 'react-redux';
-import { useValidatedInput } from '@hooks/validation-hooks';
+import { useSelector, useDispatch } from 'react-redux';
 import { scale, verticalScale } from 'react-native-size-matters';
-import camera from '@assets/icons/camera.png';
 import Menu from '@assets/icons/hamburgerMenu.png';
-import Styles from './styles'
+import Clipboard from '@react-native-community/clipboard';
 import i18n from '@utils/i18n';
 import Colors from '@styles/Colors';
+import { cleanError } from '../../store/actions/auth.actions';
+import { toggleSnackbarClose } from '../../store/actions/app.actions';
+import { getDataUser } from '../../store/actions/user.action';
 
 const HomeProfile = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
-  const [showImage, setShowImage] = useState(false);
+  const dispatch = useDispatch();
   const [showReferralCode, setShowReferralCode] = useState(false);
   const dataUser = redux?.user;
   const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
   const accounts = userProfile?.accounts;
 
+
+  const copyToClipboard = () => {
+    Clipboard.setString(accounts?.id);
+  }
 
   return (
     <BackgroundWrapper childrenLeft={Menu} menu showNavigation={true} navigation={navigation}>
@@ -73,8 +77,8 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
               />
             )}
             {accounts?.avatarImage === '' && (
-              <View width-80 height-80 style={{ borderColor: Colors.blue02, borderWidth: 1 }}>
-                <Text h20 semibold>{accounts?.alias}</Text>
+              <View width-70 height-65 centerH centerV style={{ borderColor: Colors.blue02, borderWidth: 1 }}>
+                <Text h24 semibold>{accounts?.alias}</Text>
               </View>
             )}
           </View>
@@ -82,6 +86,7 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
         <Divider height-12 />
         <ButtonRounded
           disabled={false}
+          onPress={() => copyToClipboard()}
           dark
         >
           <Text h12 medium blue02>{i18n.t('myProfile.textCopyMyReferenceCode')}</Text>

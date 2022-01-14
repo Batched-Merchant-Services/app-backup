@@ -19,9 +19,14 @@ import camera from '@assets/icons/camera.png';
 
 import Styles from './styles'
 import i18n from '@utils/i18n';
+import { gql, useQuery } from '@apollo/client';
 import { getGender } from '../../store/actions/register.actions';
 import { updateUserProfileInfo } from '../../store/actions/profile.actions';
+import Clipboard from '@react-native-community/clipboard';
 import Loading from '../Loading';
+import { cleanDataUser, getDataUser } from '../../store/actions/user.action';
+import { cleanError } from '../../store/actions/auth.actions';
+import { GET_USER_BATCHED } from '../../utils/api/queries/user.queries';
 
 
 const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
@@ -32,8 +37,8 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
   const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
   const accounts = userProfile?.accounts;
   const profile = redux?.profile;
-  const firstName = useValidatedInput('firstName', accounts?.firstName + accounts?.middleName);
-  const mediumName = useValidatedInput('', accounts?.mediumName);
+  const firstName = useValidatedInput('firstName', accounts?.firstName);
+  const mediumName = useValidatedInput('', accounts?.middleName ||accounts?.secondLastName );
   const lastName = useValidatedInput('lastName', accounts?.lastName);
   const ssn = useValidatedInput('ssn', accounts?.ssn);
   const phone = useValidatedInput('phone', accounts?.phoneNumber);
@@ -46,12 +51,14 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
   const birthDay = useValidatedInput('select', accounts?.birthday, {
     changeHandlerSelect: 'onSelect'
   });
-  const error = useSelector(state => state?.profile?.errorProfile);
-
+  
 
   useEffect(() => {
-    dispatch(getGender());
-    getShowGender();
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(getGender());
+      getShowGender();
+    });
+    return unsubscribe;
   }, [dispatch]);
 
   async function getShowGender() {
@@ -77,8 +84,8 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
       nationalId: '',
       otherNationalId: '',
       gender: genderValues?.value ?? gender?.value,
-      alias: accounts.alias ?? "",
-      countryCode: accounts.countryCode ?? "",
+      alias: accounts?.alias ?? "",
+      countryCode: accounts?.countryCode ?? "",
       isComplete: true
     }
     dispatch(updateUserProfileInfo({ dataProfile }))
@@ -178,13 +185,13 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
       <Divider height-10 />
       <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
       <Loading modalVisible={profile?.isLoadingProfile} />
-      <View flex-1 bottom>
+      {/* <View flex-1 bottom>
         <SnackNotice
           visible={error}
           message={profile?.error?.message}
           timeout={3000}
         />
-      </View>
+      </View> */}
     </BackgroundWrapper>
   );
 }

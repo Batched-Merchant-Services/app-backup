@@ -20,7 +20,7 @@ import Styles from './styles';
 import Colors from '@styles/Colors';
 
 import { scale, verticalScale } from 'react-native-size-matters';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 
 //Images
@@ -28,6 +28,7 @@ import Back from '@assets/icons/backBlue.png';
 import blueRowRight from '@assets/icons/blue-row-right.png';
 import blueLogOut from '@assets/icons/blue-logout.png';
 import Logo from '@assets/brandBatched/black-logo.svg';
+import { logoutSession } from '../store/actions/auth.actions';
 
 
 
@@ -38,7 +39,9 @@ const {
 
 const CustomDrawer = props => {
   const redux = useSelector(state => state);
+  const dispatch = useDispatch();
   const appData = redux.user;
+  const auth = redux?.auth;
   const brandTheme = appData?.Theme?.colors;
 
   const { state, progress, navigation } = props;
@@ -47,17 +50,19 @@ const CustomDrawer = props => {
   //const progress = useDrawerProgress();
 
 
+  function handleLogout() {
+    dispatch(logoutSession());
+  }
 
-
+  if (auth?.isLoggedOut) {
+    navigation.navigate('SignIn', {
+      screen: 'LogOut'
+    });
+  }
 
   const RenderLeftBack = ({ navigation }) => {
-
     function handleClose() {
       navigation.closeDrawer();
-    }
-
-    function handleOpenMenuDrawer() {
-      navigation.openDrawer();
     }
 
     return (
@@ -173,11 +178,13 @@ const CustomDrawer = props => {
             />
           </Ripple>
           <Ripple color={'rgb(0, 106, 200)'} centered={true}
-            onPress={() => {
-              navigation.navigate('SignIn', {
-                screen: 'LogOut'
-              })
-            }}>
+            // onPress={() => {
+            //   navigation.navigate('SignIn', {
+            //     screen: 'LogOut'
+            //   })
+            // }}
+            onPress={handleLogout}
+            >
             <DrawerItem
               label={({ focused }) => <CustomLabel label={'Logout'} logout />}
             />

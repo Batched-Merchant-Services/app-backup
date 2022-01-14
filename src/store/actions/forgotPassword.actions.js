@@ -17,6 +17,8 @@ export const getForgotPassword = ({dataRecovery }) => async (dispatch) => {
     client.mutate({
       mutation: SET_FORGOT_PASSWORD,
       variables: dataRecovery,
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: FORGOT_YOUR_PASSWORD_SUCCESS, payload: response?.data });
@@ -35,7 +37,9 @@ export const confirmForgotPassword = ({dataConfirm }) => async (dispatch) => {
     dispatch({ type: CONFIRM_PASSWORD });
     client.mutate({
       mutation: SET_CONFIRM_PASSWORD,
-      variables: dataConfirm
+      variables: dataConfirm,
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: CONFIRM_PASSWORD_SUCCESS, payload: response?.data});

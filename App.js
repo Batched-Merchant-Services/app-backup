@@ -31,6 +31,7 @@
  import { ApolloProvider } from '@apollo/react-hooks'
  import { theme } from './theme';
  import configureStore from '@store/configureStore';
+ import store from '@store';
  import SessionTimeout from './SessionTimeout';
  import UserInactivity from 'react-native-user-inactivity';
  import BackgroundTimer from 'react-native-background-timer';
@@ -40,7 +41,7 @@
  import { userInactivity } from './src/store/actions/app.actions';
  
  
- const store = configureStore()
+ //const store = configureStore()
  
  const MyTheme = {
    dark: false,
@@ -56,7 +57,7 @@
  
  export default function App() {
    const [isReady, setIsReady] = useState(false);
-   const [storePromise, setStorePromise] = useState({});
+   const [storePromise, setStorePromise] = useState(null);
    const [secondsLeft, setSecondsLeft] = useState(60 * 4.5);
    const [timerOn, setTimerOn] = useState(false);
    const [active, setActive] = useState(false);
@@ -65,10 +66,10 @@
  
  
    useEffect(async () => {
-   
-     const configStore = await configureStore()
+    
+     const configStore = await store;
      const loginId = configStore?.getState()?.auth?.isSession;
-     setIsLoginId(loginId)
+     setIsLoginId(loginId);
      const statusUserActive = configStore?.getState()?.app?.statusUserActive;
      //console.log('statusUserActive',statusUserActive,loginId)
      //configStore?.dispatch(userInactivity(false))
@@ -77,7 +78,7 @@
      setStorePromise(configStore)
      SplashScreen.hide(); // here
  
-   }, [timerOn,isLoginId]);
+   }, [timerOn,isLoginId,store]);
    
  
    useEffect(() => {
@@ -117,7 +118,7 @@
   
  
    const onReset = async() => {
-     const configStore = await configureStore()
+     const configStore = await store
      configStore?.dispatch(validateSession())
      setSecondsLeft(60 * 4.5)
    }

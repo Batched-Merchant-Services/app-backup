@@ -51,10 +51,6 @@ const LoginCode = ({ navigation, navigation: { goBack } }) => {
   }
 
 
-  // if (registerData?.isLoading) {
-  //   return <Loading modalVisible={registerData?.isLoading}/>;
-  // }
-
   if (registerData?.finishValidateCodeSuccess) {
     navigation.navigate('SignOut', {
       screen: 'Register'

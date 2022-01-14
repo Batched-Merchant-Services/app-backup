@@ -44,17 +44,13 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
 
  
   useEffect(() => {
-   
-    
     const unsubscribe = navigation.addListener('focus', () => {
-      console.log('getuser')
-      dispatch(getDataUser());
       dispatch(getCountries());
       getShowCountry();
     });
     return unsubscribe;
    
-  }, [dispatch]);
+  }, [dispatch,dataUser]);
 
 
   async function getShowCountry() {

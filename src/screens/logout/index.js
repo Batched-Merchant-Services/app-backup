@@ -7,7 +7,8 @@ import {
   ButtonRounded,
   BackgroundWrapper
 } from '@components';
-import { useSelector } from 'react-redux';
+
+import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
 import { scale, verticalScale } from 'react-native-size-matters';
 import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
@@ -17,13 +18,21 @@ import Styles from './styles'
 import i18n from '@utils/i18n';
 import { ViewBase } from 'react-native';
 import Colors from '@styles/Colors';
+import { cleanError } from '../../store/actions/auth.actions';
+import { toggleSnackbarClose } from '../../store/actions/app.actions';
 
 
 const Logout = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
+  const dispatch = useDispatch();
+  const authData = redux?.auth;
   const referenceCode = useValidatedInput('sms', '');
 
-
+  useEffect(() => {
+    console.log('ya esta en logout')
+    dispatch(cleanError());
+    dispatch(toggleSnackbarClose());
+  }, [dispatch]);
 
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>

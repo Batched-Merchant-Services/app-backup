@@ -21,20 +21,19 @@ export const useValidatedInput = (
 
 
   useEffect(() => {
-    if (value === '') setError('pending');
+    if (value === '' || value === undefined) setError('pending');
   }, [value]);
 
   function handleChangeText(text) {
-    if (text?.name === '') {
+    if (text.name === '') {
       setError(Validate(name, value, ...validationParams));
     } else {
-      setError(Validate(text?.name, text?.value, ...validationParams));
+      setError(Validate(text.name, text.value, ...validationParams));
       setValue(text);
     }
   }
 
   function handleChangeSelect(text) {
-    console.log('text',text)
     if (text?.name === '') {
       setError(Validate(name, value, ...validationParams));
     } else {

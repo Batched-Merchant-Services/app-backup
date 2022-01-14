@@ -30,7 +30,6 @@ const CodeSms = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
   const registerData = redux?.register;
   const codeSms = useValidatedInput('sms', '');
-  const [snackVisible, setSnackVisible] = useState(false);
   const isValid = isFormValid(codeSms);
   
 
@@ -51,12 +50,7 @@ const CodeSms = ({ navigation, navigation: { goBack } }) => {
     dispatch(validateSMS({codeSms}));
   }
 
-  // if (registerData?.isLoading) {
-  //   return <Loading />;
-  // }
-
   if (registerData?.finishSmsSuccess) {
-    // navigation.navigate("RegisterProfileBasic")
     navigation.navigate("CreateNewPassword")
   }
 
