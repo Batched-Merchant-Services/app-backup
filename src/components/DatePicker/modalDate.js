@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import Colors from '@styles/Colors';
 import { formatDate } from '@utils/formatters';
 import Styles from './styles';
+import i18n from '@utils/i18n';
 
 const modalDate = ({ visible, onRequestClose, getData, onPressOverlay, ...props }) => {
   const redux = useSelector(state => state);
@@ -50,7 +51,7 @@ const modalDate = ({ visible, onRequestClose, getData, onPressOverlay, ...props 
                   size='sm'
                 >
                   <Text h14 semibold blue02>
-                    Close
+                    {i18n.t('General.buttonClose')}
                   </Text>
                 </ButtonRounded>
               </View>

@@ -14,7 +14,7 @@ import {
 } from '@components';
 import Logo from '@assets/brandBatched/logo.svg';
 import { useSelector } from 'react-redux';
-
+import i18n from '@utils/i18n';
 
 const SecretAnswer = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -38,31 +38,31 @@ const SecretAnswer = ({ navigation, navigation: { goBack } }) => {
     <BackgroundWrapper>
       <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
       <Divider height-15 />
-      <Text h14 white>Secret answer</Text>
-      <Text h14 white semibold>You must memorize it, <Text h14 white light>since in case of user authentication, this will be required:</Text></Text>
+      <Text h14 white>{i18n.t('Register.secretAnswer.textSecretAnswer')}</Text>
+      <Text h14 white semibold>{i18n.t('Register.secretAnswer.textYouMustMemorizeIt')}<Text h14 white light>{i18n.t('Register.secretAnswer.textSinceInCaseOfUser')}</Text></Text>
       <Divider height-25 />
       <DropDownPicker
         {...answer}
-        label={'Country'}
+        label={i18n.t('Register.secretAnswer.dropDownCountry')}
         options={items}
         //onFill={(code)=> filterPays(code)}
        />
       <Divider height-5 />
       <FloatingInput
         {...secretAnswers}
-        label={'Secret answer*'}
+        label={i18n.t('Register.secretAnswer.inputSecretAnswer')}
         autoCapitalize={'none'}
         secureTextEntry
       />
       <Divider height-5 />
       <FloatingInput
         {...secretAnswerConfirm}
-        label={'Repeat secret answer*'}
+        label={i18n.t('Register.secretAnswer.inputRepeatSecretAnswer')}
         autoCapitalize={'none'}
         secureTextEntry
       />
-      <Text h12 white light>* Required fields</Text>
-      <Divider height-15 />
+      <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
+      <Divider height-10 />
       <View flex-1 row bottom >
         <ButtonRounded
           onPress={() => goBack()}
@@ -71,21 +71,21 @@ const SecretAnswer = ({ navigation, navigation: { goBack } }) => {
           size='sm'
         >
           <Text h14 semibold blue02>
-            Back
+            {i18n.t('General.buttonBack')}
           </Text>
         </ButtonRounded>
         <Divider width-10 />
         <ButtonRounded
-          onPress={() => navigation.navigate("TermConditions")}
+         onPress={() => navigation.navigate("TermConditions")}
           disabled={!isValid}
           blue
           size='sm'
         >
           <Text h14 semibold>
-            Next
+            {i18n.t('General.buttonNext')}
           </Text>
         </ButtonRounded>
-      </View> 
+      </View>
     </BackgroundWrapper>
   );
 }

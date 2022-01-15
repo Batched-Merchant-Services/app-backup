@@ -10,13 +10,8 @@
  import {
    StatusBar,
    useColorScheme,
-   Text,
-   PanResponder,
    AppState
  } from 'react-native';
- import {
-   View
- } from '@components';
  import {
    Colors
  } from 'react-native/Libraries/NewAppScreen';
@@ -25,6 +20,7 @@
  import { SafeAreaProvider } from 'react-native-safe-area-context';
  import AppNavigation from '@navigation/index';
  import { Provider } from 'react-redux'
+ import { I18nextProvider } from 'react-i18next';
  // import store from '@store';
  import SplashScreen from "react-native-lottie-splash-screen";
  import { client } from '@utils/api/apollo';
@@ -39,7 +35,7 @@
  import { validateSession } from './src/store/actions/auth.actions';
  import {useNavigationState} from '@react-navigation/native';
  import { userInactivity } from './src/store/actions/app.actions';
- 
+ import i18n from '@utils/i18n';
  
  //const store = configureStore()
  
@@ -156,19 +152,21 @@
        
          <SafeAreaProvider style={backgroundStyle}>
            <StatusBar barStyle={isDarkMode ? 'white-content' : 'dark-content'} />
-           <ApolloProvider client={client} store={storePromise}>
-             <Provider store={storePromise} theme={theme}>
-             <UserInactivity
-               isActive={active}
-               timeForInactivity={270000}
-               onAction={onAction}
-             >
-               <NavigationContainer theme={MyTheme} independent={true} ref={navigatorRef => { NavigationService.setTopLevelNavigator(navigatorRef)}}>
-                 <AppNavigation />
-               </NavigationContainer>
-               </UserInactivity>
-             </Provider>
-           </ApolloProvider>
+           <I18nextProvider i18n={i18n} initialLanguage="en">
+            <ApolloProvider client={client} store={storePromise}>
+              <Provider store={storePromise} theme={theme}>
+              <UserInactivity
+                isActive={active}
+                timeForInactivity={270000}
+                onAction={onAction}
+              >
+                <NavigationContainer theme={MyTheme} independent={true} ref={navigatorRef => { NavigationService.setTopLevelNavigator(navigatorRef)}}>
+                  <AppNavigation />
+                </NavigationContainer>
+                </UserInactivity>
+              </Provider>
+            </ApolloProvider>
+           </I18nextProvider>
          </SafeAreaProvider>
       
      );

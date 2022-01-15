@@ -129,7 +129,7 @@ const ReferralCode = ({ navigation }) => {
       <View flex-1 bottom>
         <Text h10 white light>Morbi aliquam nisi diam, vitae laoreet neque ultrices sed. Maecenas at dui auctor arcu condimentum congue. Duis vel ligula in felis cursus pellentesque. Nam tellus tellus, gravida ut luctus a, pellentesque nec est.</Text>
         <Divider height-10 />
-        <Text h10 white light>All rights reserved. Batched.com</Text>
+        <Text h10 blue01 light>{i18n.t('General.textAllRightsReserved')} Batched.com</Text>
       </View>
       <SnackNotice
         visible={error}

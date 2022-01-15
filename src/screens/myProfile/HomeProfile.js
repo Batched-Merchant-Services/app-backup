@@ -45,11 +45,11 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
       )}
       {!showReferralCode && (
         <View left>
-        <Text h12 white light>Referred by:</Text>
+        <Text h12 white light>{i18n.t('myProfile.textReferredBy')} </Text>
         </View>
 
       )}
-
+ 
       <Divider height-10 />
       <View blue03  paddingH-12 paddingV-15>
         <View row>
@@ -62,7 +62,7 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
             <Text h12 blue02 light>Uulala ID:</Text>
             <Text h12 white light>{accounts?.id}</Text>
             <Divider height-10 />
-            <Text h12 blue02 light>Phone</Text>
+            <Text h12 blue02 light>{i18n.t('myProfile.inputPhone')}</Text>
             <Text h12 white light>{accounts?.phoneNumber}</Text>
             <Divider height-10 />
             <Text h12 blue02 light>{i18n.t('myProfile.textReferenceCode')}</Text>

@@ -54,8 +54,6 @@ const AccountConfirmation = ({ navigation, navigation: { goBack } }) => {
           <Divider height-10 />
           <Text h10 blue01 light>{i18n.t('General.textAllRightsReserved')} Batched.com</Text>
         </View>
-
-
     </BackgroundWrapper>
 
 

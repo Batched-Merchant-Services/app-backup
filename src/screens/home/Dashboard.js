@@ -129,8 +129,8 @@ const Dashboard = ({ navigation }) => {
       {appResources?.showStatusTimers === 'green' && statusAvailable && (
         <>
           <View height-65 green centerH centerV>
-            <Text h14 white bold>You are fully active today!</Text>
-            <Text h12 white>Come back tomorrow from 06:00 to 12:00 UTC.</Text>
+            <Text h14 white bold>{i18n.t('home.textYouAreFullyActive')}</Text>
+            <Text h12 white>{i18n.t('home.textComeBackTomorrowFrom')} 06:00 to 12:00 UTC.</Text>
           </View>
           <Divider height-10 />
         </>
@@ -139,8 +139,8 @@ const Dashboard = ({ navigation }) => {
       {statusFinish && (
         <>
           <View height-65 blue03 centerH centerV style={{ borderColor: Colors.blue04, borderWidth: 1 }}>
-            <Text h14 white light>Distribution Cycle has finished today,</Text>
-            <Text h14 white bold>come back tomorrow to participate.</Text>
+            <Text h14 white light>{i18n.t('home.textDistributionCycleHasFinished')}</Text>
+            <Text h14 white bold>{i18n.t('home.textComeBackTomorrow')}</Text>
           </View>
           <Divider height-10 />
         </>

@@ -9,6 +9,7 @@ import InputIconError from '@components/FloatingLabelInput/InputIconError';
 import InputIconSuccess from '@components/FloatingLabelInput/InputIconSuccess';
 import { scale, verticalScale } from 'react-native-size-matters';
 import Colors from '@styles/Colors';
+import i18n from '@utils/i18n';
 
 const DropDownPicker = ({ error, label, value, options, size, onSelect, languages, onFill, labelDefault, navigation,...props }) => {
 
@@ -106,7 +107,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
         </View>
         <ModalDropdown
           options={options}
-          defaultValue={labelDefault ? labelDefault : 'Select Option'}
+          defaultValue={labelDefault ? labelDefault : i18n.t('General.dropDownSelectOption')}
           onSelect={handleSelect}
           onDropdownWillHide={handleWillShowHide}
           renderSeparator={(rowID) => renderSeparator(rowID)}

@@ -1,4 +1,6 @@
 import i18n from '@utils/i18n';
+
+console.log('Validations',Validations)
 const Validations = {
   //GENERAL VALIDATIONS
   email: {
@@ -98,16 +100,6 @@ const Validations = {
   birthDay:{
     presence: {
       message: i18n.t('validations.birthDay')
-    },
-  },
-  addressOne:{
-    presence: {
-      message: i18n.t('validations.addressOne')
-    },
-  },
-  addressTwo:{
-    presence: {
-      message: i18n.t('validations.addressTwo')
     },
   },
   postalCode:{

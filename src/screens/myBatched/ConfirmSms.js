@@ -91,14 +91,14 @@ const TransferOption = ({ navigation, route, onPress, label }) => {
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
-      <Text h16 blue02 regular>Confirm the transfer</Text>
+      <Text h16 blue02 regular>{i18n.t('home.myBatchedTransfer.textConfirmTheTransfer')}</Text>
       <Divider height-10 />
       <Text h14 blue02>{i18n.t('home.myBatchedTransfer.textRewardPoints')}</Text>
         <Text h16 white semibold>{thousandsSeparator(RewardsData?.total)}</Text>
       <Divider height-10 />
-      <Text h16 blue02>We have sent you a 6 digit code to the phone <Text h12 white>{maskNumbers(valuePhone)}</Text></Text>
+      <Text h16 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentYou')}<Text h12 white>{maskNumbers(valuePhone)}</Text></Text>
       <Divider height-20 />
-      <Text h12 blue02>Confirmation Code:</Text>
+      <Text h12 blue02>{i18n.t('home.myBatchedTransfer.textConfirmationCode')}</Text>
       <Divider height-10 />
       <PinInput {...codeSecurity} onSubmit={(code)=>getInfo(code) }/>
       {/* <FloatingInput
@@ -109,9 +109,9 @@ const TransferOption = ({ navigation, route, onPress, label }) => {
       <Divider height-25 />
       <Divider style={Styles.borderDoted} />
       <Divider height-25 />
-      <Text h12 white> The code will be valid for 4:38, If you haven’t receive it you can{' '}
+      <Text h12 white>{i18n.t('home.myBatchedTransfer.textTheCodeWillBeValid')}{' '}
       <Link onPress={onPressResendCode}>
-        <Text h12 white>Resend code</Text>
+        <Text h12 white>{i18n.t('home.myBatchedTransfer.linkResendCode')}</Text>
       </Link></Text>
       <Divider height-30 />
       <ButtonRounded

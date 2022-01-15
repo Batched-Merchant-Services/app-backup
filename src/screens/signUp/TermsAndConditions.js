@@ -75,7 +75,7 @@ const TermAndConditions = ({ navigation, navigation: { goBack } }) => {
     <BackgroundWrapper>
       <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
       <Divider height-15 />
-      <Text h20 blue02>Privacy agreement</Text>
+      <Text h20 blue02>{i18n.t('General.linkPrivacyAgreement')}</Text>
       <Text h9 white>{userApp?.getAppResources?.privacyPolice}</Text>
       <Divider height-10 />
      
@@ -90,10 +90,10 @@ const TermAndConditions = ({ navigation, navigation: { goBack } }) => {
       <Text h12 white light>{i18n.t('General.textRequiredFields')}</Text>
       <Divider height-20 />
       <View flex-1 bottom> */}
-      <Text h20 blue02>Term and Conditions</Text>
+      <Text h20 blue02>{i18n.t('General.linkTermsAndConditions')}</Text>
       <Text h9 white>{userApp?.getAppResources?.termsAndConditions}</Text>
-      <Checkbox {...privacy} label='I agree with the Privacy Notice.*' />
-      <Checkbox {...term} label='I agree with the Terms and Conditions.*' />
+      <Checkbox {...privacy} label={i18n.t('General.textIAgreeWithThePrivacy')} />
+      <Checkbox {...term} label={i18n.t('General.textIAgreeWithTheTerms')} />
       <ButtonRounded
         //onPress={() => navigation.navigate("RegisterProfileBasic")}
         onPress={() => navigation.navigate("ReferralCode")}

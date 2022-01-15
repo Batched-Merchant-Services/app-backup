@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect,useState } from 'react';
+import React, {useState } from 'react';
 
 import {
   Text,
@@ -10,7 +10,6 @@ import {
 
 import { useSelector, useDispatch } from 'react-redux';
 import { scale,verticalScale } from 'react-native-size-matters';
-import { useValidatedInput } from '@hooks/validation-hooks';
 import DocumentPicker from 'react-native-document-picker';
 import styles from './styles';
 import Colors from '@styles/Colors';
@@ -19,7 +18,7 @@ import check from '@assets/icons/white-check.png';
 import close from '@assets/icons/white-x.png';
 import { setFile } from '../../store/actions/user.action';
 import { convertImage } from '@utils/formatters';
-
+import i18n from '@utils/i18n';
 
 const UploadFile = ({ value, error, onChangeText,navigation,labelInput,labelButton,onPressTerm, onPressPrivacy, ...props }) => {
   const dispatch = useDispatch();
@@ -86,7 +85,7 @@ const UploadFile = ({ value, error, onChangeText,navigation,labelInput,labelButt
           dark
         >
           <Text h14 semibold blue02>
-            {singleFile != null ?'Choose file':'Choose file'}
+            {singleFile != null ?i18n.t('Licenses.textChooseFile'):i18n.t('Register.textChooseFile')}
           </Text>
         </ButtonRounded>
     </View>

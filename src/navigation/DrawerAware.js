@@ -6,6 +6,7 @@ import {
   DrawerItemList
 } from '@react-navigation/drawer';
 import { TouchableOpacity, Button } from 'react-native';
+import { AsyncStorage} from 'react-native';
 import {
   Text,
   View,
@@ -29,7 +30,7 @@ import blueRowRight from '@assets/icons/blue-row-right.png';
 import blueLogOut from '@assets/icons/blue-logout.png';
 import Logo from '@assets/brandBatched/black-logo.svg';
 import { logoutSession } from '../store/actions/auth.actions';
-
+import i18n from '@utils/i18n';
 
 
 const {
@@ -52,6 +53,22 @@ const CustomDrawer = props => {
 
   function handleLogout() {
     dispatch(logoutSession());
+  }
+
+  function handleChangeEnglish() {
+    i18n.changeLanguage('en').then(() => {
+      i18n.options.lng = 'en';
+      i18n.isInitialized = true;
+      AsyncStorage.setItem('lang', 'en');
+    });
+  }
+
+  function handleChangeSpanish() {
+    i18n.changeLanguage('es').then(() => {
+      i18n.options.lng = 'es';
+      i18n.isInitialized = true;
+      AsyncStorage.setItem('lang', 'es');
+    });
   }
 
   if (auth?.isLoggedOut) {
@@ -103,6 +120,7 @@ const CustomDrawer = props => {
             <Divider width-10 />
             <View row right>
               <TouchableOpacity
+                onPress={handleChangeEnglish}
                 style={[{
                   backgroundColor: brandTheme?.blue04 ?? Colors?.blue04,
                   padding: verticalScale(8)
@@ -112,6 +130,7 @@ const CustomDrawer = props => {
               </TouchableOpacity>
               <Divider width-10 />
               <TouchableOpacity
+                onPress={handleChangeSpanish}
                 style={[{
                   backgroundColor: brandTheme?.blue04 ?? Colors?.blue04,
                   padding: verticalScale(8)
@@ -172,11 +191,9 @@ const CustomDrawer = props => {
               label={({ focused }) => <CustomLabel label={'Contact'} />}
             />
           </Ripple>
-          <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('Dashboard')} >
             <DrawerItem
               label={({ focused }) => <CustomLabel label={'Language'} language />}
             />
-          </Ripple>
           <Ripple color={'rgb(0, 106, 200)'} centered={true}
             // onPress={() => {
             //   navigation.navigate('SignIn', {

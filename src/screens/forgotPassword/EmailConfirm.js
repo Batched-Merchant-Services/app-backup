@@ -29,6 +29,7 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
   const email = useValidatedInput('email', '');
   const referenceCode = useValidatedInput('sms', '');
   const isValid = isFormValid(email, referenceCode);
+  const isValidEmail = isFormValid(email);
   const [snackVisible, setSnackVisible] = useState(false);
 
   useEffect(() => {
@@ -48,6 +49,7 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
   }
 
   function handleSendCode() {
+    
     let dataRecovery = {
       email: email?.value,
       phone: '',
@@ -81,7 +83,7 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
       <Divider height-10 />
       <ButtonRounded
         onPress={handleSendCode}
-        disabled={false}
+        disabled={!isValidEmail}
         dark
       >
         <Text h14 semibold blue02>

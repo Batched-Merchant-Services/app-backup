@@ -2,8 +2,10 @@ import i18next from 'i18next';
 import en from './translations/en.json';
 import es from './translations/es.json';
 import i18nextReactNative from './localDetector';
+import { AsyncStorage } from 'react-native';
 
 const i18n = i18next.createInstance();
+
 
 i18n
   .use(i18nextReactNative)

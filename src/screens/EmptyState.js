@@ -9,7 +9,7 @@ import i18n from '@utils/i18n';
 const EmptyState = ({ navigation, step, onPress, label }) => {
   return (
     <View flex-1 centerH centerV marginH-30>
-      <Text h16 blue02 regular center>Sorry, we don't have any information to show yet</Text>
+      <Text h16 blue02 regular center>{i18n.t('General.textEmptyState')}</Text>
       <Divider height-30 />
       <ImageResize
         source={empty}

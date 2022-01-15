@@ -37,16 +37,23 @@
       "referenceCode":"Please enter a reference code"
     },
     "General":{
+      "textEmptyState":"Sorry, we don't have any information to show yet",
       "linkTermsAndConditions":"Terms and Conditions",
       "linkPrivacyPolicy":"Privacy Policy",
+      "linkPrivacyAgreement":"Privacy agreement",
       "textRequiredFields":"* Required fields",
       "buttonBack":"Back",
       "buttonNext":"Next",
       "buttonSave":"Save",
+      "buttonClose":"Close",
       "buttonBackToLogin":"Back to Login",
+      "dropDownSelectOption":"Select Option",
       "textAllRightsReserved":"All rights reserved.",
       "textUulalaId":"Uulala ID",
       "textEmptySection":"Sorry, we don't have any information to show yet",
+      "buttonSaveChanges":"Save changes",
+      "textIAgreeWithThePrivacy":"I agree with the Privacy Notice.*",
+      "textIAgreeWithTheTerms":"I agree with the Terms and Conditions.*",
       "errors": {
         "textBadCredentials": "User or password error, bad credentials",
         "textUserNotActive": "User nor active, Please activate your account from the link sent to your E-mail",
@@ -100,6 +107,14 @@
       "textIDontHaveACode":"I don't have a code",
       "textJustOneMoreStep":"Just one more step.",
       "textCompanyCode":"Company code",
+      "secretAnswer":{
+        "textSecretAnswer":"Secret answer",
+        "textYouMustMemorizeIt":"You must memorize it,",
+        "textSinceInCaseOfUser":"since in case of user authentication, this will be required:",
+        "dropDownCountry":"Country",
+        "inputSecretAnswer":"Secret answer*",
+        "inputRepeatSecretAnswer":"Repeat secret answer*"
+      },
       "errorMessages":{
         "textUserNotFound":"Usuario no encontrado, Intenta de nuevo"
       }
@@ -264,14 +279,19 @@
       "textTimeRemaining":"Time remaining to participate in today's distribution cycle",
       "textStayOnlineTo":"Stay online to participate for 18:32",
       "textValidationOfReward":"Validation of reward points will be available in:",
-      "textValidatingReward":"Validating reward points today",
-      "textLicensesInNetwork":"Licenses In Network",
+      "textValidatingReward":"Validación de puntos de recompensa hoy",
+      "textLicensesInNetwork":"Licencias en Network",
       "textTotalActiveLicenses":"Total Active Licenses",
       "textDistributionCycle":"Distribution cycle",
       "textDistributedPerDay":"Distributed \n per day",
       "textPointsPerLicence":"Points per licence",
       "textAvailableThisMonth":"Available \n this month",
       "buttonLicensesActivation":"Licenses activation",
+      "buttonStart":"Start",
+      "textYouAreFullyActive":"You are fully active today!",
+      "textComeBackTomorrowFrom":"Come back tomorrow from",
+      "textDistributionCycleHasFinished":"Distribution Cycle has finished today,",
+      "textComeBackTomorrow":"come back tomorrow to participate.",
       "confirmationActivation":{
         "textCongratulations":"Congratulations!",
         "textYouAreFullyActiveToday":"You are fully active today!",

@@ -138,7 +138,7 @@ const CountDownSeconds = ({ navigation, ...props }) => {
                 <ImageBackground source={secondLayer} resizeMode="contain" style={Styles.imageSecond}>
                   <TouchableOpacity onPress={()=>handlePressStart()}>
                     <View  marginT-40 style={Styles.containerTime}>
-                      <Text h15 white semibold>Start</Text>
+                      <Text h15 white semibold>{i18n.t('home.buttonStart')}</Text>
                     </View>
                   </TouchableOpacity>
                 </ImageBackground>
