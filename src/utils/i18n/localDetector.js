@@ -23,7 +23,8 @@ export default {
     });  
   },
   cacheUserLanguage: function(lng) {
-    return  lng;
+    AsyncStorage.setItem('lang', lng);
+    //return  lng;
   }
 };
 

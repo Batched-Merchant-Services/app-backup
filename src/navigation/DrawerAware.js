@@ -30,9 +30,9 @@ import blueRowRight from '@assets/icons/blue-row-right.png';
 import blueLogOut from '@assets/icons/blue-logout.png';
 import Logo from '@assets/brandBatched/black-logo.svg';
 import { logoutSession } from '../store/actions/auth.actions';
-import i18n from '@utils/i18n';
-
-
+//import i18n from '@utils/i18n';
+import { useTranslation, Trans, I18nextProvider } from 'react-i18next';
+import {DevSettings} from 'react-native';
 const {
   interpolate,
   Extrapolate
@@ -44,12 +44,11 @@ const CustomDrawer = props => {
   const appData = redux.user;
   const auth = redux?.auth;
   const brandTheme = appData?.Theme?.colors;
-
   const { state, progress, navigation } = props;
   const { index, routes } = state;
-
+  const { t, i18n } = useTranslation();
   //const progress = useDrawerProgress();
-
+  console.log('i18n',i18n)
 
   function handleLogout() {
     dispatch(logoutSession());
@@ -58,17 +57,15 @@ const CustomDrawer = props => {
   function handleChangeEnglish() {
     i18n.changeLanguage('en').then(() => {
       i18n.options.lng = 'en';
-      i18n.isInitialized = true;
       AsyncStorage.setItem('lang', 'en');
     });
   }
 
-  function handleChangeSpanish() {
-    i18n.changeLanguage('es').then(() => {
-      i18n.options.lng = 'es';
-      i18n.isInitialized = true;
-      AsyncStorage.setItem('lang', 'es');
-    });
+  function changeLanguage(lng) {
+    i18n.options.lng = lng;
+    AsyncStorage.setItem('lang', lng);
+    i18n.changeLanguage(lng);
+    DevSettings.reload();
   }
 
   if (auth?.isLoggedOut) {
@@ -120,7 +117,7 @@ const CustomDrawer = props => {
             <Divider width-10 />
             <View row right>
               <TouchableOpacity
-                onPress={handleChangeEnglish}
+                onPress={() => changeLanguage('en')}
                 style={[{
                   backgroundColor: brandTheme?.blue04 ?? Colors?.blue04,
                   padding: verticalScale(8)
@@ -130,7 +127,7 @@ const CustomDrawer = props => {
               </TouchableOpacity>
               <Divider width-10 />
               <TouchableOpacity
-                onPress={handleChangeSpanish}
+                onPress={() => changeLanguage('es')}
                 style={[{
                   backgroundColor: brandTheme?.blue04 ?? Colors?.blue04,
                   padding: verticalScale(8)

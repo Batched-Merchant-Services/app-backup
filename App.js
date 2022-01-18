@@ -36,6 +36,7 @@
  import {useNavigationState} from '@react-navigation/native';
  import { userInactivity } from './src/store/actions/app.actions';
  import i18n from '@utils/i18n';
+
  
  //const store = configureStore()
  
@@ -67,6 +68,7 @@
      const loginId = configStore?.getState()?.auth?.isSession;
      setIsLoginId(loginId);
      const statusUserActive = configStore?.getState()?.app?.statusUserActive;
+     console.log('statusUserActive',loginId)
      //console.log('statusUserActive',statusUserActive,loginId)
      //configStore?.dispatch(userInactivity(false))
      setTimerOn(true);
@@ -79,12 +81,12 @@
  
    useEffect(() => {
      AppState.addEventListener('change',handleAppStateChange);
-     if (timerOn) startTimer();
+     if (!isLoginId?false:timerOn) startTimer();
      else BackgroundTimer.stopBackgroundTimer();
      return () => {
        BackgroundTimer.stopBackgroundTimer();
      };
-   }, [timerOn]);
+   }, [timerOn,isLoginId]);
  
  
    const handleAppStateChange = async(nextAppState) =>{
@@ -144,6 +146,7 @@
      backgroundColor: isDarkMode ? Colors.darker : Colors.white,
    };
    
+   console.log('i18n app js',i18n)
  
  
    if (isReady) {
@@ -152,7 +155,7 @@
        
          <SafeAreaProvider style={backgroundStyle}>
            <StatusBar barStyle={isDarkMode ? 'white-content' : 'dark-content'} />
-           <I18nextProvider i18n={i18n} initialLanguage="en">
+           <I18nextProvider i18n={i18n}>
             <ApolloProvider client={client} store={storePromise}>
               <Provider store={storePromise} theme={theme}>
               <UserInactivity

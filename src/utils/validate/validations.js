@@ -1,25 +1,44 @@
 import i18n from '@utils/i18n';
+import { AsyncStorage } from 'react-native';
 
-console.log('Validations',Validations)
-const Validations = {
-  //GENERAL VALIDATIONS
-  email: {
-    presence: {
-      message: i18n.t('validations.emailPresence')
+
+var Validations = [];
+var mapValid = [];
+
+(async () => {
+  const lang = await AsyncStorage.getItem('lang');
+  i18n.changeLanguage(lang);
+  const md = await downloadedText();
+  mapValid.push(md);
+  const ld = mapValid?.map((i, index) => {
+    const st = {...i}
+    return st;
+  })  
+  Validations.push(ld[0]);
+})();
+
+
+console.log('Validations',Validations.length)
+async function downloadedText() { 
+  const valid = {
+     //GENERAL VALIDATIONS
+     email: {
+      presence: {
+        message: i18n.t('validations.emailPresence')
+      },
+      format: {
+        pattern: /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i,
+        message: i18n.t('validations.emailFormat')
+      }
     },
-    format: {
-      pattern: /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/i,
-      message: i18n.t('validations.emailFormat')
-    }
-  },
-  password: {
-    presence: {
-      message: i18n.t('validations.passwordPresence')
-    },
-    length: {
-      minimum: 8,
-      maximum: 25,
-      message: i18n.t('validations.passwordLength')
+    password: {
+      presence: {
+        message: i18n.t('validations.passwordPresence')
+      },
+      length: {
+        minimum: 8,
+        maximum: 25,
+        message: i18n.t('validations.passwordLength')
     },
     format: {
       pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/,
@@ -195,11 +214,9 @@ const Validations = {
       message: i18n.t('validations.referenceCode')
     },
   },
-  
-
-  
-  
-
-};
-
+  }
+  return  valid
+}
 export default Validations;
+
+
