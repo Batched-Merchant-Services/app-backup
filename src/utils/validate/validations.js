@@ -17,8 +17,6 @@ var mapValid = [];
   Validations.push(ld[0]);
 })();
 
-
-console.log('Validations',Validations.length)
 async function downloadedText() { 
   const valid = {
      //GENERAL VALIDATIONS

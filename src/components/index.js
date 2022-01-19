@@ -16,12 +16,15 @@ import ImageUploadPiker from '@components/ImageUploadPiker';
 import PinInput from '@components/PinInput';
 import DatePicker from '@components/DatePicker';
 import SnackNotice from '@components/SnackNotice';
+import SnackBar from '@components/SnackBar';
+
 
 export {
   Text,
   View,
   Link,
   Divider,
+  SnackBar,
   Checkbox,
   PinInput,
   DatePicker,

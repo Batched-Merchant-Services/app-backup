@@ -145,8 +145,7 @@
    const backgroundStyle = {
      backgroundColor: isDarkMode ? Colors.darker : Colors.white,
    };
-   
-   console.log('i18n app js',i18n)
+ 
  
  
    if (isReady) {

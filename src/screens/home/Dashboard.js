@@ -68,6 +68,7 @@ const Dashboard = ({ navigation }) => {
       if (transaction.status === 1 || transaction.status === 3) setTotalLicenses(totalLicenses + transaction.routingNumber ? parseInt(transaction.routingNumber) : transaction.routingNumber);
     });
     const id = infoUser?.dataUser?.clients ? infoUser?.dataUser?.clients[0]?.account?.id : 0;
+    console.log('id',id)
     dispatch(getRewardsPoints({ id }));
     dispatch(getCommissionPoints({ id }));
     dispatch(getGatewayPointsBalance({ id }));

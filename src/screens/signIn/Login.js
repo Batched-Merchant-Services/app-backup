@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
-import SnackBar from 'rn-snackbar-component';
 import { scale, verticalScale } from 'react-native-size-matters';
 import {
   Text,
   View,
   Link,
   Divider,
+  SnackBar,
   SnackNotice,
   ImageResize,
   ButtonRounded,
@@ -29,6 +29,7 @@ import { userInactivity } from '../../store/actions/app.actions';
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
+  const [values, setValues] = useState(false);
   const authData = redux?.auth;
   const email = useValidatedInput('', '');
   const password = useValidatedInput('password', '');
@@ -42,10 +43,15 @@ const Login = ({ navigation }) => {
     dispatch(toggleSnackbarClose());
   }, [dispatch]);
 
+
   function fetchSession() {
-    dispatch(getLogin({ email, password }));
+    //setValues(true)
+   dispatch(getLogin({ email, password }));
   }
 
+  function handleClose(){
+    setValues(false)
+  }
 
   if (authData?.isSession) {
     navigation.navigate('DrawerScreen',{
@@ -101,6 +107,12 @@ const Login = ({ navigation }) => {
         message={authData?.error?.message}
         timeout={3000}
       />
+       {/* <SnackBar
+        visible={values}
+        warning
+        handleClose={handleClose}
+        message={'sip'}
+      /> */}
       <Loading  modalVisible={authData?.isLoggingIn}/>
     </BackgroundWrapper>
   );

@@ -48,8 +48,6 @@ const CustomDrawer = props => {
   const { index, routes } = state;
   const { t, i18n } = useTranslation();
   //const progress = useDrawerProgress();
-  console.log('i18n',i18n)
-
   function handleLogout() {
     dispatch(logoutSession());
   }
