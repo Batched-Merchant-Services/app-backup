@@ -42,7 +42,6 @@ export const useValidatedInput = (
   }
 
   function onBlur() {
-    console.log('blur',name,Validate(name, value, ...validationParams))
     setTouched(true);
     setError(Validate(name, value, ...validationParams));
   }

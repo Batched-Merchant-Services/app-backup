@@ -67,8 +67,6 @@ const SelectTypeLicense = ({ navigation }) => {
     getArrayLicense();
   }
 
-
-
   function getArrayLicense(end) {
     const arrayLicenses =  Array(end??0 - 1 + 1).fill().map((_, idx) =>{
       const value = 1+idx
@@ -79,9 +77,13 @@ const SelectTypeLicense = ({ navigation }) => {
   
 
   function typeCurrency(code){
-    const rest = licensesData?.cryptoCurrencies.filter(key => key?.value === code.value);
-    setIdCurrency(rest[0]?.id);
-    setCurrencyLicense(code);
+    console.log('licensesData?.cryptoCurrencies',licensesData?.cryptoCurrencies,code?.value)
+    if (licensesData?.cryptoCurrencies) {
+      const rest = licensesData?.cryptoCurrencies?.filter(key => key?.value === code?.value);
+      setIdCurrency(rest[0]?.id);
+      setCurrencyLicense(code);
+    }
+   
     if (code?.value === 'UUL') {
       setMaximumLicenses(5)
       const licenseUUl = ( 5 - totalLicenses )

@@ -14,7 +14,6 @@ import Loading from '../Loading';
 
 const DataHistory = (dataHistory) => {
   if (dataHistory?.dataHistory) {
-    console.log('dataHistory',dataHistory)
     return (dataHistory?.dataHistory?.map((i, index) => {
       return (
         <>
@@ -91,13 +90,11 @@ const History = ({ navigation }) => {
         arrayBuy.push(...infoUser?.dataUser?.bachedTransaction);
         if (points?.executeDataCommission?.length > 0) {
           const newBuy = [...arrayBuy,...points?.executeDataCommission];
-          console.log('points?.executeDataCommission',newBuy)
           setDataHistory(newBuy);
           if (points?.executeDataCommission?.length < 11) setShowMore(false)
         }
         if (points?.executeData?.length > 0 ) {
           setNewArray(points?.executeData)
-          console.log('true new array',newArray)
         }
         setShowData(true);
       }
@@ -117,7 +114,6 @@ const History = ({ navigation }) => {
     if (showFilter) {
       if (points?.executeData) {
         if (points?.executeData?.length > 0) {
-          console.log(' true newArray filter',newArray)
           const newData = [...points?.executeData]
           setDataHistory(newData);
           setShowData(true);
@@ -171,7 +167,6 @@ const History = ({ navigation }) => {
   }
 
   const pagination = () => {
-    console.log('offset',offset);
     const id = infoUser?.dataUser?.clients ? infoUser?.dataUser?.clients[0]?.account?.id : 0;
     setOffset((offset) => offset + 1);
     setShowFilter(false);

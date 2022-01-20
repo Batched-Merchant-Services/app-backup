@@ -29,7 +29,6 @@ const Logout = ({ navigation, navigation: { goBack } }) => {
   const referenceCode = useValidatedInput('sms', '');
 
   useEffect(() => {
-    console.log('ya esta en logout')
     dispatch(cleanError());
     dispatch(toggleSnackbarClose());
   }, [dispatch]);

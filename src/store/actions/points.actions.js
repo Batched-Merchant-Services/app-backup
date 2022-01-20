@@ -135,7 +135,6 @@ export const getLiquidPointsBalance = ({ id }) => async (dispatch) => {
 
 
 export const getExecutedPointsTransactions = ({ id, pool,offset }) => async (dispatch) => {
-  console.log('values',id, pool,offset)
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: EXECUTES_POINTS });
@@ -150,7 +149,6 @@ export const getExecutedPointsTransactions = ({ id, pool,offset }) => async (dis
         rowsOfPage:10
       }
     }).then(async (response) => {
-      console.log('pool',pool);
       if (response.data) {
         const executeResponse = response?.data['getAccountTransactionsTokens'];  
         dispatch({ type: EXECUTES_POINTS_SUCCESS, payload: executeResponse });
@@ -161,12 +159,10 @@ export const getExecutedPointsTransactions = ({ id, pool,offset }) => async (dis
         }
       }
     }).catch((error) => {
-      console.log('getExecutedPointsTransactions error1',error)
       dispatch({ type: POINTS_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('getExecutedPointsTransactions error2',error)
     dispatch({ type: POINTS_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
@@ -191,17 +187,17 @@ export const setRewardsPointsToTransactionGateway = ({ address, amount,code }) =
         code:code
       }
     }).then(async (response) => {
-      console.log('createPoolTransactionByTokenAddress GATEWAY response',response)
+  
       if (response.data) {
         dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY_SUCCESS, payload: response?.data['createPoolTransactionByTokenAddress'] });
       }
     }).catch((error) => {
-      console.log('createPoolTransactionByTokenAddress GATEWAY error1',error)
+  
       dispatch({ type: POINTS_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('createPoolTransactionByTokenAddress GATEWAY error2',error)
+
     dispatch({ type: POINTS_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
@@ -209,7 +205,6 @@ export const setRewardsPointsToTransactionGateway = ({ address, amount,code }) =
 
 
 export const setGatewayPointsToTransactionRewards = ({ address, amount,code }) => async (dispatch) => {
-  console.log('setGatewayPointsToTransactionRewards',amount,address,code)
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY });
@@ -227,17 +222,17 @@ export const setGatewayPointsToTransactionRewards = ({ address, amount,code }) =
         code:code
       }
     }).then(async (response) => {
-      console.log('createPoolTransactionByTokenAddress GATEWAY response',response)
+  
       if (response.data) {
         dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY_SUCCESS, payload: response?.data['createPoolTransactionByTokenAddress'] });
       }
     }).catch((error) => {
-      console.log('createPoolTransactionByTokenAddress GATEWAY error1',error)
+  
       dispatch({ type: POINTS_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('createPoolTransactionByTokenAddress GATEWAY error2',error)
+
     dispatch({ type: POINTS_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
@@ -266,12 +261,11 @@ export const setCommissionBalanceToLiquidityPool = ({ address, amount,code }) =>
         dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY_SUCCESS, payload: response?.data['createPoolTransactionByTokenAddress'] });
       }
     }).catch((error) => {
-      console.log('createPoolTransactionByTokenAddress  LIQUIDITYerror1',error)
+
       dispatch({ type: POINTS_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('createPoolTransactionByTokenAddress LIQUIDITY error2',error)
     dispatch({ type: POINTS_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
@@ -297,7 +291,6 @@ export const setLiquidityPoolToUulalaWallet = ({ address, amount,depositClient,c
         code:code
       }
     }).then(async (response) => {
-      console.log('createPoolTransactionByTokenAddressToClient response',response)
       if (response.data) {
         dispatch({ type: SET_POINTS_GATEWAY_LIQUIDITY_SUCCESS, payload: response?.data['createPoolTransactionByTokenAddressToClient'] });
       }

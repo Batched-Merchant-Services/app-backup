@@ -4,6 +4,7 @@ import {
   View,
   Link,
   Divider,
+  SnackBar,
   DatePicker,
   SnackNotice,
   StepIndicator,
@@ -14,19 +15,11 @@ import {
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
-import Logo from '@assets/brandBatched/logo.svg';
-import camera from '@assets/icons/camera.png';
-
 import Styles from './styles'
 import i18n from '@utils/i18n';
-import { gql, useQuery } from '@apollo/client';
-import { getGender } from '../../store/actions/register.actions';
-import { updateUserProfileInfo } from '../../store/actions/profile.actions';
-import Clipboard from '@react-native-community/clipboard';
+import { getGender } from '@store/actions/register.actions';
+import { cleanErrorProfile, updateUserProfileInfo } from '@store/actions/profile.actions';
 import Loading from '../Loading';
-import { cleanDataUser, getDataUser } from '../../store/actions/user.action';
-import { cleanError } from '../../store/actions/auth.actions';
-import { GET_USER_BATCHED } from '../../utils/api/queries/user.queries';
 
 
 const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
@@ -38,11 +31,12 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
   const accounts = userProfile?.accounts;
   const profile = redux?.profile;
   const firstName = useValidatedInput('firstName', accounts?.firstName);
-  const mediumName = useValidatedInput('', accounts?.middleName ||accounts?.secondLastName );
+  const mediumName = useValidatedInput('', accounts?.middleName || accounts?.secondLastName);
   const lastName = useValidatedInput('lastName', accounts?.lastName);
   const ssn = useValidatedInput('ssn', accounts?.ssn);
   const phone = useValidatedInput('phone', accounts?.phoneNumber);
   const email = useValidatedInput('phone', accounts?.email);
+  const [successInfo, setSuccessInfo] = useState(false);
   const [items, setItems] = useState([]);
   const [valueGender, setValueGender] = useState([]);
   const gender = useValidatedInput('select', accounts?.gender, {
@@ -51,14 +45,18 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
   const birthDay = useValidatedInput('select', accounts?.birthday, {
     changeHandlerSelect: 'onSelect'
   });
-  
+  const error = useSelector(state => state?.profile?.errorProfile);
+  const success = useSelector(state => state?.profile?.successUpdateInfo);
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(getGender());
-      getShowGender();
-    });
-    return unsubscribe;
+    dispatch(cleanErrorProfile());
+    dispatch(getGender());
+    getShowGender();
+    // const unsubscribe = navigation.addListener('focus', () => {
+    //   dispatch(getGender());
+    //   getShowGender();
+    // });
+    // return unsubscribe;
   }, [dispatch]);
 
   async function getShowGender() {
@@ -73,7 +71,6 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
 
   function handleUpdateInfo() {
     const genderValues = gender?.value;
-    console.log('gender?.value', gender)
     const dataProfile = {
       id: accounts?.id ?? '',
       firstName: firstName?.value ?? '',
@@ -91,108 +88,123 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
     dispatch(updateUserProfileInfo({ dataProfile }))
   }
 
+  function handleClose() {
+    setSuccessInfo(false)
+  }
+
 
   //const isValid = isFormValid(firstName, mediumName, lastName, ssn, gender, birthDay);
   return (
-    <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
-      <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
-        <StepIndicator step={1} totalSteps={5} />
-      </View>
-      <Divider height-10 />
-      <Text h14 blue02 regular>{i18n.t('myProfile.textPersonalInformation')}</Text>
-      <Divider height-10 />
-      <View style={Styles.container}>
-        <FloatingInput
-          {...firstName}
-          label={i18n.t('Register.inputFirstName')}
-          autoCapitalize={'none'}
-        />
+    <>
+      <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
+        <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
+          <StepIndicator step={1} totalSteps={5} />
+        </View>
+        <Divider height-10 />
+        <Text h14 blue02 regular>{i18n.t('myProfile.textPersonalInformation')}</Text>
+        <Divider height-10 />
+        <View style={Styles.container}>
+          <FloatingInput
+            {...firstName}
+            label={i18n.t('Register.inputFirstName')}
+            autoCapitalize={'none'}
+          />
+          <Divider height-5 />
+          <FloatingInput
+            {...mediumName}
+            label={i18n.t('Register.inputMediumName')}
+            autoCapitalize={'none'}
+          />
+          <Divider height-5 />
+          <FloatingInput
+            {...lastName}
+            label={i18n.t('Register.inputLastName')}
+            autoCapitalize={'none'}
+          />
+          <Divider height-5 />
+          <FloatingInput
+            {...ssn}
+            label={i18n.t('Register.inputSocialSecurityNumber')}
+            autoCapitalize={'none'}
+          />
+          <Divider height-5 />
+          <DropDownPicker
+            {...gender}
+            label={i18n.t('Register.inputGender')}
+            options={items}
+            labelDefault={valueGender?.name}
+          />
+          <Divider height-5 />
+          <DatePicker
+            {...birthDay}
+            label={i18n.t('Register.inputDateOfBirth')}
+          />
+          <Divider height-5 />
+          <FloatingInput
+            {...email}
+            editable={false}
+            label={i18n.t('Register.email')}
+            autoCapitalize={'none'}
+          />
+          <Divider height-5 />
+          <FloatingInput
+            {...phone}
+            editable={false}
+            label={i18n.t('myProfile.inputPhone')}
+            autoCapitalize={'none'}
+          />
+        </View>
+        <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
         <Divider height-5 />
-        <FloatingInput
-          {...mediumName}
-          label={i18n.t('Register.inputMediumName')}
-          autoCapitalize={'none'}
-        />
-        <Divider height-5 />
-        <FloatingInput
-          {...lastName}
-          label={i18n.t('Register.inputLastName')}
-          autoCapitalize={'none'}
-        />
-        <Divider height-5 />
-        <FloatingInput
-          {...ssn}
-          label={i18n.t('Register.inputSocialSecurityNumber')}
-          autoCapitalize={'none'}
-        />
-        <Divider height-5 />
-        <DropDownPicker
-          {...gender}
-          label={i18n.t('Register.inputGender')}
-          options={items}
-          labelDefault={valueGender?.name}
-        />
-        <Divider height-5 />
-        <DatePicker
-          {...birthDay}
-          label={i18n.t('Register.inputDateOfBirth')}
-        />
-        <Divider height-5 />
-        <FloatingInput
-          {...email}
-          editable={false}
-          label={i18n.t('Register.email')}
-          autoCapitalize={'none'}
-        />
-        <Divider height-5 />
-        <FloatingInput
-          {...phone}
-          editable={false}
-          label={i18n.t('myProfile.inputPhone')}
-          autoCapitalize={'none'}
-        />
-      </View>
-      <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
-      <Divider height-5 />
-      <View flex-1 row bottom >
-        <ButtonRounded
-          onPress={handleUpdateInfo}
-          disabled={false}
-          dark
-          size='sm'
-        >
-          <Text h14 semibold blue02>
-            {i18n.t('General.buttonSaveChanges')}
-          </Text>
-        </ButtonRounded>
-        <Divider width-10 />
-        <ButtonRounded
-          onPress={() => {
-            navigation.navigate('SignIn', {
-              screen: 'ContactInformation',
-              merge: true
-            });
-          }}
-          //disabled={!isValid}
-          dark
-          size='sm'
-        >
-          <Text h14 blue02 semibold>
-            {i18n.t('General.buttonNext')}
-          </Text>
-        </ButtonRounded>
-      </View>
-      <Divider height-10 />
-      <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
-      <Loading modalVisible={profile?.isLoadingProfile} />
-      {/* <View flex-1 bottom>
-        <SnackNotice
-          visible={error}
-          message={profile?.error?.message}
-          timeout={3000}
-        />
-      </View> */}
-    </BackgroundWrapper>
+        <View flex-1 row bottom >
+          <ButtonRounded
+            onPress={handleUpdateInfo}
+            disabled={false}
+            dark
+            size='sm'
+          >
+            <Text h14 semibold blue02>
+              {i18n.t('General.buttonSaveChanges')}
+            </Text>
+          </ButtonRounded>
+          <Divider width-10 />
+          <ButtonRounded
+            onPress={() => {
+              navigation.navigate('SignIn', {
+                screen: 'ContactInformation',
+                merge: true
+              });
+            }}
+            //disabled={!isValid}
+            dark
+            size='sm'
+          >
+            <Text h14 blue02 semibold>
+              {i18n.t('General.buttonNext')}
+            </Text>
+          </ButtonRounded>
+        </View>
+        <Divider height-10 />
+        <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
+        <Loading modalVisible={profile?.isLoadingProfile} />
+        {/* <View flex-1 bottom>
+          <SnackNotice
+            visible={error || success}
+            message={profile?.error?.message}
+            timeout={3000}
+          />
+        </View> */}
+      </BackgroundWrapper>
+      {error || success && (
+        <View blue04 paddingB-10 paddingH-15>
+          <SnackNotice
+            visible={error || success}
+            message={profile?.error?.message}
+            timeout={3000}
+          />
+        </View>
+      )}
+    </>
   );
 }
 

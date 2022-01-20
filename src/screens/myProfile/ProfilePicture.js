@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import {
   Text,
   View,
-  Link,
   Divider,
+  SnackBar,
+  SnackNotice,
   ImageResize,
   ButtonRounded,
   StepIndicator,
@@ -19,7 +20,7 @@ import { TouchableHighlight } from 'react-native';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { cleanDataFile, setFile } from '../../store/actions/user.action';
 import { convertImage } from '@utils/formatters';
-import { updateUserAvatar } from '../../store/actions/profile.actions';
+import { cleanErrorProfile, updateUserAvatar } from '../../store/actions/profile.actions';
 
 const options = {
   title: 'Choose an Image',
@@ -31,18 +32,23 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
   const dispatch = useDispatch();
   const [fileError, setFileError] = useState('pending');
   const [nameAvatar, setNameAvatar] = useState('pending');
+  const [successInfo, setSuccessInfo] = useState(false);
   const dataUser = redux?.user;
   const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
   const accounts = userProfile?.accounts;
+  const profile = redux?.profile;
   const errorFile = useSelector(state => state?.user?.showErrorFile);
+  const success = useSelector(state => state?.profile?.successUpdateAvatar);
+
 
   useEffect(() => {
+    dispatch(cleanErrorProfile());
     dispatch(cleanDataFile());
     setNameAvatar('pending')
   }, [dispatch])
 
   useEffect(() => {
-    if (nameAvatar !== 'pending' ) {
+    if (nameAvatar !== 'pending') {
       profileUpdateAvatar();
     }
   }, [dataUser?.setFile])
@@ -51,14 +57,14 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
     const resultBase = await convertImage(fileBase64);
     const nameFile = fileBase64?.name;
     dispatch(setFile({ nameFile, resultBase }));
-    setNameAvatar(fileBase64?.uri); 
+    setNameAvatar(fileBase64?.uri);
     if (errorFile) {
       setFileError('Imagen rechazada, favor de volver a tomarla.');
     }
   };
 
   function profileUpdateAvatar() {
-    dispatch(updateUserAvatar({id: accounts.id,image: dataUser?.setFile }))
+    dispatch(updateUserAvatar({ id: accounts.id, image: dataUser?.setFile }))
   }
 
   function handleImages() {
@@ -78,68 +84,85 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
     });
   }
 
-
+  function handleClose() {
+    setSuccessInfo(false)
+  }
 
   return (
-    <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
-      <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
-        <StepIndicator step={4} totalSteps={5} />
-      </View>
-      <Divider height-10 />
-      <Text h14 blue02 regular>Profile picture:</Text>
-      <View flex-1 centerH centerV>
-        <View width-320 height-320 blue02 centerH>
-          {accounts?.avatarImage !== '' &&  nameAvatar === 'pending' && (
-            <ImageResize
-              source={{ uri: accounts?.avatarImage }}
-              height={verticalScale(320)}
-              width={scale(320)}
-            />
-          )}
+    <>
+      <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
+        <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
+          <StepIndicator step={4} totalSteps={5} />
+        </View>
+        <Divider height-10 />
+        <Text h14 blue02 regular>Profile picture:</Text>
+        <View flex-1 centerH centerV>
+          <View width-320 height-320 blue02 centerH>
+            {accounts?.avatarImage !== '' && nameAvatar === 'pending' && (
+              <ImageResize
+                source={{ uri: accounts?.avatarImage }}
+                height={verticalScale(320)}
+                width={scale(320)}
+              />
+            )}
 
-          {nameAvatar === '' && (
-            <View flex-1 centerH centerV>
-              <Text semibold white style={{ fontSize: 110 }}>{accounts?.alias}</Text>
-            </View>
-          )}
-          {nameAvatar !== '' && (
-            <ImageResize
-              source={{ uri: nameAvatar }}
-              height={'86%'}
-              width={'90%'}
-            />
-          )}
+            {nameAvatar === '' && (
+              <View flex-1 centerH centerV>
+                <Text semibold white style={{ fontSize: 110 }}>{accounts?.alias}</Text>
+              </View>
+            )}
+            {nameAvatar !== '' && (
+              <ImageResize
+                source={{ uri: nameAvatar }}
+                height={'86%'}
+                width={'90%'}
+              />
+            )}
 
-          <TouchableHighlight style={[Styles.containerProfile, { backgroundColor: Colors.blue04 }]} onPress={handleImages} >
+            <TouchableHighlight style={[Styles.containerProfile, { backgroundColor: Colors.blue04 }]} onPress={handleImages} >
               <ImageResize
                 source={upload}
                 height={verticalScale(28)}
                 width={scale(28)}
               />
             </TouchableHighlight>
+          </View>
+
         </View>
-
-      </View>
-      <View flex-1 bottom >
-        <ButtonRounded
-          onPress={() => {
-            navigation.navigate('SignIn', {
-              screen: 'BankInformation',
-              merge: true
-            });
-          }}
-          //disabled={!isValid}
-          dark
-        >
-          <Text h14 blue02 semibold>
-            {i18n.t('General.buttonNext')}
-          </Text>
-        </ButtonRounded>
-      </View>
-      <Divider height-10 />
-      <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
-
-    </BackgroundWrapper>
+        <View flex-1 bottom >
+          <ButtonRounded
+            onPress={() => {
+              navigation.navigate('SignIn', {
+                screen: 'BankInformation',
+                merge: true
+              });
+            }}
+            //disabled={!isValid}
+            dark
+          >
+            <Text h14 blue02 semibold>
+              {i18n.t('General.buttonNext')}
+            </Text>
+          </ButtonRounded>
+        </View>
+        <Divider height-10 />
+        <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
+        {/* <View flex-1 bottom>
+        <SnackNotice
+          visible={errorFile}
+          message={fileError}
+        />
+      </View> */}
+      </BackgroundWrapper>
+      {errorFile || success && (
+        <View blue04 paddingB-10 paddingH-15>
+          <SnackNotice
+            visible={errorFile || success}
+            message={profile?.error?.message}
+          />
+        </View>
+      )}
+    </>
   );
 }
 

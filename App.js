@@ -68,7 +68,6 @@
      const loginId = configStore?.getState()?.auth?.isSession;
      setIsLoginId(loginId);
      const statusUserActive = configStore?.getState()?.app?.statusUserActive;
-     console.log('statusUserActive',loginId)
      //console.log('statusUserActive',statusUserActive,loginId)
      //configStore?.dispatch(userInactivity(false))
      setTimerOn(true);
@@ -106,7 +105,6 @@
  
  
    useEffect(() => {
-     //console.log('active',active);
      if (active && secondsLeft === 0){
        console.log('active && secondsLeft === 0',active && secondsLeft === 0)
        onReset();

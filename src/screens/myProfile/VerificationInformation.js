@@ -3,10 +3,9 @@ import {
   Text,
   View,
   Divider,
-  ImageResize,
+  SnackBar,
   SnackNotice,
   StepIndicator,
-  FloatingInput,
   ButtonRounded,
   DropDownPicker,
   ImageUploadPiker,
@@ -16,7 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
 import Styles from './styles'
 import i18n from '@utils/i18n';
-import { createKYC, editKYC, getTypeIdentification } from '../../store/actions/profile.actions';
+import { cleanErrorProfile, createKYC, editKYC, getTypeIdentification } from '../../store/actions/profile.actions';
 import Front from '@assets/icons/blue-frontId.png';
 import Back from '@assets/icons/blue-backId.png';
 import Selfie from '@assets/icons/blue-selfie.png';
@@ -30,11 +29,12 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
   const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
   const accounts = userProfile?.accounts
   const profile = redux?.profile;
-  const kyc = accounts?.kyc?.length > 0 ? accounts?.kyc[0]:'';
-  const imageFront = useValidatedInput('file',kyc?.frontId);
+  const kyc = accounts?.kyc?.length > 0 ? accounts?.kyc[0] : '';
+  const imageFront = useValidatedInput('file', kyc?.frontId);
   const imageBack = useValidatedInput('file', kyc?.backId);
   const imageProofAddress = useValidatedInput('file', kyc?.faceId);
   const imageSelfie = useValidatedInput('file', kyc?.documentId);
+  const [successInfo, setSuccessInfo] = useState(false);
   const [typeIdentity, setTypeIdentity] = useState([]);
   const [valueIdentity, setValueIdentity] = useState([]);
   const typeIdentificationD = useValidatedInput('select', '', {
@@ -42,13 +42,14 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
   });
   const error = useSelector(state => state?.profile?.errorProfile);
   const successEdit = useSelector(state => state?.profile?.successEditKYC);
-  
+
 
   useEffect(() => {
-    const countryCode =accounts?.countryCode;
-    dispatch(getTypeIdentification({countryCode}));
+    dispatch(cleanErrorProfile());
+    const countryCode = accounts?.countryCode;
+    dispatch(getTypeIdentification({ countryCode }));
     getTypeIdentity();
-  }, [])
+  }, [dispatch])
 
   function getTypeIdentity() {
     if (profile?.dropDownIdentification) {
@@ -76,7 +77,7 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
     }
     dispatch(editKYC({ dataUpdateKYC }))
   }
-  
+
 
   function getCreateKYC() {
     const types = typeIdentificationD?.value;
@@ -94,109 +95,117 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
     dispatch(createKYC({ dataCreateKYC }))
   }
 
+  function handleClose() {
+    setSuccessInfo(false)
+  }
+
+
   return (
-    <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
-      <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
-        <StepIndicator step={3} totalSteps={5} />
-      </View>
-      <Divider height-10 />
-      <Text h14 blue02 regular>{i18n.t('myProfile.kyc.tittleOfficialDocuments')}</Text>
-      <Divider height-10 />
-      <Text h10 white light><Text blue02 h5>{'\u2B24'}</Text>{i18n.t('myProfile.kyc.textYourImagesShould')}</Text>
-      <Text h10 white light><Text blue02 h5>{'\u2B24'}</Text>{i18n.t('myProfile.kyc.textTheFormatMust')}</Text>
-      <Text h10 white light><Text blue02 h5>{'\u2B24'}</Text>{i18n.t('myProfile.kyc.textTheMaximumSizeIs')}</Text>
-      <Divider height-10 />
-      <Text h12 white light>{i18n.t('myProfile.kyc.textToBeApprovedPhotos')}</Text>
-      <Divider height-10 />
-      <Text h12 white bold>{i18n.t('myProfile.kyc.textIfThePhotosAreDiscarded')}</Text>
-      <Divider height-10 />
-      <View style={Styles.container}>
-        <DropDownPicker
-          {...typeIdentificationD}
-          label={i18n.t('myProfile.dropDownTypeIdentification')}
-          options={typeIdentity}
-          labelDefault={valueIdentity?.name}
-        />
+    <>
+      <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
+        <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
+          <StepIndicator step={3} totalSteps={5} />
+        </View>
+        <Divider height-10 />
+        <Text h14 blue02 regular>{i18n.t('myProfile.kyc.tittleOfficialDocuments')}</Text>
+        <Divider height-10 />
+        <Text h10 white light><Text blue02 h5>{'\u2B24'}</Text>{i18n.t('myProfile.kyc.textYourImagesShould')}</Text>
+        <Text h10 white light><Text blue02 h5>{'\u2B24'}</Text>{i18n.t('myProfile.kyc.textTheFormatMust')}</Text>
+        <Text h10 white light><Text blue02 h5>{'\u2B24'}</Text>{i18n.t('myProfile.kyc.textTheMaximumSizeIs')}</Text>
+        <Divider height-10 />
+        <Text h12 white light>{i18n.t('myProfile.kyc.textToBeApprovedPhotos')}</Text>
+        <Divider height-10 />
+        <Text h12 white bold>{i18n.t('myProfile.kyc.textIfThePhotosAreDiscarded')}</Text>
+        <Divider height-10 />
+        <View style={Styles.container}>
+          <DropDownPicker
+            {...typeIdentificationD}
+            label={i18n.t('myProfile.dropDownTypeIdentification')}
+            options={typeIdentity}
+            labelDefault={valueIdentity?.name}
+          />
+          <Divider height-5 />
+          <ImageUploadPiker
+            {...imageFront}
+            label={i18n.t('myProfile.kyc.buttonImageFront')}
+            imageEmpty={Front}
+            typeImage='front'
+
+          />
+          <Divider height-15 />
+          <ImageUploadPiker
+            {...imageBack}
+            label={i18n.t('myProfile.kyc.buttonImageBack')}
+            imageEmpty={Back}
+            typeImage='back'
+          />
+          <Divider height-15 />
+          <ImageUploadPiker
+            {...imageSelfie}
+            label={i18n.t('myProfile.kyc.buttonSelfie')}
+            imageEmpty={Selfie}
+            typeImage='selfie'
+          />
+          <Divider height-15 />
+          <ImageUploadPiker
+            {...imageProofAddress}
+            label={i18n.t('myProfile.kyc.buttonProofOfAddress')}
+            imageEmpty={Address}
+            typeImage='address'
+
+          />
+        </View>
+        <Divider height-15 />
+        <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
         <Divider height-5 />
-        <ImageUploadPiker
-          {...imageFront}
-          label={i18n.t('myProfile.kyc.buttonImageFront')}
-          imageEmpty={Front}
-          typeImage='front'
-
-        />
-        <Divider height-15 />
-        <ImageUploadPiker
-          {...imageBack}
-          label={i18n.t('myProfile.kyc.buttonImageBack')}
-          imageEmpty={Back}
-          typeImage='back'
-        />
-        <Divider height-15 />
-        <ImageUploadPiker
-          {...imageSelfie}
-          label={i18n.t('myProfile.kyc.buttonSelfie')}
-          imageEmpty={Selfie}
-          typeImage='selfie'
-
-        />
-        <Divider height-15 />
-        <ImageUploadPiker
-          {...imageProofAddress}
-          label={i18n.t('myProfile.kyc.buttonProofOfAddress')}
-          imageEmpty={Address}
-          typeImage='address'
-
-        />
-      </View>
-      <Divider height-15 />
-      <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
-      <Divider height-5 />
-      <View flex-1 row bottom >
-        <ButtonRounded
-          onPress={accounts?.kyc?.length > 0? getUpdateAddress : getCreateKYC}
-          disabled={false}
-          dark
-          size='sm'
-        >
-          <Text h14 semibold blue02>
-            {i18n.t('General.buttonSaveChanges')}
-          </Text>
-        </ButtonRounded>
-        <Divider width-10 />
-        <ButtonRounded
-          onPress={() => {
-            navigation.navigate('SignIn', {
-              screen: 'ProfilePicture',
-              merge: true
-            });
-          }}
-          //disabled={!isValid}
-          dark
-          size='sm'
-        >
-          <Text h14 blue02 semibold>
-            {i18n.t('General.buttonNext')}
-          </Text>
-        </ButtonRounded>
-      </View>
-      <Divider height-10 />
-      <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
-      <Loading modalVisible={profile?.isLoadingProfile} />
-      <View flex-1 bottom>
+        <View flex-1 row bottom >
+          <ButtonRounded
+            onPress={accounts?.kyc?.length > 0 ? getUpdateAddress : getCreateKYC}
+            disabled={false}
+            dark
+            size='sm'
+          >
+            <Text h14 semibold blue02>
+              {i18n.t('General.buttonSaveChanges')}
+            </Text>
+          </ButtonRounded>
+          <Divider width-10 />
+          <ButtonRounded
+            onPress={() => {
+              navigation.navigate('SignIn', {
+                screen: 'ProfilePicture',
+                merge: true
+              });
+            }}
+            //disabled={!isValid}
+            dark
+            size='sm'
+          >
+            <Text h14 blue02 semibold>
+              {i18n.t('General.buttonNext')}
+            </Text>
+          </ButtonRounded>
+        </View>
+        <Divider height-10 />
+        <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
+        <Loading modalVisible={profile?.isLoadingProfile} />
+        {/* <View flex-1 bottom>
+          <SnackNotice
+            visible={error}
+            message={profile?.error?.message}
+            timeout={3000}
+          />
+        </View> */}
+      </BackgroundWrapper>
+      {error || successEdit && (
+      <View blue04 paddingB-10 paddingH-15>
         <SnackNotice
-          visible={error}
+          visible={error || successEdit}
           message={profile?.error?.message}
-          timeout={3000}
-        />
-        <SnackNotice
-          visible={false}
-          message={'Informacion actualizada con exito'}
-          timeout={3000}
         />
       </View>
-     
-    </BackgroundWrapper>
+      )}
+    </>
   );
 }
 

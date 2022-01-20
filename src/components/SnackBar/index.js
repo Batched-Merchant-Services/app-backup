@@ -86,8 +86,7 @@ const SnackBar = ({
       backgroundSnack = errorColor;
   }
 
-
-  if (values) {
+  if (visible) {
     return (
       <Animated.View style={[{transform: [
         {

@@ -41,7 +41,6 @@ import { getDataUser } from './user.action';
 
 
 export const updateUserProfileInfo = ({dataProfile}) => async (dispatch) => {
-  console.log('data info',dataProfile)
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: UPDATE_PROFILE_INFO });
@@ -57,6 +56,7 @@ export const updateUserProfileInfo = ({dataProfile}) => async (dispatch) => {
       if (response.data) {
         dispatch({ type: UPDATE_PROFILE_INFO_SUCCESS, payload: response?.data['editAccountData'] });
         dispatch(getDataUser());
+        dispatch(toggleSnackbarOpen('Información Actualizada con Exito','success'));
       }
     }).catch((error) => {
       dispatch({ type: PROFILE_ERROR , payload: error });
@@ -82,18 +82,19 @@ export const updateUserAvatar = ({ id,image }) => async (dispatch) => {
       fetchPolicy : 'network-only' ,  
       nextFetchPolicy : 'network-only'
     }).then(async (response) => {
-      console.log('response.data avatar file',response)
+  
       if (response.data) {
         dispatch({ type: UPDATE_PROFILE_AVATAR_SUCCESS, payload: response?.data['setPictureChange'] });
         dispatch(getDataUser());
+        dispatch(toggleSnackbarOpen('Información Actualizada con Exito','success'));
       }
     }).catch((error) => {
-      console.log('error 1 avatar',error)
+  
       dispatch({ type: PROFILE_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('error 2 avatar',error)
+
     dispatch({ type: PROFILE_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
@@ -117,6 +118,7 @@ export const createAddress = ({dataCreateAddress}) => async (dispatch) => {
       if (response.data) {
         dispatch({ type: CREATE_ADDRESS_SUCCESS, payload: response?.data['createAccountsAddress'] });
          dispatch(getDataUser());
+         dispatch(toggleSnackbarOpen('Información Actualizada con Exito','success'));
       }
     }).catch((error) => {
       dispatch({ type: PROFILE_ERROR , payload: error });
@@ -130,7 +132,6 @@ export const createAddress = ({dataCreateAddress}) => async (dispatch) => {
 
 
 export const editAddress = ({ dataUpdateAddress}) => async (dispatch) => {
-  console.log('dataUpdateAddress',dataUpdateAddress);
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: EDIT_ADDRESS });
@@ -146,7 +147,8 @@ export const editAddress = ({ dataUpdateAddress}) => async (dispatch) => {
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: EDIT_ADDRESS_SUCCESS, payload: response?.data['editAccountsAddress'] });
-         dispatch(getDataUser());
+        dispatch(getDataUser());
+        dispatch(toggleSnackbarOpen('Información Actualizada con Exito','success'));
       }
     }).catch((error) => {
       dispatch({ type: PROFILE_ERROR , payload: error });
@@ -175,7 +177,8 @@ export const editKYC = ({ dataUpdateKYC }) => async (dispatch) => {
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: EDIT_KYC_SUCCESS, payload: response?.data['editAccountsKyc'] });
-         dispatch(getDataUser());
+        dispatch(getDataUser());
+        dispatch(toggleSnackbarOpen('Información Actualizada con Exito','success'));
       }
     }).catch((error) => {
       dispatch({ type: PROFILE_ERROR , payload: error });
@@ -205,6 +208,7 @@ export const createKYC = ({dataCreateKYC}) => async (dispatch) => {
       if (response.data) {
         dispatch({ type: CREATE_KYC_SUCCESS, payload: response?.data['editAccountsKyc'] });
          dispatch(getDataUser());
+         dispatch(toggleSnackbarOpen('Información Actualizada con Exito','success'));
       }
     }).catch((error) => {
       dispatch({ type: PROFILE_ERROR , payload: error });
@@ -235,6 +239,7 @@ export const createBankInfo = ({dataCreateBank}) => async (dispatch) => {
       if (response.data) {
         dispatch({ type: CREATE_BANK_INFO_SUCCESS, payload: response?.data['createAccountsBankInformation'] });
          dispatch(getDataUser());
+         dispatch(toggleSnackbarOpen('Información Actualizada con Exito','success'));
       }
     }).catch((error) => {
       dispatch({ type: PROFILE_ERROR , payload: error });
@@ -264,10 +269,12 @@ export const editBankInfo = ({dataUpdateBank}) => async (dispatch) => {
       if (response.data) {
         dispatch({ type: EDIT_BANK_INFO_SUCCESS, payload: response?.data['editAccountsBankInformation']});
          dispatch(getDataUser());
+         dispatch(toggleSnackbarOpen('Información Actualizada con Exito','success'));
       }
     }).catch((error) => {
       dispatch({ type: PROFILE_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
+
     })
   } catch (error) {
     dispatch({ type: PROFILE_ERROR, payload: error });
@@ -309,7 +316,7 @@ export const getTypeIdentification = ({countryCode}) => async (dispatch) => {
 export const nameTypeIdentification = (data) => {
   const typeIdentificationArray = [];
   data['getUserCombo'].forEach(typeIdentification => {
-    console.log('typeIdentification',typeIdentification)
+
     typeIdentificationArray.push(
       {
         value: typeIdentification.value,

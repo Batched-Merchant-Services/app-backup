@@ -16,6 +16,7 @@ const initialState = {
     showStatusTimers: 'blueDark',
     statusUserActive:false,
     snackbarMessage: null,
+    typeSnack:'error',
     getAppResources: null,
     showError: false,
     error: {},
@@ -30,6 +31,7 @@ export default appReducer = (state = initialState, action) => {
                 ...state,
                 toggleSnackbar: true,
                 snackbarMessage: action.message,
+                typeSnack: action.typeSnack
             };
 
         case TOGGLE_SNACKBAR_CLOSE:

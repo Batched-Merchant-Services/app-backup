@@ -41,7 +41,6 @@ const HomeContact = ({ navigation, navigation: { goBack } }) => {
   const error = useSelector(state => state?.contact?.showContactError);
 
   useEffect(() => {
-    console.log('clean Error')
     dispatch(cleanContactError())
   }, [dispatch,contact?.successContact])
 
@@ -57,7 +56,6 @@ const HomeContact = ({ navigation, navigation: { goBack } }) => {
       clientCompany: clients?.companies[0]?.name,
       template: 'batched_contact_client'
     }
-    console.log('dataContact',dataContact)
     dispatch(setContact({dataContact}))
   }
 

@@ -61,7 +61,6 @@ const TransferOption = ({ navigation, route, onPress, label }) => {
 
 
   const handleCreateTransfer = (codeSecurity) => {
-    console.log('auth?.dataCode',codeSecurity)
     const address = infoUser?.dataUser?.clients ? infoUser?.dataUser?.clients[0]?.account?.address : 0;
     if (valueSelect === 'rewards') {
       dispatch(setRewardsPointsToTransactionGateway({ address: address, amount: amount?.value,code: codeSmsEmail+'-'+codeSecurity}));
@@ -82,8 +81,6 @@ const TransferOption = ({ navigation, route, onPress, label }) => {
     setValuePhone(accounts?.email);
   }
   
-
-  console.log('codeSecurity',codeSecurity)
 
   if (points?.successTransferGatewayLiquid) {
     navigation.navigate('ConfirmationTransfer',{ amount: amount?.value});

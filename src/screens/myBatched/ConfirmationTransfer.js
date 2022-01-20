@@ -31,7 +31,6 @@ const ConfirmationTransfer = ({ navigation, navigation: { goBack },route }) => {
   const transferData = points?.transferData;
   const NewDate = new Date();
   
-  console.log('params',paramsAmount)
   useEffect(() => {
     dispatch(cleanError());
   }, [dispatch])

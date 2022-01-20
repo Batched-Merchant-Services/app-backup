@@ -55,11 +55,8 @@ const ReferralCode = ({ navigation }) => {
   }
   async function handleReferralCode() {
     dispatch(validateReference({ referenceCode }));
-    console.log('licensesData?.statusCodeReferral',!showData)
     setStatusBar(!showData)
   }
-
-  console.log('licensesData?.statusCodeReferral',statusBar)
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>

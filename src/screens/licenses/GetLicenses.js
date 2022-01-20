@@ -46,7 +46,7 @@ const GetLicenses = ({ navigation }) => {
     navigation.navigate("SelectLicense")
   }
 
-
+  console.log('licensesData?.isLoadingLicenses',licensesData?.isLoadingLicenses);
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
       <Text h16 regular blue02>{i18n.t('Licenses.textGetYourLicenses')}</Text>
@@ -95,7 +95,7 @@ const GetLicenses = ({ navigation }) => {
         message={licensesData?.error?.message}
         timeout={3000}
       />
-      <Loading  modalVisible={licensesData?.isLoadingLicenses}/>
+       {/* <Loading modalVisible={licensesData?.isLoadingLicenses} /> */}
     </BackgroundWrapper>
 
 

@@ -78,7 +78,7 @@ export default profileReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoadingProfile: false,
-        successCreateAddress: true,
+        successEditAddress: true,
         errorProfile: false,
         dataCreateAddress: action.payload,
         error: {}
@@ -100,7 +100,7 @@ export default profileReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoadingProfile: false,
-        successCreateKYC: true,
+        successEditKYC: true,
         errorProfile: false,
         dataCreateKYC: action.payload,
         error: {}
@@ -122,7 +122,7 @@ export default profileReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoadingProfile: false,
-        successCreateBankInfo: true,
+        successEditBankInfo: true,
         errorProfile: false,
         dataCreateBankInfo: action.payload,
         error: {}
@@ -167,6 +167,15 @@ export default profileReducer = (state = initialState, action) => {
         finishProfileSuccess: false,
         sendMessage: false,
         showError: false,
+        successCreateAddress: false,
+        successCreateKYC: false,
+        successEditAddress: false,
+        successCreateBankInfo: false,
+        successEditBankInfo: false,
+        successEditKYC: false,
+        successTypeIdentification: false,
+        successUpdateAvatar: false,
+        successUpdateInfo: false,
         error: {},
       };
     default:

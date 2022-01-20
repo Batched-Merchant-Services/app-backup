@@ -3,6 +3,7 @@ import {
   Text,
   View,
   Divider,
+  SnackBar,
   SnackNotice,
   StepIndicator,
   FloatingInput,
@@ -14,10 +15,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import Styles from './styles'
 import i18n from '@utils/i18n';
-import { getCountries } from '../../store/actions/register.actions';
-import { createAddress, editAddress } from '../../store/actions/profile.actions';
+import { getCountries } from '@store/actions/register.actions';
+import { createAddress, editAddress,cleanErrorProfile } from '@store/actions/profile.actions';
 import Loading from '../Loading';
-import { getDataUser } from '../../store/actions/user.action';
 
 const ContactInformation = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -34,6 +34,7 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
   const street = useValidatedInput('street', address?.street);
   const number = useValidatedInput('number', address?.number);
   const zipCode = useValidatedInput('postalCode', address?.zipCode);
+  const [successInfo, setSuccessInfo] = useState(false);
   const [valueCountries, setValueCountries] = useState([]);
   const [items, setItems] = useState([]);
   const country = useValidatedInput('select', '', {
@@ -41,14 +42,21 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
   });
   const isValid = isFormValid(suburb,city,state,street,number,zipCode);
   const error = useSelector(state => state?.profile?.errorProfile);
+  const success = useSelector(state => state?.profile?.successEditAddress);
 
- 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(getCountries());
-      getShowCountry();
-    });
-    return unsubscribe;
+    dispatch(cleanErrorProfile());
+  }, [dispatch]);
+
+
+  useEffect(() => {
+    dispatch(getCountries());
+    getShowCountry();
+    // const unsubscribe = navigation.addListener('focus', () => {
+    //   dispatch(getCountries());
+    //   getShowCountry();
+    // });
+    // return unsubscribe;
    
   }, [dispatch,dataUser]);
 
@@ -83,7 +91,6 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
     dispatch(editAddress({ dataUpdateAddress }))
   }
 
-
   function getCreateAddress() {
     const dataCreateAddress = {
       accountId: userProfile?.accountId ?? "",
@@ -101,8 +108,13 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
     dispatch(createAddress({ dataCreateAddress }))
   }
 
+  function handleClose() {
+    setSuccessInfo(false)
+  }
+
   //const isValid = isFormValid(firstName, mediumName, lastName, ssn, gender, birthDay);
   return (
+    <>
     <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
       <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
         <StepIndicator step={2} totalSteps={5} />
@@ -187,14 +199,23 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
       <Divider height-10 />
       <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
       <Loading modalVisible={profile?.isLoadingProfile} />
-      <View flex-1 bottom>
+      {/* <View flex-1 bottom>
         <SnackNotice
           visible={error}
           message={profile?.error?.message}
           timeout={3000}
         />
-      </View>
+      </View> */}
     </BackgroundWrapper>
+    {error || success && (
+      <View blue04 paddingB-10 paddingH-15>
+        <SnackNotice
+          visible={error || success}
+          message={profile?.error?.message}
+        />
+      </View>
+      )}
+    </>
   );
 }
 

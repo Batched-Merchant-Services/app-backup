@@ -60,8 +60,6 @@ const HomeBalance = ({ navigation }) => {
   function handleGetLicenses(){
     navigation.navigate('GetLicenses'); 
   }
-
- console.log('accounts?.email',accounts)
   return (
     <View flex-1>
       <View height-100 blue03 paddingH-10 centerV>
@@ -69,14 +67,14 @@ const HomeBalance = ({ navigation }) => {
           <View flex-1>
             <Text h12 blue02>{accounts?.email}</Text>
             <Divider height-5 />
-            <Text h16 white semibold>{accounts?.firstName}{' '}{accounts?.middleName}{' '}{accounts?.lastName}</Text>
+            <Text h14 white semibold>{accounts?.firstName}{' '}{accounts?.middleName || accounts?.secondLastName }{' '}{accounts?.lastName}</Text>
           </View>
-          <View width-38 height-36 centerH centerV style={Styles.borderImages}>
+          <View width-38 height-36 centerH centerV>
             {accounts?.avatarImage !== '' &&(
               <ImageResize
               source={{uri:accounts?.avatarImage}}
-              height={verticalScale(35)}
-              width={verticalScale(35)}
+              height={verticalScale(45)}
+              width={verticalScale(45)}
             />
             )}
             {accounts?.avatarImage === '' &&(

@@ -11,7 +11,7 @@ import {
   BackgroundWrapper
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
-import { Clipboard } from 'react-native'
+import Clipboard from '@react-native-community/clipboard';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import i18n from '@utils/i18n';
 
@@ -56,18 +56,18 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
       voucherCrypto: file?.value ?? '',
       transactionId: transactionIdValue?.value ?? ''
     }
-
     dispatch(createLicense({ createLicenses }));
-
   }
 
   const copyToClipboard = () => {
     Clipboard.setString(licensesData?.addressCurrency?.address)
   }
+
   if (licensesData?.successCreateLicense) {
     navigation.navigate("ConfirmationLicenses")
   }
 
+  console.log('licensesData?.addressCurrency?.address', licensesData?.addressCurrency?.address)
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>

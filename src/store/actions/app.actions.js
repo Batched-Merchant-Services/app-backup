@@ -17,9 +17,10 @@ import { generateRSA } from '../../utils/api/encrypt';
 
 const utc = getUTCDateString();
 
-export const toggleSnackbarOpen = (message) => ({
+export const toggleSnackbarOpen = (message,typeSnack) => ({
   type: "TOGGLE_SNACKBAR_OPEN",
   message,
+  typeSnack: typeSnack?typeSnack:'error'
 });
 
 export const toggleSnackbarClose = () => ({

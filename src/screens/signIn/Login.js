@@ -38,7 +38,6 @@ const Login = ({ navigation }) => {
 
 
   useEffect(() => {
-    console.log('ya esta en login')
     dispatch(cleanError());
     dispatch(toggleSnackbarClose());
   }, [dispatch]);

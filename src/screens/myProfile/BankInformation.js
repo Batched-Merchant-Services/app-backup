@@ -3,6 +3,7 @@ import {
   Text,
   View,
   Divider,
+  SnackBar,
   SnackNotice,
   StepIndicator,
   FloatingInput,
@@ -14,7 +15,7 @@ import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import Styles from './styles'
 import i18n from '@utils/i18n';
 import { getCountries } from '../../store/actions/register.actions';
-import { createBankInfo,editBankInfo } from '../../store/actions/profile.actions';
+import { cleanErrorProfile, createBankInfo,editBankInfo } from '../../store/actions/profile.actions';
 import { generateRSA } from '@utils/api/encrypt';
 import Loading from '../Loading';
 const BankInformation = ({ navigation, navigation: { goBack } }) => {
@@ -37,6 +38,7 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
   const bankCountry = useValidatedInput('bankCountry', bank?.countryCode);
   const bankSate = useValidatedInput('bankSate', bank?.state);
   const swiftCode = useValidatedInput('swiftCode', bank?.swiftCode);
+  const [successInfo, setSuccessInfo] = useState(false);
   const [valueCountries, setValueCountries] = useState([]);
   const [items, setItems] = useState([
     { id: '1', value: 'value1', name: 'value1' },
@@ -46,9 +48,10 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
     changeHandlerSelect: 'onSelect'
   });
   const error = useSelector(state => state?.profile?.errorProfile);
-
+  const success = useSelector(state => state?.profile?.successEditBankInfo);
 
   useEffect(() => {
+    dispatch(cleanErrorProfile());
     dispatch(getCountries());
     getShowCountry();
   }, [dispatch]);
@@ -103,7 +106,13 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
     dispatch(createBankInfo({ dataCreateBank }))
   }
 
+  function handleClose() {
+    setSuccessInfo(false)
+  }
+
+
   return (
+    <>
     <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
       <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
         <StepIndicator step={2} totalSteps={2} />
@@ -193,8 +202,8 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
         <Divider width-10 />
         <ButtonRounded
           onPress={() => {
-            navigation.navigate('SignIn', {
-              screen: 'ContactInformation',
+            navigation.navigate('DrawerScreen', {
+              screen: 'HomeProfile',
               merge: true
             });
           }}
@@ -210,14 +219,24 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
       <Divider height-10 />
       <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
       <Loading modalVisible={profile?.isLoadingProfile} />
-      <View flex-1 bottom>
+      {/* <View flex-1 bottom>
         <SnackNotice
           visible={error}
           message={profile?.error?.message}
           timeout={3000}
         />
-      </View>
+      </View> */}
     </BackgroundWrapper>
+      {error || success && (
+        <View blue04 paddingB-10 paddingH-15>
+          <SnackNotice
+            visible={error || success}
+            message={profile?.error?.message}
+          />
+        </View>
+      )}
+  
+    </>
   );
 }
 

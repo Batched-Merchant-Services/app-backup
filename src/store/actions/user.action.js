@@ -41,17 +41,16 @@ export const getDataUser = () => async (dispatch) => {
       fetchPolicy : 'network-only' ,  
       nextFetchPolicy : 'network-only'
     }).then(async (response) => {
-      console.log('get dataaaa',response.data);
+
       if (response.data) {
         dispatch({ type: GET_USER_DATA_SUCCESS, payload: response?.data?.getUsersByField[0] });
       }
     }).catch((error) => {
-      console.log('error 1 getData',error)
+
       dispatch({ type: USER_ERROR, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('error 2 getData',error)
     dispatch({ type: USER_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
@@ -100,17 +99,16 @@ export const setFileFront = ({nameFile,resultBase}) => async (dispatch) => {
         file64: resultBase
       }
     }).then(async (response) => {
-      console.log('response true ',response)
+
       if (response.data) {
         dispatch({ type: SET_FILE_FRONT_SUCCESS, payload: response?.data['setFile'] });
       }
     }).catch((error) => {
-      console.log('error 1 ',response)
+
       dispatch({ type: SET_FILE_URL_ERROR, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('error 2 ',response)
     dispatch({ type: SET_FILE_URL_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }

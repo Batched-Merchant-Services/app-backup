@@ -55,8 +55,6 @@ const Referred = ({ navigation, step, onPress, label }) => {
     setDataInfo(sortedActivities);
   }
 
-  console.log('dataUser',dataUser);
-
   return (
     <View flex-1>
       <View row>

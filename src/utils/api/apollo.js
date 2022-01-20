@@ -20,8 +20,8 @@ const getTicks = () => {
 }
 
 const httpLink = new HttpLink({
-  //uri: `https://batched-services.apps-uulala.io/UulalaOAuth/graphql`,
-  uri: `https://services-test.apps-uulala.io/UulalaAuth/graphql`,
+  //test: ``https://services-test.apps-uulala.io/UulalaAuth/graphql`,
+  uri: `http://52.13.23.229/UulalaOAuth/graphql`,
   headers: {
     //prod https://batched-services.apps-uulala.io/UulalaOAuth/graphql
   }
@@ -41,7 +41,6 @@ const activityMiddleware = new ApolloLink((operation, forward) => {
 
 
 const errorLink = onError(({ forward, networkError, operation, graphQLErrors }) => {
-  console.log('graphQLErrors', graphQLErrors, networkError?.result);
   if (networkError) {
     const trimMessage = networkError?.result?.Message?.replace('GraphQL.ExecutionError:', '').replace('|', '').trim();
     switch (trimMessage) {
