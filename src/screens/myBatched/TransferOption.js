@@ -53,7 +53,7 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
   }, []);
 
   const selectTypeTransfer = (code) => {
-    const value = code.value;
+    const value = code?.value;
     setValueSelect(value);
   }
 

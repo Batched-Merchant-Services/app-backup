@@ -1,6 +1,5 @@
 import React,{useEffect,useState} from 'react';
-
-import { Clipboard } from 'react-native'
+import Clipboard from '@react-native-community/clipboard';
 import { View, Text, Divider, ImageResize, ButtonRounded } from '@components';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { useSelector, useDispatch } from 'react-redux';

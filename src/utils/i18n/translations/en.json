@@ -58,6 +58,20 @@
         "textBadCredentials": "User or password error, bad credentials",
         "textUserNotActive": "User nor active, Please activate your account from the link sent to your E-mail",
         "textUserNotFound": "User not Found,The user you are trying to access does not exist"
+      },
+      "months":{
+        "january":"January",
+        "february":"February",
+        "march":"March",
+        "april":"April",
+        "may":"May",
+        "june":"June",
+        "july":"July",
+        "august":"August",
+        "september":"September",
+        "october":"October",
+        "november":"November",
+        "december":"December"
       }
     },
     "Login":{

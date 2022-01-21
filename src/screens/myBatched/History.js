@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { View, Text, Divider, ButtonRounded, DropDownPicker, SnackNotice, Link } from '@components';
-import { useValidatedInput } from '@hooks/validation-hooks';
+import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import { useSelector, useDispatch } from 'react-redux';
 import EmptyState from '../EmptyState';
 import i18n from '@utils/i18n';
 import Colors from '@styles/Colors';
-import {  formatDateSend, getLocalDateFromUTC, moneyFormatter } from '../../utils/formatters';
+import { formatDateSend, getLocalDateFromUTC, moneyFormatter } from '../../utils/formatters';
 import { pointsConstants } from '../../store/constants';
 import { cleanErrorPoints, getExecutedPointsTransactions } from '../../store/actions/points.actions';
 import { useIsFocused } from "@react-navigation/native";
@@ -53,18 +53,21 @@ const History = ({ navigation }) => {
   const [valuePool, setValuePool] = useState(0);
   const [newArray, setNewArray] = useState([]);
   const [showNewPagination, setShowNewPagination] = useState(false);
+  const [sendPdf, setSendPdf] = useState(true);
+  const [monthSelect, setMonthSelect] = useState('');
+  const [yearSelect, setYearSelect] = useState('');
   const [offset, setOffset] = useState(1);
-  const [showMore, setShowMore] = useState(true);
+  const [showMore, setShowMore] = useState(false);
   const [data] = useState([
     { id: '1', name: 'Old transactions', value: pointsConstants.POOLS.TOKENS },
     { id: '2', name: 'Commission transactions', value: pointsConstants.POOLS.COMMISSION },
-    { id: '3', name: 'reward points transactions', value: pointsConstants.POOLS.REWARDS },
+    { id: '3', name: 'Reward points transactions', value: pointsConstants.POOLS.REWARDS },
     { id: '4', name: 'Liquidity points transactions', value: pointsConstants.POOLS.LIQUIDITY },
     { id: '5', name: 'Gateway points transactions', value: pointsConstants.POOLS.GATEWAY },
     { id: '6', name: 'Buy transactions', value: 6 }
   ]);
 
-
+  const isValid = isFormValid(kindOfData);
 
   useEffect(() => {
     dispatch(cleanErrorPoints());
@@ -78,39 +81,37 @@ const History = ({ navigation }) => {
     const commissions = pointsConstants.POOLS.COMMISSION;
     const id = infoUser?.dataUser?.clients ? infoUser?.dataUser?.clients[0]?.account?.id : 0;
     dispatch(getExecutedPointsTransactions({ id, pool: commissions, offset }));
-    
+
   }
 
 
   useEffect(() => {
     var arrayBuy = [];
-
     if (infoUser?.dataUser?.bachedTransaction) {
       if (infoUser?.dataUser?.bachedTransaction?.length > 0) {
         arrayBuy.push(...infoUser?.dataUser?.bachedTransaction);
         if (points?.executeDataCommission?.length > 0) {
-          const newBuy = [...arrayBuy,...points?.executeDataCommission];
+          const newBuy = [...arrayBuy, ...points?.executeDataCommission];
           setDataHistory(newBuy);
           if (points?.executeDataCommission?.length < 11) setShowMore(false)
         }
-        if (points?.executeData?.length > 0 ) {
+        if (points?.executeData?.length > 0) {
           setNewArray(points?.executeData)
         }
         setShowData(true);
       }
     }
-   
-    if (showNewPagination  && points?.executeData?.length > 0 ) {
-      const newData = [...arrayBuy,...points?.executeData,...newArray];
+
+    if (showNewPagination && points?.executeData?.length > 0) {
+      const newData = [...arrayBuy, ...points?.executeData, ...newArray];
       setShowMore(false)
       setDataHistory(newData);
     }
-  }, [points?.executeData,showNewPagination]);
+  }, [points?.executeData, showNewPagination]);
 
 
 
   useEffect(() => {
-  
     if (showFilter) {
       if (points?.executeData) {
         if (points?.executeData?.length > 0) {
@@ -125,19 +126,31 @@ const History = ({ navigation }) => {
     }
   }, [points?.executeData, showFilter]);
 
-  
-
-
-
   const [months, setMonths] = useState([
-    { id: '1', name: 'January', value: 'January' },
-    { id: '2', name: 'January', value: 'January' },
-    { id: '3', name: 'January', value: 'January' }
+    { id: '1', name: i18n.t('General.months.january'), value: '01' },
+    { id: '2', name: i18n.t('General.months.february'), value: '02' },
+    { id: '3', name: i18n.t('General.months.march'), value: '03' },
+    { id: '4', name: i18n.t('General.months.april'), value: '04' },
+    { id: '5', name: i18n.t('General.months.may'), value: '05' },
+    { id: '6', name: i18n.t('General.months.june'), value: '06' },
+    { id: '7', name: i18n.t('General.months.july'), value: '07' },
+    { id: '8', name: i18n.t('General.months.august'), value: '08' },
+    { id: '9', name: i18n.t('General.months.september'), value: '09' },
+    { id: '10', name: i18n.t('General.months.october'), value: '10' },
+    { id: '11', name: i18n.t('General.months.november'), value: '11' },
+    { id: '12', name: i18n.t('General.months.december'), value: '12' }
   ]);
   const [years, setYears] = useState([
-    { id: '1', name: '2023', value: '2023' },
-    { id: '2', name: '2024', value: '2024' },
-    { id: '3', name: '2025', value: '2025' }
+    { id: '01', name: '2022', value: '2022' },
+    { id: '02', name: '2023', value: '2023' },
+    { id: '03', name: '2024', value: '2024' },
+    { id: '04', name: '2025', value: '2025' },
+    { id: '05', name: '2026', value: '2026' },
+    { id: '06', name: '2027', value: '2027' },
+    { id: '07', name: '2028', value: '2028' },
+    { id: '08', name: '2029', value: '2029' },
+    { id: '09', name: '2030', value: '2030' },
+    { id: '10', name: '2031', value: '2031' }
   ]);
 
   function showMovements() {
@@ -151,6 +164,7 @@ const History = ({ navigation }) => {
   }
 
   async function filterPays(value) {
+    setSendPdf(value === undefined?true:false);
     const id = infoUser?.dataUser?.clients ? infoUser?.dataUser?.clients[0]?.account?.id : 0;
     const pool = value?.value ?? 0;
     setValuePool(pool);
@@ -161,7 +175,7 @@ const History = ({ navigation }) => {
     } else {
       const offSet = 1
       setOffset(offSet);
-      dispatch(getExecutedPointsTransactions({ id, pool: pool, offset:offSet }));
+      dispatch(getExecutedPointsTransactions({ id, pool: pool, offset: offSet }));
       setShowFilter(true);
     }
   }
@@ -173,11 +187,32 @@ const History = ({ navigation }) => {
     const offSet = offset + 1
     dispatch(getExecutedPointsTransactions({ id, pool: valuePool, offset: offSet }));
     setShowNewPagination(true);
-    if (showNewPagination  && points?.executeData.length > 0 ) {
-        setShowMore(false)
+    if (showNewPagination && points?.executeData.length > 0) {
+      setShowMore(false)
     }
   }
 
+  function monthFilter(month) {
+    setMonthSelect(month?.value)
+  }
+  
+  function yearFilter(year) {
+    setYearSelect(year?.value)
+  }
+
+
+  function sendReport() {
+    const events = points?.executeData.filter(e => {
+      const date = new Date(e?.transactionDate);
+      const year = date.getFullYear();
+      const month = ('0' + (date.getUTCMonth()+1)).slice(-2);
+      const ls = month ===  monthSelect;
+      const lsyear = year.toString() === yearSelect;
+      return ls && lsyear;
+      
+    });
+    console.log('event',events)
+  }
 
   return (
     <View flex-1>
@@ -213,7 +248,7 @@ const History = ({ navigation }) => {
         options={data}
         onSelect={(code) => filterPays(code)}
       />
-      {!showData && (
+      {!showData && !showDowland && (
         <EmptyState />
       )}
       {showLastMovement && showData && (
@@ -239,30 +274,37 @@ const History = ({ navigation }) => {
         <View>
           <Text h12 white light>{i18n.t('home.history.textSelectTheKindOf')}</Text>
           <Divider height-15 />
-          <View row >
-            <DropDownPicker
-              {...month}
-              label={i18n.t('home.history.dropDownMonth')}
-              options={months}
-            //onFill={(code)=> filterPays(code)}
-            />
+          <View row flex-1>
+            <View width-130>
+              <DropDownPicker
+                {...month}
+                label={i18n.t('home.history.dropDownMonth')}
+                options={months}
+                onSelect={(code)=> monthFilter(code)}
+              />
+            </View>
             <Divider width-10 />
-            <DropDownPicker
-              {...year}
-              label={i18n.t('home.history.dropDownYear')}
-              options={years}
-            //onFill={(code)=> filterPays(code)}
-            />
+            <View width-130>
+              <DropDownPicker
+                {...year}
+                label={i18n.t('home.history.dropDownYear')}
+                options={years}
+                onSelect={(code)=> yearFilter(code)}
+              />
+            </View>
           </View>
           <Divider height-10 />
-          <ButtonRounded
-            disabled={false}
-            blue
-          >
-            <Text h14 semibold white>
-              {i18n.t('home.history.buttonDownloadPDF')}
-            </Text>
-          </ButtonRounded>
+          <View bottom>
+            <ButtonRounded
+              onPress={sendReport}
+              disabled={sendPdf}
+              blue
+            >
+              <Text h14 semibold white>
+                {i18n.t('home.history.buttonDownloadPDF')}
+              </Text>
+            </ButtonRounded>
+          </View>
         </View>
       )}
     </View>

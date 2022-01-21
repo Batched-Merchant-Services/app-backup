@@ -67,7 +67,6 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
     navigation.navigate("ConfirmationLicenses")
   }
 
-  console.log('licensesData?.addressCurrency?.address', licensesData?.addressCurrency?.address)
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
