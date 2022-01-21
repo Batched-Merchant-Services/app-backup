@@ -203,7 +203,7 @@ const History = ({ navigation }) => {
 
   function sendReport() {
     const events = points?.executeData.filter(e => {
-      const date = new Date(e?.transactionDate);
+      const date = new Date(e?.createdDate);
       const year = date.getFullYear();
       const month = ('0' + (date.getUTCMonth()+1)).slice(-2);
       const ls = month ===  monthSelect;
