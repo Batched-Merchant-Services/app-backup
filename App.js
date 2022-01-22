@@ -36,7 +36,6 @@
  import {useNavigationState} from '@react-navigation/native';
  import { userInactivity } from './src/store/actions/app.actions';
  import i18n from '@utils/i18n';
-
  
  //const store = configureStore()
  
@@ -63,31 +62,15 @@
  
  
    useEffect(async () => {
-    
      const configStore = await store;
-     const loginId = configStore?.getState()?.auth?.isSession;
-     setIsLoginId(loginId);
-     const statusUserActive = configStore?.getState()?.app?.statusUserActive;
-     //console.log('statusUserActive',statusUserActive,loginId)
-     //configStore?.dispatch(userInactivity(false))
-     setTimerOn(true);
      setIsReady(true);
+     setTimerOn(true);
      setStorePromise(configStore)
      SplashScreen.hide(); // here
- 
-   }, [timerOn,isLoginId,store]);
+   }, []);
    
  
-   useEffect(() => {
-     AppState.addEventListener('change',handleAppStateChange);
-     if (!isLoginId?false:timerOn) startTimer();
-     else BackgroundTimer.stopBackgroundTimer();
-     return () => {
-       BackgroundTimer.stopBackgroundTimer();
-     };
-   }, [timerOn,isLoginId]);
- 
- 
+
    const handleAppStateChange = async(nextAppState) =>{
      if (nextAppState.match(/inactive|background/)) {
        setActive(false)
@@ -96,44 +79,63 @@
      }
    };
  
-   const startTimer = () => {
-     BackgroundTimer.runBackgroundTimer(() => {
-       setSecondsLeft((secs) => secs - 1);
-     }, 1000)
-   }
- 
- 
- 
-   useEffect(() => {
-     if (active && secondsLeft === 0){
-       console.log('active && secondsLeft === 0',active && secondsLeft === 0)
-       onReset();
-     }
-   }, [secondsLeft])
- 
-  
- 
-   const onReset = async() => {
-     const configStore = await store
-     configStore?.dispatch(validateSession())
-     setSecondsLeft(60 * 4.5)
-   }
- 
-   const onStop = () => {
-     console.log('onStop')
-     NavigationService.navigate('SignOut',{
-       screen: 'Login'
-     });
-     BackgroundTimer.stopBackgroundTimer();
- 
-   }
- 
-   const onAction = async(active) => {
-     console.log('onAction',active,secondsLeft)
-     setActive(active);
-     if (!active) {
-       onStop();
-     }
+
+
+  useEffect(() => {
+    AppState.addEventListener('change',handleAppStateChange);
+    let timerId;
+    if (timerOn) {
+      timerId = setInterval(() => {
+        setSecondsLeft((countDown) => countDown - 1);
+      }, 1000);
+    } else {
+      clearInterval(timerId);
+    }
+    return () => clearInterval(timerId);
+  }, [timerOn]);
+
+
+  useEffect(() => {
+    if (active && secondsLeft === 0){
+      console.log('active && secondsLeft === 0',active && secondsLeft === 0)
+      onReset();
+    }
+  }, [secondsLeft])
+
+
+  const onReset = async() => {
+    const configStore = await store;
+    const userActive = storePromise?.getState()?.app?.statusUserActive;
+    if (userActive) {
+      configStore?.dispatch(validateSession())
+      setSecondsLeft(60 * 4.5)
+    }
+  }
+
+  useEffect(() => {
+    const userActive = storePromise?.getState()?.app?.statusUserActive;
+    console.log('userActive',userActive)
+    if (userActive) {
+      setTimerOn(true);
+      setSecondsLeft(60 * 4.5)
+    }
+  }, [storePromise?.getState()?.app?.statusUserActive])
+
+
+  const onAction = async(active) => {
+    const configStore = await store;
+    const userActive = storePromise?.getState()?.app?.statusUserActive;
+    setActive(active);
+    if (!active && userActive) {
+      setTimerOn(false);
+      NavigationService.navigate('SignOut',{
+        screen: 'Login'
+      });
+      configStore?.dispatch(userInactivity(false));
+    }else {
+      setTimerOn(true);
+      setSecondsLeft(60 * 4.5)
+    }
    }  
  
  
@@ -143,7 +145,7 @@
    const backgroundStyle = {
      backgroundColor: isDarkMode ? Colors.darker : Colors.white,
    };
- 
+   
  
  
    if (isReady) {
@@ -152,7 +154,7 @@
        
          <SafeAreaProvider style={backgroundStyle}>
            <StatusBar barStyle={isDarkMode ? 'white-content' : 'dark-content'} />
-           <I18nextProvider i18n={i18n}>
+           <I18nextProvider i18n={i18n} initialLanguage="en">
             <ApolloProvider client={client} store={storePromise}>
               <Provider store={storePromise} theme={theme}>
               <UserInactivity

@@ -57,7 +57,7 @@ const History = ({ navigation }) => {
   const [monthSelect, setMonthSelect] = useState('');
   const [yearSelect, setYearSelect] = useState('');
   const [offset, setOffset] = useState(1);
-  const [showMore, setShowMore] = useState(false);
+  const [showMore, setShowMore] = useState(true);
   const [data] = useState([
     { id: '1', name: 'Old transactions', value: pointsConstants.POOLS.TOKENS },
     { id: '2', name: 'Commission transactions', value: pointsConstants.POOLS.COMMISSION },
@@ -126,7 +126,7 @@ const History = ({ navigation }) => {
     }
   }, [points?.executeData, showFilter]);
 
-  const [months, setMonths] = useState([
+  const [months] = useState([
     { id: '1', name: i18n.t('General.months.january'), value: '01' },
     { id: '2', name: i18n.t('General.months.february'), value: '02' },
     { id: '3', name: i18n.t('General.months.march'), value: '03' },
@@ -140,17 +140,18 @@ const History = ({ navigation }) => {
     { id: '11', name: i18n.t('General.months.november'), value: '11' },
     { id: '12', name: i18n.t('General.months.december'), value: '12' }
   ]);
-  const [years, setYears] = useState([
-    { id: '01', name: '2022', value: '2022' },
-    { id: '02', name: '2023', value: '2023' },
-    { id: '03', name: '2024', value: '2024' },
-    { id: '04', name: '2025', value: '2025' },
-    { id: '05', name: '2026', value: '2026' },
-    { id: '06', name: '2027', value: '2027' },
-    { id: '07', name: '2028', value: '2028' },
-    { id: '08', name: '2029', value: '2029' },
-    { id: '09', name: '2030', value: '2030' },
-    { id: '10', name: '2031', value: '2031' }
+  const [years] = useState([
+    { id: '01', name: '2021', value: '2021' },
+    { id: '02', name: '2022', value: '2022' },
+    { id: '03', name: '2023', value: '2023' },
+    { id: '04', name: '2024', value: '2024' },
+    { id: '05', name: '2025', value: '2025' },
+    { id: '06', name: '2026', value: '2026' },
+    { id: '07', name: '2027', value: '2027' },
+    { id: '08', name: '2028', value: '2028' },
+    { id: '09', name: '2029', value: '2029' },
+    { id: '10', name: '2030', value: '2030' },
+    { id: '11', name: '2031', value: '2031' }
   ]);
 
   function showMovements() {
@@ -202,7 +203,8 @@ const History = ({ navigation }) => {
 
 
   function sendReport() {
-    const events = points?.executeData.filter(e => {
+    console.log('dataHistory',dataHistory);
+    const events = dataHistory?.filter(e => {
       const date = new Date(e?.createdDate);
       const year = date.getFullYear();
       const month = ('0' + (date.getUTCMonth()+1)).slice(-2);

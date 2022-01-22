@@ -29,7 +29,6 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
 
 
   function getTypeIdentity() {
-    console.log('options',options)
     if (options) {
       if (options?.length > 0) {
         const valueCountry = options?.filter(key => key?.name === labelDefault);

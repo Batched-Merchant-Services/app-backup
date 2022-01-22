@@ -40,6 +40,7 @@ const Login = ({ navigation }) => {
   useEffect(() => {
     dispatch(cleanError());
     dispatch(toggleSnackbarClose());
+    dispatch(userInactivity(false));
   }, [dispatch]);
 
 

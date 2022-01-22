@@ -146,7 +146,7 @@ export const logoutSession = () => async (dispatch) => {
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: LOGOUT_SUCCESS, payload: response?.data['getLogout'] });
-        dispatch(userInactivity(true));
+        dispatch(userInactivity(false));
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });
