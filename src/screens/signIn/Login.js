@@ -31,6 +31,7 @@ const Login = ({ navigation }) => {
   const redux = useSelector(state => state);
   const [values, setValues] = useState(false);
   const authData = redux?.auth;
+  const licensesData = redux?.licenses;
   const email = useValidatedInput('', '');
   const password = useValidatedInput('password', '');
   const isValid = isFormValid(email, password);
@@ -54,12 +55,21 @@ const Login = ({ navigation }) => {
   }
 
   if (authData?.isSession) {
-    navigation.navigate('DrawerScreen',{
-      screen: 'Dashboard'
-    });
+      if (licensesData?.getLicenses) {
+        if (licensesData?.getLicenses) {
+          navigation.navigate('DrawerScreen',{
+            screen: 'Dashboard'
+          });
+        }else{
+          navigation.navigate('SignOut',{
+            screen: 'GetLicenses'
+          });
+        }
+      }
+   
   }
 
-
+  console.log('licensesData',licensesData);
   return (
     <BackgroundWrapper showNavigation={false} navigation={navigation}>
       <Logo width={scale(169)} height={verticalScale(24)} fill="green" />

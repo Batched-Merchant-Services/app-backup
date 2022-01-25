@@ -19,8 +19,7 @@ import DeviceInfo from 'react-native-device-info';
 import { generateRSA } from '@utils/api/encrypt';
 import { toggleSnackbarOpen, userInactivity } from './app.actions';
 import { VALIDATE_SESSION_QUERY } from '../../utils/api/queries/user.queries';
-import { getUTCDateString } from '../../utils/formatters';
-import { getDataUser } from './user.action';
+import { getLicenses} from '@store/actions/licenses.actions';
 import { AUTHENTICATION_TWO_FACTORS,AUTHENTICATION_TWO_FACTORS_EMAIL,LOGOUT_QUERY } from '../../utils/api/queries/auth.queries';
 const device = DeviceInfo.getUniqueId();
 
@@ -46,6 +45,8 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
         await LocalStorage.set('auth_token', token);
         await LocalStorage.set('uuid', uuid);
         dispatch(userInactivity(true));
+        dispatch(getLicenses());
+
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });

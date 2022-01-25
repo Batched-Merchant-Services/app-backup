@@ -46,7 +46,7 @@ const GetLicenses = ({ navigation }) => {
     navigation.navigate("SelectLicense")
   }
 
-  console.log('licensesData?.isLoadingLicenses',licensesData?.isLoadingLicenses);
+  console.log('licensesData?.isLoadingLicenses',licensesData);
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
       <Text h16 regular blue02>{i18n.t('Licenses.textGetYourLicenses')}</Text>

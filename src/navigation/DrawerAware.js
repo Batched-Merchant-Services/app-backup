@@ -1,12 +1,10 @@
-import React from 'react';
+import React,{ useState,useCallback }from 'react';
 
 import {
   DrawerContentScrollView,
   DrawerItem,
   DrawerItemList
 } from '@react-navigation/drawer';
-import { TouchableOpacity, Button } from 'react-native';
-import { AsyncStorage} from 'react-native';
 import {
   Text,
   View,
@@ -27,12 +25,14 @@ import { useSelector, useDispatch } from 'react-redux';
 //Images
 import Back from '@assets/icons/backBlue.png';
 import blueRowRight from '@assets/icons/blue-row-right.png';
+import blueIconPlus from '@assets/icons/blue-icon-plus.png';
+import blueRestPlus from '@assets/icons/blue-icon-rest.png';
 import blueLogOut from '@assets/icons/blue-logout.png';
 import Logo from '@assets/brandBatched/black-logo.svg';
 import { logoutSession } from '../store/actions/auth.actions';
 //import i18n from '@utils/i18n';
 import { useTranslation, Trans, I18nextProvider } from 'react-i18next';
-import {DevSettings} from 'react-native';
+import { DevSettings,Linking,AsyncStorage,TouchableOpacity} from 'react-native';
 const {
   interpolate,
   Extrapolate
@@ -44,20 +44,14 @@ const CustomDrawer = props => {
   const appData = redux.user;
   const auth = redux?.auth;
   const brandTheme = appData?.Theme?.colors;
-  const { state, progress, navigation } = props;
-  const { index, routes } = state;
+  const [showTerm, setShowTerm] = useState(false);
+  const { state, navigation } = props;
   const { t, i18n } = useTranslation();
   //const progress = useDrawerProgress();
   function handleLogout() {
     dispatch(logoutSession());
   }
 
-  function handleChangeEnglish() {
-    i18n.changeLanguage('en').then(() => {
-      i18n.options.lng = 'en';
-      AsyncStorage.setItem('lang', 'en');
-    });
-  }
 
   function changeLanguage(lng) {
     i18n.options.lng = lng;
@@ -71,6 +65,33 @@ const CustomDrawer = props => {
       screen: 'LogOut'
     });
   }
+
+  function showTerms() {
+    setShowTerm(!showTerm);
+  }
+
+  const handlePress = useCallback(async () => {
+    const url = 'https://uulala.io/privacy.html'
+    const supported = await Linking.canOpenURL(url);
+    if (supported) {
+      await Linking.openURL(url);
+    } else {
+      console.log(`Don't know how to open this URL: ${url}`);
+    }
+  }, []);
+
+  const handlePressLicenses = useCallback(async () => {
+    const url = 'https://uulala-public.s3-us-west-2.amazonaws.com/panel/legal/PrivacyPolicy.pdf'
+    const supported = await Linking.canOpenURL(url);
+    if (supported) {
+      await Linking.openURL(url);
+    } else {
+      console.log(`Don't know how to open this URL: ${url}`);
+    }
+  }, []);
+
+
+  
 
   const RenderLeftBack = ({ navigation }) => {
     function handleClose() {
@@ -97,11 +118,11 @@ const CustomDrawer = props => {
 
 
 
-  const CustomLabel = ({ navigation, onPress, label, logout, language, ...props }) => {
+  const CustomLabel = ({ navigation, onPress, label, logout, language, legal,...props }) => {
 
     return (
-      <View flex-1 >
-        {!language && (
+      <View flex-1 width-222>
+        {!language && !legal && (
           <View flex-1 row centerV>
             <Text h16 blue04 semibold>{label}</Text>
             <View flex-1 right>
@@ -109,7 +130,7 @@ const CustomDrawer = props => {
             </View>
           </View>
         )}
-        {language && (
+        {language && !legal && (
           <View flex-1 row centerV>
             <Text h16 blue04 semibold>{label}</Text>
             <Divider width-10 />
@@ -136,13 +157,26 @@ const CustomDrawer = props => {
             </View>
           </View>
         )}
+
+        {legal&&(
+            <TouchableOpacity onPress={showTerms}>
+              <View flex-1 row centerV>
+                <Text h16 blue04 semibold>{label}</Text>
+                <View flex-1 right>
+                  <ImageResize source={showTerm?blueRestPlus:blueIconPlus} height={verticalScale(12)} width={scale(12)} />
+                </View>
+              </View>
+            </TouchableOpacity> 
+        )}
+        <Divider height-12 />
+        <View blue04 style={{width:'100%',height:1}}/>
       </View>
     );
   };
 
   return (
     <Animated.View style={[
-      Styles.containerSideMenu, { backgroundColor: Colors.blue01 }]} >
+      Styles.containerSideMenu, { backgroundColor: Colors.blue01}]} >
       <SafeAreaView style={Styles.imageContainer} edges={['top']}>
         <View row centerV marginH-10>
           <RenderLeftBack navigation={navigation} />
@@ -156,11 +190,6 @@ const CustomDrawer = props => {
             />
           </Ripple>
           <Ripple color={'rgb(0, 106, 200)'} centered={true}
-            // onPress={() => {
-            //   navigation.navigate('SignOut', {
-            //     screen: 'ReferralCode'
-            //   });
-            // }}
             >
             <DrawerItem
               label={({ focused }) => <CustomLabel label={'Enter referral code'} />}
@@ -176,11 +205,25 @@ const CustomDrawer = props => {
               label={({ focused }) => <CustomLabel label={'My Batched'} />}
             />
           </Ripple>
-          <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('Dashboard')}>
             <DrawerItem
-              label={({ focused }) => <CustomLabel label={'Legal information'} />}
+              label={({ focused }) => <CustomLabel label={'Legal information'} legal />}
             />
-          </Ripple>
+            {showTerm&&(
+              <View paddingL-20 centerV marginB-10>
+                <TouchableOpacity
+                onPress={handlePress}
+                >
+                  <Text blue04 h5>{'\u2B24'}{' '}<Text h15 blue04 light>Terms and conditions</Text></Text>
+                </TouchableOpacity>
+                <Divider height-15 />
+                <TouchableOpacity
+                onPress={handlePressLicenses}
+                >
+                  <Text blue04 h5>{'\u2B24'}{' '}<Text h15 blue04 light>Legal Privacy policy</Text></Text>
+                </TouchableOpacity>
+              </View>
+             
+            )}
           <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('HomeContact')}>
             <DrawerItem
               label={({ focused }) => <CustomLabel label={'Contact'} />}
