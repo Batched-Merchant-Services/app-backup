@@ -57,6 +57,7 @@ const SnackNotice = ({
   }
 
   function handleClose() {
+    console.log('close')
     dispatch(toggleSnackbarClose());
   }
 
@@ -129,7 +130,7 @@ const SnackNotice = ({
                 centerV
                 paddingR-15
               >
-                <TouchableOpacity onPress={fadeOut}>
+                <TouchableOpacity onPress={fadeOut} style={{borderColor:'yellow',borderWidth:1}}>
                   <ImageResize
                     source={close}
                     height={verticalScale(10)}

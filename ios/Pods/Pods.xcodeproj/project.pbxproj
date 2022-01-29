@@ -20880,30 +20880,6 @@
 			};
 			name = Release;
 		};
-		2AD3D6ED89C92851BBE0EE9E5A756E5A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7232DBFEDF61ADE6D92B1D5C4DE4705E /* lottie-react-native.debug.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/lottie-react-native/lottie-react-native-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MODULEMAP_FILE = "Headers/Public/lottie_react_native/lottie-react-native.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = lottie_react_native;
-				PRODUCT_NAME = "lottie-react-native";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
 		2B923085CF944789E0EBC8B5FE7AB8E8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 103A114FAF187AB6CBA1454195F70865 /* React-RCTImage.debug.xcconfig */;
@@ -21283,6 +21259,32 @@
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
+		};
+		449B531CD49E56FC8AE563A293CE1600 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7F02DE27CEFA62724D502E6BCF1892A7 /* lottie-react-native.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/lottie-react-native/lottie-react-native-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MODULEMAP_FILE = "Headers/Public/lottie_react_native/lottie-react-native.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = lottie_react_native;
+				PRODUCT_NAME = "lottie-react-native";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
 		};
 		461B8D46BBEB38E72C871090D60D5AD2 /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -22571,6 +22573,31 @@
 			};
 			name = Release;
 		};
+		A9417174A39918F3AD2A7E3F697429E4 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7232DBFEDF61ADE6D92B1D5C4DE4705E /* lottie-react-native.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				GCC_PREFIX_HEADER = "Target Support Files/lottie-react-native/lottie-react-native-prefix.pch";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				MODULEMAP_FILE = "Headers/Public/lottie_react_native/lottie-react-native.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PRIVATE_HEADERS_FOLDER_PATH = "";
+				PRODUCT_MODULE_NAME = lottie_react_native;
+				PRODUCT_NAME = "lottie-react-native";
+				PUBLIC_HEADERS_FOLDER_PATH = "";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		AD837D34BD48ACF55A0BD26B0EE0D09D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 99DB5270E6E64AE58389940FFA4D09DB /* lottie-ios.debug.xcconfig */;
@@ -23390,31 +23417,6 @@
 			};
 			name = Debug;
 		};
-		F0273549411BED5D47EE60CA161FB260 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F02DE27CEFA62724D502E6BCF1892A7 /* lottie-react-native.release.xcconfig */;
-			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				GCC_PREFIX_HEADER = "Target Support Files/lottie-react-native/lottie-react-native-prefix.pch";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				MODULEMAP_FILE = "Headers/Public/lottie_react_native/lottie-react-native.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PRIVATE_HEADERS_FOLDER_PATH = "";
-				PRODUCT_MODULE_NAME = lottie_react_native;
-				PRODUCT_NAME = "lottie-react-native";
-				PUBLIC_HEADERS_FOLDER_PATH = "";
-				SDKROOT = iphoneos;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
 		F0D84B21271AAD27C6C3ADDAC3F7CC5F /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 20918A46F70A9DD353B97845B48C6341 /* React-RCTBlob.release.xcconfig */;
@@ -23817,8 +23819,8 @@
 		94524458DDC1BF4164CB6C102248CEDB /* Build configuration list for PBXNativeTarget "lottie-react-native" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2AD3D6ED89C92851BBE0EE9E5A756E5A /* Debug */,
-				F0273549411BED5D47EE60CA161FB260 /* Release */,
+				A9417174A39918F3AD2A7E3F697429E4 /* Debug */,
+				449B531CD49E56FC8AE563A293CE1600 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

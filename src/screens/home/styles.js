@@ -9,6 +9,12 @@ const styles = StyleSheet.create({
     width: verticalScale(140),
     height: verticalScale(140),
   },
+  imageContainer:{
+    justifyContent: "center",
+    alignItems: 'center',
+    width: '100%',
+    height: '100%',
+  },
   imageSecond: {
     justifyContent: "center",
     alignItems: 'center',

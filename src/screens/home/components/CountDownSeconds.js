@@ -129,26 +129,28 @@ const CountDownSeconds = ({ navigation, ...props }) => {
         </View>
         {showButtonStart && (
           <FadeInView style={{ flex: 1 }}>
-            <LottieView source={require('../../../assets/animationsLottie/distributionEnable.json')} autoPlay loop style={{ justifyContent: "center", alignItems: 'center' }}>
+            <View style={Styles.imageContainer}>
               <ImageBackground source={firstLayer} resizeMode="contain" style={Styles.image}>
                 <Animated.Image
                   style={[Styles.containerArrow, { transform: [{ rotate: RotateData }] }]}
                   source={arrow}
                 />
                 <ImageBackground source={secondLayer} resizeMode="contain" style={Styles.imageSecond}>
-                  <TouchableOpacity onPress={()=>handlePressStart()}>
-                    <View  marginT-40 style={Styles.containerTime}>
+                  <TouchableOpacity onPress={() => handlePressStart()}>
+                    <View marginT-40 style={Styles.containerTime}>
                       <Text h15 white semibold>{i18n.t('home.buttonStart')}</Text>
                     </View>
                   </TouchableOpacity>
                 </ImageBackground>
               </ImageBackground>
-            </LottieView>
+            </View>
+            <LottieView source={require('../../../assets/animationsLottie/distributionEnable.json')} autoPlay loop style={{ position: 'absolute', top: 0 }} />
           </FadeInView>
         )}
         {!showButtonStart && (
           <FadeInView style={{ flex: 1 }}>
-            <LottieView source={require('../../../assets/animationsLottie/distributionDisable.json')} autoPlay loop style={{ justifyContent: "center", alignItems: 'center' }}>
+            <LottieView source={require('../../../assets/animationsLottie/distributionDisable.json')} autoPlay loop style={{ position: 'absolute', top: 0, justifyContent: "center", alignItems: 'center' }} />
+            <View style={Styles.imageContainer}>
               <ImageBackground source={firstLayerInactive} resizeMode="contain" style={Styles.image}>
                 <Animated.Image
                   style={[Styles.containerArrow, { transform: [{ rotate: RotateData }] }]}
@@ -160,8 +162,7 @@ const CountDownSeconds = ({ navigation, ...props }) => {
                   </View>
                 </ImageBackground>
               </ImageBackground>
-
-            </LottieView>
+            </View>
           </FadeInView>
         )}
       </View>
