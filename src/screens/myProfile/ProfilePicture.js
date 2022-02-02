@@ -88,8 +88,8 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
     setSuccessInfo(false)
   }
 
+  console.log('nameAvatar',nameAvatar,dataUser?.setFile)
   return (
-    <>
       <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
         <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
           <StepIndicator step={4} totalSteps={5} />
@@ -106,12 +106,12 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
               />
             )}
 
-            {nameAvatar === '' && (
+            {nameAvatar === 'pending' && dataUser?.setFile === null && (
               <View flex-1 centerH centerV>
                 <Text semibold white style={{ fontSize: 110 }}>{accounts?.alias}</Text>
               </View>
             )}
-            {nameAvatar !== '' && (
+            {nameAvatar !== '' && dataUser?.setFile !== null && (
               <ImageResize
                 source={{ uri: nameAvatar }}
                 height={'86%'}
@@ -147,22 +147,13 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
         </View>
         <Divider height-10 />
         <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
-        {/* <View flex-1 bottom>
-        <SnackNotice
-          visible={errorFile}
-          message={fileError}
-        />
-      </View> */}
-      </BackgroundWrapper>
-      {errorFile || success && (
-        <View blue04 paddingB-10 paddingH-15>
+        <View flex-1 bottom>
           <SnackNotice
             visible={errorFile || success}
             message={profile?.error?.message}
           />
-        </View>
-      )}
-    </>
+      </View>
+      </BackgroundWrapper>
   );
 }
 

@@ -53,20 +53,20 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
   useEffect(() => {
     dispatch(cleanErrorProfile());
     dispatch(getCountries());
-    getShowCountry();
   }, [dispatch]);
 
 
-  async function getShowCountry() {
+  useEffect(() => {
     if (registerData?.countries) {
       if (registerData?.countries?.length > 0) {
         setItems(registerData?.countries)
         const valueCountry = registerData?.countries?.filter(key => key?.value === bank?.country);
         setValueCountries(...valueCountry);
-        //
       }
     }
-  }
+  }, [registerData?.countries]);
+  
+
  
   function updateBankInformation() {
     const dataUpdateBank = {
@@ -112,7 +112,6 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
 
 
   return (
-    <>
     <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
       <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
         <StepIndicator step={2} totalSteps={2} />
@@ -219,24 +218,13 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
       <Divider height-10 />
       <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
       <Loading modalVisible={profile?.isLoadingProfile} />
-      {/* <View flex-1 bottom>
+      <View flex-1 bottom>
         <SnackNotice
-          visible={error}
-          message={profile?.error?.message}
-          timeout={3000}
-        />
-      </View> */}
-    </BackgroundWrapper>
-      {error || success && (
-        <View blue04 paddingB-10 paddingH-15>
-          <SnackNotice
             visible={error || success}
             message={profile?.error?.message}
           />
-        </View>
-      )}
-  
-    </>
+      </View>
+    </BackgroundWrapper>
   );
 }
 

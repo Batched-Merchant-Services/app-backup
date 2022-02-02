@@ -14,6 +14,7 @@ import {
   BackgroundWrapper
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
+import { Platform } from 'react-native';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import Styles from './styles'
 import i18n from '@utils/i18n';
@@ -51,15 +52,9 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
   useEffect(() => {
     dispatch(cleanErrorProfile());
     dispatch(getGender());
-    getShowGender();
-    // const unsubscribe = navigation.addListener('focus', () => {
-    //   dispatch(getGender());
-    //   getShowGender();
-    // });
-    // return unsubscribe;
   }, [dispatch]);
 
-  async function getShowGender() {
+  useEffect(() => {
     if (registerData?.gender) {
       if (registerData?.gender?.length > 0) {
         setItems(registerData?.gender)
@@ -67,7 +62,8 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
         setValueGender(...valueGender);
       }
     }
-  }
+  }, [registerData?.gender]);
+
 
   function handleUpdateInfo() {
     const genderValues = gender?.value;
@@ -95,116 +91,105 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
 
   //const isValid = isFormValid(firstName, mediumName, lastName, ssn, gender, birthDay);
   return (
-    <>
-      <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
-        <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
-          <StepIndicator step={1} totalSteps={5} />
-        </View>
-        <Divider height-10 />
-        <Text h14 blue02 regular>{i18n.t('myProfile.textPersonalInformation')}</Text>
-        <Divider height-10 />
-        <View style={Styles.container}>
-          <FloatingInput
-            {...firstName}
-            label={i18n.t('Register.inputFirstName')}
-            autoCapitalize={'none'}
-          />
-          <Divider height-5 />
-          <FloatingInput
-            {...mediumName}
-            label={i18n.t('Register.inputMediumName')}
-            autoCapitalize={'none'}
-          />
-          <Divider height-5 />
-          <FloatingInput
-            {...lastName}
-            label={i18n.t('Register.inputLastName')}
-            autoCapitalize={'none'}
-          />
-          <Divider height-5 />
-          <FloatingInput
-            {...ssn}
-            label={i18n.t('Register.inputSocialSecurityNumber')}
-            autoCapitalize={'none'}
-          />
-          <Divider height-5 />
-          <DropDownPicker
-            {...gender}
-            label={i18n.t('Register.inputGender')}
-            options={items}
-            labelDefault={valueGender?.name}
-          />
-          <Divider height-5 />
-          <DatePicker
-            {...birthDay}
-            label={i18n.t('Register.inputDateOfBirth')}
-          />
-          <Divider height-5 />
-          <FloatingInput
-            {...email}
-            editable={false}
-            label={i18n.t('Register.email')}
-            autoCapitalize={'none'}
-          />
-          <Divider height-5 />
-          <FloatingInput
-            {...phone}
-            editable={false}
-            label={i18n.t('myProfile.inputPhone')}
-            autoCapitalize={'none'}
-          />
-        </View>
-        <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
+    <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
+      <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
+        <StepIndicator step={1} totalSteps={5} />
+      </View>
+      <Divider height-10 />
+      <Text h14 blue02 regular>{i18n.t('myProfile.textPersonalInformation')}</Text>
+      <Divider height-10 />
+      <View style={Styles.container}>
+        <FloatingInput
+          {...firstName}
+          label={i18n.t('Register.inputFirstName')}
+          autoCapitalize={'none'}
+        />
         <Divider height-5 />
-        <View flex-1 row bottom >
-          <ButtonRounded
-            onPress={handleUpdateInfo}
-            disabled={false}
-            dark
-            size='sm'
-          >
-            <Text h14 semibold blue02>
-              {i18n.t('General.buttonSaveChanges')}
-            </Text>
-          </ButtonRounded>
-          <Divider width-10 />
-          <ButtonRounded
-            onPress={() => {
-              navigation.navigate('SignIn', {
-                screen: 'ContactInformation',
-                merge: true
-              });
-            }}
-            //disabled={!isValid}
-            dark
-            size='sm'
-          >
-            <Text h14 blue02 semibold>
-              {i18n.t('General.buttonNext')}
-            </Text>
-          </ButtonRounded>
-        </View>
-        <Divider height-10 />
-        <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
-        <Loading modalVisible={profile?.isLoadingProfile} />
-        {/* <View flex-1 bottom>
-          <SnackNotice
-            visible={error || success}
-            message={profile?.error?.message}
-            timeout={3000}
-          />
-        </View> */}
-      </BackgroundWrapper>
-      {error || success && (
-        <View blue04 paddingB-10 paddingH-15>
-          <SnackNotice
-            visible={error || success}
-            message={profile?.error?.message}
-            timeout={3000}
-          />
-        </View>
-      )}
-    </>
+        <FloatingInput
+          {...mediumName}
+          label={i18n.t('Register.inputMediumName')}
+          autoCapitalize={'none'}
+        />
+        <Divider height-5 />
+        <FloatingInput
+          {...lastName}
+          label={i18n.t('Register.inputLastName')}
+          autoCapitalize={'none'}
+        />
+        <Divider height-5 />
+        <FloatingInput
+          {...ssn}
+          label={i18n.t('Register.inputSocialSecurityNumber')}
+          autoCapitalize={'none'}
+        />
+        <Divider height-5 />
+        <DropDownPicker
+          {...gender}
+          label={i18n.t('Register.inputGender')}
+          options={items}
+          labelDefault={valueGender?.name}
+        />
+        <Divider height-5 />
+        <DatePicker
+          {...birthDay}
+          label={i18n.t('Register.inputDateOfBirth')}
+        />
+        <Divider height-5 />
+        <FloatingInput
+          {...email}
+          editable={false}
+          label={i18n.t('Register.email')}
+          autoCapitalize={'none'}
+        />
+        <Divider height-5 />
+        <FloatingInput
+          {...phone}
+          editable={false}
+          label={i18n.t('myProfile.inputPhone')}
+          autoCapitalize={'none'}
+        />
+      </View>
+      <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
+      <Divider height-5 />
+      <View flex-1 row bottom >
+        <ButtonRounded
+          onPress={handleUpdateInfo}
+          disabled={false}
+          dark
+          size='sm'
+        >
+          <Text h14 semibold blue02>
+            {i18n.t('General.buttonSaveChanges')}
+          </Text>
+        </ButtonRounded>
+        <Divider width-10 />
+        <ButtonRounded
+          onPress={() => {
+            navigation.navigate('SignIn', {
+              screen: 'ContactInformation',
+              merge: true
+            });
+          }}
+          //disabled={!isValid}
+          dark
+          size='sm'
+        >
+          <Text h14 blue02 semibold>
+            {i18n.t('General.buttonNext')}
+          </Text>
+        </ButtonRounded>
+      </View>
+      <Divider height-10 />
+      <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
+      <Loading modalVisible={profile?.isLoadingProfile} />
+      <View flex-1 bottom>
+        <SnackNotice
+          visible={error || success}
+          message={profile?.error?.message}
+          timeout={3000}
+        />
+      </View>
+    </BackgroundWrapper>
   );
 }
 

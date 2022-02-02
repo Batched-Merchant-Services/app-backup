@@ -32,7 +32,9 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
     if (options) {
       if (options?.length > 0) {
         const valueCountry = options?.filter(key => key?.name === labelDefault);
-        onSelect(valueCountry[0]);
+        if (valueCountry?.length > 0) {
+          onSelect(valueCountry[0]);
+        }
       }
     }
   }
@@ -40,6 +42,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
 
   const handleSelect = index => {
     setSelectValue(true);
+    console.log('options[index]',options[index])
     onSelect(options[index]);
   };
 

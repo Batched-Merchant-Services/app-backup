@@ -17,12 +17,12 @@ import Loading from '../Loading';
 import { cleanErrorLicenses,getLicenses,saveCurrentLicense } from '@store/actions/licenses.actions';
 import { toggleSnackbarClose } from '@store/actions/app.actions';
 
-const GetLicenses = ({ navigation }) => {
+const GetLicenses = ({ navigation,route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const licensesData = redux?.licenses;
   const referenceCode = useValidatedInput('referenceCode', '');
-
+  const params = route?.params;
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
 
   useEffect(() => {
@@ -46,9 +46,20 @@ const GetLicenses = ({ navigation }) => {
     navigation.navigate("SelectLicense")
   }
 
-  console.log('licensesData?.isLoadingLicenses',licensesData);
+  const handleDashboard = () =>{
+    if (params?.page === 'myBatched') {
+      navigation.navigate('DrawerScreen',{
+        screen: 'HomeMyBatched'})
+    }else if (params?.page === 'dashboard') {
+      navigation.navigate('DrawerScreen',{
+        screen: 'Dashboard'})
+    }else{
+      return null
+    }
+  }
+
   return (
-    <BackgroundWrapper showNavigation={true} navigation={navigation}>
+    <BackgroundWrapper showNavigation={true} childrenLeft={params?.page === 'myBatched'|| "dashboard" ?true:false} onPressLeft={handleDashboard} navigation={navigation}>
       <Text h16 regular blue02>{i18n.t('Licenses.textGetYourLicenses')}</Text>
       <Text h12 white light>{i18n.t('Licenses.textYourLicensesWill')}</Text>
       <Divider height-20 />

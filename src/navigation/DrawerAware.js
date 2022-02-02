@@ -121,7 +121,7 @@ const CustomDrawer = props => {
   const CustomLabel = ({ navigation, onPress, label, logout, language, legal,...props }) => {
 
     return (
-      <View flex-1 width-222>
+      <View flex-1>
         {!language && !legal && (
           <View flex-1 row centerV>
             <Text h16 blue04 semibold>{label}</Text>
@@ -178,6 +178,7 @@ const CustomDrawer = props => {
     <Animated.View style={[
       Styles.containerSideMenu, { backgroundColor: Colors.blue01}]} >
       <SafeAreaView style={Styles.imageContainer} edges={['top']}>
+        <Divider height-20 />
         <View row centerV marginH-10>
           <RenderLeftBack navigation={navigation} />
           <Divider width-30 />

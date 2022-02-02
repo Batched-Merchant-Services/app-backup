@@ -132,7 +132,7 @@ const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, image
       }
     });
   }
-
+  console.log('value',value);
   return (
     <Fragment>
       <View blue02 padding-5>

@@ -70,7 +70,7 @@ const SelectTypeLicense = ({ navigation }) => {
   function getArrayLicense(end) {
     const arrayLicenses =  Array(end??0 - 1 + 1).fill().map((_, idx) =>{
       const value = 1+idx
-      return {name:1 + idx, value:value?.toString()}
+      return { name:1 + idx, value:value?.toString()}
     });
     setItemTypeLicenses(arrayLicenses);
   }
@@ -98,6 +98,7 @@ const SelectTypeLicense = ({ navigation }) => {
     }
   
   }
+  console.log('typeLicenses',typeLicenses)
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
      <NavigationBar childrenLeft navigation={navigation}/>

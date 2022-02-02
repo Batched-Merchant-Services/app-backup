@@ -57,7 +57,10 @@ const HomeBalance = ({ navigation }) => {
   }
 
   function handleGetLicenses(){
-    navigation.navigate('GetLicenses'); 
+    navigation.navigate('SignOut',{
+      screen: 'GetLicenses',
+      params: { page:'myBatched'}
+    });
   }
   return (
     <View flex-1>

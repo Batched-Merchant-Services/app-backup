@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native';
 import {  Platform } from 'react-native';
+import { verticalScale } from 'react-native-size-matters';
 
 export default StyleSheet.create({
 
@@ -14,4 +15,10 @@ export default StyleSheet.create({
     borderRadius:5
 
   },
+  close:{
+    width: verticalScale(50),
+    height:'100%',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });

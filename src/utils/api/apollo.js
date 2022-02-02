@@ -10,6 +10,8 @@ import { API_URL_STAGING, PUBLIC_KEY } from '@env';
 import i18n from '@utils/i18n';
 import { getUTCDateString } from "../formatters";
 import { generateRSA } from "./encrypt";
+import { Alert } from "react-native";
+
 
 console.log('API_URL_STAGING', API_URL_STAGING, PUBLIC_KEY);
 
@@ -32,7 +34,9 @@ const activityMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
-      'content-hash': generateRSA('AppMobile' + '|' + getTicks())
+      'content-hash': generateRSA('AppMobile' + '|' + getTicks()),
+      'Content-Type': 'application/json',
+      'Accept':'application/json'
     }
   }));
   return forward(operation);

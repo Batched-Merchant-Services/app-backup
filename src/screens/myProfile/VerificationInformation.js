@@ -48,10 +48,10 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
     dispatch(cleanErrorProfile());
     const countryCode = accounts?.countryCode;
     dispatch(getTypeIdentification({ countryCode }));
-    getTypeIdentity();
+    //getTypeIdentity();
   }, [dispatch])
 
-  function getTypeIdentity() {
+  useEffect(() => {
     if (profile?.dropDownIdentification) {
       if (profile?.dropDownIdentification?.length > 0) {
         setTypeIdentity(profile?.dropDownIdentification)
@@ -59,8 +59,8 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
         setValueIdentity(...valueCountry);
       }
     }
-  }
-
+  }, [profile?.dropDownIdentification]);
+  
 
   function getUpdateAddress() {
     const typeIdent = typeIdentificationD?.value;
@@ -95,13 +95,7 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
     dispatch(createKYC({ dataCreateKYC }))
   }
 
-  function handleClose() {
-    setSuccessInfo(false)
-  }
-
-
   return (
-    <>
       <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
         <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
           <StepIndicator step={3} totalSteps={5} />
@@ -189,23 +183,13 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
         <Divider height-10 />
         <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
         <Loading modalVisible={profile?.isLoadingProfile} />
-        {/* <View flex-1 bottom>
+        <View flex-1 bottom>
           <SnackNotice
-            visible={error}
+            visible={error || successEdit}
             message={profile?.error?.message}
-            timeout={3000}
           />
-        </View> */}
+        </View>
       </BackgroundWrapper>
-      {error || successEdit && (
-      <View blue04 paddingB-10 paddingH-15>
-        <SnackNotice
-          visible={error || successEdit}
-          message={profile?.error?.message}
-        />
-      </View>
-      )}
-    </>
   );
 }
 

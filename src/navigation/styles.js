@@ -16,13 +16,13 @@ export default StyleSheet.create({
   },
   containerSideMenu: {
     flex : 1,
-    //width: Dimensions.get('window').width * 0.8,
+    //width: Dimensions.get('window').width * 0.64,
   },
 
   imageContainer: {
     flex:1,
     borderRadius:16,
-    marginVertical: 8
+    marginVertical: 8,
   },
 
   drawerImage: {
