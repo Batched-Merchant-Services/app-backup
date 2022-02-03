@@ -12,9 +12,7 @@
    useColorScheme,
    AppState
  } from 'react-native';
- import {
-   Colors
- } from 'react-native/Libraries/NewAppScreen';
+
  import NavigationService from './NavigationService';
  import { NavigationContainer, NavigationContainerRef } from '@react-navigation/native';
  import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -26,22 +24,18 @@
  import { client } from '@utils/api/apollo';
  import { ApolloProvider } from '@apollo/react-hooks'
  import { theme } from './theme';
- import configureStore from '@store/configureStore';
  import store from '@store';
- import SessionTimeout from './SessionTimeout';
  import UserInactivity from 'react-native-user-inactivity';
- import BackgroundTimer from 'react-native-background-timer';
- import { panResponder } from './SessionTimeout'
  import { validateSession } from './src/store/actions/auth.actions';
- import {useNavigationState} from '@react-navigation/native';
  import { userInactivity } from './src/store/actions/app.actions';
  import i18n from '@utils/i18n';
- 
+ import Colors from '@styles/Colors';
  //const store = configureStore()
  
  const MyTheme = {
    dark: false,
    colors: {
+    ...Colors,
      primary: 'rgb(255, 45, 85)',
      background: 'rgb(242, 242, 242)',
      card: 'rgb(255, 255, 255)',
@@ -143,7 +137,7 @@
    const isDarkMode = useColorScheme() === 'dark';
  
    const backgroundStyle = {
-     backgroundColor: isDarkMode ? Colors.darker : Colors.white,
+     backgroundColor: isDarkMode ? Colors.red : Colors.white,
    };
    
  

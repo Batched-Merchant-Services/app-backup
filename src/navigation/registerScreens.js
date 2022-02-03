@@ -41,7 +41,18 @@ import HomeContact from '@screens/contact/HomeContact';
 import ConfirmationContact from '@screens/contact/ConfirmationContact';
 import LogOut from '@screens/logout';
 
- 
+import Auth2fa from '@screens/auth2fa';
+import TwoFactorInstructions from '@screens/auth2fa/TwoFactorInstructions';
+import TwoFactorActivation from '@screens/auth2fa/TwoFactorActivation';
+import TwoFactorCodeActivation from '@screens/auth2fa/TwoFactorCodeActivation';
+import TwoFactorConfirmationActivation from '@screens/auth2fa/TwoFactorConfirmationActivation';
+import Auth2faSms from '@screens/auth2fa/auth2faSms';
+import ActivationSms from '@screens/auth2fa/auth2faSms/ActivationSms';
+import ConfirmationSMS from '@screens/auth2fa/auth2faSms/ConfirmationSMS';
+import Auth2faEmail from '@screens/auth2fa/auth2faEmail';
+import ActivationEmail from '@screens/auth2fa/auth2faEmail/ActivationEmail';
+import Auth2faApp from '@screens/auth2fa/auth2faApp';
+
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -74,7 +85,7 @@ const DrawerScreen = () => {
 const signOutScreens = () => {
    //aqui pondremos las que contienen un menu 
   return (
-    <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false, gestureEnabled: false }}>
+    <Stack.Navigator initialRouteName="Auth2fa" screenOptions={{ headerShown: false, gestureEnabled: false }}>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="CodeSms" component={CodeSms} />
@@ -95,6 +106,18 @@ const signOutScreens = () => {
       <Stack.Screen name="NewPassword" component={NewPassword} />
       <Stack.Screen name="EmailConfirm" component={EmailConfirm} />
       <Stack.Screen name="ConfirmationForgot" component={Confirmation} />
+      <Stack.Screen name="Auth2fa" component={Auth2fa} />
+      <Stack.Screen name="TwoFactorInstructions" component={TwoFactorInstructions} />
+      <Stack.Screen name="TwoFactorActivation" component={TwoFactorActivation} />
+      <Stack.Screen name="TwoFactorCodeActivation" component={TwoFactorCodeActivation} /> 
+      <Stack.Screen name="TwoFactorConfirmationActivation" component={TwoFactorConfirmationActivation} /> 
+      <Stack.Screen name="Auth2faSms" component={Auth2faSms} /> 
+      <Stack.Screen name="ActivationSms" component={ActivationSms} /> 
+      <Stack.Screen name="ConfirmationSMS" component={ConfirmationSMS} /> 
+      <Stack.Screen name="Auth2faEmail" component={Auth2faEmail} /> 
+      <Stack.Screen name="ActivationEmail" component={ActivationEmail} /> 
+      <Stack.Screen name="Auth2faApp" component={Auth2faApp} />
+      
     </Stack.Navigator>
   );
 } 

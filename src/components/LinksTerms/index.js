@@ -11,7 +11,8 @@ const LinksTerms = ({ navigation,onPressTerm, onPressPrivacy, ...props }) => {
   
   return (
     <Fragment>
-      <View row bottom>
+     <Text h10 blue01 light>{i18n.t('General.textAllRightsReserved')} Batched.com</Text>
+      {/* <View row bottom>
         <Link onPress={onPressTerm}>
           <Text h12 white>{i18n.t('General.linkTermsAndConditions')}</Text>
         </Link>
@@ -19,8 +20,8 @@ const LinksTerms = ({ navigation,onPressTerm, onPressPrivacy, ...props }) => {
         <Link onPress={onPressPrivacy}>
           <Text h12 white>{i18n.t('General.linkPrivacyPolicy')}</Text>
         </Link>
-      </View>
-      <Divider height-10/>
+      </View> */}
+      <Divider height-5/>
     </Fragment>
     
   );

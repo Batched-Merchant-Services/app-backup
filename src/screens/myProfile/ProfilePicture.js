@@ -87,8 +87,6 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
   function handleClose() {
     setSuccessInfo(false)
   }
-
-  console.log('nameAvatar',nameAvatar,dataUser?.setFile)
   return (
       <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
         <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>

@@ -42,8 +42,8 @@ const BackgroundWrapper = ({
         <ScrollView contentContainerStyle={{flexGrow: 1}} style={{flex: 1}}>
             {children}
         </ScrollView>
-        <Divider style={{ height: Platform.OS === 'ios' ? 0 : 30}}/>
-        {/* <LinksTerms /> */}
+        <Divider style={{ height: Platform.OS === 'ios' ? 15 : 30}}/>
+        <LinksTerms />
       </SafeAreaView>
     </LinearGradient>
   );
