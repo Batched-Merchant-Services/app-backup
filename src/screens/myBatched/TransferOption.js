@@ -30,8 +30,8 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
   const amount = useValidatedInput('amount', '');
   const codeSecurity = useValidatedInput('code', '');
   const points = redux?.points;
-  const auth = redux?.auth;
   const infoUser = redux?.user;
+  const userProfile = infoUser?.dataUser;
   const typeTransfer = useValidatedInput('select', '', {
     changeHandlerSelect: 'onSelect'
   });
@@ -70,9 +70,15 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
   //   } else return null;
   // };
 
+  console.log('infoUser',userProfile)
+
   function handleGoToSms(){
-    navigation.navigate('ConfirmSms',{ amount: amount,valueSelect:valueSelect});
+    if (!userProfile.isTwoFactor) {
+      navigation.navigate('Auth2fa')
+    }
+    //navigation.navigate('ConfirmSms',{ amount: amount,valueSelect:valueSelect});
   }
+  
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>

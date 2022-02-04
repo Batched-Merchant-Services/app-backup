@@ -29,7 +29,7 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   function getInfo(code) {
-    navigation.navigate('TwoFactorConfirmationActivation')
+    //navigation.navigate('TwoFactorConfirmationActivation')
    console.log('code',code);
   }
 
@@ -49,7 +49,10 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
       <View flex-1 bottom>
       <ButtonRounded
           blue
-          onPress={() => navigation.navigate('ConfirmationSMS')}
+          onPress={() => navigation.navigate('SignOut',{
+          screen: 'ConfirmationAuth',
+          params: { page:'SMS'}
+        })}
         >
           <Text h13 semibold white center>
             Activar autenticación vía SMS

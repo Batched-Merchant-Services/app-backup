@@ -14,10 +14,12 @@ import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import i18n from '@utils/i18n';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { useTheme } from '@react-navigation/native';
-import Styles from './styles';
+import IconWarning from '@assets/iconSVG/IconWarning';
+import QRCode from 'react-native-qrcode-svg';
+//import Styles from './styles';
+import IconClock from '@assets/iconSVG/IconAuth2fa/IconClock';
 
-
-const ActivationEmail = ({ navigation, route, navigation: { goBack } }) => {
+const EnterOldCode = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const appData = redux.app;
@@ -29,17 +31,22 @@ const ActivationEmail = ({ navigation, route, navigation: { goBack } }) => {
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   function getInfo(code) {
-    //navigation.navigate('TwoFactorConfirmationActivation')
-   console.log('code',code);
+    navigation.navigate('SignOut',{
+      screen: 'TwoFactorActivation',
+      params: { page:'change'}
+    });
   }
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
-      <Text h20 regular blue02>Activar Autenticación vía Email</Text>
-      <Divider height-20 />
-      <Text h10 white regular>Para habilitar la autenticación de correo electrónico, se envió un código de seguridad a su dirección de correo electrónico en{' '}<Text white semibold>g***@uulala.io</Text></Text>
-      <Divider height-20 />
-      <Text h10 white regular>Ingrese el código de seguridad a continuación para continuar.</Text>
+      <View centerH>
+        <IconClock width={scale(180)} height={verticalScale(180)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
+      </View>
+      <Text h16 regular blue02>Cambiar autenticación de dos factores a nuevo dispositivo</Text>
+      <Divider height-10 />
+      <Text h12 white light>Ingresa el código que aparece en tu dispositivo registrado actualmente.</Text>
+      <Divider height-10 />
+      <Text h12 white semibold>Ingresa el código que obteniste,<Text h12 white>si el tiempo se acaba vuelve a ingresarlo.</Text></Text>
       <Divider height-30 />
       <Text h12 blue02>{i18n.t('home.myBatchedTransfer.textConfirmationCode')}</Text>
       <Divider height-10 />
@@ -47,17 +54,6 @@ const ActivationEmail = ({ navigation, route, navigation: { goBack } }) => {
       <Divider height-20 />
       {/* <Loading modalVisible={points?.isLoadingRewardsPoints} /> */}
       <View flex-1 bottom>
-      <ButtonRounded
-          blue
-          onPress={() => navigation.navigate('SignOut',{
-          screen: 'ConfirmationAuth',
-          params: { page:'Email'}
-        })}
-        >
-          <Text h13 semibold white center>
-            Activar autenticación vía Email
-          </Text>
-        </ButtonRounded>
         {/* <SnackNotice
           visible={error}
           message={points?.error?.message}
@@ -71,4 +67,4 @@ const ActivationEmail = ({ navigation, route, navigation: { goBack } }) => {
 }
 
 
-export default ActivationEmail;
+export default EnterOldCode;

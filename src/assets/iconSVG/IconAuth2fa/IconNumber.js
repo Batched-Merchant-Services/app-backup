@@ -12,15 +12,13 @@ const IconNumber = ({
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
-      x="0"
-      y="0"
+     
       viewBox="0 0 183.589 137.655"
-      xmlSpace="preserve" 
       height={height} 
       width={width}
      
     >
-      <G data-name="Group 3" transform="translate(-.411)">
+      <G  data-name="Group 3" transform="translate(-.411)">
         <G>
           <G
             fill="none"
@@ -29,8 +27,8 @@ const IconNumber = ({
             strokeWidth="1"
             transform="translate(27.796 116.61)"
           >
-            <Path stroke="none" d="M0 0H2.747V2.76H0z"></Path>
-            <Path d="M0.5 0.5H2.247V2.26H0.5z"></Path>
+            <Path scale={0.5} stroke="none" d="M0 0H2.747V2.76H0z"></Path>
+            <Path scale={0.5} d="M0.5 0.5H2.247V2.26H0.5z"></Path>
           </G>
           <G
             fill="none"

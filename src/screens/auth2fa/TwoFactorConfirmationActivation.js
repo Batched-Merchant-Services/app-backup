@@ -16,6 +16,8 @@ import IconSecurityLock from '@assets/iconSVG/IconAuth2fa/IconSecurityLock';
 import IconWarning from '@assets/iconSVG/IconWarning';
 import i18n from '@utils/i18n';
 import Styles from './styles';
+import IconKey from '@assets/iconSVG/IconAuth2fa/IconKey';
+import ModalAuth2fa from './ModalAuth2fa';
 
 const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
@@ -23,7 +25,7 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
   const appData = redux.app;
   const brandTheme = appData?.Theme?.colors;
   const { colors } = useTheme();
-
+  const [showModalDates, setShowModalDates] = useState(false);
   const [clabe, setClabe] = useState('BCWFNUJDXPOLQW4E5LEITVS');
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
@@ -31,6 +33,18 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
     Clipboard.setString(clabe);
   }
 
+  function handleShowModal() {
+    setShowModalDates(true)
+  }
+
+  const handleClose = () => {
+    setShowModalDates(!showModalDates);
+    navigation.navigate('Auth2fa');
+    // if (!valueData&&showModalDates) {
+    //   onSelect({name:'select',value:''});
+    // }
+  };
+ 
   return (
     <BackgroundWrapper showNavigation={true}  navigation={navigation}>
       <View centerH>
@@ -41,7 +55,7 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
       <Text h10 white semibold>Reguerda reingresar el código de seis dígitos que aparece en tu aplicación de autenticación cada vez que inicies sesión. </Text>
       <Divider height-20 />
       <View row padding-10 centerV style={{ borderColor: colors.blue02, borderWidth: 1 }}>
-        <Text h12 white>Llave:</Text>
+        <IconKey width={scale(30)} height={verticalScale(30)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
         <Divider width-10 />
         <Text blue02 h12 semibold>{clabe}</Text>
         <Divider width-10 />
@@ -59,12 +73,11 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
       </View>
       <Divider height-20 />
       <Text h12 regular white>Nunca compartas tu llave con nadie.</Text>
-
       {/* <Loading modalVisible={points?.isLoadingRewardsPoints} /> */}
       <View flex-1 bottom>
         <ButtonRounded
           blue
-          onPress={() => navigation.navigate('Auth2fa')}
+          onPress={handleShowModal}
         >
           <Text h13 semibold white center>
             Volver a seguridad
@@ -76,6 +89,11 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
           timeout={3000}
         /> */}
       </View>
+        <ModalAuth2fa visible={showModalDates}
+          onRequestClose={() => { setShowModalDates(false)}}
+          onPressOverlay={handleClose}
+          getData={(data) => getData(data)}
+        />
     </BackgroundWrapper>
 
 

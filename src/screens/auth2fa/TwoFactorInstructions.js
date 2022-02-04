@@ -75,7 +75,8 @@ const TwoFactorInstructions = ({ navigation, route, navigation: { goBack } }) =>
       <View flex-1 bottom>
         <ButtonRounded
           blue
-          onPress={() => navigation.navigate('TwoFactorActivation')}
+          //onPress={() => navigation.navigate('TwoFactorActivation')}
+          onPress={() => navigation.navigate('TwoFactorOptions')}
         >
           <Text h13 semibold white center>
             Instalé mi aplicación de autenticación

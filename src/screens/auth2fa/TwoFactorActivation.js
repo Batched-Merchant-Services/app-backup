@@ -14,32 +14,49 @@ import { useTheme } from '@react-navigation/native';
 import IconWarning from '../../assets/iconSVG/IconWarning';
 import QRCode from 'react-native-qrcode-svg';
 import Styles from './styles';
+import IconKey from '../../assets/iconSVG/IconAuth2fa/IconKey';
 
 const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const appData = redux.app;
   const brandTheme = appData?.Theme?.colors;
+  const params = route?.params;
   const { colors } = useTheme();
 
   const [clabe, setClabe] = useState('BCWFNUJDXPOLQW4E5LEITVS');
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
-
+  function handleCodeActivation() {
+    navigation.navigate('SignOut',{
+      screen: 'TwoFactorCodeActivation',
+      params: { page:'change'}
+    });
+  }
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
-      <Text h16 regular blue02>Activar Autenticación de dos factores</Text>
+      {params.page !== 'change' &&(
+        <Text h16 regular blue02>Activar Autenticación de dos factores</Text>
+      )}
+      {params.page === 'change' &&(
+        <Text h16 regular blue02>Cambiar autenticación de dos factores en un nuevo dispositivo</Text>
+      )}
       <Divider height-10 />
-      <Text h10 white regular>Escanéa el código QR o ingresa la siguiente llave.</Text>
+      {params.page !== 'change' &&(
+        <Text h10 white regular>Escanéa el código QR o ingresa la siguiente llave.</Text>
+      )}
+      {params.page === 'change' &&(
+        <Text h10 white regular>Escanéa el código QR o ingresa la siguiente llave en tu nuevo dispositivo. </Text>
+      )}
+     
       <Divider height-20 />
       <View row padding-10 centerV style={{borderColor:colors.blue02,borderWidth:1}}>
-        <Text h12 white>Llave:</Text>
-        <Divider width-10 />
-        <Text blue02 h12 semibold>{clabe}</Text>
-        <Divider width-10 />
+        <IconKey width={scale(30)} height={verticalScale(30)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
+        <Divider width-8 />
+        <Text white h13 medium>{clabe}</Text>
+        <Divider width-8 />
         <Link>
-          <Text h14 blue02>copiar</Text>
+          <Text h12 blue02>copiar</Text>
         </Link>
       </View>
       <Divider height-20 />
@@ -68,7 +85,7 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
       <View flex-1 bottom>
         <ButtonRounded
           blue
-          onPress={() => navigation.navigate('TwoFactorCodeActivation')}
+          onPress={handleCodeActivation}
         >
           <Text h13 semibold white center>
             Continuar

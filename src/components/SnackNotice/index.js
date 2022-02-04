@@ -29,7 +29,6 @@ const SnackNotice = ({
   const TIME = (timeout - 500) / 1000 + "s";
 
   const fadeOut = () => {
-    console.log('fadeout')
     Animated.timing(animated, {
       toValue: 0,
       duration: duration,
@@ -59,19 +58,8 @@ const SnackNotice = ({
   }
 
   function handleClose() {
-    console.log('close')
     dispatch(toggleSnackbarClose());
   }
-
-  //   useEffect(() => {
-  //     if (visible) {
-  //       dispatch(toggleSnackbarOpen(message));
-  //     } else {
-  //       dispatch(toggleSnackbarClose());
-  //     }
-
-  //   }, []);
-
 
 
   const errorColor = brandTheme?.error ?? Colors.error;

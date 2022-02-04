@@ -203,7 +203,6 @@ const History = ({ navigation }) => {
 
 
   function sendReport() {
-    console.log('dataHistory',dataHistory);
     const events = dataHistory?.filter(e => {
       const date = new Date(e?.createdDate);
       const year = date.getFullYear();
@@ -213,7 +212,6 @@ const History = ({ navigation }) => {
       return ls && lsyear;
       
     });
-    console.log('event',events)
   }
 
   return (

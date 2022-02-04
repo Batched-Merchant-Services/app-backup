@@ -77,7 +77,6 @@ const SelectTypeLicense = ({ navigation }) => {
   
 
   function typeCurrency(code){
-    console.log('licensesData?.cryptoCurrencies',licensesData?.cryptoCurrencies,code?.value)
     if (licensesData?.cryptoCurrencies) {
       const rest = licensesData?.cryptoCurrencies?.filter(key => key?.value === code?.value);
       setIdCurrency(rest[0]?.id);
@@ -98,7 +97,6 @@ const SelectTypeLicense = ({ navigation }) => {
     }
   
   }
-  console.log('typeLicenses',typeLicenses)
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
      <NavigationBar childrenLeft navigation={navigation}/>

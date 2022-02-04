@@ -24,6 +24,7 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
   const appData = redux.app;
   const brandTheme = appData?.Theme?.colors;
+  const params = route?.params;
   const codeActivation = useValidatedInput('number', '');
   const { colors } = useTheme();
 
@@ -31,8 +32,7 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   function getInfo(code) {
-    navigation.navigate('TwoFactorConfirmationActivation')
-   console.log('code',code);
+    navigation.navigate('TwoFactorConfirmationActivation');
   }
 
   return (
@@ -40,9 +40,21 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
       <View centerH>
         <IconClock width={scale(180)} height={verticalScale(180)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
       </View>
-      <Text h16 regular blue02>Activar Autenticación de dos factores</Text>
+      {params.page !== 'change' &&(
+        <Text h16 regular blue02>Activar Autenticación de dos factores</Text>
+      )}
+      {params.page === 'change' &&(
+        <Text h16 regular blue02>Cambiar autenticación de dos factores en un nuevo dispositivo</Text>
+      )}
       <Divider height-20 />
-      <Text h10 white semibold>Ingresa el código que obteniste en tu aplicación de autenticación,{' '}<Text white regular>si el tiempo se acaba vuelve a ingresarlo.</Text></Text>
+      {params.page !== 'change' &&(
+        <Text h10 white semibold>Ingresa el código que obteniste en tu aplicación de autenticación,{' '}<Text white regular>si el tiempo se acaba vuelve a ingresarlo.</Text></Text>
+      )}
+      {params.page === 'change' &&(
+        <Text h10 white semibold> Ingresa el código que obteniste, <Text white regular>si el tiempo se acaba vuelve a ingresarlo.</Text></Text>
+      )}
+     
+      
       <Divider height-30 />
       <Text h12 blue02>{i18n.t('home.myBatchedTransfer.textConfirmationCode')}</Text>
       <Divider height-10 />

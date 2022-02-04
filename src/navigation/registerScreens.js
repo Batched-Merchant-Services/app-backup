@@ -52,6 +52,10 @@ import ConfirmationSMS from '@screens/auth2fa/auth2faSms/ConfirmationSMS';
 import Auth2faEmail from '@screens/auth2fa/auth2faEmail';
 import ActivationEmail from '@screens/auth2fa/auth2faEmail/ActivationEmail';
 import Auth2faApp from '@screens/auth2fa/auth2faApp';
+import ConfirmationAuth from '@screens/auth2fa/ConfirmationAuth';
+import TwoFactorOptions from '@screens/auth2fa/TwoFactorOptions';
+import EnterOldCode from '@screens/auth2fa/changeToNewDevice/EnterOldCode';
+import SupportAuthentication from '@screens/auth2fa/SupportAuthentication';
 
 
 const Drawer = createDrawerNavigator();
@@ -85,7 +89,7 @@ const DrawerScreen = () => {
 const signOutScreens = () => {
    //aqui pondremos las que contienen un menu 
   return (
-    <Stack.Navigator initialRouteName="Auth2fa" screenOptions={{ headerShown: false, gestureEnabled: false }}>
+    <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false, gestureEnabled: false }}>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="CodeSms" component={CodeSms} />
@@ -111,12 +115,16 @@ const signOutScreens = () => {
       <Stack.Screen name="TwoFactorActivation" component={TwoFactorActivation} />
       <Stack.Screen name="TwoFactorCodeActivation" component={TwoFactorCodeActivation} /> 
       <Stack.Screen name="TwoFactorConfirmationActivation" component={TwoFactorConfirmationActivation} /> 
+      <Stack.Screen name="TwoFactorOptions" component={TwoFactorOptions} /> 
       <Stack.Screen name="Auth2faSms" component={Auth2faSms} /> 
       <Stack.Screen name="ActivationSms" component={ActivationSms} /> 
       <Stack.Screen name="ConfirmationSMS" component={ConfirmationSMS} /> 
       <Stack.Screen name="Auth2faEmail" component={Auth2faEmail} /> 
       <Stack.Screen name="ActivationEmail" component={ActivationEmail} /> 
       <Stack.Screen name="Auth2faApp" component={Auth2faApp} />
+      <Stack.Screen name="ConfirmationAuth" component={ConfirmationAuth} />
+      <Stack.Screen name="EnterOldCode" component={EnterOldCode} />
+      <Stack.Screen name="SupportAuthentication" component={SupportAuthentication} />
       
     </Stack.Navigator>
   );

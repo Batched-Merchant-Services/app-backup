@@ -17,6 +17,11 @@ export const GET_USER_BATCHED = gql`
       lada
       is2Points
       refererId
+      isTwoFactor
+			is2faThirdParty
+			is2faSms
+			is2faEmail
+			type2fa
       clients {
         id
         account {
