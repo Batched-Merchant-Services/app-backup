@@ -12,6 +12,8 @@ import {
   VALIDATE_CODE_SMS_SUCCESS,
   VALIDATE_CODE_EMAIL,
   VALIDATE_CODE_EMAIL_SUCCESS,
+  GET_KEY_TWO_FACTORS,
+  GET_KEY_TWO_FACTORS_SUCCESS
 } from '../constants';
 
 export const initialState = {
@@ -25,10 +27,13 @@ export const initialState = {
   showError: false,
   isResettingPassword: false,
   isUpdating: true,
-  isValidateCode:false,
-  successValidateCode:false,
-  dataCode:null,
-  dataCodeEmail:null,
+  isValidateCode: false,
+  isGetInfoQrCode:false,
+  successQrCode:false,
+  successValidateCode: false,
+  dataQrCode:null,
+  dataCode: null,
+  dataCodeEmail: null,
   error: {},
   success: {},
 };
@@ -49,7 +54,7 @@ export default authReducer = (state = initialState, action) => {
         error: {},
         success: {},
       };
-      case LOGOUT:
+    case LOGOUT:
       return { ...state, isLoggingIn: true, showError: false, };
 
     case LOGOUT_SUCCESS:
@@ -94,6 +99,18 @@ export default authReducer = (state = initialState, action) => {
         error: {},
         success: {},
       };
+    case GET_KEY_TWO_FACTORS:
+      return { ...state, isGetInfoQrCode: true, showError: false, };
+    case GET_KEY_TWO_FACTORS_SUCCESS:
+      return {
+        ...state,
+        isGetInfoQrCode: false,
+        successQrCode: true,
+        showError: false,
+        dataQrCode: action.payload,
+        error: {},
+        success: {},
+      };
     case VALIDATE_CODE_SMS:
       return { ...state, isValidateCode: true, showError: false, };
     case VALIDATE_CODE_SMS_SUCCESS:
@@ -106,7 +123,7 @@ export default authReducer = (state = initialState, action) => {
         error: {},
         success: {},
       };
-      case VALIDATE_CODE_EMAIL:
+    case VALIDATE_CODE_EMAIL:
       return { ...state, isValidateCode: true, showError: false, };
     case VALIDATE_CODE_EMAIL_SUCCESS:
       return {

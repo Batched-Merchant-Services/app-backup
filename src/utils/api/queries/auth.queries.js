@@ -31,3 +31,14 @@ query($token:String!) {
   getSecurityCodeDirectSES(token:$token)
 }`
 
+export const AUTHENTICATION_TWO_FACTORS_QR = gql`
+query ($token:String!){
+  getImageTwoFactor(token: $token)
+  {
+      secretCode
+      qrCodeUrl
+  }
+}`
+
+
+

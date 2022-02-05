@@ -74,7 +74,7 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
 
   function handleGoToSms(){
     if (!userProfile.isTwoFactor) {
-      navigation.navigate('Auth2fa')
+      navigation.navigate('Auth2fa');
     }
     //navigation.navigate('ConfirmSms',{ amount: amount,valueSelect:valueSelect});
   }

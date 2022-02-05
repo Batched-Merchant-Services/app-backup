@@ -10,7 +10,9 @@ import {
   VALIDATE_CODE_SMS,
   VALIDATE_CODE_SMS_SUCCESS,
   VALIDATE_CODE_EMAIL,
-  VALIDATE_CODE_EMAIL_SUCCESS
+  VALIDATE_CODE_EMAIL_SUCCESS,
+  GET_KEY_TWO_FACTORS,
+  GET_KEY_TWO_FACTORS_SUCCESS
 } from '../constants'
 import { LOGIN_QUERY } from '@utils/api/queries/auth.queries';
 import { client } from '@utils/api/apollo';
@@ -20,7 +22,7 @@ import { generateRSA } from '@utils/api/encrypt';
 import { toggleSnackbarOpen, userInactivity } from './app.actions';
 import { VALIDATE_SESSION_QUERY } from '../../utils/api/queries/user.queries';
 import { getLicenses} from '@store/actions/licenses.actions';
-import { AUTHENTICATION_TWO_FACTORS,AUTHENTICATION_TWO_FACTORS_EMAIL,LOGOUT_QUERY } from '../../utils/api/queries/auth.queries';
+import { AUTHENTICATION_TWO_FACTORS,AUTHENTICATION_TWO_FACTORS_EMAIL,AUTHENTICATION_TWO_FACTORS_QR,LOGOUT_QUERY } from '../../utils/api/queries/auth.queries';
 const device = DeviceInfo.getUniqueId();
 
 
@@ -58,6 +60,29 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
 
 };
 
+export const getAuth2faQr = () => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: GET_KEY_TWO_FACTORS });
+    client.query({
+      query: AUTHENTICATION_TWO_FACTORS_QR,
+      variables: {
+        token:token
+      },
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
+    }).then(async (response) => {
+      if (response.data) {
+        dispatch({ type: GET_KEY_TWO_FACTORS_SUCCESS, payload: response?.data['getImageTwoFactor'] });
+      }
+    }).catch((error) => {
+      dispatch({ type: LOGIN_ERROR, payload: error });
+    })
+  } catch (error) {
+    dispatch({ type: LOGIN_ERROR, payload: error });
+  }
+}
+
 
 export const validateSession = () => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
@@ -82,7 +107,6 @@ export const validateSession = () => async (dispatch) => {
   } catch (error) {
     dispatch({ type: LOGIN_ERROR, payload: error });
   }
-
 }
 
 export const validateCodeSms = () => async (dispatch) => {

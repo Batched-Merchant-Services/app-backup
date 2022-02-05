@@ -14,17 +14,19 @@ import { useTheme } from '@react-navigation/native';
 import IconWarning from '../../assets/iconSVG/IconWarning';
 import QRCode from 'react-native-qrcode-svg';
 import Styles from './styles';
-import IconKey from '../../assets/iconSVG/IconAuth2fa/IconKey';
+import IconKey from '@assets/iconSVG/IconAuth2fa/IconKey';
+import { getAuth2faQr } from '@store/actions/auth.actions';
 
 const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const appData = redux.app;
+  const authData = redux?.auth;
   const brandTheme = appData?.Theme?.colors;
   const params = route?.params;
   const { colors } = useTheme();
 
-  const [clabe, setClabe] = useState('BCWFNUJDXPOLQW4E5LEITVS');
+  const [clabe, setClabe] = useState('QrCode');
 
   function handleCodeActivation() {
     navigation.navigate('SignOut',{
@@ -32,6 +34,15 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
       params: { page:'change'}
     });
   }
+  useEffect(() => {
+    dispatch(getAuth2faQr());
+  }, [dispatch]);
+  
+  useEffect(() => {
+    console.log('authData?.dataQrCode',authData)
+    setClabe(authData?.dataQrCode?.secretCode)
+  }, [authData?.dataQrCode]);
+
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
@@ -48,13 +59,12 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
       {params.page === 'change' &&(
         <Text h10 white regular>Escanéa el código QR o ingresa la siguiente llave en tu nuevo dispositivo. </Text>
       )}
-     
       <Divider height-20 />
       <View row padding-10 centerV style={{borderColor:colors.blue02,borderWidth:1}}>
-        <IconKey width={scale(30)} height={verticalScale(30)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
-        <Divider width-8 />
-        <Text white h13 medium>{clabe}</Text>
-        <Divider width-8 />
+        <IconKey width={scale(20)} height={verticalScale(20)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
+        <Divider width-5 />
+        <Text white h10 semibold>{clabe}</Text>
+        <Divider width-5 />
         <Link>
           <Text h12 blue02>copiar</Text>
         </Link>

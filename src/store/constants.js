@@ -7,6 +7,8 @@ export const TOGGLE_STATUS_CHANGE = 'TOGGLE_STATUS_CHANGE';
 export const TOGGLE_STATUS_CHANGE_STATUS = 'TOGGLE_STATUS_CHANGE_STATUS'; 
 export const USER_ACTIVE = 'USER_ACTIVE'; 
 export const USER_INACTIVE = 'USER_INACTIVE'; 
+export const GET_KEY_TWO_FACTORS = 'GET_KEY_TWO_FACTORS'; 
+export const GET_KEY_TWO_FACTORS_SUCCESS = 'GET_KEY_TWO_FACTORS_SUCCESS'; 
 
 /* ********************************************* */ 
 

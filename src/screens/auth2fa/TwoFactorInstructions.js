@@ -33,7 +33,12 @@ const TwoFactorInstructions = ({ navigation, route, navigation: { goBack } }) =>
   const [isEnabled, setIsEnabled] = useState(false);
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
-
+  function handleActivation() {
+    navigation.navigate('SignOut',{
+      screen: 'TwoFactorActivation',
+      params: { page:'change'}
+    });
+  }
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
@@ -75,8 +80,8 @@ const TwoFactorInstructions = ({ navigation, route, navigation: { goBack } }) =>
       <View flex-1 bottom>
         <ButtonRounded
           blue
-          //onPress={() => navigation.navigate('TwoFactorActivation')}
-          onPress={() => navigation.navigate('TwoFactorOptions')}
+          onPress={handleActivation}
+          //onPress={() => navigation.navigate('TwoFactorOptions')}
         >
           <Text h13 semibold white center>
             Instalé mi aplicación de autenticación
