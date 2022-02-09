@@ -17,7 +17,7 @@ import { useTheme } from '@react-navigation/native';
 import Styles from './styles';
 
 
-const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
+const ActivationSms = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const appData = redux.app;
@@ -37,7 +37,7 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
       <Text h20 regular blue02>Activar autenticación vía SMS</Text>
       <Divider height-20 />
-      <Text h10 white regular>Para habilitar la autenticación de correo electrónico, se envió un código de seguridad a su dirección de correo electrónico en{' '}<Text white semibold>g***@uulala.io</Text></Text>
+      <Text h10 white regular>Para habilitar la autenticación de correo electrónico, se envió un código de seguridad a su phone{' '}<Text white semibold>5546****</Text></Text>
       <Divider height-20 />
       <Text h10 white regular>Ingrese el código de seguridad a continuación para continuar.</Text>
       <Divider height-30 />
@@ -71,4 +71,4 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
 }
 
 
-export default TwoFactorActivation;
+export default ActivationSms;

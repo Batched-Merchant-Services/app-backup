@@ -20,12 +20,36 @@ export const LOGOUT_QUERY = gql`
     }
   }`;
 
+export const CHANGE_TYPE_AUTHENTICATION = gql`
+mutation ($token:String!,$type:Int!){
+  setPrimary2fa(token: $token, type:$type)     
+}`
+ 
+export const ENABLE_THIRD_PARTY = gql`
+  mutation ($token:String!,$code:string!,$isPrimary:Boolean!){
+    setEnabled2faThirdParty(token: $token, code:$code,isPrimary:$isPrimary)     
+}`
+
+export const ENABLE_THIRD_SMS = gql`
+mutation ($token:String!,$code:string!,$isPrimary:Boolean!){
+  setEnabled2faSms(token: $token, code:$code,isPrimary:$isPrimary)     
+}`
+
+export const ENABLE_THIRD_EMAIL = gql`
+mutation ($token:String!,$code:string!,$isPrimary:Boolean!){
+  setEnabled2faEmail(token: $token, code:$code,isPrimary:$isPrimary)     
+}`
 
 export const AUTHENTICATION_TWO_FACTORS = gql`
 query($token:String!) {
+  getSecurityCode(token:$token)
+}`
+//SMS
+export const AUTHENTICATION_TWO_FACTORS_SMS = gql`
+query($token:String!) {
   getSecurityCodeDirect(token:$token)
 }`
-
+//EMAIL
 export const AUTHENTICATION_TWO_FACTORS_EMAIL = gql`
 query($token:String!) {
   getSecurityCodeDirectSES(token:$token)

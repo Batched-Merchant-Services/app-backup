@@ -381,6 +381,34 @@
         "textIfYouAreFullActive":"If you are full active today you can come back tomorrow from 06:00 UTC.",
         "buttonStayLoggedIn":"Stay logged in",
         "buttonLogout":"Logout"
+      },
+      "Auth2fa":{
+        "textTwoFactorAuthentication":"Autenticación de dos factores",
+        "textSwitchTwoFactor":"Cambiar autenticación de dos factores a nuevo dispositivo",
+        "textUseYourCurrent":"Utiliza la clave de tu dispositivo actual para activar la autenticación de dos factores en otro dispositivo.",
+        "linkContinue":"Continuar",
+        "textAuthenticationSupport":"Respaldo de autenticación utilizando la llave de seguridad",
+        "textSetUpADifferent":"Configurar una aplicación de autentificación diferente u otro dispositivo utilizando la copia de tu clave de seguridad.",
+        "textUseAnAuthenticatorApp":"Utilice una aplicación de autenticación como su autenticación de dos factores (2FA). Cuando inicie sesión, se le pedirá que use el código de seguridad proporcionado por su aplicación de autenticación.",
+        "textBeforeActivating":"Antes de activar:",
+        "textInstallATwoFactor":"Instale una aplicación de autenticación de dos factores, por ejemplo",
+        "textGoogleAuthenticator":"Google Authenticator",
+        "textMicrosoftAuthenticator":"Microsoft Authenticator",
+        "textLastPassAuthenticator":"LastPass Authenticator",
+        "buttonInstalledMy":"Instalé mi aplicación de autenticación",
+        "textTwoFactorAuthenticationActivated":"Autenticación de dos factores activada!",
+        "textRememberToEnter":"Reguerda reingresar el código de seis dígitos que aparece en tu aplicación de autenticación cada vez que inicies sesión.",
+        "linkCopy":"Copiar",
+        "textKeepYourKeyWhere":"Guarda tu llave donde puedes recuperarla",
+        "textNeverShareYour":"Nunca compartas tu llave con nadie.",
+        "buttonBackToSecurity":"Volver a seguridad",
+        "textActivateTwoFactorAuthentication":"Activar Autenticación de dos factores",
+        "textChangeTwoFactorAuthentication":"Cambiar autenticación de dos factores en un nuevo dispositivo",
+        "textEnterTheCodeYou":"Ingresa el código que obtuviste en tu aplicación de autenticación",
+        "textIfTimeRunsOut":"si el tiempo se acaba vuelve a ingresarlo",
+        "textEnterTheCodeYouGot":"Ingresa el código que obteniste",
+        "textScanTheQRCodeOrEnter":"Escanéa el código QR o ingresa la siguiente llave.",
+        "textScanTheQRCodeNewDevice":"Escanéa el código QR o ingresa la siguiente llave en tu nuevo dispositivo."
       }
     }
   }

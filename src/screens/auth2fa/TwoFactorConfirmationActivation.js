@@ -50,9 +50,9 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
       <View centerH>
         <IconSecurityLock width={scale(180)} height={verticalScale(180)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
       </View>
-      <Text h16 regular blue02>Autenticación de dos factores activada!</Text>
+      <Text h16 regular blue02>{i18n.t('Auth2fa.textTwoFactorAuthenticationActivated')}</Text>
       <Divider height-20 />
-      <Text h10 white semibold>Reguerda reingresar el código de seis dígitos que aparece en tu aplicación de autenticación cada vez que inicies sesión. </Text>
+      <Text h10 white semibold>{i18n.t('Auth2fa.textRememberToEnter')}</Text>
       <Divider height-20 />
       <View row padding-10 centerV style={{ borderColor: colors.blue02, borderWidth: 1 }}>
         <IconKey width={scale(30)} height={verticalScale(30)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
@@ -60,7 +60,7 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
         <Text blue02 h12 semibold>{clabe}</Text>
         <Divider width-10 />
         <Link onPress={() => copyToClipboard()}>
-          <Text h14 blue02>copiar</Text>
+          <Text h14 blue02>{i18n.t('Auth2fa.linkCopy')}</Text>
         </Link>
       </View>
       <Divider height-20 />
@@ -68,11 +68,11 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
         <IconWarning width={scale(18)} height={verticalScale(18)} fill={brandTheme?.white ?? colors?.white} fillSecondary={brandTheme?.warning ?? colors?.warning} />
         <Divider width-10 />
         <View flex-1>
-          <Text h12 semibold white>Guarda tu llave donde puedas recuperarla,{' '}<Text regular white>se requerirá en caso de que cambies tu dispositivo.</Text></Text>
+          <Text h12 semibold white>{i18n.t('Auth2fa.textKeepYourKeyWhere')},{' '}<Text regular white>{i18n.t('Auth2fa.textItWillBeRequired')}</Text></Text>
         </View>
       </View>
       <Divider height-20 />
-      <Text h12 regular white>Nunca compartas tu llave con nadie.</Text>
+      <Text h12 regular white>{i18n.t('Auth2fa.textNeverShareYour')}</Text>
       {/* <Loading modalVisible={points?.isLoadingRewardsPoints} /> */}
       <View flex-1 bottom>
         <ButtonRounded
@@ -80,7 +80,7 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
           onPress={handleShowModal}
         >
           <Text h13 semibold white center>
-            Volver a seguridad
+            {i18n.t('Auth2fa.buttonBackToSecurity')}
           </Text>
         </ButtonRounded>
         {/* <SnackNotice

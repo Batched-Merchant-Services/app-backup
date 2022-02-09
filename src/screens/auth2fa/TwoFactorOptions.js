@@ -48,18 +48,18 @@ const TwoFactorOptions = ({ navigation, route, navigation: { goBack } }) => {
         <IconNumber width={scale(183)} height={verticalScale(137)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
       </View>
       <Divider height-20 />
-      <Text h16 regular blue02>Autenticación de dos factores</Text>
+      <Text h16 regular blue02>{i18n.t('Auth2fa.textTwoFactorAuthentication')}</Text>
       <Divider height-20 />
       <View row>
         <IconAsterisk width={scale(30)} height={verticalScale(30)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
         <Divider width-10 />
         <View left>
-          <Text h14 white regular>Cambiar autenticación de dos factores a nuevo dispositivo</Text>
+          <Text h14 white regular>{i18n.t('Auth2fa.textSwitchTwoFactor')}</Text>
           <Divider height-5 />
-          <Text h12 white regular>Utiliza la clave de tu dispositivo actual para activar la autenticación de dos factores en otro dispositivo.</Text>
+          <Text h12 white regular>{i18n.t('Auth2fa.textUseYourCurrent')}</Text>
           <Divider height-5 />
           <Link onPress={()=>navigation.navigate('EnterOldCode')}>
-            <Text h12 blue02 medium>Continuar</Text>
+            <Text h12 blue02 medium>{i18n.t('Auth2fa.linkContinue')}</Text>
           </Link>
         </View>
       </View>
@@ -68,12 +68,12 @@ const TwoFactorOptions = ({ navigation, route, navigation: { goBack } }) => {
         <IconKey width={scale(30)} height={verticalScale(30)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
         <Divider width-10 />
         <View left>
-          <Text h14 white regular>Respaldo de autenticación utilizando la llave de seguridad</Text>
+          <Text h14 white regular>{i18n.t('Auth2fa.textAuthenticationSupport')}</Text>
           <Divider height-5 />
-          <Text h12 white regular>Configurar una aplicación de autentificación diferente u otro dispositivo utilizando la copia de tu clave de seguridad.</Text>
+          <Text h12 white regular>{i18n.t('Auth2fa.textAuthenticationSupport')}</Text>
           <Divider height-5 />
           <Link onPress={handleSupport}>
-            <Text h12 blue02 medium>Continuar</Text>
+            <Text h12 blue02 medium>{i18n.t('Auth2fa.textSetUpADifferent')}</Text>
           </Link>
         </View>
       </View>

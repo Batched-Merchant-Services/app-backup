@@ -401,6 +401,36 @@
       "textIfYouAreFullActive":"If you are full active today you can come back tomorrow from 06:00 UTC.",
       "buttonStayLoggedIn":"Stay logged in",
       "buttonLogout":"Logout"
+    },
+    "Auth2fa":{
+      "textTwoFactorAuthentication":"Two Factor Authentication",
+      "textSwitchTwoFactor":"Switch two-factor authentication to new device",
+      "textUseYourCurrent":"Use your current device key to activate two-factor authentication on another device.",
+      "linkContinue":"Continue",
+      "textAuthenticationSupport":"Authentication support using the security key",
+      "textSetUpADifferent":"Set up a different authenticator app or other device using your copy of your security key.",
+      "textUseAnAuthenticatorApp":"Use an authenticator app as your two-factor authentication (2FA). When you sign in, you'll be prompted to use the security code provided by your authenticator app.",
+      "textBeforeActivating":"Before activating:",
+      "textInstallATwoFactor":"Install a two-factor authentication app for example",
+      "textGoogleAuthenticator":"Google Authenticator",
+      "textMicrosoftAuthenticator":"Microsoft Authenticator",
+      "textLastPassAuthenticator":"LastPass Authenticator",
+      "buttonInstalledMy":"I installed my authentication app",
+      "textTwoFactorAuthenticationActivated":"Two-factor authentication activated!",
+      "textRememberToEnter":"Remember to enter the six-digit code that appears in your authenticator app each time you log in.",
+      "linkCopy":"Copy",
+      "textKeepYourKeyWhere":"Keep your key where you can retrieve it",
+      "textItWillBeRequired":"it will be required in case you change your device.",
+      "textNeverShareYour":"Never share your key with anyone.",
+      "buttonBackToSecurity":"Back to security",
+      "textActivateTwoFactorAuthentication":"Activate Two-Factor Authentication",
+      "textChangeTwoFactorAuthentication":"Change two-factor authentication on a new device",
+      "textEnterTheCodeYou":"Enter the code you got in your authenticator app",
+      "textIfTimeRunsOut":"if time runs out re-enter it",
+      "textEnterTheCodeYouGot":"Enter the code you got,",
+      "textScanTheQRCodeOrEnter":"Scan the QR code or enter the following key.",
+      "textScanTheQRCodeNewDevice":"Escanéa el código QR o ingresa la siguiente llave en tu nuevo dispositivo."
+      
     }
   }
 }

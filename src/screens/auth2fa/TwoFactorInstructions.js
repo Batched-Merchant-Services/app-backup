@@ -46,19 +46,19 @@ const TwoFactorInstructions = ({ navigation, route, navigation: { goBack } }) =>
         <IconNumber width={scale(120)} height={verticalScale(120)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
       </View>
       <Divider height-30 />
-      <Text h16 regular blue02>Autenticación de dos factores</Text>
+      <Text h16 regular blue02>{i18n.t('Auth2fa.textTwoFactorAuthentication')}</Text>
       <Divider height-10 />
-      <Text h10 white regular>Use an Authenticator App as your Two-Factor Authentication (2FA). When you sign in you’ll be required to use the security code provided by your Authenticator App.</Text>
+      <Text h10 white regular>{i18n.t('Auth2fa.textUseAnAuthenticatorApp')}</Text>
       <Divider height-20 />
-      <Text h14 regular blue02>Antes de activar:</Text>
+      <Text h14 regular blue02>{i18n.t('Auth2fa.textBeforeActivating')}</Text>
       <Divider height-10 />
-      <Text h12 white regular>Instala una aplicación de autenticación de dos factores por ejemplo:</Text>
+      <Text h12 white regular>{i18n.t('Auth2fa.textInstallATwoFactor')}</Text>
       <Divider height-20 />
       <View row centerV>
         <Text blue02 h5>{'\u2B24'}</Text>
         <Divider width-5 />
         <Link>
-          <Text h14 blue02>Google Authenticator</Text>
+          <Text h14 blue02>{i18n.t('Auth2fa.textGoogleAuthenticator')}</Text>
         </Link>
       </View>
       <Divider height-10 />
@@ -66,7 +66,7 @@ const TwoFactorInstructions = ({ navigation, route, navigation: { goBack } }) =>
         <Text blue02 h5>{'\u2B24'}</Text>
         <Divider width-5 />
         <Link>
-          <Text h14 blue02>Microsoft Authenticator</Text>
+          <Text h14 blue02>{i18n.t('Auth2fa.textMicrosoftAuthenticator')}</Text>
         </Link>
       </View>
       <Divider height-10 />
@@ -74,7 +74,7 @@ const TwoFactorInstructions = ({ navigation, route, navigation: { goBack } }) =>
         <Text blue02 h5>{'\u2B24'}</Text>
         <Divider width-5 />
         <Link>
-          <Text h14 blue02>LastPass Authenticator</Text>
+          <Text h14 blue02>{i18n.t('Auth2fa.textLastPassAuthenticator')}</Text>
         </Link>
       </View>
       <View flex-1 bottom>
@@ -84,7 +84,7 @@ const TwoFactorInstructions = ({ navigation, route, navigation: { goBack } }) =>
           //onPress={() => navigation.navigate('TwoFactorOptions')}
         >
           <Text h13 semibold white center>
-            Instalé mi aplicación de autenticación
+          {i18n.t('Auth2fa.buttonInstalledMy')}
           </Text>
         </ButtonRounded>
       </View>
