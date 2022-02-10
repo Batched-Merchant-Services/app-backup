@@ -33,18 +33,17 @@ const Auth2faSms = ({ navigation, route, navigation: { goBack } }) => {
       <View centerH>
         <IconAuthSms width={scale(200)} height={verticalScale(210)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
       </View>
-      <Text h16 regular blue02>Autenticaciónvía SMS</Text>
+      <Text h16 regular blue02>{i18n.t('Auth2fa.textSMSAuthentication')}</Text>
       <Divider height-10 />
-      <Text h10 white regular>Use your phone as your Two-Factor Authentication (2FA) when you sign in you’ll be required to use the security code we send you via SMS message.</Text>
+      <Text h10 white regular>{i18n.t('Auth2fa.textUseYourPhoneAsYourTwoFactor')}</Text>
       <Divider height-20 />
-      
       <View flex-1 bottom>
         <ButtonRounded
           blue
           onPress={() => navigation.navigate('ActivationSms')}
         >
           <Text h13 semibold white center>
-            Activar autenticación vía SMS
+            {i18n.t('Auth2fa.textActivateAuthenticationSMS')}
           </Text>
         </ButtonRounded>
       </View>

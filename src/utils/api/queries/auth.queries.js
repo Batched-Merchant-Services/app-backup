@@ -25,18 +25,18 @@ mutation ($token:String!,$type:Int!){
   setPrimary2fa(token: $token, type:$type)     
 }`
  
-export const ENABLE_THIRD_PARTY = gql`
-  mutation ($token:String!,$code:string!,$isPrimary:Boolean!){
-    setEnabled2faThirdParty(token: $token, code:$code,isPrimary:$isPrimary)     
+export const ACTIVATION_THIRD_PARTY = gql`
+mutation ($token:String!,$code:String!,$isPrimary:Boolean!){
+  setEnabled2faThirdParty(token: $token, code:$code,isPrimary:$isPrimary)     
 }`
 
-export const ENABLE_THIRD_SMS = gql`
-mutation ($token:String!,$code:string!,$isPrimary:Boolean!){
+export const ACTIVATION_SMS = gql`
+mutation ($token:String!,$code:String!,$isPrimary:Boolean!){
   setEnabled2faSms(token: $token, code:$code,isPrimary:$isPrimary)     
 }`
 
-export const ENABLE_THIRD_EMAIL = gql`
-mutation ($token:String!,$code:string!,$isPrimary:Boolean!){
+export const ACTIVATION_EMAIL = gql`
+mutation ($token:String!,$code:String!,$isPrimary:Boolean!){
   setEnabled2faEmail(token: $token, code:$code,isPrimary:$isPrimary)     
 }`
 

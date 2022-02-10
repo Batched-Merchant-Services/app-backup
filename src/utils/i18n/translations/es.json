@@ -330,6 +330,14 @@
         "inputAmountToTransfer":"Amount to transfer",
         "buttonConfirmTransfer":"Confirm Transfer",
         "textRewardPoints":"Reward Points available*",
+        "textConfirmTheTransfer":"Confirm the transfer",
+        "textWeHaveSentYou":"Te hemos enviado un código SMS de 6 dígitos al Teléfono",
+        "textWeHaveSentEmail":"Te hemos enviado un código de 6 dígitos a tu Email",
+        "textWeHaveSentApp":"Ingresar el código de 6 dígitos que aparece en tu  ",
+        "textAuthenticatorApp":"Authenticator App.",
+        "textConfirmationCode":"Confirmation Code:",
+        "textTheCodeWillBeValid":"The code will be valid for 4:38, If you haven’t receive it you can",
+        "linkResendCode":"Resend code",
         "confirmation":{
           "textMovementConfirmed":"Movement confirmed",
           "textTransactionGateway":"Transaction Gateway",
@@ -364,7 +372,8 @@
         "buttonDownloadPDF":"Download PDF",
         "linkShowMore":"Ver mas"
 
-      },
+      }
+    },
       "contact":{
         "textContactUs":"Contact us",
         "textFillUpTheForm":"Fill up the form and out team will get back to you as soon as possible.",
@@ -400,6 +409,7 @@
         "textRememberToEnter":"Reguerda reingresar el código de seis dígitos que aparece en tu aplicación de autenticación cada vez que inicies sesión.",
         "linkCopy":"Copiar",
         "textKeepYourKeyWhere":"Guarda tu llave donde puedes recuperarla",
+        "textItWillBeRequired":"se requerirá en caso de que cambies tu dispositivo.",
         "textNeverShareYour":"Nunca compartas tu llave con nadie.",
         "buttonBackToSecurity":"Volver a seguridad",
         "textActivateTwoFactorAuthentication":"Activar Autenticación de dos factores",
@@ -408,8 +418,27 @@
         "textIfTimeRunsOut":"si el tiempo se acaba vuelve a ingresarlo",
         "textEnterTheCodeYouGot":"Ingresa el código que obteniste",
         "textScanTheQRCodeOrEnter":"Escanéa el código QR o ingresa la siguiente llave.",
-        "textScanTheQRCodeNewDevice":"Escanéa el código QR o ingresa la siguiente llave en tu nuevo dispositivo."
+        "textScanTheQRCodeNewDevice":"Escanéa el código QR o ingresa la siguiente llave en tu nuevo dispositivo.",
+        "textSMSAuthentication":"Autenticación vía SMS",
+        "textUseYourPhoneAsYourTwoFactor":"Use su teléfono como su autenticación de dos factores (2FA) cuando inicie sesión, se le pedirá que use el código de seguridad que le enviamos por mensaje SMS.",
+        "textActivateAuthenticationSMS":"Activar autenticación vía SMS",
+        "textToEnableSMSAuthentication":"Para habilitar la autenticación por Sms, se envió un código de seguridad a su phone",
+        "textPleaseEnterTheSecurity":"Ingrese el código de seguridad a continuación para continuar.",
+        "textActivateEmailAuthentication":"Activar Autenticación vía Email",
+        "textToEnableEmailAuthentication":"Para habilitar la autenticación de correo electrónico, se envió un código de seguridad a su dirección de correo electrónico en",
+        "textEmailAuthentication":"Autenticación por Email",
+        "textUseASecurityCodeSentTo":"Use a security code sent to your email address as your Two-Factor Authentication (2FA). The security code will be sent to the address associated with your account. You’ll need to use it in when you sign in.",
+        "textSecurityOfYourAccount":"Seguridad de tu cuenta",
+        "textForUsYourSafetyIs":"Para nosotros tu seguridad es lo más importante.",
+        "linkChangePassword":"Cambiar contraseña",
+        "textEvenIfSomeoneGets":"Incluso si alguien consigue tu contraseña no podrá entrar ya que",
+        "textEachLoginWillBe":"cada inicio de sesión se autorizará con un código de 6 dígitos",
+        "textThatYouWillGetWhen":"que obtendrás cuando desees ingresar.",
+        "textTwoFactorAuthenticationApp":"Autenticación de dos factores mediante app externa",
+        "linkOptions":"Opciones",
+        "textAuthenticationVia":"Autenticación vía",
+        "textEmail":"Email",
+        "textSMS":"SMS"
       }
     }
   }
-}

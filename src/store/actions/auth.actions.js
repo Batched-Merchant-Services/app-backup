@@ -12,7 +12,13 @@ import {
   VALIDATE_CODE_EMAIL,
   VALIDATE_CODE_EMAIL_SUCCESS,
   GET_KEY_TWO_FACTORS,
-  GET_KEY_TWO_FACTORS_SUCCESS
+  GET_KEY_TWO_FACTORS_SUCCESS,
+  GET_ENABLE_THIRD_PARTY,
+  GET_ENABLE_THIRD_PARTY_SUCCESS,
+  GET_ENABLE_SMS,
+  GET_ENABLE_SMS_SUCCESS,
+  GET_ENABLE_EMAIL,
+  GET_ENABLE_EMAIL_SUCCESS
 } from '../constants'
 import { LOGIN_QUERY } from '@utils/api/queries/auth.queries';
 import { client } from '@utils/api/apollo';
@@ -22,7 +28,7 @@ import { generateRSA } from '@utils/api/encrypt';
 import { toggleSnackbarOpen, userInactivity } from './app.actions';
 import { VALIDATE_SESSION_QUERY } from '../../utils/api/queries/user.queries';
 import { getLicenses} from '@store/actions/licenses.actions';
-import { AUTHENTICATION_TWO_FACTORS_SMS,AUTHENTICATION_TWO_FACTORS_EMAIL,AUTHENTICATION_TWO_FACTORS_QR,LOGOUT_QUERY, ENABLE_THIRD_PARTY } from '../../utils/api/queries/auth.queries';
+import { AUTHENTICATION_TWO_FACTORS_SMS,AUTHENTICATION_TWO_FACTORS_EMAIL,AUTHENTICATION_TWO_FACTORS_QR,LOGOUT_QUERY, ACTIVATION_THIRD_PARTY, ACTIVATION_SMS, ACTIVATION_EMAIL } from '../../utils/api/queries/auth.queries';
 const device = DeviceInfo.getUniqueId();
 
 
@@ -84,25 +90,89 @@ export const getAuth2faQr = () => async (dispatch) => {
 }
 
 
-export const SetEnabled2faThirdParty = () => async (dispatch) => {
+export const Activation2faApp = ({code}) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
   try {
-    dispatch({ type: GET_KEY_TWO_FACTORS });
-    client.query({
-      query: ENABLE_THIRD_PARTY,
+    dispatch({ type: GET_ENABLE_THIRD_PARTY });
+      client.mutate({
+      mutation: ACTIVATION_THIRD_PARTY,
       variables: {
-        token:token
+        token    : token,
+        code     : code?code.toString():'',
+        isPrimary: true
       },
       fetchPolicy : 'network-only' ,  
       nextFetchPolicy : 'network-only'
     }).then(async (response) => {
+      console.log('response Activation2faApp',response)
       if (response.data) {
-        dispatch({ type: GET_KEY_TWO_FACTORS_SUCCESS, payload: response?.data['getImageTwoFactor'] });
+        dispatch({ type: GET_ENABLE_THIRD_PARTY_SUCCESS, payload: response?.data['Activation2faApp'] });
       }
     }).catch((error) => {
+      console.log('error1',error)
       dispatch({ type: LOGIN_ERROR, payload: error });
     })
   } catch (error) {
+    console.log('error2',error)
+    dispatch({ type: LOGIN_ERROR, payload: error });
+  }
+}
+
+
+export const Activation2faSms = ({code}) => async (dispatch) => {
+  console.log('codeeeeee',code)
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: GET_ENABLE_SMS });
+      client.mutate({
+      mutation: ACTIVATION_SMS,
+      variables: {
+        token    : token,
+        code     : code?code.toString():'',
+        isPrimary: true
+      },
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
+    }).then(async (response) => {
+      console.log('response Activation2faSms',response)
+      if (response.data) {
+        dispatch({ type: GET_ENABLE_SMS_SUCCESS, payload: response?.data['Activation2faApp'] });
+      }
+    }).catch((error) => {
+      console.log('Activation2faSms error1',error)
+      dispatch({ type: LOGIN_ERROR, payload: error });
+    })
+  } catch (error) {
+    console.log('Activation2faSms error2',error)
+    dispatch({ type: LOGIN_ERROR, payload: error });
+  }
+}
+
+
+export const Activation2faEmail = ({code}) => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: GET_ENABLE_EMAIL });
+      client.mutate({
+      mutation: ACTIVATION_EMAIL,
+      variables: {
+        token    : token,
+        code     : code?code.toString():'',
+        isPrimary: true
+      },
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
+    }).then(async (response) => {
+      console.log('response Activation2faApp',response)
+      if (response.data) {
+        dispatch({ type: GET_ENABLE_EMAIL_SUCCESS, payload: response?.data['Activation2faApp'] });
+      }
+    }).catch((error) => {
+      console.log('error1',error)
+      dispatch({ type: LOGIN_ERROR, payload: error });
+    })
+  } catch (error) {
+    console.log('error2',error)
     dispatch({ type: LOGIN_ERROR, payload: error });
   }
 }

@@ -11,10 +11,11 @@ import {
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
-import i18n from '@utils/i18n';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { useTheme } from '@react-navigation/native';
 import IconClock from '@assets/iconSVG/IconAuth2fa/IconClock';
+import i18n from '@utils/i18n';
+import { Activation2faApp } from '@store/actions/auth.actions';
 
 const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
@@ -22,13 +23,21 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
   const appData = redux.app;
   const brandTheme = appData?.Theme?.colors;
   const params = route?.params;
+  const authData = redux?.auth;
   const codeActivation = useValidatedInput('number', '');
+  const error = useSelector(state => state?.auth?.showError);
   const { colors } = useTheme();
+  //isActivateApp successActivateApp
 
   const [clabe, setClabe] = useState('BCWFNUJDXPOLQW4E5LEITVS');
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
-  function getInfo() {
+  function getInfo(code) {
+    console.log('code',code)
+    dispatch(Activation2faApp({code}));
+  }
+
+  if (authData?.successActivateApp) {
     navigation.navigate('TwoFactorConfirmationActivation');
   }
 
@@ -55,7 +64,6 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
       <Divider height-10 />
       <PinInput {...codeActivation} onSubmit={(code)=>getInfo(code) }/>
       <Divider height-20 />
-      {/* <Loading modalVisible={points?.isLoadingRewardsPoints} /> */}
       <View flex-1 bottom>
       <ButtonRounded
           onPress={() => goBack()}
@@ -67,12 +75,12 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
           {i18n.t('General.buttonBack')}
         </Text>
       </ButtonRounded>
-        {/* <SnackNotice
+        <SnackNotice
           visible={error}
-          message={points?.error?.message}
-          timeout={3000}
-        /> */}
+          message={authData?.error?.message}
+        />
       </View>
+      <Loading modalVisible={authData?.isActivateApp} />
     </BackgroundWrapper>
 
 

@@ -49,7 +49,6 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
   useEffect(() => {
     dispatch(cleanErrorPoints());
     dispatch(toggleSnackbarClose());
-    //dispatch(validateCodeSms())
   }, []);
 
   const selectTypeTransfer = (code) => {
@@ -57,26 +56,14 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
     setValueSelect(value);
   }
 
-  // const handleCreateTransfer = () => {
-  //   const address = infoUser?.dataUser?.clients ? infoUser?.dataUser?.clients[0]?.account?.address : 0;
-  //   if (valueSelect === 'rewards') {
-  //     dispatch(setRewardsPointsToTransactionGateway({ address: address, amount: amount?.value,code: auth?.dataCode}));
-  //   } else if (valueSelect === 'commission') {
-  //     dispatch(setCommissionBalanceToLiquidityPool({ address: address, amount: amount?.value,code: auth?.dataCode }));
-  //   } else if (valueSelect === 'wallet') {
-  //     dispatch(setLiquidityPoolToUulalaWallet({ address: address, amount: amount?.value,code: auth?.dataCode }));
-  //   }else if (valueSelect === 'gateway') {
-  //     dispatch(setGatewayPointsToTransactionRewards({ address: address, amount: amount?.value,code: auth?.dataCode }));
-  //   } else return null;
-  // };
-
-  console.log('infoUser',userProfile)
 
   function handleGoToSms(){
     if (!userProfile.isTwoFactor) {
       navigation.navigate('Auth2fa');
+    }else{
+      navigation.navigate('ConfirmSms',{ amount: amount,valueSelect:valueSelect});
     }
-    //navigation.navigate('ConfirmSms',{ amount: amount,valueSelect:valueSelect});
+   
   }
   
 

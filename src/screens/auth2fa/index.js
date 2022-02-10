@@ -24,11 +24,29 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const appData = redux.app;
+  const infoUser = redux?.user;
   const brandTheme = appData?.Theme?.colors;
   const { colors } = useTheme();
   const [isEnabledApp, setIsEnabledApp] = useState(false);
   const [isEnabledEmail, setIsEnabledEmail] = useState(false);
   const [isEnabledSMS, setIsEnabledSMS] = useState(false);
+
+  useEffect(() => {
+    switch (infoUser?.dataUser?.type2fa) {
+      case 1:
+        setIsEnabledApp(true);
+      break;
+      case 2:
+        setIsEnabledSMS(true);
+      break;
+      case 3:
+        setIsEnabledEmail(true);
+      break;
+    }
+  }, []);
+  
+
+  
   const toggleSwitchApp = () => {
     setIsEnabledApp(previousState => !previousState);
     setIsEnabledEmail(false);
@@ -58,14 +76,14 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
         <View centerH>
           <IconSecurityLock width={scale(130)} height={verticalScale(130)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
         </View>
-        <Text h16 regular blue02>Seguridad de tu cuenta</Text>
+        <Text h16 regular blue02>{i18n.t('Auth2fa.textSecurityOfYourAccount')}</Text>
         <Divider height-10 />
-        <Text h12 white semibold>Para nosotros tu seguridad es lo más importante.</Text>
+        <Text h12 white semibold>{i18n.t('Auth2fa.textForUsYourSafetyIs')}</Text>
         <Divider height-10 />
         <TouchableOpacity style={{ width: '100%' }}>
           <View row centerV>
             <View flex-1>
-              <Text h14 semibold success>Cambiar contraseña</Text>
+              <Text h14 semibold success>{i18n.t('Auth2fa.linkChangePassword')}</Text>
             </View>
             <Divider width-10 />
             <View>
@@ -76,18 +94,18 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
       </View>
       <Divider height-10 />
       <View  padding-20 style={{ borderColor: colors.blue02, borderWidth: 1 }}>
-        <Text h16 regular blue02>Autenticación de dos factores</Text>
+        <Text h16 regular blue02>{i18n.t('Auth2fa.textTwoFactorAuthentication')}</Text>
         <Divider height-10 />
-        <Text h12 white light>Incluso si alguien consigue tu contraseña no podrá entrar ya que{' '}
-          <Text white semibold>cada inicio de sesión se autorizará con un código de 6 dígitos{' '}</Text>
-          <Text white light>que obtendrás cuando desees ingresar.</Text></Text>
+        <Text h12 white light>{i18n.t('Auth2fa.textEvenIfSomeoneGets')}{' '}
+          <Text white semibold>{i18n.t('Auth2fa.textEachLoginWillBe')}{' '}</Text>
+          <Text white light>{i18n.t('Auth2fa.textThatYouWillGetWhen')}</Text></Text>
         <Divider height-10 />
         <View row>
           <View left>
-            <Text h14 regular white >Autenticación de dos factores mediante app externa</Text>
+            <Text h14 regular white >{i18n.t('Auth2fa.textTwoFactorAuthenticationApp')}</Text>
             <Divider height-10 />
             <Link>
-              <Text h12 blue02 semibold>Opciones</Text>
+              <Text h12 blue02 semibold>{i18n.t('Auth2fa.linkOptions')}</Text>
             </Link>
           </View>
           <View flex-1 right >
@@ -105,7 +123,7 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
         <Divider height-10 />
         <View row>
           <View left>
-            <Text h14 regular white >Autenticación vía{' '}<Text white semibold>SMS</Text></Text>
+            <Text h14 regular white >{i18n.t('Auth2fa.textAuthenticationVia')}{' '}<Text white semibold>{i18n.t('Auth2fa.textSMS')}</Text></Text>
           </View>
           <View flex-1 right>
             <Switch
@@ -123,7 +141,7 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
         <Divider height-10 />
         <View row>
           <View left>
-            <Text h14 regular white>Autenticación vía{' '}<Text white semibold>email</Text></Text>
+            <Text h14 regular white>{i18n.t('Auth2fa.textAuthenticationVia')}{' '}<Text white semibold>{i18n.t('Auth2fa.textEmail')}</Text></Text>
           </View>
           <View flex-1 right>
             <Switch

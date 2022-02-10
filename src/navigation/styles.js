@@ -22,7 +22,7 @@ export default StyleSheet.create({
   imageContainer: {
     flex:1,
     borderRadius:16,
-    marginVertical: 8,
+    //marginVertical: 8,
   },
 
   drawerImage: {

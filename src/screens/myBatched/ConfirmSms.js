@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import {
   View,
@@ -27,8 +27,8 @@ const TransferOption = ({ navigation, route, onPress, label }) => {
   const valueSelect = route?.params?.valueSelect;
   const dataUser = redux?.user;
   const amount = route?.params?.amount;
-  const userProfile = dataUser?.dataUser?.usersProfile ?dataUser?.dataUser?.usersProfile[0]:''
-  const accounts = userProfile?.accounts
+  const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
+  const accounts = userProfile?.accounts;
   const codeSecurity = useValidatedInput('codeSms', '');
   const [valuePhone, setValuePhone] = useState(accounts?.phoneNumber);
   const [codeSmsEmail, setCodeSmsEmail] = useState(auth?.dataCode);
@@ -43,7 +43,7 @@ const TransferOption = ({ navigation, route, onPress, label }) => {
     { id: '2', name: 'Gateway to Rewards point', value: 'gateway' },
     { id: '3', name: 'Commission Balance to Liquidity Pool', value: 'commission' },
     { id: '4', name: 'Liquidity Pool to Uulala Wallet', value: 'wallet' },
-    
+
   ]);
   const isValid = isFormValid(codeSecurity);
   const RewardsData = points?.rewardsData;
@@ -52,81 +52,114 @@ const TransferOption = ({ navigation, route, onPress, label }) => {
   useEffect(() => {
     dispatch(cleanErrorPoints());
     dispatch(toggleSnackbarClose());
-    dispatch(validateCodeSms());
+    switch (infoUser?.dataUser?.type2fa) {
+      case 1:
+        setCodeSmsEmail('2fa')
+      break;
+      case 2:
+        dispatch(validateCodeSms());
+      break;
+      case 3:
+        dispatch(validateCodeEmail());
+      break;
+      default:
+        break;
+    }
+   
   }, [])
 
   useEffect(() => {
-    setCodeSmsEmail(auth?.dataCode)
+    if (infoUser?.dataUser?.type2fa === 1) {
+      setCodeSmsEmail('2fa');
+    }else{
+      setCodeSmsEmail(auth?.dataCode);
+    }
   }, [auth?.dataCode])
 
 
   const handleCreateTransfer = (codeSecurity) => {
     const address = infoUser?.dataUser?.clients ? infoUser?.dataUser?.clients[0]?.account?.address : 0;
     if (valueSelect === 'rewards') {
-      dispatch(setRewardsPointsToTransactionGateway({ address: address, amount: amount?.value,code: codeSmsEmail+'-'+codeSecurity}));
+      dispatch(setRewardsPointsToTransactionGateway({ address: address, amount: amount?.value, code: codeSmsEmail + '-' + codeSecurity }));
     } else if (valueSelect === 'commission') {
-      dispatch(setCommissionBalanceToLiquidityPool({ address: address, amount: amount?.value,code: codeSmsEmail+'-'+codeSecurity }));
+      dispatch(setCommissionBalanceToLiquidityPool({ address: address, amount: amount?.value, code: codeSmsEmail + '-' + codeSecurity }));
     } else if (valueSelect === 'wallet') {
-      dispatch(setLiquidityPoolToUulalaWallet({ address: address, amount: amount?.value,code: codeSmsEmail+'-'+codeSecurity }));
-    }else if (valueSelect === 'gateway') {
-      dispatch(setGatewayPointsToTransactionRewards({ address: address, amount: amount?.value,code: codeSmsEmail+'-'+codeSecurity }));
+      dispatch(setLiquidityPoolToUulalaWallet({ address: address, amount: amount?.value, code: codeSmsEmail + '-' + codeSecurity }));
+    } else if (valueSelect === 'gateway') {
+      dispatch(setGatewayPointsToTransactionRewards({ address: address, amount: amount?.value, code: codeSmsEmail + '-' + codeSecurity }));
     } else return null;
   };
 
   function getInfo(code) {
-    handleCreateTransfer(code); 
+    handleCreateTransfer(code);
   }
   function onPressResendCode() {
-    dispatch(validateCodeEmail());
-    setValuePhone(accounts?.email);
+    switch (infoUser?.dataUser?.type2fa) {
+      case 1:
+        setCodeSmsEmail('2fa');
+      break;
+      case 2:
+        dispatch(validateCodeSms());
+      break;
+      case 3:
+        dispatch(validateCodeEmail());
+      break;
+      default:
+        setCodeSmsEmail('2fa');
+        break;
+    }
   }
-  
+
 
   if (points?.successTransferGatewayLiquid) {
-    navigation.navigate('ConfirmationTransfer',{ amount: amount?.value});
+    navigation.navigate('ConfirmationTransfer', { amount: amount?.value });
   }
+  console.log('auth',infoUser)
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
-      <Text h16 blue02 regular>{i18n.t('home.myBatchedTransfer.textConfirmTheTransfer')}</Text>
-      <Divider height-10 />
-      <Text h14 blue02>{i18n.t('home.myBatchedTransfer.textRewardPoints')}</Text>
+     <Divider height-20 />
+      <Text h16 blue02 regular>{i18n.t('Auth2fa.textTwoFactorAuthentication')}</Text>
+      <Divider height-30 />
+      {/* <Text h14 blue02>{i18n.t('home.myBatchedTransfer.textRewardPoints')}</Text>
         <Text h16 white semibold>{thousandsSeparator(RewardsData?.total)}</Text>
-      <Divider height-10 />
-      <Text h16 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentYou')}<Text h12 white>{maskNumbers(valuePhone)}</Text></Text>
-      <Divider height-20 />
+      <Divider height-10 /> */}
+      {infoUser?.dataUser?.type2fa === 2 && (
+        <Text h15 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentYou')}<Text h12 white>{maskNumbers(accounts?.phoneNumber)}</Text></Text>
+      )}
+      {infoUser?.dataUser?.type2fa === 3 && (
+        <Text h15 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentEmail')}<Text h12 white>{maskNumbers(accounts?.email)}</Text></Text>
+      )}
+      {infoUser?.dataUser?.type2fa === 1 && (
+        <Text h15 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentApp')}{' '}<Text white semibold>{i18n.t('home.myBatchedTransfer.textAuthenticatorApp')}</Text></Text>
+      )}
+      <Divider height-30 />
       <Text h12 blue02>{i18n.t('home.myBatchedTransfer.textConfirmationCode')}</Text>
       <Divider height-10 />
-      <PinInput {...codeSecurity} onSubmit={(code)=>getInfo(code) }/>
-      {/* <FloatingInput
-        {...codeSecurity}
-        label={i18n.t('ForgotPassword.inputSixDigits')}
-        autoCapitalize={'none'}
-      /> */}
+      <PinInput {...codeSecurity} onSubmit={(code) => getInfo(code)} />
       <Divider height-25 />
       <Divider style={Styles.borderDoted} />
       <Divider height-25 />
       <Text h12 white>{i18n.t('home.myBatchedTransfer.textTheCodeWillBeValid')}{' '}
-      <Link onPress={onPressResendCode}>
-        <Text h12 white>{i18n.t('home.myBatchedTransfer.linkResendCode')}</Text>
-      </Link></Text>
+        <Link onPress={onPressResendCode}>
+          <Text h12 white>{i18n.t('home.myBatchedTransfer.linkResendCode')}</Text>
+        </Link></Text>
       <Divider height-30 />
-      <ButtonRounded
-        onPress={handleCreateTransfer}
-        disabled={!isValid}
-      >
-        <Text h14 semibold white>
-          {i18n.t('home.myBatchedTransfer.buttonConfirmTransfer')}
-        </Text>
-      </ButtonRounded>
-      <Divider height-20 />
-      <Text h10 white light>Morbi aliquam nisi diam, vitae laoreet neque ultrices sed. Maecenas at dui auctor arcu condimentum congue. </Text>
-      <Loading modalVisible={points?.isLoadingRewardsPoints} />
       <View flex-1 bottom>
+        <ButtonRounded
+          onPress={() => goBack()}
+          disabled={false}
+          dark
+          size='sm'
+        >
+          <Text h14 semibold blue02>
+            {i18n.t('General.buttonBack')}
+          </Text>
+        </ButtonRounded>
+        <Loading modalVisible={points?.isLoadingRewardsPoints} />
         <SnackNotice
           visible={error}
           message={points?.error?.message}
-          timeout={3000}
         />
       </View>
     </BackgroundWrapper>

@@ -4,26 +4,15 @@ import {
   View,
   Link,
   Divider,
-  SnackNotice,
-  ButtonRounded,
-  FloatingInput,
   BackgroundWrapper
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
-import { useValidatedInput } from '@hooks/validation-hooks';
 import i18n from '@utils/i18n';
 import { scale, verticalScale } from 'react-native-size-matters';
-import { cleanErrorLicenses, getLicenses, saveCurrentLicense } from '@store/actions/licenses.actions';
-import { toggleSnackbarClose } from '@store/actions/app.actions';
-import IconSecurityLock from '@assets/iconSVG/IconAuth2fa/IconSecurityLock';
-import { TouchableOpacity, Switch } from 'react-native';
 import { useTheme } from '@react-navigation/native';
-import IconRightRow from '../../assets/iconSVG/IconRightRow';
-import Styles from './styles';
 import IconNumber from '../../assets/iconSVG/IconAuth2fa/IconNumber';
 import IconAsterisk from '../../assets/iconSVG/IconAuth2fa/IconAsterisk';
 import IconKey from '../../assets/iconSVG/IconAuth2fa/IconKey';
-import IconEmail from '../../assets/iconSVG/IconAuth2fa/IconEmail';
 
 
 const TwoFactorOptions = ({ navigation, route, navigation: { goBack } }) => {
@@ -31,6 +20,7 @@ const TwoFactorOptions = ({ navigation, route, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
   const appData = redux.app;
   const brandTheme = appData?.Theme?.colors;
+  const error = useSelector(state => state?.auth?.showError);
   const { colors } = useTheme();
 
   const [isEnabled, setIsEnabled] = useState(false);

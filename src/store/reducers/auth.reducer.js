@@ -13,7 +13,13 @@ import {
   VALIDATE_CODE_EMAIL,
   VALIDATE_CODE_EMAIL_SUCCESS,
   GET_KEY_TWO_FACTORS,
-  GET_KEY_TWO_FACTORS_SUCCESS
+  GET_KEY_TWO_FACTORS_SUCCESS,
+  GET_ENABLE_THIRD_PARTY,
+  GET_ENABLE_THIRD_PARTY_SUCCESS,
+  GET_ENABLE_SMS,
+  GET_ENABLE_SMS_SUCCESS,
+  GET_ENABLE_EMAIL,
+  GET_ENABLE_EMAIL_SUCCESS
 } from '../constants';
 
 export const initialState = {
@@ -28,10 +34,17 @@ export const initialState = {
   isResettingPassword: false,
   isUpdating: true,
   isValidateCode: false,
-  isGetInfoQrCode:false,
-  successQrCode:false,
+  isGetInfoQrCode: false,
+  successQrCode: false,
   successValidateCode: false,
-  dataQrCode:null,
+  isActivateApp:false,
+  successActivateApp:false,
+  isActivateSms:false,
+  successActivateSms:false,
+  isActivateEmail:false,
+  successActivateEmail:false,
+  codeLeft:null,
+  dataQrCode: null,
   dataCode: null,
   dataCodeEmail: null,
   error: {},
@@ -67,26 +80,6 @@ export default authReducer = (state = initialState, action) => {
         error: {},
         success: {},
       };
-    case LOGIN_ERROR:
-      return {
-        ...state,
-        isLoggingIn: false,
-        isLoggedIn: false,
-        showError: true,
-        error: action.payload,
-        user: null,
-        success: {},
-      };
-    case SET_ERROR:
-      return {
-        ...state,
-        isLoggingIn: false,
-        finishSuccess: false,
-        showError: true,
-        error: action.payload,
-        user: null,
-        success: {},
-      };
     case VALIDATE_SESSION:
       return { ...state, isLoggingIn: true, showError: false, };
     case VALIDATE_SESSION_SUCCESS:
@@ -108,6 +101,41 @@ export default authReducer = (state = initialState, action) => {
         successQrCode: true,
         showError: false,
         dataQrCode: action.payload,
+        error: {},
+        success: {},
+      };
+    case GET_ENABLE_THIRD_PARTY:
+      return { ...state, isActivateApp: true, showError: false, };
+    case GET_ENABLE_THIRD_PARTY_SUCCESS:
+      return {
+        ...state,
+        isActivateApp: false,
+        successActivateApp: true,
+        showError: false,
+        error: {},
+        success: {},
+      };
+    case GET_ENABLE_SMS:
+      return { ...state, isActivateSms: true, showError: false, };
+    case GET_ENABLE_SMS_SUCCESS:
+      return {
+        ...state,
+        isActivateSms: false,
+        successActivateSms: true,
+        showError: false,
+        codeLeft: action.payload,
+        error: {},
+        success: {},
+      };
+    case GET_ENABLE_EMAIL:
+      return { ...state, isActivateEmail: true, showError: false, };
+    case GET_ENABLE_EMAIL_SUCCESS:
+      return {
+        ...state,
+        isActivateEmail: false,
+        successActivateEmail: true,
+        showError: false,
+        codeLeft: action.payload,
         error: {},
         success: {},
       };
@@ -143,10 +171,58 @@ export default authReducer = (state = initialState, action) => {
         isLoggedIn: false,
         isLoggedOut: false,
         showError: false,
+        finishSuccess: false,
+        isResettingPassword: false,
+        isUpdating: true,
+        isValidateCode: false,
+        isGetInfoQrCode: false,
+        successQrCode: false,
+        successValidateCode: false,
+        isActivateApp:false,
+        successActivateApp:false,
+        isActivateSms:false,
+        successActivateSms:false,
+        isActivateEmail:false,
+        successActivateEmail:false,
         dataCode: null,
         error: {},
       };
-
+    case LOGIN_ERROR:
+      return {
+        ...state,
+        isLoggedIn: false,
+        isLoggingIn: false,
+        isLoggedOut: false,
+        isSession: false,
+        finishSuccess: false,
+        showError: false,
+        isResettingPassword: false,
+        isUpdating: true,
+        isValidateCode: false,
+        isGetInfoQrCode: false,
+        successQrCode: false,
+        successValidateCode: false,
+        isActivateApp:false,
+        successActivateApp:false,
+        isActivateSms:false,
+        successActivateSms:false,
+        isActivateEmail:false,
+        successActivateEmail:false,
+        showError: true,
+        error: action.payload,
+        user: null,
+        success: {},
+      };
+    case SET_ERROR:
+      return {
+        ...state,
+        isLoggingIn: false,
+        finishSuccess: false,
+        showError: true,
+        error: action.payload,
+        user: null,
+        success: {},
+      };
 
     default:
       return state;

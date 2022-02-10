@@ -285,7 +285,10 @@
         "textRewardPoints":"Reward Points available*",
 
         "textConfirmTheTransfer":"Confirm the transfer",
-        "textWeHaveSentYou":"We have sent you a 6 digit code to the phone",
+        "textWeHaveSentYou":"We have sent you a SMS 6 digit code to the Phone",
+        "textWeHaveSentEmail":"We have sent you a 6 digit code to your Email",
+        "textWeHaveSentApp":"Enter the 6 digit code that appears in your",
+        "textAuthenticatorApp":"Authenticator App.",
         "textConfirmationCode":"Confirmation Code:",
         "textTheCodeWillBeValid":"The code will be valid for 4:38, If you haven’t receive it you can",
         "linkResendCode":"Resend code",
@@ -429,8 +432,27 @@
       "textIfTimeRunsOut":"if time runs out re-enter it",
       "textEnterTheCodeYouGot":"Enter the code you got,",
       "textScanTheQRCodeOrEnter":"Scan the QR code or enter the following key.",
-      "textScanTheQRCodeNewDevice":"Escanéa el código QR o ingresa la siguiente llave en tu nuevo dispositivo."
-      
+      "textScanTheQRCodeNewDevice":"Escanéa el código QR o ingresa la siguiente llave en tu nuevo dispositivo.",
+      "textSMSAuthentication":"SMS authentication",
+      "textUseYourPhoneAsYourTwoFactor":"Use your phone as your Two-Factor Authentication (2FA) when you sign in you’ll be required to use the security code we send you via SMS message.",
+      "textActivateAuthenticationSMS":"Activate authentication via SMS",
+      "textToEnableSMSAuthentication":"To enable SMS authentication, a security code was sent to your phone",
+      "textPleaseEnterTheSecurity":"Please enter the security code below to continue.",
+      "textActivateEmailAuthentication":"Activate Email Authentication",
+      "textToEnableEmailAuthentication":"To enable email authentication, a security code was sent to your email address at",
+      "textEmailAuthentication":"Email Authentication",
+      "textUseASecurityCodeSentTo":"Utilice un código de seguridad enviado a su dirección de correo electrónico como su autenticación de dos factores (2FA). El código de seguridad se enviará a la dirección asociada con su cuenta. Tendrás que usarlo cuando inicies sesión.",
+      "textSecurityOfYourAccount":"Security of your account",
+      "textForUsYourSafetyIs":"For us your safety is the most important thing.",
+      "linkChangePassword":"Change Password",
+      "textEvenIfSomeoneGets":"Even if someone gets your password they won't be able to get in since",
+      "textEachLoginWillBe":"each login will be authorized with a 6-digit code",
+      "textThatYouWillGetWhen":"that you will get when you want to enter.",
+      "textTwoFactorAuthenticationApp":"Two-factor authentication via external app",
+      "linkOptions":"Options",
+      "textAuthenticationVia":"Authentication via",
+      "textEmail":"Email",
+      "textSMS":"SMS"
     }
   }
 }

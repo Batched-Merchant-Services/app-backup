@@ -26,18 +26,17 @@ const Auth2faEmail = ({ navigation, route, navigation: { goBack } }) => {
       <View centerH>
         <IconAuthEmail width={scale(200)} height={verticalScale(210)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
       </View>
-      <Text h16 regular blue02>Autenticación por Email</Text>
+      <Text h16 regular blue02>{i18n.t('Auth2fa.textEmailAuthentication')}</Text>
       <Divider height-10 />
-      <Text h10 white regular>Use a security code sent to your email address as your Two-Factor Authentication (2FA). The security code will be sent to the address associated with your account. You’ll need to use it in when you sign in.</Text>
+      <Text h10 white regular>{i18n.t('Auth2fa.textUseASecurityCodeSentTo')}</Text>
       <Divider height-20 />
-      
       <View flex-1 bottom>
         <ButtonRounded
           blue
           onPress={() => navigation.navigate('ActivationEmail')}
         >
           <Text h13 semibold white center>
-            Activar autenticación vía Email
+            {i18n.t('Auth2fa.textActivateEmailAuthentication')}
           </Text>
         </ButtonRounded>
       </View>

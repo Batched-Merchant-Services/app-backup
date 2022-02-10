@@ -178,8 +178,8 @@ const CustomDrawer = props => {
     <Animated.View style={[
       Styles.containerSideMenu, { backgroundColor: Colors.blue01}]} >
       <SafeAreaView style={Styles.imageContainer} edges={['top']}>
-        <Divider height-20 />
-        <View row centerV marginH-10>
+        <Divider height-10 />
+        <View row centerV marginH-10 >
           <RenderLeftBack navigation={navigation} />
           <Divider width-30 />
           <Logo width={scale(120)} height={verticalScale(17)} fill="green" />
@@ -228,6 +228,11 @@ const CustomDrawer = props => {
           <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('HomeContact')}>
             <DrawerItem
               label={({ focused }) => <CustomLabel label={'Contact'} />}
+            />
+          </Ripple>
+          <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('Auth2fa')}>
+            <DrawerItem
+              label={({ focused }) => <CustomLabel label={'Configuration'} />}
             />
           </Ripple>
             <DrawerItem
