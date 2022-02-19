@@ -48,7 +48,6 @@ import TwoFactorCodeActivation from '@screens/auth2fa/TwoFactorCodeActivation';
 import TwoFactorConfirmationActivation from '@screens/auth2fa/TwoFactorConfirmationActivation';
 import Auth2faSms from '@screens/auth2fa/auth2faSms';
 import ActivationSms from '@screens/auth2fa/auth2faSms/ActivationSms';
-import ConfirmationSMS from '@screens/auth2fa/auth2faSms/ConfirmationSMS';
 import Auth2faEmail from '@screens/auth2fa/auth2faEmail';
 import ActivationEmail from '@screens/auth2fa/auth2faEmail/ActivationEmail';
 import Auth2faApp from '@screens/auth2fa/auth2faApp';
@@ -118,7 +117,6 @@ const signOutScreens = () => {
       <Stack.Screen name="TwoFactorOptions" component={TwoFactorOptions} /> 
       <Stack.Screen name="Auth2faSms" component={Auth2faSms} /> 
       <Stack.Screen name="ActivationSms" component={ActivationSms} /> 
-      <Stack.Screen name="ConfirmationSMS" component={ConfirmationSMS} /> 
       <Stack.Screen name="Auth2faEmail" component={Auth2faEmail} /> 
       <Stack.Screen name="ActivationEmail" component={ActivationEmail} /> 
       <Stack.Screen name="Auth2faApp" component={Auth2faApp} />

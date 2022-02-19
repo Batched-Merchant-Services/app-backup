@@ -4,6 +4,7 @@ import {
   LOGIN_ERROR,
   LOGIN_SUCCESS,
   LOGOUT_SUCCESS,
+  LOGIN_TWO_FACTORS_SUCCESS,
   CLEAN_ERROR ,
   VALIDATE_SESSION,
   VALIDATE_SESSION_SUCCESS,
@@ -20,7 +21,7 @@ import {
   GET_ENABLE_EMAIL,
   GET_ENABLE_EMAIL_SUCCESS
 } from '../constants'
-import { LOGIN_QUERY } from '@utils/api/queries/auth.queries';
+import { LOGIN_QUERY,LOGIN_TWO_FACTOR_QUERY } from '@utils/api/queries/auth.queries';
 import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
 import DeviceInfo from 'react-native-device-info';
@@ -40,21 +41,53 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
       variables: {
         user: email?.value,
         password:  generateRSA(password?.value),
-        languaje: "2",
+        languaje: "3",
         id: generateRSA(device),
-        groupid: "320"
+        groupid: "320",
+        reference:''
+      },
+      fetchPolicy: 'no-cache'
+    }).then(async (response) => {
+      if (response.data) {
+        const { token,uuid,left } = response?.data['getLoggin'];
+        dispatch({ type: LOGIN_SUCCESS, payload: response?.data['getLoggin'] });
+        await LocalStorage.set('auth_token', token);
+        await LocalStorage.set('uuid', uuid);
+        await LocalStorage.set('left', left);
+        dispatch(userInactivity(true));
+      }
+    }).catch((error) => {
+      dispatch({ type: LOGIN_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    dispatch({ type: LOGIN_ERROR, payload: error });
+  }
+};
+
+
+
+export const getLoginTwoFactor = ({ codeSecurity }) => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  console.log('token',token,codeSecurity)
+  try {
+    dispatch({ type: LOGIN });
+    client.query({
+      query: LOGIN_TWO_FACTOR_QUERY,
+      variables: {
+        token: token,
+        code: codeSecurity
       },
       fetchPolicy : 'network-only' ,  
       nextFetchPolicy : 'network-only'
     }).then(async (response) => {
       if (response.data) {
-        const { token,uuid } = response?.data['getLoggin'];
-        dispatch({ type: LOGIN_SUCCESS, payload: response?.data['getLoggin'] });
+        const { token,uuid } = response?.data['getLogginTwoFactor'];
+        dispatch({ type: LOGIN_TWO_FACTORS_SUCCESS, payload: response?.data['getLogginTwoFactor'] });
         await LocalStorage.set('auth_token', token);
         await LocalStorage.set('uuid', uuid);
         dispatch(userInactivity(true));
         dispatch(getLicenses());
-
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });
@@ -98,7 +131,7 @@ export const Activation2faApp = ({code}) => async (dispatch) => {
       mutation: ACTIVATION_THIRD_PARTY,
       variables: {
         token    : token,
-        code     : code?code.toString():'',
+        code     : '2fa'-code?code.toString():'',
         isPrimary: true
       },
       fetchPolicy : 'network-only' ,  
@@ -119,7 +152,7 @@ export const Activation2faApp = ({code}) => async (dispatch) => {
 }
 
 
-export const Activation2faSms = ({code}) => async (dispatch) => {
+export const Activation2faSms = ({codeComposition}) => async (dispatch) => {
   console.log('codeeeeee',code)
   const token = await LocalStorage.get('auth_token');
   try {
@@ -128,7 +161,7 @@ export const Activation2faSms = ({code}) => async (dispatch) => {
       mutation: ACTIVATION_SMS,
       variables: {
         token    : token,
-        code     : code?code.toString():'',
+        code     : codeComposition?codeComposition.toString():'',
         isPrimary: true
       },
       fetchPolicy : 'network-only' ,  
@@ -149,7 +182,7 @@ export const Activation2faSms = ({code}) => async (dispatch) => {
 }
 
 
-export const Activation2faEmail = ({code}) => async (dispatch) => {
+export const Activation2faEmail = ({codeComposition}) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: GET_ENABLE_EMAIL });
@@ -157,7 +190,7 @@ export const Activation2faEmail = ({code}) => async (dispatch) => {
       mutation: ACTIVATION_EMAIL,
       variables: {
         token    : token,
-        code     : code?code.toString():'',
+        code     : codeComposition?codeComposition.toString():'',
         isPrimary: true
       },
       fetchPolicy : 'network-only' ,  

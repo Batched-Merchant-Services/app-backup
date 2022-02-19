@@ -34,12 +34,16 @@ const activityMiddleware = new ApolloLink((operation, forward) => {
   operation.setContext(({ headers = {} }) => ({
     headers: {
       ...headers,
-      'content-hash': generateRSA('AppMobile' + '|' + getTicks()),
+      'content-hash': generateRSA('AppBatched' + '|' + getTicks()),
       'Content-Type': 'application/json',
       'Accept':'application/json'
-    }
+    },
   }));
-  return forward(operation);
+  return forward(operation).map(result => {
+    console.info('request',operation?.variables)
+    console.info('response',result?.data)
+    return result
+  })
 })
 
 
@@ -68,9 +72,22 @@ const errorLink = onError(({ forward, networkError, operation, graphQLErrors }) 
 });
 
 
+
 const cache = new InMemoryCache()
 
 export const client = new ApolloClient({
   link: ApolloLink.from([errorLink, activityMiddleware, httpLink]),
-  cache: cache
+  cache: cache,
+  defaultOptions: {
+    watchQuery: {
+      fetchPolicy: 'no-cache',
+    },
+    query: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+    },
+    mutate: {
+      errorPolicy: 'all',
+    },
+  },
 })

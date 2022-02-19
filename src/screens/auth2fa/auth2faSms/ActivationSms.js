@@ -14,6 +14,7 @@ import i18n from '@utils/i18n';
 import { useTheme } from '@react-navigation/native';
 import { validateCodeSms,Activation2faSms,cleanError } from '@store/actions/auth.actions';
 import Loading from '../../Loading';
+import { maskNumbers } from '@utils/formatters';
 
 
 const ActivationSms = ({ navigation, route, navigation: { goBack } }) => {

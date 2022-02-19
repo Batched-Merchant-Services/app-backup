@@ -74,7 +74,6 @@
    };
  
 
-
   useEffect(() => {
     AppState.addEventListener('change',handleAppStateChange);
     let timerId;
@@ -132,7 +131,6 @@
     }
    }  
  
- 
    //console.log('secondsLeft',secondsLeft,isLoginId)
    const isDarkMode = useColorScheme() === 'dark';
  
@@ -140,8 +138,6 @@
      backgroundColor: isDarkMode ? Colors.red : Colors.white,
    };
    
- 
- 
    if (isReady) {
      
      return (

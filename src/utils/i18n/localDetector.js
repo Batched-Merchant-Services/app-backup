@@ -1,5 +1,5 @@
 
-import React, { NativeModules } from 'react-native'
+import React, { NativeModules,Platform } from 'react-native'
 import { AsyncStorage } from 'react-native';
 
 const deviceLanguage =

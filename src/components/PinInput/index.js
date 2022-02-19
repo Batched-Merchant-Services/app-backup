@@ -10,7 +10,8 @@ const PinInput = ({ value, error, onChangeText, onSubmit,pinLength = 6, ...props
   const redux = useSelector(state => state);
   const appData = redux.user;
   const brandTheme = appData?.Theme?.colors;
-
+  console.log('value',value.length)
+  var arrayComplete =[];
   const values = value
     .padEnd(pinLength)
     .split('')
@@ -20,29 +21,42 @@ const PinInput = ({ value, error, onChangeText, onSubmit,pinLength = 6, ...props
   const [focused, setFocused] = useState(null);
 
   const moveNext = (value, index) => {
-    if (value && index < values.length - 1 && !values[index + 1].trim()) {
-      refs[index + 1].focus();
+    if (value  && index + 1  < values.length && !values[index].trim()) {
+      refs[index + 1]?.focus();
     }
   };
 
   const moveMinus = (value, index) => {
-    if (index > 0) {
-      refs[index - 1].focus();
-    }
+      refs[index - 1]?.focus();  
   };
 
   const makeHandleTextChange = index => text => {
-    text = text.replace(/[^0-9]/g, '');
-    if (text.length) {
-      moveNext(text, index);
-      if (index + 1 === pinLength) {
+     text = text.replace(/[^0-9]/g, '');
+     if (text.length === 0) {
+      moveMinus(text, index);
+    }else{
+      moveNext(text, index);  
+    }
+     values[index] = text.length ? text : '';
+     onChangeText(values.join(''));
+     if (index + 1 === pinLength) {
+        console.log('index',values.join(''))
         onSubmit(values.join(''));
       }
-    }else{
-      moveMinus(text, index);
-    }
-    values[index] = text.length ? text : '';
-    onChangeText(values.join(''));
+
+     
+    // if (text.length) {
+    //   moveNext(text, index);   
+    //   if (index + 1 === pinLength) {
+        
+    //     console.log('index',values.join(''))
+    //     onSubmit(values.join(''));
+    //   }
+    // }else{
+    //   moveMinus(text, index);
+    // }
+    // values[index+1] = text.length ? text : '';
+    // onChangeText(values.join(''));
    
   };
 

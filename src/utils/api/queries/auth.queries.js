@@ -1,12 +1,23 @@
 import { gql, useQuery } from '@apollo/client';
 
 export const LOGIN_QUERY = gql`
-query ($user:String!,$password:String!, $id: String!, $languaje: Int!, $groupid:Int!){
-  getLoggin(user: $user, password:$password, id: $id, languaje: $languaje, groupid:$groupid){
-    token
-    uuid
-    timeOut
-    locked
+query ($user:String!,$password:String!,$languaje:Int!,$id:String!,$groupid:Int!,$reference:String!){
+  getLoggin(user: $user, password:$password,languaje:$languaje, id:$id,groupid:$groupid,reference:$reference){
+      token
+      uuid
+      timeOut
+      isTwoFactor
+      left        
+  }
+  
+}`;
+
+export const LOGIN_TWO_FACTOR_QUERY = gql`
+query ($token:String!,$code:String!){
+  getLogginTwoFactor(token: $token, code:$code){
+      token
+      uuid
+      timeOut
   }
 }`;
 

@@ -16,6 +16,7 @@ import { useTheme } from '@react-navigation/native';
 import IconClock from '@assets/iconSVG/IconAuth2fa/IconClock';
 import i18n from '@utils/i18n';
 import { Activation2faApp } from '@store/actions/auth.actions';
+import Loading from '../Loading';
 
 const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();

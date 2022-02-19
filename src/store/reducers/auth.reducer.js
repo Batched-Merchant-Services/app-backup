@@ -2,6 +2,7 @@ import {
   LOGIN,
   LOGOUT,
   LOGOUT_SUCCESS,
+  LOGIN_TWO_FACTORS_SUCCESS,
   LOGIN_SUCCESS,
   LOGIN_ERROR,
   SET_ERROR,
@@ -29,6 +30,7 @@ export const initialState = {
   isLoggingIn: false,
   isLoggedOut: false,
   isSession: false,
+  isSessionTwoFactors:false,
   finishSuccess: false,
   showError: false,
   isResettingPassword: false,
@@ -67,6 +69,17 @@ export default authReducer = (state = initialState, action) => {
         error: {},
         success: {},
       };
+      case LOGIN_TWO_FACTORS_SUCCESS:
+        return {
+          ...state,
+          isLoggingIn: false,
+          isLoggedIn: true,
+          isSessionTwoFactors: true,
+          showError: false,
+          user: action.payload,
+          error: {},
+          success: {},
+        };
     case LOGOUT:
       return { ...state, isLoggingIn: true, showError: false, };
 
@@ -171,6 +184,7 @@ export default authReducer = (state = initialState, action) => {
         isLoggedIn: false,
         isLoggedOut: false,
         showError: false,
+        isSessionTwoFactors: false,
         finishSuccess: false,
         isResettingPassword: false,
         isUpdating: true,
@@ -194,6 +208,7 @@ export default authReducer = (state = initialState, action) => {
         isLoggingIn: false,
         isLoggedOut: false,
         isSession: false,
+        isSessionTwoFactors: false,
         finishSuccess: false,
         showError: false,
         isResettingPassword: false,

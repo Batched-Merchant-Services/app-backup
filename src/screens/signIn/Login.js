@@ -25,12 +25,14 @@ import close from '@assets/icons/white-x.png';
 import { toggleSnackbarClose } from '@store/actions/app.actions';
 import { getDataUser } from '../../store/actions/user.action';
 import { userInactivity } from '../../store/actions/app.actions';
-  
+
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const [values, setValues] = useState(false);
   const authData = redux?.auth;
+  const dataUser = redux?.user;
+  const userProfile = authData?.dataUser;
   const licensesData = redux?.licenses;
   const email = useValidatedInput('', '');
   const password = useValidatedInput('password', '');
@@ -47,27 +49,40 @@ const Login = ({ navigation }) => {
 
   function fetchSession() {
     //setValues(true)
-   dispatch(getLogin({ email, password }));
-  }
-
-  function handleClose(){
-    setValues(false)
+    dispatch(getLogin({ email, password }));
   }
 
   if (authData?.isSession) {
+    console.log('authData?.user?.isTwoFactor',authData?.user?.isTwoFactor)
+    if (authData?.user?.isTwoFactor) {
+      if (!authData?.user?.isTwoFactor) {
+        navigation.navigate('Auth2fa');
+      } else {
+        navigation.navigate('SignIn', {
+          screen: 'ConfirmSms',
+          params: { page: 'Login' }
+        });
+      }
+    } else {
       if (licensesData?.getLicenses) {
         if (licensesData?.getLicenses) {
-          navigation.navigate('DrawerScreen',{
+          navigation.navigate('DrawerScreen', {
             screen: 'Dashboard'
           });
-        }else{
-          navigation.navigate('SignOut',{
+        } else {
+          navigation.navigate('SignOut', {
             screen: 'GetLicenses'
           });
         }
       }
-   
+    }
   }
+
+  function handleClose() {
+    setValues(false)
+  }
+
+
   return (
     <BackgroundWrapper showNavigation={false} navigation={navigation}>
       <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
@@ -109,19 +124,19 @@ const Login = ({ navigation }) => {
           </Text>
         </ButtonRounded>
       </View>
-      
+
       <SnackNotice
         visible={error}
         message={authData?.error?.message}
         timeout={3000}
       />
-       {/* <SnackBar
+      {/* <SnackBar
         visible={values}
         warning
         handleClose={handleClose}
         message={'sip'}
       /> */}
-      <Loading  modalVisible={authData?.isLoggingIn}/>
+      <Loading modalVisible={authData?.isLoggingIn} />
     </BackgroundWrapper>
   );
 }
