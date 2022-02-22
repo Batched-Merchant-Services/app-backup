@@ -54,7 +54,6 @@ const Dashboard = ({ navigation }) => {
       dispatch(getTotalLicensesInNetwork());
       dispatch(getValidateRewardsByUser());
       dispatch(getRewardsConfig());
-      dispatch(getDataUser());
       getBatchedTransaction();
     });
     return unsubscribe;

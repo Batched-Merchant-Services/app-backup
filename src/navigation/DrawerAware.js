@@ -131,7 +131,7 @@ const CustomDrawer = props => {
           </View>
         )}
         {language && !legal && (
-          <View flex-1 row centerV>
+          <View flex-1 row centerV style={{borderColor:'red',borderWidth:1}}>
             <Text h16 blue04 semibold>{label}</Text>
             <Divider width-10 />
             <View row right>
@@ -181,7 +181,7 @@ const CustomDrawer = props => {
         <Divider height-10 />
         <View row centerV marginH-10 >
           <RenderLeftBack navigation={navigation} />
-          <Divider width-30 />
+          <Divider width-20 />
           <Logo width={scale(120)} height={verticalScale(17)} fill="green" />
         </View>
         <DrawerContentScrollView {...props} contentContainerStyle={Styles.drawerContentContainerStyle}>
@@ -232,7 +232,7 @@ const CustomDrawer = props => {
           </Ripple>
           <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('Auth2fa')}>
             <DrawerItem
-              label={({ focused }) => <CustomLabel label={'Configuration'} />}
+              label={({ focused }) => <CustomLabel label={'Security'} />}
             />
           </Ripple>
             <DrawerItem

@@ -33,8 +33,8 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
   const [clabe, setClabe] = useState('BCWFNUJDXPOLQW4E5LEITVS');
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
-  function getInfo(code) {
-    console.log('code',code)
+  function getInfo(codeComposition) {
+    const code = '2fa' + '-' + codeComposition;
     dispatch(Activation2faApp({code}));
   }
 

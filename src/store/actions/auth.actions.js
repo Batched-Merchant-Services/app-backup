@@ -30,6 +30,7 @@ import { toggleSnackbarOpen, userInactivity } from './app.actions';
 import { VALIDATE_SESSION_QUERY } from '../../utils/api/queries/user.queries';
 import { getLicenses} from '@store/actions/licenses.actions';
 import { AUTHENTICATION_TWO_FACTORS_SMS,AUTHENTICATION_TWO_FACTORS_EMAIL,AUTHENTICATION_TWO_FACTORS_QR,LOGOUT_QUERY, ACTIVATION_THIRD_PARTY, ACTIVATION_SMS, ACTIVATION_EMAIL } from '../../utils/api/queries/auth.queries';
+import { getDataUser } from './user.action';
 const device = DeviceInfo.getUniqueId();
 
 
@@ -49,12 +50,16 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
       fetchPolicy: 'no-cache'
     }).then(async (response) => {
       if (response.data) {
-        const { token,uuid,left } = response?.data['getLoggin'];
+        const { token,uuid,left,isTwoFactor } = response?.data['getLoggin'];
         dispatch({ type: LOGIN_SUCCESS, payload: response?.data['getLoggin'] });
         await LocalStorage.set('auth_token', token);
         await LocalStorage.set('uuid', uuid);
         await LocalStorage.set('left', left);
         dispatch(userInactivity(true));
+        if(!isTwoFactor) {
+          dispatch(getDataUser());
+          dispatch(getLicenses());
+        }
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });
@@ -69,7 +74,7 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
 
 export const getLoginTwoFactor = ({ codeSecurity }) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
-  console.log('token',token,codeSecurity)
+  console.log('token',token,'codeSecurity',codeSecurity)
   try {
     dispatch({ type: LOGIN });
     client.query({
@@ -88,6 +93,7 @@ export const getLoginTwoFactor = ({ codeSecurity }) => async (dispatch) => {
         await LocalStorage.set('uuid', uuid);
         dispatch(userInactivity(true));
         dispatch(getLicenses());
+        dispatch(getDataUser());
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });
@@ -125,13 +131,14 @@ export const getAuth2faQr = () => async (dispatch) => {
 
 export const Activation2faApp = ({code}) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
+  console.log('code',code)
   try {
     dispatch({ type: GET_ENABLE_THIRD_PARTY });
       client.mutate({
       mutation: ACTIVATION_THIRD_PARTY,
       variables: {
         token    : token,
-        code     : '2fa'-code?code.toString():'',
+        code     : code,
         isPrimary: true
       },
       fetchPolicy : 'network-only' ,  

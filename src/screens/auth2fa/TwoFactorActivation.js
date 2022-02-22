@@ -4,6 +4,7 @@ import {
   View,
   Link,
   Divider,
+  ImageResize,
   SnackNotice,
   ButtonRounded,
   BackgroundWrapper
@@ -18,6 +19,7 @@ import Styles from './styles';
 import IconKey from '@assets/iconSVG/IconAuth2fa/IconKey';
 import { getAuth2faQr } from '@store/actions/auth.actions';
 import i18n from '@utils/i18n';
+
 
 
 const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
@@ -52,6 +54,7 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
     setClabe(authData?.dataQrCode?.secretCode)
   }, [authData?.dataQrCode]);
 
+  console.log('dataQrCode',authData?.dataQrCode?.qrCodeUrl)
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
@@ -90,12 +93,21 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
       <Text h12 regular white>{i18n.t('Auth2fa.textNeverShareYour')}</Text>
       <Divider height-20 />
       <View centerH>
+        <ImageResize
+          source={{ uri: authData?.dataQrCode?.qrCodeUrl }}
+          height={verticalScale(220)}
+          width={scale(250)}
+          style={{ flex:1}}
+        />
+      </View>
+        
+      {/* <View centerH>
         <QRCode
           value={clabe}
           size={scale(260)}
           quietZone={scale(30)}
         />
-      </View>
+      </View> */}
       <Divider height-15 />
       <View flex-1 bottom>
         <ButtonRounded

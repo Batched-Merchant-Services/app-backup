@@ -23,7 +23,7 @@ const getTicks = () => {
 
 const httpLink = new HttpLink({
   //test: ``https://services-test.apps-uulala.io/UulalaAuth/graphql`,
-  uri: `http://52.13.23.229/UulalaOAuth/graphql`,
+  uri: `https://services-test.apps-uulala.io/UulalaAuth/graphql`,
   headers: {
     //prod https://batched-services.apps-uulala.io/UulalaOAuth/graphql
   }
