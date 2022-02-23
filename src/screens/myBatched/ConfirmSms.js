@@ -15,7 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import blueRow from '@assets/icons/blue-row-double-down.png';
 import Styles from './styles';
 import i18n from '@utils/i18n';
-import { maskNumbers, thousandsSeparator } from '@utils/formatters';
+import { maskNumbers, maskEmail } from '@utils/formatters';
 import { cleanErrorPoints, setCommissionBalanceToLiquidityPool, setGatewayPointsToTransactionRewards, setLiquidityPoolToUulalaWallet, setRewardsPointsToTransactionGateway } from '@store/actions/points.actions';
 import { toggleSnackbarClose } from '@store/actions/app.actions';
 import { cleanErrorLicenses } from '@store/actions/licenses.actions';
@@ -36,7 +36,6 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
   const [codeSmsEmail, setCodeSmsEmail] = useState(auth?.dataCode);
   const points = redux?.points;
   const auth = redux?.auth;
-  const infoUser = redux?.user;
   const params = route?.params;
   const licensesData = redux?.licenses;
   const typeTransfer = useValidatedInput('select', '', {
@@ -59,32 +58,32 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
     dispatch(toggleSnackbarClose());
     dispatch(cleanError());
     if (params?.page !== 'Login') {
-      if (auth?.user?.left === '') {
-        setCodeSmsEmail('2fa')
-      } else {
-        switch (infoUser?.dataUser?.type2fa) {
-          case 1:
-            setCodeSmsEmail('2fa')
-            break;
-          case 2:
-            dispatch(validateCodeSms());
-            break;
-          case 3:
-            dispatch(validateCodeEmail());
-            break;
-          case auth?.user?.left === '':
-            setCodeSmsEmail('2fa')
-            break;
-          default:
-            setCodeSmsEmail('2fa')
-            break;
-        }
+      switch (auth?.user?.type2fa) {
+        case 1:
+          setCodeSmsEmail('2fa')
+          break;
+        case 2:
+          dispatch(validateCodeSms());
+          break;
+        case 3:
+          dispatch(validateCodeEmail());
+          break;
+        default:
+          setCodeSmsEmail('2fa')
+          break;
       }
     }
   }, [dispatch])
 
+
   useEffect(() => {
-    if (infoUser?.dataUser?.type2fa === 1 || auth?.user?.left === '') {
+    if (auth?.user?.type2fa === 1) setCodeSmsEmail('2fa')
+  }, [auth?.user?.left])
+
+
+
+  useEffect(() => {
+    if (auth?.user?.type2fa) {
       setCodeSmsEmail('2fa');
     } else {
       setCodeSmsEmail(auth?.dataCode);
@@ -93,7 +92,7 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
 
 
   const handleCreateTransfer = (codeSecurity) => {
-    const address = infoUser?.dataUser?.clients ? infoUser?.dataUser?.clients[0]?.account?.address : 0;
+    const address = dataUser?.dataUser?.clients ? dataUser?.dataUser?.clients[0]?.account?.address : 0;
     if (valueSelect === 'rewards') {
       dispatch(setRewardsPointsToTransactionGateway({ address: address, amount: amount?.value, code: codeSmsEmail + '-' + codeSecurity }));
     } else if (valueSelect === 'commission') {
@@ -106,8 +105,9 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
   };
 
   const handleGetLoginTwoFactor = async (code) => {
+    console.log('code',code)
     const codeLeft = await LocalStorage.get('left');
-    const codeSecurity = auth?.user?.left !== '' ? codeLeft: '2fa' + '-' + code;
+    const codeSecurity = auth?.user?.type2fa !== 1 ? codeLeft + '-' + code: '2fa' + '-' + code;
     dispatch(getLoginTwoFactor({ codeSecurity }));
   }
 
@@ -120,7 +120,7 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
 
   }
   function onPressResendCode() {
-    switch (infoUser?.dataUser?.type2fa) {
+    switch (auth?.user?.type2fa) {
       case 1:
         setCodeSmsEmail('2fa');
         break;
@@ -154,7 +154,7 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
   if (points?.successTransferGatewayLiquid) {
     navigation.navigate('ConfirmationTransfer', { amount: amount?.value });
   }
-  //console.log('auth', auth)
+  console.log('auth',auth,dataUser)
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
@@ -164,13 +164,13 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
       {/* <Text h14 blue02>{i18n.t('home.myBatchedTransfer.textRewardPoints')}</Text>
         <Text h16 white semibold>{thousandsSeparator(RewardsData?.total)}</Text>
       <Divider height-10 /> */}
-      {infoUser?.dataUser?.type2fa === 2 || auth?.user?.left !== '' && (
+      {auth?.user?.type2fa === 2 && (
         <Text h15 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentYou')}{' '}<Text h12 white>{maskNumbers(accounts?.phoneNumber)}</Text></Text>
       )}
-      {infoUser?.dataUser?.type2fa === 3 || auth?.user?.left !== '' && (
-        <Text h15 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentEmail')}{' '}<Text h12 white>{maskNumbers(accounts?.email)}</Text></Text>
+      {auth?.user?.type2fa === 3 && (
+        <Text h15 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentEmail')}{' '}<Text h12 white>{maskEmail(accounts?.email)}</Text></Text>
       )}
-      {infoUser?.dataUser?.type2fa === 1 || auth?.user?.left === '' && (
+      {auth?.user?.type2fa === 1 && (
         <Text h15 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentApp')}{' '}<Text white semibold>{i18n.t('home.myBatchedTransfer.textAuthenticatorApp')}</Text></Text>
       )}
       <Divider height-30 />

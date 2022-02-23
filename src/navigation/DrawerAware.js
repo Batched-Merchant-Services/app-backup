@@ -1,4 +1,4 @@
-import React,{ useState,useCallback }from 'react';
+import React, { useState, useCallback } from 'react';
 
 import {
   DrawerContentScrollView,
@@ -32,7 +32,7 @@ import Logo from '@assets/brandBatched/black-logo.svg';
 import { logoutSession } from '../store/actions/auth.actions';
 //import i18n from '@utils/i18n';
 import { useTranslation, Trans, I18nextProvider } from 'react-i18next';
-import { DevSettings,Linking,AsyncStorage,TouchableOpacity} from 'react-native';
+import { DevSettings, Linking, AsyncStorage, TouchableOpacity } from 'react-native';
 const {
   interpolate,
   Extrapolate
@@ -91,7 +91,7 @@ const CustomDrawer = props => {
   }, []);
 
 
-  
+
 
   const RenderLeftBack = ({ navigation }) => {
     function handleClose() {
@@ -118,21 +118,21 @@ const CustomDrawer = props => {
 
 
 
-  const CustomLabel = ({ navigation, onPress, label, logout, language, legal,...props }) => {
+  const CustomLabel = ({ navigation, onPress, label, logout, language, legal, ...props }) => {
 
     return (
       <View flex-1>
         {!language && !legal && (
-          <View flex-1 row centerV>
-            <Text h16 blue04 semibold>{label}</Text>
+          <View flex-1 row centerV >
+            <Text h14 blue04 semibold>{label}</Text>
             <View flex-1 right>
               <ImageResize source={logout ? blueLogOut : blueRowRight} height={verticalScale(12)} width={scale(12)} />
             </View>
           </View>
         )}
         {language && !legal && (
-          <View flex-1 row centerV style={{borderColor:'red',borderWidth:1}}>
-            <Text h16 blue04 semibold>{label}</Text>
+          <View flex-1 row centerV>
+            <Text h14 blue04 semibold>{label}</Text>
             <Divider width-10 />
             <View row right>
               <TouchableOpacity
@@ -158,25 +158,25 @@ const CustomDrawer = props => {
           </View>
         )}
 
-        {legal&&(
-            <TouchableOpacity onPress={showTerms}>
-              <View flex-1 row centerV>
-                <Text h16 blue04 semibold>{label}</Text>
-                <View flex-1 right>
-                  <ImageResize source={showTerm?blueRestPlus:blueIconPlus} height={verticalScale(12)} width={scale(12)} />
-                </View>
+        {legal && (
+          <TouchableOpacity onPress={showTerms}>
+            <View flex-1 row centerV>
+              <Text h14 blue04 semibold>{label}</Text>
+              <View flex-1 right>
+                <ImageResize source={showTerm ? blueRestPlus : blueIconPlus} height={verticalScale(12)} width={scale(12)} />
               </View>
-            </TouchableOpacity> 
+            </View>
+          </TouchableOpacity>
         )}
-        <Divider height-12 />
-        <View blue04 style={{width:'100%',height:1}}/>
+        <Divider height-10 />
+        <View blue04 style={{ width: '100%', height: 1 }} />
       </View>
     );
   };
 
   return (
     <Animated.View style={[
-      Styles.containerSideMenu, { backgroundColor: Colors.blue01}]} >
+      Styles.containerSideMenu, { backgroundColor: Colors.blue01 }]} >
       <SafeAreaView style={Styles.imageContainer} edges={['top']}>
         <Divider height-10 />
         <View row centerV marginH-10 >
@@ -184,14 +184,14 @@ const CustomDrawer = props => {
           <Divider width-20 />
           <Logo width={scale(120)} height={verticalScale(17)} fill="green" />
         </View>
-        <DrawerContentScrollView {...props} contentContainerStyle={Styles.drawerContentContainerStyle}>
-          <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('Dashboard')}>
-            <DrawerItem
-              label={({ focused }) => <CustomLabel label={'Distribution cycle'} />}
-            />
-          </Ripple>
+        <DrawerContentScrollView {...props} contentContainerStyle={{top: verticalScale(-30)}}>
+            <Ripple color={'rgb(0, 106, 200)'}  centered={true} onPress={() => navigation.navigate('Dashboard')}>
+              <DrawerItem
+                label={({ focused }) => <CustomLabel label={'Distribution cycle'} />}
+              />
+            </Ripple>
           <Ripple color={'rgb(0, 106, 200)'} centered={true}
-            >
+          >
             <DrawerItem
               label={({ focused }) => <CustomLabel label={'Enter referral code'} />}
             />
@@ -206,38 +206,38 @@ const CustomDrawer = props => {
               label={({ focused }) => <CustomLabel label={'My Batched'} />}
             />
           </Ripple>
-            <DrawerItem
-              label={({ focused }) => <CustomLabel label={'Legal information'} legal />}
-            />
-            {showTerm&&(
-              <View paddingL-20 centerV marginB-10>
-                <TouchableOpacity
+          <DrawerItem
+            label={({ focused }) => <CustomLabel label={'Legal information'} legal />}
+          />
+          {showTerm && (
+            <View paddingL-20 centerV marginB-10>
+              <TouchableOpacity
                 onPress={handlePress}
-                >
-                  <Text blue04 h5>{'\u2B24'}{' '}<Text h15 blue04 light>Terms and conditions</Text></Text>
-                </TouchableOpacity>
-                <Divider height-15 />
-                <TouchableOpacity
+              >
+                <Text blue04 h5>{'\u2B24'}{' '}<Text h15 blue04 light>Terms and conditions</Text></Text>
+              </TouchableOpacity>
+              <Divider height-15 />
+              <TouchableOpacity
                 onPress={handlePressLicenses}
-                >
-                  <Text blue04 h5>{'\u2B24'}{' '}<Text h15 blue04 light>Legal Privacy policy</Text></Text>
-                </TouchableOpacity>
-              </View>
-             
-            )}
+              >
+                <Text blue04 h5>{'\u2B24'}{' '}<Text h15 blue04 light>Legal Privacy policy</Text></Text>
+              </TouchableOpacity>
+            </View>
+
+          )}
           <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('HomeContact')}>
             <DrawerItem
               label={({ focused }) => <CustomLabel label={'Contact'} />}
             />
           </Ripple>
-          <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('Auth2fa')}>
+          <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() =>  navigation.navigate('SignIn',{screen: 'Auth2fa'})}>
             <DrawerItem
               label={({ focused }) => <CustomLabel label={'Security'} />}
             />
           </Ripple>
-            <DrawerItem
-              label={({ focused }) => <CustomLabel label={'Language'} language />}
-            />
+          <DrawerItem
+            label={({ focused }) => <CustomLabel label={'Language'} language />}
+          />
           <Ripple color={'rgb(0, 106, 200)'} centered={true}
             // onPress={() => {
             //   navigation.navigate('SignIn', {
@@ -245,7 +245,7 @@ const CustomDrawer = props => {
             //   })
             // }}
             onPress={handleLogout}
-            >
+          >
             <DrawerItem
               label={({ focused }) => <CustomLabel label={'Logout'} logout />}
             />

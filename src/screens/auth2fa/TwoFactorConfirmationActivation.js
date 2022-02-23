@@ -23,26 +23,30 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const appData = redux.app;
+  const authData = redux?.auth;
   const brandTheme = appData?.Theme?.colors;
   const { colors } = useTheme();
-  const [showModalDates, setShowModalDates] = useState(false);
+  const [showModalDates, setShowModalDates] = useState(true);
+  const [showDisabled, setShowDisabled] = useState(true);
   const [clabe, setClabe] = useState('BCWFNUJDXPOLQW4E5LEITVS');
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   const copyToClipboard = () => {
     Clipboard.setString(clabe);
   }
 
-  function handleShowModal() {
-    setShowModalDates(true)
+  function handleGoToAuth() {
+    navigation.navigate("Auth2fa");
   }
+  useEffect(() => {
+    setClabe(authData?.dataQrCode?.secretCode)
+  }, [authData?.dataQrCode]);
 
   const handleClose = () => {
     setShowModalDates(!showModalDates);
-    navigation.navigate('Auth2fa');
-    // if (!valueData&&showModalDates) {
-    //   onSelect({name:'select',value:''});
-    // }
+
+    setTimeout(() => {
+      setShowDisabled(false);
+    }, 3000); 
   };
  
   return (
@@ -55,12 +59,12 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
       <Text h10 white semibold>{i18n.t('Auth2fa.textRememberToEnter')}</Text>
       <Divider height-20 />
       <View row padding-10 centerV style={{ borderColor: colors.blue02, borderWidth: 1 }}>
-        <IconKey width={scale(30)} height={verticalScale(30)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
-        <Divider width-10 />
-        <Text blue02 h12 semibold>{clabe}</Text>
-        <Divider width-10 />
+        <IconKey width={scale(25)} height={verticalScale(25)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
+        <Divider width-5 />
+        <Text white h10 semibold>{clabe}</Text>
+        <Divider width-5 />
         <Link onPress={() => copyToClipboard()}>
-          <Text h14 blue02>{i18n.t('Auth2fa.linkCopy')}</Text>
+          <Text h10 blue02>{i18n.t('Auth2fa.linkCopy')}</Text>
         </Link>
       </View>
       <Divider height-20 />
@@ -77,7 +81,8 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
       <View flex-1 bottom>
         <ButtonRounded
           blue
-          onPress={handleShowModal}
+          onPress={handleGoToAuth}
+          disable={showDisabled}
         >
           <Text h13 semibold white center>
             {i18n.t('Auth2fa.buttonBackToSecurity')}

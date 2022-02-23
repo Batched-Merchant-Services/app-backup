@@ -13,28 +13,21 @@ import Styles from './styles';
 const ModalAuth2fa = ({ visible, onRequestClose, getData, onPressOverlay, ...props }) => {
   const redux = useSelector(state => state);
   const appData = redux.user;
+  const authData = redux?.auth;
   const brandTheme = appData?.Theme?.colors;
-  const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState('date');
-  const [show, setShow] = useState(false);
   const [showButtonModal, setShowButtonModal] = useState(true);
   const [clabe, setClabe] = useState('BCWFNUJDXPOLQW4E5LEITVS');
   const { colors } = useTheme();
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    const format = formatDate(currentDate);
-    setShow(Platform.OS === 'ios');
-    setDate(currentDate);
-    getData(format)
 
-  };
+  useEffect(() => {
+    setClabe(authData?.dataQrCode?.secretCode)
+  }, [authData?.dataQrCode]);
 
   useEffect(() => {
     setTimeout(() => {
       setShowButtonModal(false);
     }, 5000);
-   
   }, [showButtonModal]);
   
   return (
@@ -48,15 +41,15 @@ const ModalAuth2fa = ({ visible, onRequestClose, getData, onPressOverlay, ...pro
           <Divider height-30 />
           <IconKey width={scale(80)} height={verticalScale(80)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
           <Divider height-20 />
-          <Text h18 regular blue02>No olvides respaldar tu llave antes de irte!</Text>
+          <Text h18 regular blue02>{i18n.t('Auth2fa.textDontForgetTo')}!</Text>
           <Divider height-10 />
-          <Text h12 light white>Es la forma de{' '}<Text white semibold>recuperar tu autenticación en caso de que cambies de dispositivo o aplicación.</Text></Text>
+          <Text h12 light white>{i18n.t('Auth2fa.textIsTheFormOf')}{' '}<Text white semibold>{i18n.t('Auth2fa.textRecoverYourAuthenticationIn')}</Text></Text>
           <Divider height-10 />
           <View row padding-10 centerV style={{ borderColor: colors.blue02, borderWidth: 1 }}>
-            <Text white h13 medium>{clabe}</Text>
+            <Text white h10 medium>{clabe}</Text>
             <Divider width-8 />
             <Link>
-              <Text h12 blue02>copiar</Text>
+              <Text h12 blue02>{i18n.t('Auth2fa.linkCopy')}</Text>
             </Link>
           </View>
           <Divider height-20 />
@@ -64,11 +57,11 @@ const ModalAuth2fa = ({ visible, onRequestClose, getData, onPressOverlay, ...pro
             <IconWarning width={scale(18)} height={verticalScale(18)} fill={brandTheme?.white ?? colors?.white} fillSecondary={brandTheme?.warning ?? colors?.warning} />
             <Divider width-10 />
             <View flex-1>
-              <Text h12 semibold white>Guarda tu llave donde puedas recuperarla,{' '}<Text regular white>se requerirá en caso de que cambies tu dispositivo.</Text></Text>
+              <Text h12 semibold white>{i18n.t('Auth2fa.textKeepYourKeyWhere')},{' '}<Text regular white>{i18n.t('Auth2fa.textItWillBeRequired')}</Text></Text>
             </View>
           </View>
           <Divider height-20 />
-          <Text h12 regular white>Nunca compartas tu llave con nadie.</Text>
+          <Text h12 regular white>{i18n.t('Auth2fa.textNeverShareYour')}</Text>
           <Divider height-20 />
           <View flex-1 bottom centerH >
             <ButtonRounded
@@ -77,7 +70,7 @@ const ModalAuth2fa = ({ visible, onRequestClose, getData, onPressOverlay, ...pro
               dark
             >
               <Text h14 semibold white>
-                Ya respaldé mi clave
+                {i18n.t('Auth2fa.textIAlreadyBackedUpPassword')}
               </Text>
             </ButtonRounded>
           </View>

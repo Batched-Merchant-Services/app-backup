@@ -42,11 +42,11 @@ const EnterOldCode = ({ navigation, route, navigation: { goBack } }) => {
       <View centerH>
         <IconClock width={scale(180)} height={verticalScale(180)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
       </View>
-      <Text h16 regular blue02>Cambiar autenticación de dos factores a nuevo dispositivo</Text>
+      <Text h16 regular blue02>{i18n.t('Auth2fa.textSwitchTwoFactorAuthentication')}</Text>
       <Divider height-10 />
-      <Text h12 white light>Ingresa el código que aparece en tu dispositivo registrado actualmente.</Text>
+      <Text h12 white light>{i18n.t('Auth2fa.textEnterTheCodeThatAppears')}</Text>
       <Divider height-10 />
-      <Text h12 white semibold>Ingresa el código que obteniste,<Text h12 white>si el tiempo se acaba vuelve a ingresarlo.</Text></Text>
+      <Text h12 white semibold>{i18n.t('Auth2fa.textEnterTheCodeYouYot')}<Text h12 white>{i18n.t('Auth2fa.textIfTimeRunsOutReEnter')}</Text></Text>
       <Divider height-30 />
       <Text h12 blue02>{i18n.t('home.myBatchedTransfer.textConfirmationCode')}</Text>
       <Divider height-10 />

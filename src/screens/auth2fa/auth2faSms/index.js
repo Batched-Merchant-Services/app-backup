@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
   Text,
   View,
-  Link,
   Divider,
   ButtonRounded,
   BackgroundWrapper
@@ -11,9 +10,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import i18n from '@utils/i18n';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { useTheme } from '@react-navigation/native';
-import IconWarning from '@assets/iconSVG/IconWarning';
-import QRCode from 'react-native-qrcode-svg';
-import Styles from './styles';
 import IconAuthSms from '@assets/iconSVG/IconAuth2fa/IconAuthSms';
 
 const Auth2faSms = ({ navigation, route, navigation: { goBack } }) => {

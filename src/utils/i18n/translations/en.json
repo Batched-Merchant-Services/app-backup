@@ -452,7 +452,27 @@
       "linkOptions":"Options",
       "textAuthenticationVia":"Authentication via",
       "textEmail":"Email",
-      "textSMS":"SMS"
+      "textSMS":"SMS",
+      "textSMSAuthenticationActivated":"SMS authentication enabled",
+      "textEmailAuthenticationActivated":"Email authentication activated",
+      "textRememberToEnterSixDigits":"Remember to re-enter the code",
+      "textYouWillReceivePhone":"you will receive on your Phone",
+      "textYouWillReceiveEmail":"you will receive on your Email",
+      "textYouWillReceiveApp":"you will receive on your App",
+      "textEveryTimeYouLog":"every time you log in or make a transaction.",
+      "textDontForgetTo":"Don't forget to back up your key before you leave",
+      "textIsTheFormOf":"Is the form of",
+      "textRecoverYourAuthenticationIn":"recover your authentication in case you change devices or applications.",
+      "textIAlreadyBackedUpPassword":"I already backed up my password",
+      "textSwitchTwoFactorAuthentication":"Switch two-factor authentication to new device",
+      "textEnterTheCodeThatAppears":"Enter the code that appears on your currently registered device.",
+      "textEnterTheCodeYouYot":"Enter the code you got,",
+      "textIfTimeRunsOutReEnter":"if time runs out re-enter.",
+      "textToSupportAuthentication":"To support authentication use your copy of the security key",
+      "textToStartANewConfiguration":"To start a new configuration, please follow the steps below",
+      "textOpenTheAuthenticatorApp":"1. Open the authenticator app you use.",
+      "textAddANewAccount":"2. Add a new account in the authenticator app.",
+      "textSelectTheManualOption":"3. Select the manual option and enter the previously stored security key."
     }
   }
 }

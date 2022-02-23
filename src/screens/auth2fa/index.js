@@ -4,17 +4,11 @@ import {
   View,
   Link,
   Divider,
-  SnackNotice,
-  ButtonRounded,
-  FloatingInput,
   BackgroundWrapper
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
-import { useValidatedInput } from '@hooks/validation-hooks';
 import i18n from '@utils/i18n';
 import { scale, verticalScale } from 'react-native-size-matters';
-import { cleanErrorLicenses, getLicenses, saveCurrentLicense } from '@store/actions/licenses.actions';
-import { toggleSnackbarClose } from '@store/actions/app.actions';
 import IconSecurityLock from '@assets/iconSVG/IconAuth2fa/IconSecurityLock';
 import { TouchableOpacity, Switch } from 'react-native';
 import { useTheme } from '@react-navigation/native';
@@ -24,7 +18,8 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const appData = redux.app;
-  const infoUser = redux?.user;
+  const auth = redux?.auth;
+  const user = redux?.user;
   const brandTheme = appData?.Theme?.colors;
   const { colors } = useTheme();
   const [isEnabledApp, setIsEnabledApp] = useState(false);
@@ -32,7 +27,8 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
   const [isEnabledSMS, setIsEnabledSMS] = useState(false);
 
   useEffect(() => {
-    switch (infoUser?.dataUser?.type2fa) {
+    console.log('auth?.user?.type2f',user)
+    switch (user?.dataUser?.type2fa) {
       case 1:
         setIsEnabledApp(true);
       break;
@@ -46,30 +42,33 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
   }, []);
   
 
-  
   const toggleSwitchApp = () => {
     setIsEnabledApp(previousState => !previousState);
     setIsEnabledEmail(false);
     setIsEnabledSMS(false);
     navigation.navigate("TwoFactorInstructions")
   }
+
   const toggleSwitchEmail = () => {
     setIsEnabledEmail(previousState => !previousState);
     setIsEnabledApp(false);
     setIsEnabledSMS(false);
     navigation.navigate("Auth2faEmail")
   }
+
   const toggleSwitchSMS = () => {
     setIsEnabledSMS(previousState => !previousState);
     setIsEnabledEmail(false);
     setIsEnabledApp(false);
     navigation.navigate("Auth2faSms");
+  }
+
+  const handleGoToOptions = () => {
+    navigation.navigate("TwoFactorOptions");
     
   }
 
-
-
-
+  
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
       <View centerV padding-20 style={{ borderColor: colors.blue02, borderWidth: 1 }}>
@@ -101,14 +100,13 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
           <Text white light>{i18n.t('Auth2fa.textThatYouWillGetWhen')}</Text></Text>
         <Divider height-10 />
         <View row>
-          <View left>
+          <View flex-1 left>
             <Text h14 regular white >{i18n.t('Auth2fa.textTwoFactorAuthenticationApp')}</Text>
-            <Divider height-10 />
-            <Link>
+            <Link onPress={handleGoToOptions}>
               <Text h12 blue02 semibold>{i18n.t('Auth2fa.linkOptions')}</Text>
             </Link>
           </View>
-          <View flex-1 right >
+          <View  right >
             <Switch
               trackColor={{ false: colors.blue04, true: colors.blue02 }}
               thumbColor={colors.white}
@@ -122,10 +120,10 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
         <Divider style={[Styles.borderDoted, { borderColor: colors.blue04 }]} />
         <Divider height-10 />
         <View row>
-          <View left>
+          <View flex-1 left>
             <Text h14 regular white >{i18n.t('Auth2fa.textAuthenticationVia')}{' '}<Text white semibold>{i18n.t('Auth2fa.textSMS')}</Text></Text>
           </View>
-          <View flex-1 right>
+          <View right>
             <Switch
               trackColor={{ false: colors.blue04, true: colors.blue02 }}
               thumbColor={colors.white}
@@ -140,10 +138,10 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
 
         <Divider height-10 />
         <View row>
-          <View left>
+          <View flex-1 left>
             <Text h14 regular white>{i18n.t('Auth2fa.textAuthenticationVia')}{' '}<Text white semibold>{i18n.t('Auth2fa.textEmail')}</Text></Text>
           </View>
-          <View flex-1 right>
+          <View right>
             <Switch
               trackColor={{ false: colors.blue04, true: colors.blue02 }}
               thumbColor={colors.white}

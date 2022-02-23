@@ -7,6 +7,7 @@ query ($user:String!,$password:String!,$languaje:Int!,$id:String!,$groupid:Int!,
       uuid
       timeOut
       isTwoFactor
+      type2fa
       left        
   }
   
@@ -18,6 +19,8 @@ query ($token:String!,$code:String!){
       token
       uuid
       timeOut
+      isTwoFactor
+      type2fa
   }
 }`;
 

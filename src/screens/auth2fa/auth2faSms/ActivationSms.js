@@ -42,7 +42,7 @@ const ActivationSms = ({ navigation, route, navigation: { goBack } }) => {
 
 
   if (authData?.successActivateSms) {
-    navigation.navigate('SignOut',{
+    navigation.navigate('SignIn',{
       screen: 'ConfirmationAuth',
       params: { page:'SMS'}
     })

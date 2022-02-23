@@ -91,6 +91,26 @@ export const maskNumbers = cardNumber => {
   return '';
 };
 
+export const maskEmail = cardNumber => {
+  if (cardNumber) {
+    const chunks = String(cardNumber).match(/.{0,4}/g);
+    console.log('chunks',chunks)
+    const maskedArray = chunks.map((element, index) => {
+      console.log('element',element,index)
+      if (index === 0  || index === 1) {
+        return element.replace(/[^0-9]+/g, "*");
+       
+      } else {
+        return element;
+      }
+    });
+
+    return maskedArray.join('');
+  }
+  return '';
+};
+
+
 export const formatCardExpiration = date => {
   if (date) {
     return date.substr(0, 2) + '/' + date.substr(2, 4);

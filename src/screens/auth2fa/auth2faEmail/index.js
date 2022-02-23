@@ -11,7 +11,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import i18n from '@utils/i18n';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { useTheme } from '@react-navigation/native';
-import Styles from './styles';
 import IconAuthEmail from '@assets/iconSVG/IconAuth2fa/IconAuthEmail';
 
 const Auth2faEmail = ({ navigation, route, navigation: { goBack } }) => {

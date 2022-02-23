@@ -12,17 +12,16 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import i18n from '@utils/i18n';
-import { scale, verticalScale } from 'react-native-size-matters';
-import { useTheme } from '@react-navigation/native';
-import Styles from './styles';
 import { validateCodeEmail,Activation2faEmail,cleanError } from '@store/actions/auth.actions';
 import Loading from '../../Loading';
+import { maskEmail } from '../../../utils/formatters';
 
 const ActivationEmail = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const appData = redux.app;
   const authData = redux?.auth;
+  const dataUser = redux?.user;
   const brandTheme = appData?.Theme?.colors;
   const codeActivation = useValidatedInput('number', '');
   const [codeSmsEmail, setCodeSmsEmail] = useState(authData?.dataCode);
@@ -39,11 +38,15 @@ const ActivationEmail = ({ navigation, route, navigation: { goBack } }) => {
   }, []);
 
   if (authData?.successActivateEmail) {
-    navigation.navigate('SignOut',{
+    navigation.navigate('SignIn',{
       screen: 'ConfirmationAuth',
       params: { page:'Email'}
     })
   }
+
+  useEffect(() => {
+    setCodeSmsEmail(authData?.dataCode);
+  }, [authData?.dataCode])
 
   console.log('authData?.isActivateSms',authData?.isActivateSms,authData?.isValidateCode)
 
@@ -51,7 +54,7 @@ const ActivationEmail = ({ navigation, route, navigation: { goBack } }) => {
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
       <Text h20 regular blue02>{i18n.t('Auth2fa.textActivateEmailAuthentication')}</Text>
       <Divider height-20 />
-      <Text h10 white regular>{i18n.t('Auth2fa.textToEnableEmailAuthentication')}{' '}<Text white semibold>{maskNumbers(accounts?.email)}</Text></Text>
+      <Text h10 white regular>{i18n.t('Auth2fa.textToEnableEmailAuthentication')}{' '}<Text white semibold>{maskEmail(dataUser?.dataUser?.email)}</Text></Text>
       <Divider height-20 />
       <Text h10 white regular>{i18n.t('Auth2fa.textPleaseEnterTheSecurity')}</Text>
       <Divider height-30 />

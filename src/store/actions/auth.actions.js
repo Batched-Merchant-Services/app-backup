@@ -57,7 +57,6 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
         await LocalStorage.set('left', left);
         dispatch(userInactivity(true));
         if(!isTwoFactor) {
-          dispatch(getDataUser());
           dispatch(getLicenses());
         }
       }
@@ -87,19 +86,21 @@ export const getLoginTwoFactor = ({ codeSecurity }) => async (dispatch) => {
       nextFetchPolicy : 'network-only'
     }).then(async (response) => {
       if (response.data) {
+        console.log('response.data two factor',response.data)
         const { token,uuid } = response?.data['getLogginTwoFactor'];
         dispatch({ type: LOGIN_TWO_FACTORS_SUCCESS, payload: response?.data['getLogginTwoFactor'] });
         await LocalStorage.set('auth_token', token);
         await LocalStorage.set('uuid', uuid);
         dispatch(userInactivity(true));
         dispatch(getLicenses());
-        dispatch(getDataUser());
       }
     }).catch((error) => {
+      console.log('error1 two factor',error)
       dispatch({ type: LOGIN_ERROR, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
+    console.log('error2 two factor',error)
     dispatch({ type: LOGIN_ERROR, payload: error });
   }
 
@@ -160,7 +161,6 @@ export const Activation2faApp = ({code}) => async (dispatch) => {
 
 
 export const Activation2faSms = ({codeComposition}) => async (dispatch) => {
-  console.log('codeeeeee',code)
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: GET_ENABLE_SMS });
@@ -191,13 +191,14 @@ export const Activation2faSms = ({codeComposition}) => async (dispatch) => {
 
 export const Activation2faEmail = ({codeComposition}) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
+  console.log('codeComposition',codeComposition)
   try {
     dispatch({ type: GET_ENABLE_EMAIL });
       client.mutate({
       mutation: ACTIVATION_EMAIL,
       variables: {
         token    : token,
-        code     : codeComposition?codeComposition.toString():'',
+        code     : codeComposition,
         isPrimary: true
       },
       fetchPolicy : 'network-only' ,  

@@ -10,7 +10,6 @@ const PinInput = ({ value, error, onChangeText, onSubmit,pinLength = 6, ...props
   const redux = useSelector(state => state);
   const appData = redux.user;
   const brandTheme = appData?.Theme?.colors;
-  console.log('value',value.length)
   var arrayComplete =[];
   const values = value
     .padEnd(pinLength)
@@ -39,8 +38,8 @@ const PinInput = ({ value, error, onChangeText, onSubmit,pinLength = 6, ...props
     }
      values[index] = text.length ? text : '';
      onChangeText(values.join(''));
-     if (index + 1 === pinLength) {
-        console.log('index',values.join(''))
+    
+     if (value.length+ 1  === pinLength && text.length !== 0) {
         onSubmit(values.join(''));
       }
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Dimensions} from 'react-native'
+import { Dimensions } from 'react-native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import CustomDrawer from "./DrawerAware";
@@ -63,8 +63,8 @@ const Stack = createNativeStackNavigator();
 const DrawerScreen = () => {
   //aqui pondremos las que contienen un menu deslizable
   return (
-    <Drawer.Navigator 
-    drawerContent={(props) => <CustomDrawer {...props} /> } drawerStyle={{ width: "100%"}}>
+    <Drawer.Navigator
+      drawerContent={(props) => <CustomDrawer {...props} />} drawerStyle={{ width: "100%" }}>
       <Drawer.Screen name="Dashboard" options={{
         headerShown: false,
       }} component={Dashboard} />
@@ -86,12 +86,13 @@ const DrawerScreen = () => {
 }
 
 const signOutScreens = () => {
-   //aqui pondremos las que contienen un menu 
+  //aqui pondremos las que contienen un menu 
   return (
     <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false, gestureEnabled: false }}>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="CodeSms" component={CodeSms} />
+      <Stack.Screen name="ConfirmSms" component={ConfirmSms} />
       <Stack.Screen name="TermConditions" component={TermsAndConditions} />
       <Stack.Screen name="SecretAnswer" component={SecretAnswer} />
       <Stack.Screen name="ReferralCode" component={ReferralCode} />
@@ -109,40 +110,38 @@ const signOutScreens = () => {
       <Stack.Screen name="NewPassword" component={NewPassword} />
       <Stack.Screen name="EmailConfirm" component={EmailConfirm} />
       <Stack.Screen name="ConfirmationForgot" component={Confirmation} />
+    </Stack.Navigator>
+  );
+}
+const signInScreens = () => {
+  //aqui pondremos las que no contienen un menu  pero son de adentro haciendo login
+  return (
+    <Stack.Navigator initialRouteName="ConfirmationTransfer" screenOptions={{ headerShown: false, gestureEnabled: false }}>
+      <Stack.Screen name="ConfirmationTransfer" component={ConfirmationTransfer} />
+      <Stack.Screen name="TransferOption" component={TransferOption} />
+      <Stack.Screen name="PersonalInformation" component={PersonalInformation} />
+      <Stack.Screen name="ContactInformation" component={ContactInformation} />
+      <Stack.Screen name="BankInformation" component={BankInformation} />
+      <Stack.Screen name="ProfilePicture" component={ProfilePicture} />
+      <Stack.Screen name="VerificationInformation" component={VerificationInformation} />
+      <Stack.Screen name="ConfirmationContact" component={ConfirmationContact} />
+      <Stack.Screen name="LogOut" component={LogOut} />
       <Stack.Screen name="Auth2fa" component={Auth2fa} />
       <Stack.Screen name="TwoFactorInstructions" component={TwoFactorInstructions} />
       <Stack.Screen name="TwoFactorActivation" component={TwoFactorActivation} />
-      <Stack.Screen name="TwoFactorCodeActivation" component={TwoFactorCodeActivation} /> 
-      <Stack.Screen name="TwoFactorConfirmationActivation" component={TwoFactorConfirmationActivation} /> 
-      <Stack.Screen name="TwoFactorOptions" component={TwoFactorOptions} /> 
-      <Stack.Screen name="Auth2faSms" component={Auth2faSms} /> 
-      <Stack.Screen name="ActivationSms" component={ActivationSms} /> 
-      <Stack.Screen name="Auth2faEmail" component={Auth2faEmail} /> 
-      <Stack.Screen name="ActivationEmail" component={ActivationEmail} /> 
+      <Stack.Screen name="TwoFactorCodeActivation" component={TwoFactorCodeActivation} />
+      <Stack.Screen name="TwoFactorConfirmationActivation" component={TwoFactorConfirmationActivation} />
+      <Stack.Screen name="TwoFactorOptions" component={TwoFactorOptions} />
+      <Stack.Screen name="Auth2faSms" component={Auth2faSms} />
+      <Stack.Screen name="ActivationSms" component={ActivationSms} />
+      <Stack.Screen name="Auth2faEmail" component={Auth2faEmail} />
+      <Stack.Screen name="ActivationEmail" component={ActivationEmail} />
       <Stack.Screen name="Auth2faApp" component={Auth2faApp} />
       <Stack.Screen name="ConfirmationAuth" component={ConfirmationAuth} />
       <Stack.Screen name="EnterOldCode" component={EnterOldCode} />
       <Stack.Screen name="SupportAuthentication" component={SupportAuthentication} />
-      
     </Stack.Navigator>
   );
-} 
-const signInScreens = () => {
-  //aqui pondremos las que no contienen un menu  pero son de adentro haciendo login
- return (
-   <Stack.Navigator initialRouteName="ConfirmationTransfer" screenOptions={{ headerShown: false,gestureEnabled: false }}>
-     <Stack.Screen name="ConfirmationTransfer" component={ConfirmationTransfer} />
-     <Stack.Screen name="ConfirmSms" component={ConfirmSms} />
-     <Stack.Screen name="TransferOption" component={TransferOption} />
-     <Stack.Screen name="PersonalInformation" component={PersonalInformation} />
-     <Stack.Screen name="ContactInformation" component={ContactInformation} />
-     <Stack.Screen name="BankInformation" component={BankInformation} />
-     <Stack.Screen name="ProfilePicture" component={ProfilePicture} />
-     <Stack.Screen name="VerificationInformation" component={VerificationInformation} />
-     <Stack.Screen name="ConfirmationContact" component={ConfirmationContact} />
-     <Stack.Screen name="LogOut" component={LogOut} />
-   </Stack.Navigator>
- );
 }
 
-export { signInScreens, signOutScreens,DrawerScreen };
+export { signInScreens, signOutScreens, DrawerScreen };

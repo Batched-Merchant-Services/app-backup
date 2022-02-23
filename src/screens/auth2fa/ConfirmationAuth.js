@@ -39,30 +39,30 @@ const ConfirmationAuth = ({ navigation, route, navigation: { goBack } }) => {
       </View>
       <View width-170>
       {params.page === 'SMS' &&(
-        <Text h18 regular blue02>Autenticación vía SMS activada</Text>
+        <Text h18 regular blue02>{i18n.t('Auth2fa.textSMSAuthenticationActivated')}</Text>
       )}
       {params.page === 'Email' &&(
-        <Text h18 regular blue02>Autenticación vía email activada</Text>
+        <Text h18 regular blue02>{i18n.t('Auth2fa.textEmailAuthenticationActivated')}</Text>
       )}
       {params.page === 'App' &&(
-        <Text h18 regular blue02>Autenticación de dos factores activada</Text>
+        <Text h18 regular blue02>{i18n.t('Auth2fa.textTwoFactorAuthenticationActivated')}</Text>
       )}
       
       </View>
       <Divider height-20 />
       <View blue01 width-36 height-1 />
       <Divider height-20 />
-      <Text h13 white regular>Recuerda reingresar el código que 
+      <Text h13 white regular>{i18n.t('Auth2fa.textRememberToEnterSixDigits')} 
       {params.page === 'SMS' &&(
-        <Text blue02 semibold>{' '}recibirás en tu Mobil{' '}</Text>
+        <Text blue02 semibold>{' '}{i18n.t('Auth2fa.textYouWillReceivePhone')}{' '}</Text>
       )} 
       {params.page === 'Email' &&(
-        <Text  blue02>{' '}recibirás en tu  Email{' '}</Text>
+        <Text  blue02>{' '}{i18n.t('Auth2fa.textYouWillReceiveEmail')}{' '}</Text>
       )}
       {params.page === 'App' &&(
-        <Text  blue02>{' '}recibirás en tu  App{' '}</Text>
+        <Text  blue02>{' '}{i18n.t('Auth2fa.textYouWillReceiveApp')}{' '}</Text>
       )}
-      cada vez que inicies sesión o realices una transacción. </Text>
+      {i18n.t('Auth2fa.textEveryTimeYouLog')}</Text>
       <Divider height-20 />
       
       <View flex-1 bottom>
@@ -71,7 +71,7 @@ const ConfirmationAuth = ({ navigation, route, navigation: { goBack } }) => {
           onPress={() => navigation.navigate('Auth2fa')}
         >
           <Text h13 semibold white center>
-            Volver a seguridad
+          {i18n.t('Auth2fa.buttonBackToSecurity')}
           </Text>
         </ButtonRounded>
         {/* <SnackNotice

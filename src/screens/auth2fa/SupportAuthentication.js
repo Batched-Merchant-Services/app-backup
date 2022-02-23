@@ -35,15 +35,15 @@ const SupportAuthentication = ({ navigation, route, navigation: { goBack } }) =>
   return (
     <BackgroundWrapper showNavigation={true}  navigation={navigation}>
        <Divider height-30 />
-      <Text h16 regular blue02>Para respaldar la autenticación autenticación utilice su copia de la clave de seguridad</Text>
+      <Text h16 regular blue02>{i18n.t('Auth2fa.textToSupportAuthentication')}</Text>
       <Divider height-20 />
-      <Text h14 white semibold>Para iniciar una nueva configuración, por favor siga los pasos a continuación</Text>
+      <Text h14 white semibold>{i18n.t('Auth2fa.textToStartANewConfiguration')}</Text>
       <Divider height-20 />
-      <Text h12 light white>1. Abre la aplicación de autentificación que utilizas.</Text>
+      <Text h12 light white>{i18n.t('Auth2fa.textOpenTheAuthenticatorApp')}</Text>
       <Divider height-20 />
-      <Text h12 light white>2. Agrega una nueva cuenta en la aplicación de autentificación.</Text>
+      <Text h12 light white>{i18n.t('Auth2fa.textAddANewAccount')}</Text>
       <Divider height-20 />
-      <Text h12 light white>3. Seleccione la opción manual e ingresa la llave de seguridad previamente almacenada.</Text>
+      <Text h12 light white>{i18n.t('Auth2fa.textSelectTheManualOption')}</Text>
 
       {/* <Loading modalVisible={points?.isLoadingRewardsPoints} /> */}
       <View flex-1 bottom>
@@ -52,7 +52,7 @@ const SupportAuthentication = ({ navigation, route, navigation: { goBack } }) =>
           onPress={() => navigation.navigate('Auth2fa')}
         >
           <Text h13 semibold white center>
-            Continuar
+            {i18n.t('Auth2fa.linkContinue')}
           </Text>
         </ButtonRounded>
         {/* <SnackNotice

@@ -31,8 +31,6 @@ const Login = ({ navigation }) => {
   const redux = useSelector(state => state);
   const [values, setValues] = useState(false);
   const authData = redux?.auth;
-  const dataUser = redux?.user;
-  const userProfile = authData?.dataUser;
   const licensesData = redux?.licenses;
   const email = useValidatedInput('', '');
   const password = useValidatedInput('password', '');
@@ -56,9 +54,11 @@ const Login = ({ navigation }) => {
     console.log('authData?.user?.isTwoFactor',authData?.user?.isTwoFactor)
     if (authData?.user?.isTwoFactor) {
       if (!authData?.user?.isTwoFactor) {
-        navigation.navigate('Auth2fa');
-      } else {
         navigation.navigate('SignIn', {
+          screen: 'Auth2fa'
+        });
+      } else {
+        navigation.navigate('SignOut', {
           screen: 'ConfirmSms',
           params: { page: 'Login' }
         });

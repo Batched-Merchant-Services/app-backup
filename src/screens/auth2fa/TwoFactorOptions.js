@@ -27,7 +27,7 @@ const TwoFactorOptions = ({ navigation, route, navigation: { goBack } }) => {
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   function handleSupport() {
-    navigation.navigate('SignOut',{screen: 'SupportAuthentication'});
+    navigation.navigate('SignIn',{screen: 'SupportAuthentication'});
     
   }
 
@@ -43,7 +43,7 @@ const TwoFactorOptions = ({ navigation, route, navigation: { goBack } }) => {
       <View row>
         <IconAsterisk width={scale(30)} height={verticalScale(30)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
         <Divider width-10 />
-        <View left>
+        <View flex-1 left>
           <Text h14 white regular>{i18n.t('Auth2fa.textSwitchTwoFactor')}</Text>
           <Divider height-5 />
           <Text h12 white regular>{i18n.t('Auth2fa.textUseYourCurrent')}</Text>
@@ -57,13 +57,13 @@ const TwoFactorOptions = ({ navigation, route, navigation: { goBack } }) => {
       <View row>
         <IconKey width={scale(30)} height={verticalScale(30)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
         <Divider width-10 />
-        <View left>
+        <View flex-1 left>
           <Text h14 white regular>{i18n.t('Auth2fa.textAuthenticationSupport')}</Text>
           <Divider height-5 />
           <Text h12 white regular>{i18n.t('Auth2fa.textAuthenticationSupport')}</Text>
           <Divider height-5 />
           <Link onPress={handleSupport}>
-            <Text h12 blue02 medium>{i18n.t('Auth2fa.textSetUpADifferent')}</Text>
+            <Text h12 blue02 medium left>{i18n.t('Auth2fa.textSetUpADifferent')}</Text>
           </Link>
         </View>
       </View>

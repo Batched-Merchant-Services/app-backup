@@ -225,7 +225,6 @@ export default authReducer = (state = initialState, action) => {
         successActivateEmail:false,
         showError: true,
         error: action.payload,
-        user: null,
         success: {},
       };
     case SET_ERROR:
