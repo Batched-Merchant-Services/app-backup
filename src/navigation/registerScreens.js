@@ -88,7 +88,7 @@ const DrawerScreen = () => {
 const signOutScreens = () => {
   //aqui pondremos las que contienen un menu 
   return (
-    <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false, gestureEnabled: false }}>
+    <Stack.Navigator initialRouteName="TermConditions" screenOptions={{ headerShown: false, gestureEnabled: false }}>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="CodeSms" component={CodeSms} />
@@ -116,7 +116,7 @@ const signOutScreens = () => {
 const signInScreens = () => {
   //aqui pondremos las que no contienen un menu  pero son de adentro haciendo login
   return (
-    <Stack.Navigator initialRouteName="ConfirmationTransfer" screenOptions={{ headerShown: false, gestureEnabled: false }}>
+    <Stack.Navigator initialRouteName="BankInformation" screenOptions={{ headerShown: false, gestureEnabled: false }}>
       <Stack.Screen name="ConfirmationTransfer" component={ConfirmationTransfer} />
       <Stack.Screen name="TransferOption" component={TransferOption} />
       <Stack.Screen name="PersonalInformation" component={PersonalInformation} />

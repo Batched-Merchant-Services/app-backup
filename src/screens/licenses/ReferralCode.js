@@ -73,7 +73,7 @@ const ReferralCode = ({ navigation }) => {
       <FloatingInput
         {...referenceCode}
         label={i18n.t('Licenses.inputReferenceCode')}
-        keyboardType={'number-pad'}
+        keyboardType={'default'}
         autoCapitalize={'none'}
       />
       <Divider height-5 />
@@ -122,9 +122,6 @@ const ReferralCode = ({ navigation }) => {
             {i18n.t('Licenses.buttonContinue')}
           </Text>
         </ButtonRounded>
-      </View>
-      <View flex-1 bottom>
-        <Text h10 white light>Morbi aliquam nisi diam, vitae laoreet neque ultrices sed. Maecenas at dui auctor arcu condimentum congue. Duis vel ligula in felis cursus pellentesque. Nam tellus tellus, gravida ut luctus a, pellentesque nec est.</Text>
       </View>
       <SnackNotice
         visible={error}

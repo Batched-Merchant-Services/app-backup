@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, Fragment } from 'react';
 
 import {
   DrawerContentScrollView,
@@ -121,41 +121,50 @@ const CustomDrawer = props => {
   const CustomLabel = ({ navigation, onPress, label, logout, language, legal, ...props }) => {
 
     return (
-      <View flex-1>
+      <View width-220 >
         {!language && !legal && (
-          <View flex-1 row centerV >
-            <Text h14 blue04 semibold>{label}</Text>
-            <View flex-1 right>
-              <ImageResize source={logout ? blueLogOut : blueRowRight} height={verticalScale(12)} width={scale(12)} />
+          <Fragment>
+            <View flex-1 row centerV >
+              <Text h14 blue04 semibold>{label}</Text>
+              <View flex-1 right>
+                <ImageResize source={logout ? blueLogOut : blueRowRight} height={verticalScale(12)} width={scale(12)} />
+              </View>
             </View>
-          </View>
+            <Divider height-10 />
+            <View blue04 style={{ width: '100%', height: 1 }} />
+          </Fragment>
+
         )}
         {language && !legal && (
-          <View flex-1 row centerV>
-            <Text h14 blue04 semibold>{label}</Text>
-            <Divider width-10 />
-            <View row right>
-              <TouchableOpacity
-                onPress={() => changeLanguage('en')}
-                style={[{
-                  backgroundColor: brandTheme?.blue04 ?? Colors?.blue04,
-                  padding: verticalScale(8)
-                }]}
-              >
-                <Text h11 white semibold>English</Text>
-              </TouchableOpacity>
+          <Fragment>
+            <View flex-1 row centerV>
+              <Text h14 blue04 semibold>{label}</Text>
               <Divider width-10 />
-              <TouchableOpacity
-                onPress={() => changeLanguage('es')}
-                style={[{
-                  backgroundColor: brandTheme?.blue04 ?? Colors?.blue04,
-                  padding: verticalScale(8)
-                }]}
-              >
-                <Text h11 white semibold>Spanish</Text>
-              </TouchableOpacity>
+              <View row right>
+                <TouchableOpacity
+                  onPress={() => changeLanguage('en')}
+                  style={[{
+                    backgroundColor: brandTheme?.blue04 ?? Colors?.blue04,
+                    padding: verticalScale(8)
+                  }]}
+                >
+                  <Text h11 white semibold>English</Text>
+                </TouchableOpacity>
+                <Divider width-10 />
+                <TouchableOpacity
+                  onPress={() => changeLanguage('es')}
+                  style={[{
+                    backgroundColor: brandTheme?.blue04 ?? Colors?.blue04,
+                    padding: verticalScale(8)
+                  }]}
+                >
+                  <Text h11 white semibold>Spanish</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
+            <Divider height-10 />
+            <View blue04 style={{ width: '100%', height: 1 }} />
+          </Fragment>
         )}
 
         {legal && (
@@ -166,10 +175,12 @@ const CustomDrawer = props => {
                 <ImageResize source={showTerm ? blueRestPlus : blueIconPlus} height={verticalScale(12)} width={scale(12)} />
               </View>
             </View>
+            <Divider height-10 />
+            {!showTerm&&(
+              <View blue04 style={{ width: '100%', height: 1 }} />
+              )}
           </TouchableOpacity>
         )}
-        <Divider height-10 />
-        <View blue04 style={{ width: '100%', height: 1 }} />
       </View>
     );
   };
@@ -184,12 +195,12 @@ const CustomDrawer = props => {
           <Divider width-20 />
           <Logo width={scale(120)} height={verticalScale(17)} fill="green" />
         </View>
-        <DrawerContentScrollView {...props} contentContainerStyle={{top: verticalScale(-30)}}>
-            <Ripple color={'rgb(0, 106, 200)'}  centered={true} onPress={() => navigation.navigate('Dashboard')}>
-              <DrawerItem
-                label={({ focused }) => <CustomLabel label={'Distribution cycle'} />}
-              />
-            </Ripple>
+        <DrawerContentScrollView {...props} contentContainerStyle={{ top: verticalScale(-30) }}>
+          <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('Dashboard')}>
+            <DrawerItem
+              label={({ focused }) => <CustomLabel label={'Distribution cycle'} />}
+            />
+          </Ripple>
           <Ripple color={'rgb(0, 106, 200)'} centered={true}
           >
             <DrawerItem
@@ -210,18 +221,28 @@ const CustomDrawer = props => {
             label={({ focused }) => <CustomLabel label={'Legal information'} legal />}
           />
           {showTerm && (
-            <View paddingL-20 centerV marginB-10>
+            <View paddingL-15 centerV marginB-10>
               <TouchableOpacity
                 onPress={handlePress}
               >
-                <Text blue04 h5>{'\u2B24'}{' '}<Text h15 blue04 light>Terms and conditions</Text></Text>
+                <View flex-1 row centerV>
+                  <Text blue04 h4>{'\u2B24'}</Text>
+                  <Divider width-5 />
+                  <Text h14 blue04 semibold>Terms and conditions</Text>
+                </View>
               </TouchableOpacity>
-              <Divider height-15 />
+              <Divider height-10 />
               <TouchableOpacity
                 onPress={handlePressLicenses}
               >
-                <Text blue04 h5>{'\u2B24'}{' '}<Text h15 blue04 light>Legal Privacy policy</Text></Text>
+                <View flex-1 row centerV>
+                  <Text blue04 h4>{'\u2B24'}</Text>
+                  <Divider width-5 />
+                  <Text h14 blue04 semibold>Legal Privacy policy</Text>
+                </View>
               </TouchableOpacity>
+              <Divider height-20 />
+              <View blue04 width-220 height-1 />
             </View>
 
           )}
@@ -230,7 +251,7 @@ const CustomDrawer = props => {
               label={({ focused }) => <CustomLabel label={'Contact'} />}
             />
           </Ripple>
-          <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() =>  navigation.navigate('SignIn',{screen: 'Auth2fa'})}>
+          <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('SignIn', { screen: 'Auth2fa' })}>
             <DrawerItem
               label={({ focused }) => <CustomLabel label={'Security'} />}
             />

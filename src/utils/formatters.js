@@ -1,6 +1,12 @@
+import React from 'react';
 import ImageResizer from 'react-native-image-resizer';
 import ImgToBase64 from 'react-native-image-base64';
-
+import {
+  Text
+} from '@components';
+var lookup = {
+  'strong': 'bold',
+};
 
 export const formatDateGMT = stringDate => {
   const date = new Date(stringDate);
@@ -129,4 +135,18 @@ export const convertImage = async(path) => {
   const resizedImageUrl = await ImageResizer.createResizedImage(path.uri, 400, 400, 'JPEG', 100, 0, null);
   const base64 =  await ImgToBase64.getBase64String(resizedImageUrl?.uri);
   return base64;
+};
+
+
+export const regexTermsAndConditions = text => {
+  console.log('text',text)
+  const text2 = text.replace(/^\s+|\s+$|\s+(?=\s)/g, "") 
+  const text3 = text2.replace(/(<\/br>)/g,'\n')
+  text = text3.split(/(<.*?>.*?<\/.*?>)/g);
+  
+  for(var i = 1; i < text.length; i += 2) {
+    var word = text[i].replace(/<.*?>(.*?)<\/.*?>/, '$1');
+    text[i] = <Text style={{fontWeight:lookup['strong']}}>{word}</Text>;
+  }
+  return text;
 };

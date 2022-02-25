@@ -47,18 +47,18 @@ const Dashboard = ({ navigation }) => {
   const currentDate = new Date();
   
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(cleanError());
-      dispatch(toggleSnackbarClose());
-      dispatch(getTotalLicensesInNetwork());
-      dispatch(getValidateRewardsByUser());
-      dispatch(getRewardsConfig());
-      dispatch(getDataUser());
-      getBatchedTransaction();
-    });
-    return unsubscribe;
-  }, []);
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     dispatch(cleanError());
+  //     dispatch(toggleSnackbarClose());
+  //     dispatch(getTotalLicensesInNetwork());
+  //     dispatch(getValidateRewardsByUser());
+  //     dispatch(getRewardsConfig());
+  //     dispatch(getDataUser());
+  //     getBatchedTransaction();
+  //   });
+  //   return unsubscribe;
+  // }, []);
 
 
   function getBatchedTransaction() {
@@ -98,6 +98,7 @@ const Dashboard = ({ navigation }) => {
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={Menu} childrenRight={Wallet} menu onPressRight={handleNavigationWallet} navigation={navigation}>
+      <Divider height-10 />
       {appResources?.showStatusTimers === 'blueLight' && inRange && (
         <>
           <View style={Styles.borderBlue}>
@@ -156,21 +157,23 @@ const Dashboard = ({ navigation }) => {
       )}
 
       <Text h14 blue02 center>{i18n.t('home.textValidatingReward')}</Text>
-      <Text h13 white semibold center>{thousandsSeparator(rewardsData?.configRewards?.amount)}</Text>
-      <Divider height-10 />
+      <Divider height-5 />
+      <Text h16 white semibold center>{thousandsSeparator(rewardsData?.configRewards?.amount)}</Text>
+      <Divider height-15 />
       <View row>
-        <Divider style={Styles.borderDoted} />
-        <View flex-1 paddingH-15>
+        <View flex-1 >
           <Text h12 blue02 right>{i18n.t('home.textLicensesInNetwork')}</Text>
           <Text h16 white right semibold>{licensesData?.totalLicensesNetwork}</Text>
         </View>
+        <Divider width-10 />
         <Divider style={Styles.borderDoted} />
-        <View flex-1 paddingL-12>
+        <Divider width-10 />
+        <View flex-1 >
           <Text h12 blue02 left>{i18n.t('home.textTotalActiveLicenses')}</Text>
           <Text h16 white left semibold>{totalLicenses}</Text>
         </View>
-        <Divider style={Styles.borderDoted} />
       </View>
+      <Divider height-20 />
       <CountDownSeconds navigation={navigation} />
       {/* <View flex-1 height-280>
         <ImageBackground source={CircleTimer} resizeMode="cover" style={Styles.image}>
@@ -193,9 +196,8 @@ const Dashboard = ({ navigation }) => {
           <CountDownSeconds startTime={starTimer} valueInfo={(value) => showPercent(value)} />
         </View>
       </View> */}
-      <Divider height-10 />
+      <Divider height-20 />
       <View marginV-5 row>
-        <Divider style={Styles.borderDoted} />
         <View flex-1 paddingH-15>
           <Text h9 blue02 right>{i18n.t('home.textDistributedPerDay')}</Text>
           <Text h11 white right semibold>{thousandsSeparator(parseInt(rewardsData?.configRewards?.amount))}</Text>
@@ -210,9 +212,8 @@ const Dashboard = ({ navigation }) => {
           <Text h9 blue02 left>{i18n.t('home.textAvailableThisMonth')}</Text>
           <Text h11 white left semibold>12 000 000</Text>
         </View>
-        <Divider style={Styles.borderDoted} />
       </View>
-      <Divider height-10 />
+      <Divider height-20 />
       <ButtonRounded
         green
         onPress={() => navigation.navigate('SignOut',{
@@ -226,13 +227,13 @@ const Dashboard = ({ navigation }) => {
         </Text>
       </ButtonRounded>
       {/* <Loading modalVisible={licensesData?.isLoadingLicenses} /> */}
-      <View flex-1 bottom>
+      {/* <View flex-1 bottom>
         <SnackNotice
           visible={error}
           message={licensesData?.error?.message}
           timeout={3000}
         />
-      </View>
+      </View> */}
     </BackgroundWrapper>
   );
 }

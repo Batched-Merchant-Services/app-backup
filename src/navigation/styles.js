@@ -1,10 +1,11 @@
 import { StyleSheet, Dimensions, Platform } from 'react-native';
+import { verticalScale } from 'react-native-size-matters';
 
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    width       : Dimensions.get('window').width,
+    width : Dimensions.get('window').width,
     //height      : Platform.OS === 'ios' ? Dimensions.get('window').height + verticalScale(90) : Dimensions.get('window').height + verticalScale(0),
     shadowColor : '#000000',
     shadowOffset: {
@@ -16,7 +17,7 @@ export default StyleSheet.create({
   },
   containerSideMenu: {
     flex : 1,
-    //width: Dimensions.get('window').width * 0.64,
+    width: Dimensions.get('window').width * 0.717,
   },
 
   imageContainer: {

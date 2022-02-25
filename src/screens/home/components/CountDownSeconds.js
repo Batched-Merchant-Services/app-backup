@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState, Fragment } from "react";
 import {
   Text,
   View,
+  Divider,
   ImageResize
 } from '@components';
 import { ImageBackground, Animated, Easing } from "react-native";
@@ -166,7 +167,7 @@ const CountDownSeconds = ({ navigation, ...props }) => {
           </FadeInView>
         )}
       </View>
-
+      <Divider height-20 />
       <View centerH>
         <Text h14 blue02 center>{i18n.t('home.textDistributionCycle')}</Text>
         <Text h16 semibold center>

@@ -67,7 +67,7 @@ const ConfirmationTransfer = ({ navigation, navigation: { goBack },route }) => {
       <Text h16 white semibold>{formatDate(NewDate)}</Text>
       <Divider height-15 />
       <Text h12 white light>{i18n.t('home.myBatchedTransfer.confirmation.textTransactionID')}</Text>
-      <Text h16 white semibold>{transferData.id}</Text>
+      <Text h16 white semibold>{transferData?.id}</Text>
       <View flex-1 bottom>
         <ButtonRounded
           onPress={handleGoToHomeBatched}
@@ -79,9 +79,6 @@ const ConfirmationTransfer = ({ navigation, navigation: { goBack },route }) => {
           </Text>
         </ButtonRounded>
         <Divider height-40 />
-        <Text h10 white light>Morbi aliquam nisi diam, vitae laoreet neque ultrices sed. Maecenas at dui auctor arcu condimentum congue. </Text>
-        <Divider height-10 />
-        <Text h10 blue01 light>{i18n.t('General.textAllRightsReserved')} Batched.com</Text>
       </View>
     </BackgroundWrapper>
   );

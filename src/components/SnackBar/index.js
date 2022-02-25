@@ -37,7 +37,7 @@ const SnackBar = ({
       useNativeDriver: true
     }).start();
     setTimeout(() => { 
-      handleClose()
+     handleClose();
     }, 800);
   };
 
@@ -47,6 +47,9 @@ const SnackBar = ({
         duration: duration,
         useNativeDriver: true
       }).start();
+      setTimeout(() => { 
+        handleClose();
+       }, 9000);
   }, [animated]);
 
 
@@ -116,11 +119,10 @@ const SnackBar = ({
             </View>
             <Divider width-20 />
             <View
-              style={{ alignItems: 'flex-end' }}
-              centerV
-              paddingR-15
+              width-50
+              height-35
             >
-              <TouchableOpacity onPress={fadeOut}>
+              <TouchableOpacity onPress={fadeOut} style={{width:'100%',height:'100%',justifyContent:'center', alignItems:'center'}}>
                 <ImageResize
                   source={close}
                   height={verticalScale(10)}

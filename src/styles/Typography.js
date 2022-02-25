@@ -33,6 +33,9 @@ export const Typography = {
     h8 : { fontSize: verticalScale(8) },
     h7 : { fontSize: verticalScale(7) },
     h5 : { fontSize: verticalScale(5) },
+    h4 : { fontSize: verticalScale(4) },
+    h3 : { fontSize: verticalScale(3) },
+    h2 : { fontSize: verticalScale(2) },
 
     get: key => {
       const size = Typography.sizes[key];

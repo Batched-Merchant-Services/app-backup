@@ -76,8 +76,11 @@ const CreateNewPassword = ({ navigation,navigation: { goBack } }) => {
             width={scale(90)}
           />
         </ImageBackground>
-        <Text h16 blue02 regular>{i18n.t('Register.inputLastName')}</Text>
+        <Divider height-40 />
+        <Text h16 blue02 regular>{i18n.t('Register.textDefineYourPassword')}</Text>
+        <Divider height-10 />
         <Text h12 white >{i18n.t('Register.texAtLeast')}<Text white semibold>{i18n.t('Register.textEightCharacters')}</Text>{i18n.t('Register.textWithNonConsecutive')}</Text>
+        <Divider height-20 />
         <View>
           <FloatingInput
             {...password}
@@ -93,9 +96,9 @@ const CreateNewPassword = ({ navigation,navigation: { goBack } }) => {
             secureTextEntry
           />
         </View>
-
+        <Divider height-20 />
         <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
-        <View row bottom >
+        <View flex-1 row bottom>
           <ButtonRounded
             onPress={() => goBack()}
             disabled={false}

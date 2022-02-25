@@ -103,9 +103,21 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
         <Divider height-10 />
         <Text h14 blue02 regular>{i18n.t('myProfile.kyc.tittleOfficialDocuments')}</Text>
         <Divider height-10 />
-        <Text h10 white light><Text blue02 h5>{'\u2B24'}</Text>{i18n.t('myProfile.kyc.textYourImagesShould')}</Text>
-        <Text h10 white light><Text blue02 h5>{'\u2B24'}</Text>{i18n.t('myProfile.kyc.textTheFormatMust')}</Text>
-        <Text h10 white light><Text blue02 h5>{'\u2B24'}</Text>{i18n.t('myProfile.kyc.textTheMaximumSizeIs')}</Text>
+        <View flex-1 row centerV>
+          <Text blue02 h4>{'\u2B24'}</Text>
+          <Divider width-5 />
+          <Text h11 white light>{i18n.t('myProfile.kyc.textYourImagesShould')}</Text>
+        </View>
+        <View flex-1 row centerV>
+          <Text blue02 h4>{'\u2B24'}</Text>
+          <Divider width-5 />
+          <Text h11 white light>{i18n.t('myProfile.kyc.textTheFormatMust')}</Text>
+        </View>
+        <View flex-1 row centerV>
+          <Text blue02 h4>{'\u2B24'}</Text>
+          <Divider width-5 />
+          <Text h11 white light>{i18n.t('myProfile.kyc.textTheMaximumSizeIs')}</Text>
+        </View>
         <Divider height-10 />
         <Text h12 white light>{i18n.t('myProfile.kyc.textToBeApprovedPhotos')}</Text>
         <Divider height-10 />

@@ -152,7 +152,10 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
 
 
   if (points?.successTransferGatewayLiquid) {
-    navigation.navigate('ConfirmationTransfer', { amount: amount?.value });
+    navigation.navigate('SignIn', {
+      screen: 'ConfirmationTransfer',
+      params: { amount: amount?.value} 
+    });
   }
   console.log('auth',auth,dataUser)
 

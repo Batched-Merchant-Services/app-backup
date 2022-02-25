@@ -20,5 +20,11 @@ export default StyleSheet.create({
     height:'100%',
     justifyContent: 'center',
     alignItems: 'center'
+  },
+  containerClose:{
+    width:'100%',
+    height:'100%',
+    justifyContent:'center', 
+    alignItems:'center'
   }
 });

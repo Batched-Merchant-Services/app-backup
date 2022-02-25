@@ -50,7 +50,6 @@ const AccountConfirmation = ({ navigation, navigation: { goBack } }) => {
             </Text>
           </ButtonRounded>
           <Divider height-40 />
-          <Text h10 white light>Morbi aliquam nisi diam, vitae laoreet neque ultrices sed. Maecenas at dui auctor arcu condimentum congue. </Text>
         </View>
     </BackgroundWrapper>
 

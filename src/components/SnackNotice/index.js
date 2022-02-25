@@ -96,7 +96,7 @@ const SnackNotice = ({
           }
         ]
       }, { position: 'absolute', bottom: 0, width: '100%' }]}>
-        <View centerH height-50 flex-1 style={{ backgroundColor: backgroundSnack, borderRadius: 5 }}>
+        <View centerH height-45 flex-1 style={{ backgroundColor: backgroundSnack, borderRadius: 5 }}>
           <View row flex-1 >
             <View centerH centerV paddingL-15 >
               {TYPE === 'error' || TYPE === 'warning' && (
@@ -112,11 +112,11 @@ const SnackNotice = ({
               </Text>
             </View>
             <Divider width-20 />
-            <View flex-1
-              style={{ alignItems: 'flex-end' }}
-              centerV
+            <View
+              width-50
+              height-40
             >
-              <TouchableOpacity onPress={fadeOut} style={styles.close}>
+              <TouchableOpacity onPress={fadeOut} style={styles.containerClose}>
                 <ImageResize
                   source={close}
                   height={verticalScale(10)}

@@ -116,9 +116,6 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
         <Text h14 white semibold>{i18n.t('myProfile.buttonCompleteInformation')}</Text>
       </ButtonRounded>
       <Divider height-15 />
-      <Text h10 white light>Morbi aliquam nisi diam, vitae laoreet neque ultrices sed. Maecenas at dui auctor arcu condimentum congue.</Text>
-      <Divider height-10 />
-      <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
     </BackgroundWrapper>
   );
 }
