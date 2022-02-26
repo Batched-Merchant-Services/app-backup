@@ -63,7 +63,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
       style.left = style.left - verticalScale(7, 0);
       style.top = Platform.OS === 'ios' ? style.top = style.top - verticalScale(2, 0.3) : style.top - verticalScale(29);
     } else {
-      style.height = style.height- verticalScale(1 * options?.length + 40, 0);
+      style.height = options?.length > 10? verticalScale(210): style.height- verticalScale(1 * options?.length );
       style.left = style.left - verticalScale(7, 0);
       style.top = Platform.OS === 'ios' ? style.top = style.top - verticalScale(2, 0.3) : style.top + style.height - verticalScale(135);
     }

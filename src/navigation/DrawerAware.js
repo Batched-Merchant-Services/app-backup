@@ -1,4 +1,4 @@
-import React, { useState, useCallback, Fragment } from 'react';
+import React, { useState, useCallback, Fragment,useEffect } from 'react';
 
 import {
   DrawerContentScrollView,
@@ -45,6 +45,7 @@ const CustomDrawer = props => {
   const auth = redux?.auth;
   const brandTheme = appData?.Theme?.colors;
   const [showTerm, setShowTerm] = useState(false);
+  const [languageMenu, setLanguageMenu] = useState('');
   const { state, navigation } = props;
   const { t, i18n } = useTranslation();
   //const progress = useDrawerProgress();
@@ -65,6 +66,12 @@ const CustomDrawer = props => {
       screen: 'LogOut'
     });
   }
+  useEffect(async() => {
+    AsyncStorage.getItem('lang').then((value) => {
+      setLanguageMenu(value);
+    });
+  }, [])
+  
 
   function showTerms() {
     setShowTerm(!showTerm);
@@ -96,8 +103,9 @@ const CustomDrawer = props => {
   const RenderLeftBack = ({ navigation }) => {
     function handleClose() {
       navigation.closeDrawer();
-    }
+  }
 
+    console.log('language',languageMenu)
     return (
       <TouchableOpacity
         style={[{
@@ -144,21 +152,25 @@ const CustomDrawer = props => {
                 <TouchableOpacity
                   onPress={() => changeLanguage('en')}
                   style={[{
-                    backgroundColor: brandTheme?.blue04 ?? Colors?.blue04,
+                    backgroundColor: languageMenu === 'en' ?brandTheme?.blue04 ?? Colors?.blue04:'transparent',
+                    borderColor: brandTheme?.blue04 ?? Colors?.blue04,
+                    borderWidth:1,
                     padding: verticalScale(8)
                   }]}
                 >
-                  <Text h11 white semibold>English</Text>
+                  <Text h11 semibold style={{color: languageMenu === 'en' ?brandTheme?.white ?? Colors?.white: brandTheme?.blue04 ?? Colors?.blue04}}>English</Text>
                 </TouchableOpacity>
                 <Divider width-10 />
                 <TouchableOpacity
                   onPress={() => changeLanguage('es')}
                   style={[{
-                    backgroundColor: brandTheme?.blue04 ?? Colors?.blue04,
+                    backgroundColor: languageMenu === 'es' ?brandTheme?.blue04 ?? Colors?.blue04:'transparent',
+                    borderColor: brandTheme?.blue04 ?? Colors?.blue04,
+                    borderWidth:1,
                     padding: verticalScale(8)
                   }]}
                 >
-                  <Text h11 white semibold>Spanish</Text>
+                  <Text h11 semibold style={{color: languageMenu === 'es' ?brandTheme?.white ?? Colors?.white: brandTheme?.blue04 ?? Colors?.blue04}}>Spanish</Text>
                 </TouchableOpacity>
               </View>
             </View>

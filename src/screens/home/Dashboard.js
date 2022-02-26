@@ -47,18 +47,18 @@ const Dashboard = ({ navigation }) => {
   const currentDate = new Date();
   
 
-  // useEffect(() => {
-  //   const unsubscribe = navigation.addListener('focus', () => {
-  //     dispatch(cleanError());
-  //     dispatch(toggleSnackbarClose());
-  //     dispatch(getTotalLicensesInNetwork());
-  //     dispatch(getValidateRewardsByUser());
-  //     dispatch(getRewardsConfig());
-  //     dispatch(getDataUser());
-  //     getBatchedTransaction();
-  //   });
-  //   return unsubscribe;
-  // }, []);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanError());
+      dispatch(toggleSnackbarClose());
+      dispatch(getTotalLicensesInNetwork());
+      dispatch(getValidateRewardsByUser());
+      dispatch(getRewardsConfig());
+      dispatch(getDataUser());
+      getBatchedTransaction();
+    });
+    return unsubscribe;
+  }, []);
 
 
   function getBatchedTransaction() {
@@ -227,13 +227,13 @@ const Dashboard = ({ navigation }) => {
         </Text>
       </ButtonRounded>
       {/* <Loading modalVisible={licensesData?.isLoadingLicenses} /> */}
-      {/* <View flex-1 bottom>
+      <View flex-1 bottom>
         <SnackNotice
           visible={error}
           message={licensesData?.error?.message}
           timeout={3000}
         />
-      </View> */}
+      </View>
     </BackgroundWrapper>
   );
 }

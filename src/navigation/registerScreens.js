@@ -88,7 +88,7 @@ const DrawerScreen = () => {
 const signOutScreens = () => {
   //aqui pondremos las que contienen un menu 
   return (
-    <Stack.Navigator initialRouteName="TermConditions" screenOptions={{ headerShown: false, gestureEnabled: false }}>
+    <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false, gestureEnabled: false }}>
       <Stack.Screen name="Login" component={Login} />
       <Stack.Screen name="Register" component={Register} />
       <Stack.Screen name="CodeSms" component={CodeSms} />

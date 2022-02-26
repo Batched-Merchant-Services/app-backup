@@ -8,10 +8,15 @@ import Colors from '@styles/Colors';
 import Logo from '@assets/brandBatched/logo.svg';
 import Menu from '@assets/icons/hamburgerMenu.png';
 import Back from '@assets/icons/backBlue.png';
+import { useTheme } from '@react-navigation/native';
+import IconBack from '../../assets/iconSVG/IconBack';
 
 
 
 const RenderLeftBack = ({ navigation,onPressLeft, Style, brandTheme, left,menu }) => {
+
+  const { colors } = useTheme();
+
   function handleBack() {
     navigation.goBack();
   }
@@ -28,12 +33,18 @@ const RenderLeftBack = ({ navigation,onPressLeft, Style, brandTheme, left,menu }
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 1e3,
-        borderColor: brandTheme?.textBlueDark ?? Colors?.blue02,
-        borderWidth: menu? 0:1
       }, Style]}
       onPress={onPressLeft ? onPressLeft: menu ? handleOpenMenuDrawer:handleBack}
     >
-    <ImageResize source={left !== true ? left : Back} height={verticalScale(menu?28:20)} width={scale(menu?28:20)} />
+    {left === true &&(
+      <IconBack width={scale(32)} height={verticalScale(32)} fill={brandTheme?.blue02?? colors?.blue02} />
+    )}
+    {left !== true&&(
+      <ImageResize source={left} height={verticalScale(28)} width={scale(28)} />
+    )}
+
+    {/* <ImageResize source={left !== true ? left : Back} height={verticalScale(menu?28:20)} width={scale(menu?28:20)} /> */}
+    
     </TouchableOpacity>
   );
 };

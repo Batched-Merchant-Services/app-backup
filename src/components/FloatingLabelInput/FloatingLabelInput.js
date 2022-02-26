@@ -14,7 +14,9 @@ import Colors from '@styles/Colors';
 import Styles from '@components/FloatingLabelInput/styles';
 import { useSelector } from 'react-redux';
 import hidePassword from '@assets/icons/hidePassword.png';
-
+import IconShowPassword from '../../assets/iconSVG/IconShowPassword';
+import { useTheme } from '@react-navigation/native';
+import IconHidePassword from '@assets/iconSVG/IconHidePassword';
 
 
 
@@ -36,7 +38,7 @@ const FloatingLabelInput = ({
   const redux = useSelector(state => state);
   const appData = redux.user;
   const brandTheme = appData?.Theme?.colors;
-
+  const { colors } = useTheme();
   // Animation value for the label
   const [scale, toMin, toMax] = useTimingValue({ min: 0, max: 1, time: 170 });
   const [isFocused, setIsFocused] = useState(false);
@@ -116,16 +118,9 @@ const FloatingLabelInput = ({
                         style={Styles.containerShow}
                       >
                         {showPass ? 
-                          <ImageResize
-                            source={hidePassword}
-                            height={verticalScale(12)}
-                            width={RnScale(16)}
-                          />:
-                          <ImageResize
-                            source={hidePassword}
-                            height={verticalScale(12)}
-                            width={RnScale(16)}
-                          />
+                          <IconHidePassword width={RnScale(18)} height={verticalScale(18)} fill={brandTheme?.background ?? colors?.background}/>
+                          :
+                          <IconShowPassword width={RnScale(18)} height={verticalScale(18)} fill={brandTheme?.background ?? colors?.background}/>
                         }
                       </TouchableOpacity>)} 
                       <Divider width-5 />
