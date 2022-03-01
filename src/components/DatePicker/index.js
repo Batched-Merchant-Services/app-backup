@@ -13,6 +13,9 @@ import { formatDate } from '@utils/formatters';
 import blueCalendar from '@assets/icons/blue-calendar.png';
 import Styles from './styles';
 import Colors from '@styles/Colors';
+import IconCalendar from '../../assets/iconSVG/IconsKYC/IconCalendar';
+import { useTheme } from '@react-navigation/native';
+
 
 const DatePicker = ({ error, label, value, onSelect, languages, onFill, ...props }) => {
   const redux = useSelector(state => state);
@@ -22,7 +25,7 @@ const DatePicker = ({ error, label, value, onSelect, languages, onFill, ...props
   const [showModalDates, setShowModalDates] = useState(false);
   const [valueData, setValueData] = useState(value);
   const [date, setDate] = useState(new Date());
-
+  const { colors } = useTheme();
 
   const getData = (data) => {
     onSelect(data?data:{name:'select',value:''});
@@ -56,11 +59,7 @@ const DatePicker = ({ error, label, value, onSelect, languages, onFill, ...props
             <Text white h13 medium>{valueData ? formatDate(valueData) : 'MM/DD/YYYY'}</Text>
           </View>
           <View row right centerH centerV>
-            <ImageResize
-              source={blueCalendar}
-              height={verticalScale(21)}
-              width={scale(21)}
-            />
+            <IconCalendar  height={verticalScale(23)} width={scale(23)} fill={brandTheme?.blue02??colors.blue02}/>
             <Divider width-10 />
             {error && error !== 'pending' && (
               <InputIconError error={error} />

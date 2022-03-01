@@ -17,10 +17,15 @@ import Styles from './styles'
 import i18n from '@utils/i18n';
 import { cleanErrorProfile, createKYC, editKYC, getTypeIdentification } from '../../store/actions/profile.actions';
 import Front from '@assets/icons/blue-frontId.png';
+
 import Back from '@assets/icons/blue-backId.png';
 import Selfie from '@assets/icons/blue-selfie.png';
 import Address from '@assets/icons/blue-address.png';
 import Loading from '../Loading';
+import IconCardFront from '../../assets/iconSVG/IconsKYC/IconCardFront';
+import IconCardBack from '../../assets/iconSVG/IconsKYC/IconCradBack';
+import IconSelfie from '../../assets/iconSVG/IconsKYC/IconSelfie';
+import IconProofAddress from '../../assets/iconSVG/IconsKYC/IconProofAddress';
 
 const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -134,7 +139,7 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
           <ImageUploadPiker
             {...imageFront}
             label={i18n.t('myProfile.kyc.buttonImageFront')}
-            imageEmpty={Front}
+            ImageEmpty={IconCardFront}
             typeImage='front'
 
           />
@@ -142,21 +147,21 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
           <ImageUploadPiker
             {...imageBack}
             label={i18n.t('myProfile.kyc.buttonImageBack')}
-            imageEmpty={Back}
+            ImageEmpty={IconCardBack}
             typeImage='back'
           />
           <Divider height-15 />
           <ImageUploadPiker
             {...imageSelfie}
             label={i18n.t('myProfile.kyc.buttonSelfie')}
-            imageEmpty={Selfie}
+            ImageEmpty={IconSelfie}
             typeImage='selfie'
           />
           <Divider height-15 />
           <ImageUploadPiker
             {...imageProofAddress}
             label={i18n.t('myProfile.kyc.buttonProofOfAddress')}
-            imageEmpty={Address}
+            ImageEmpty={IconProofAddress}
             typeImage='address'
 
           />

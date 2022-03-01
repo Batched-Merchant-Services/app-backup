@@ -31,7 +31,7 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
   }
 
   return (
-    <BackgroundWrapper childrenLeft={Menu} menu showNavigation={true} navigation={navigation}>
+    <BackgroundWrapper childrenLeft menu showNavigation={true} navigation={navigation}>
       <Divider height-10 />
       <View centerV row>
         <View flex-1>

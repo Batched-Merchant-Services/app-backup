@@ -65,15 +65,16 @@ const DrawerScreen = () => {
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawer {...props} />} drawerStyle={{ width: "100%" }}>
+        <Drawer.Screen options={{
+        headerShown: false,
+      }} name="HomeMyBatched" component={HomeMyBatched} screenOptions={{ headerShown: false }} />
       <Drawer.Screen name="Dashboard" options={{
         headerShown: false,
       }} component={Dashboard} />
       <Drawer.Screen options={{
         headerShown: false,
       }} name="ActivationConfirmation" component={ActivationConfirmation} screenOptions={{ headerShown: false }} />
-      <Drawer.Screen options={{
-        headerShown: false,
-      }} name="HomeMyBatched" component={HomeMyBatched} screenOptions={{ headerShown: false }} />
+    
       <Drawer.Screen options={{
         headerShown: false,
       }} name="HomeProfile" component={HomeProfile} screenOptions={{ headerShown: false }} />

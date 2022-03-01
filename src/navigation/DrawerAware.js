@@ -17,7 +17,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Ripple from 'react-native-advanced-ripple';
 import Styles from './styles';
 import Colors from '@styles/Colors';
-
+import { useTheme } from '@react-navigation/native';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -33,6 +33,9 @@ import { logoutSession } from '../store/actions/auth.actions';
 //import i18n from '@utils/i18n';
 import { useTranslation, Trans, I18nextProvider } from 'react-i18next';
 import { DevSettings, Linking, AsyncStorage, TouchableOpacity } from 'react-native';
+import IconBack from '../assets/iconSVG/IconBack';
+import IconRowRight from '../assets/iconSVG/IconRowRight';
+import IconLogOut from '../assets/iconSVG/IconLogOut';
 const {
   interpolate,
   Extrapolate
@@ -101,6 +104,7 @@ const CustomDrawer = props => {
 
 
   const RenderLeftBack = ({ navigation }) => {
+    const { colors } = useTheme();
     function handleClose() {
       navigation.closeDrawer();
   }
@@ -112,14 +116,11 @@ const CustomDrawer = props => {
           width: scale(30),
           height: verticalScale(30),
           justifyContent: 'center',
-          alignItems: 'center',
-          zIndex: 1e3,
-          borderColor: brandTheme?.blue04 ?? Colors?.blue02,
-          borderWidth: 1
+          alignItems: 'center'
         }]}
         onPress={handleClose}
       >
-        <ImageResize source={Back} height={verticalScale(20)} width={scale(20)} />
+        <IconBack width={scale(32)} height={verticalScale(32)} fill={brandTheme?.blue02?? colors?.blue02} />
       </TouchableOpacity>
     );
   };
@@ -127,7 +128,7 @@ const CustomDrawer = props => {
 
 
   const CustomLabel = ({ navigation, onPress, label, logout, language, legal, ...props }) => {
-
+    const { colors } = useTheme();
     return (
       <View width-220 >
         {!language && !legal && (
@@ -135,7 +136,14 @@ const CustomDrawer = props => {
             <View flex-1 row centerV >
               <Text h14 blue04 semibold>{label}</Text>
               <View flex-1 right>
-                <ImageResize source={logout ? blueLogOut : blueRowRight} height={verticalScale(12)} width={scale(12)} />
+                {logout &&(
+                  <IconLogOut width={scale(14)} height={verticalScale(16)} fill={brandTheme?.blue04?? colors?.blue04} />
+                )}
+                {!logout &&(
+                  <IconRowRight width={scale(9)} height={verticalScale(15)} fill={brandTheme?.blue04?? colors?.blue04} />
+                )}
+               
+               
               </View>
             </View>
             <Divider height-10 />

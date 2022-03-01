@@ -27,6 +27,7 @@ import CountDownDates from './components/CountDownDates';
 import { getCommissionPoints, getGatewayPointsBalance, getLiquidPointsBalance, getRewardsPoints } from '@store/actions/points.actions';
 import { getLocalDateFromUTC } from '@utils/formatters';
 import { cleanError } from '@store/actions/auth.actions';
+import IconMenuWallet from '../../assets/iconSVG/IconMenuWallet';
 //import moment from 'moment';
 
 
@@ -97,7 +98,7 @@ const Dashboard = ({ navigation }) => {
 
 
   return (
-    <BackgroundWrapper showNavigation={true} childrenLeft={Menu} childrenRight={Wallet} menu onPressRight={handleNavigationWallet} navigation={navigation}>
+    <BackgroundWrapper showNavigation={true} childrenLeft childrenRight={IconMenuWallet} menu onPressRight={handleNavigationWallet} navigation={navigation}>
       <Divider height-10 />
       {appResources?.showStatusTimers === 'blueLight' && inRange && (
         <>

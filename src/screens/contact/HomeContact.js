@@ -67,7 +67,7 @@ const HomeContact = ({ navigation, navigation: { goBack } }) => {
 
   
   return (
-    <BackgroundWrapper showNavigation={true} childrenLeft={menu} menu navigation={navigation}>
+    <BackgroundWrapper showNavigation={true} childrenLeft menu navigation={navigation}>
       <Text h16 blue02 regular>{i18n.t('contact.textContactUs')}</Text>
       <Divider height-10 />
       <Text h12 white light>{i18n.t('contact.textFillUpTheForm')}</Text>

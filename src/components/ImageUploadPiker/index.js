@@ -14,7 +14,7 @@ import InputError from '@components/FloatingLabelInput/InputError';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { setFile, setFileAddress, setFileBack, setFileFront, setFileSelfie } from '../../store/actions/user.action';
 import { convertImage } from '@utils/formatters';
-
+import { useTheme } from '@react-navigation/native';
 import styles from './styles';
 import Colors from '@styles/Colors';
 
@@ -25,18 +25,15 @@ const options = {
 };
 
 
-const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, imageEmpty, typeImage, onPressTerm, onPressPrivacy, ...props }) => {
-
-
+const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, ImageEmpty, typeImage, onPressTerm, onPressPrivacy, ...props }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const userData = redux?.user;
   const brandTheme = userData?.Theme?.colors;
   const [fileError, setFileError] = useState('pending');
-
   const [typeImagesSend, setTypeImagesSend] = useState('');
   const [valueImages, setValueImages] = useState(value);
-
+  const { colors } = useTheme();
   const errorFile = useSelector(state => state?.user?.showErrorFile);
 
   useEffect(() => {
@@ -140,11 +137,17 @@ const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, image
       </View>
       <TouchableOpacity onPress={() => typeImage === 'selfie' ? handleImages(typeImage) : handleImages(typeImage)}>
         <View flex-1 centerH centerV height-160 textBlue01 style={fileError === 'pending' ? { borderColor: Colors.blue02, borderWidth: 1 } : fileError ? { borderColor: brandTheme?.error ?? Colors.error, borderWidth: 1 } : { borderColor: brandTheme?.success ?? Colors.success, borderWidth: 1 }}>
-          <ImageResize
-            source={value ? {uri: value} : imageEmpty}
+          {value&&(
+            <ImageResize
+            source={{uri: value}}
             width={'80%'}
             height={'80%'}
           />
+          )}
+          {value === '' || value === undefined&&(
+            <ImageEmpty  height={'75%'} width={'75%'} fill={brandTheme?.blue02??colors.blue02}/>
+          )}
+          
         </View>
       </TouchableOpacity>
       <Divider width-5 />

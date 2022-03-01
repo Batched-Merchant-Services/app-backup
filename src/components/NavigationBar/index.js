@@ -10,6 +10,7 @@ import Menu from '@assets/icons/hamburgerMenu.png';
 import Back from '@assets/icons/backBlue.png';
 import { useTheme } from '@react-navigation/native';
 import IconBack from '../../assets/iconSVG/IconBack';
+import IconMenu from '../../assets/iconSVG/IconMenu';
 
 
 
@@ -24,6 +25,7 @@ const RenderLeftBack = ({ navigation,onPressLeft, Style, brandTheme, left,menu }
   function handleOpenMenuDrawer() {
     navigation.openDrawer();
   }
+  console.log('menuuu',menu,left)
 
   return (
     <TouchableOpacity
@@ -36,11 +38,15 @@ const RenderLeftBack = ({ navigation,onPressLeft, Style, brandTheme, left,menu }
       }, Style]}
       onPress={onPressLeft ? onPressLeft: menu ? handleOpenMenuDrawer:handleBack}
     >
-    {left === true &&(
+    {left === true && !menu &&(
       <IconBack width={scale(32)} height={verticalScale(32)} fill={brandTheme?.blue02?? colors?.blue02} />
     )}
     {left !== true&&(
       <ImageResize source={left} height={verticalScale(28)} width={scale(28)} />
+    )}
+    
+    {menu && left &&(
+      <IconMenu width={scale(30)} height={verticalScale(30)} fill={brandTheme?.blue02?? colors?.blue02} />
     )}
 
     {/* <ImageResize source={left !== true ? left : Back} height={verticalScale(menu?28:20)} width={scale(menu?28:20)} /> */}
@@ -49,8 +55,8 @@ const RenderLeftBack = ({ navigation,onPressLeft, Style, brandTheme, left,menu }
   );
 };
 
-const RenderRightBack = ({ navigation,onPressRight, Style, brandTheme, right,menu }) => {
-
+const RenderRightBack = ({ navigation,onPressRight, Style, brandTheme, IconRight,menu }) => {
+  const { colors } = useTheme();
   return (
     <TouchableOpacity
       style={[{
@@ -59,12 +65,10 @@ const RenderRightBack = ({ navigation,onPressRight, Style, brandTheme, right,men
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 1e3,
-        borderColor: brandTheme?.textBlueDark ?? Colors?.blue02,
-        borderWidth: menu? 0:1
       }, Style]}
       onPress={onPressRight}
     >
-    <ImageResize source={right} height={verticalScale(20)} width={scale(20)} />
+      <IconRight width={scale(32)} height={verticalScale(32)} fill={brandTheme?.blue02?? colors?.blue02} />
     </TouchableOpacity>
   );
 };
@@ -76,7 +80,7 @@ const RenderBody = ({ body }) => {
         <ImageResize source={body} height={verticalScale(20)} width={scale(20)} />
       )}
       {!body && (
-        <Logo width={scale(120)} height={verticalScale(17)} fill="green" />
+        <Logo width={scale(120)} height={verticalScale(17)} />
       )}
     </View>
   );
@@ -96,13 +100,13 @@ const NavigationBar = ({ navigation, onPressLeft,onPressRight, body, childrenLef
           <View row {...props}>
             <View flex-1 row centerV>
               {childrenLeft && (
-                <RenderLeftBack left={childrenLeft} onPressLeft={onPressLeft} menu={menu} navigation={navigation}/>
+                <RenderLeftBack left={childrenLeft} onPressLeft={onPressLeft} menu={menu} brandTheme={brandTheme} navigation={navigation}/>
               )}
               
               <RenderBody body={body} />
 
               {childrenRight && (
-                <RenderRightBack right={childrenRight} onPressRight={onPressRight} navigation={navigation}/>
+                <RenderRightBack IconRight={childrenRight} onPressRight={onPressRight} brandTheme={brandTheme} navigation={navigation}/>
               )}
             </View>
           </View>

@@ -46,6 +46,9 @@ const SnackNotice = ({
       duration: duration,
       useNativeDriver: true
     }).start();
+    setTimeout(() => {
+      handleTimeout()
+    }, 5000);
   }, [SHOW]);
 
 

@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Clipboard from '@react-native-community/clipboard';
 import { View, Text, Divider, ImageResize, ButtonRounded } from '@components';
 import { scale, verticalScale } from 'react-native-size-matters';
@@ -9,13 +9,17 @@ import i18n from '@utils/i18n';
 import { moneyFormatter, thousandsSeparator } from '../../../utils/formatters';
 import { cleanErrorPoints } from '../../../store/actions/points.actions';
 import { toggleSnackbarClose } from '../../../store/actions/app.actions';
+import IconLineDotted from '../../../assets/iconSVG/IconLineDotted';
+import { useTheme } from '@react-navigation/native';
+import IconRowBack from '../../../assets/iconSVG/IconRowBack';
 
 const HomeBalance = ({ navigation }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const dataUser = redux?.user;
   const points = redux?.points;
-  const userProfile = dataUser?.dataUser?.usersProfile ?dataUser?.dataUser?.usersProfile[0]:''
+  const brandTheme = dataUser?.Theme?.colors;
+  const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
   const accounts = userProfile?.accounts
   const [referenceN1, setReferenceN1] = useState(0);
   const [referenceN2, setReferenceN2] = useState(0);
@@ -27,7 +31,7 @@ const HomeBalance = ({ navigation }) => {
   const RewardsData = points?.rewardsData;
   const gatewayData = points?.gatewayData;
   const liquidData = points?.liquidData;
- 
+  const { colors } = useTheme();
 
 
   useEffect(() => {
@@ -36,7 +40,7 @@ const HomeBalance = ({ navigation }) => {
       dispatch(toggleSnackbarClose());
     });
     return unsubscribe;
-   
+
   }, []);
 
 
@@ -56,10 +60,10 @@ const HomeBalance = ({ navigation }) => {
     });
   }
 
-  function handleGetLicenses(){
-    navigation.navigate('SignOut',{
+  function handleGetLicenses() {
+    navigation.navigate('SignOut', {
       screen: 'GetLicenses',
-      params: { page:'myBatched'}
+      params: { page: 'myBatched' }
     });
   }
   return (
@@ -69,18 +73,18 @@ const HomeBalance = ({ navigation }) => {
           <View flex-1>
             <Text h12 blue02>{accounts?.email}</Text>
             <Divider height-5 />
-            <Text h14 white semibold>{accounts?.firstName}{' '}{accounts?.middleName || accounts?.secondLastName }{' '}{accounts?.lastName}</Text>
+            <Text h14 white semibold>{accounts?.firstName}{' '}{accounts?.middleName || accounts?.secondLastName}{' '}{accounts?.lastName}</Text>
           </View>
           <View width-38 height-36 centerH centerV>
-            {accounts?.avatarImage !== '' &&(
+            {accounts?.avatarImage !== '' && (
               <ImageResize
-              source={{uri:accounts?.avatarImage}}
-              height={verticalScale(45)}
-              width={verticalScale(45)}
-            />
+                source={{ uri: accounts?.avatarImage }}
+                height={verticalScale(45)}
+                width={verticalScale(45)}
+              />
             )}
-            {accounts?.avatarImage === '' &&(
-             <Text h20 semibold>{accounts?.alias}</Text>
+            {accounts?.avatarImage === '' && (
+              <Text h20 semibold>{accounts?.alias}</Text>
             )}
           </View>
         </View>
@@ -123,7 +127,7 @@ const HomeBalance = ({ navigation }) => {
         </ButtonRounded>
       </View>
       <Divider height-12 />
-      <Divider style={Styles.borderDoted} />
+      <IconLineDotted height={verticalScale(1)} width={'100%'} fill={brandTheme?.blue04 ?? colors.blue04} />
       <Divider height-15 />
       <Text h14 white>{i18n.t('home.myBatchedBalance.textMyBalances')}</Text>
       <Divider height-15 />
@@ -156,11 +160,7 @@ const HomeBalance = ({ navigation }) => {
       <View row centerV>
         <View flex-1 style={Styles.borderDoted} />
         <Divider width-5 />
-        <ImageResize
-          source={blueRow}
-          height={verticalScale(16)}
-          width={scale(16)}
-        />
+        <IconRowBack height={verticalScale(18)} width={scale(18)} fill={brandTheme?.blue02 ?? colors.blue02} />
         <Divider width-5 />
         <View flex-1 style={Styles.borderDoted} />
       </View>

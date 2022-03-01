@@ -7,29 +7,35 @@ import {
   BackgroundWrapper
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
-import menu from '@assets/icons/hamburgerMenu.png';
-import clock from '@assets/icons/blue-clock.png';
-import history from '@assets/icons/blue-history.png';
-import whiteWallet from '@assets/icons/white-wallet.png';
-import blueReferred from '@assets/icons/blue-referred.png';
 import ButtonsOption from './components/ButtonsOption';
 import HomeBalance from './components/HomeBalance';
-
 import History from './History';
 import Referred from './Referred';
 import Styles from './styles';
 import i18n from '@utils/i18n';
 import Loading from '../Loading';
+import IconBalance from '@assets/iconSVG/IconBalance';
+import IconReferred from '@assets/iconSVG/IconReferred';
+import IconHistory from '@assets/iconSVG/IconHistory';
+import IconCycle from '@assets/iconSVG/IconCycle';
+import IconLineDotted from '../../assets/iconSVG/IconLineDotted';
+import { useTheme } from '@react-navigation/native';
 import { cleanErrorPoints } from '@store/actions/points.actions';
+import { scale, verticalScale } from 'react-native-size-matters';
 
 const HomeMyBatched = ({ navigation}) => {
   const redux = useSelector(state => state);
   const dispatch = useDispatch();
+  const userData = redux.user;
+  const brandTheme = userData?.Theme?.colors;
   const points = redux?.points;
   const [showStep1, setShowStep1] = useState(true);
   const [showStep2, setShowStep2] = useState(false);
   const [showStep3, setShowStep3] = useState(false);
+  const { colors } = useTheme();
   const error = useSelector(state => state?.points?.errorPoints);
+
+
   useEffect(() => {
     dispatch(cleanErrorPoints());
     const unsubscribe = navigation.addListener('focus', () => {
@@ -63,14 +69,16 @@ const HomeMyBatched = ({ navigation}) => {
   }
 
   return (
-    <BackgroundWrapper showNavigation={true} childrenLeft={menu} childrenRight={clock} onPressRight={handleDashboard} menu navigation={navigation}>
+    <BackgroundWrapper showNavigation={true} childrenLeft childrenRight={IconCycle} onPressRight={handleDashboard} menu navigation={navigation}>
       <Divider height-10 />
       <View row>
-        <ButtonsOption label={i18n.t('home.myBatchedBalance.buttonBalances')} image={whiteWallet} onPress={showBalance} status={showStep1}/>
-        <ButtonsOption label={i18n.t('home.myBatchedBalance.buttonReferred')} image={blueReferred} onPress={showReferred} status={showStep2}/>
-        <ButtonsOption label={i18n.t('home.myBatchedBalance.buttonHistory')}  image={history} onPress={showHistory} status={showStep3}/>
+        <ButtonsOption label={i18n.t('home.myBatchedBalance.buttonBalances')} IconImage={IconBalance} onPress={showBalance} status={showStep1}/>
+        <ButtonsOption label={i18n.t('home.myBatchedBalance.buttonReferred')} IconImage={IconReferred} onPress={showReferred} status={showStep2}/>
+        <ButtonsOption label={i18n.t('home.myBatchedBalance.buttonHistory')}  IconImage={IconHistory} onPress={showHistory} status={showStep3}/>
       </View>
-      <Divider style={Styles.borderDoted} />
+      {/* <Divider style={Styles.borderDoted} /> */}
+      <Divider height-15 />
+      <IconLineDotted  height={verticalScale(1)} width={'100%'} fill={brandTheme?.blue04??colors.blue04}/>
       <Divider height-15 />
       {showStep1&&(
         <HomeBalance navigation={navigation}/>
