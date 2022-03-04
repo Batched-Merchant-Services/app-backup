@@ -59,7 +59,7 @@
      setIsReady(true);
      setTimerOn(true);
      setStorePromise(configStore)
-     SplashScreen.hide(); // here
+     setTimeout(() => SplashScreen.hide() , 1000);
    }, []);
    
  

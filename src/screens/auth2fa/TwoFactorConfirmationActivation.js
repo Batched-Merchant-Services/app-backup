@@ -18,6 +18,7 @@ import i18n from '@utils/i18n';
 import Styles from './styles';
 import IconKey from '@assets/iconSVG/IconAuth2fa/IconKey';
 import ModalAuth2fa from './ModalAuth2fa';
+import LottieView from 'lottie-react-native';
 
 const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
@@ -51,9 +52,12 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
  
   return (
     <BackgroundWrapper showNavigation={true}  navigation={navigation}>
+     <Divider height-20 />
       <View centerH>
-        <IconSecurityLock width={scale(180)} height={verticalScale(180)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
+        <LottieView source={require('../../assets/animationsLottie/IconSecurityLock.json')} autoPlay loop style={{ width: scale(120),height:verticalScale(120) }} />
+        {/* <IconSecurityLock width={scale(180)} height={verticalScale(180)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} /> */}
       </View>
+      <Divider height-20 />
       <Text h16 regular blue02>{i18n.t('Auth2fa.textTwoFactorAuthenticationActivated')}</Text>
       <Divider height-20 />
       <Text h10 white semibold>{i18n.t('Auth2fa.textRememberToEnter')}</Text>

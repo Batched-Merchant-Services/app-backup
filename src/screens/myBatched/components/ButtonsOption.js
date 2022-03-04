@@ -6,8 +6,9 @@ import { scale, verticalScale } from 'react-native-size-matters';
 import { useSelector,useDispatch } from 'react-redux';
 import { useTheme } from '@react-navigation/native';
 import Styles from '../styles';
+import LottieView from 'lottie-react-native';
 
-const ButtonsOption = ({ status, onPress, label,IconImage, ...props }) => {
+const ButtonsOption = ({ status, onPress, label,IconImage,Animation, ...props }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const userData = redux.user;
@@ -17,7 +18,14 @@ const ButtonsOption = ({ status, onPress, label,IconImage, ...props }) => {
       <View flex-1 row paddingH-3>
         <View flex-1 column>
           <TouchableOpacity style={Styles.buttons} onPress={onPress}>
-            <IconImage  height={verticalScale(18)} width={scale(18)} fill={status ? brandTheme?.white??colors.white : brandTheme?.blue02??colors.blue02}/>
+
+            {status&&(
+              <LottieView source={Animation} autoPlay loop style={{ width: scale(18),height:verticalScale(18) }} />
+            )}
+            {!status&&(
+              <IconImage  height={verticalScale(18)} width={scale(18)} fill={status ? brandTheme?.white??colors.white : brandTheme?.blue02??colors.blue02}/>
+            )}
+           
             {/* <ImageResize
               tintColor={status  ? brandTheme?.white??colors.white : brandTheme?.blue02??colors.blue02} 
               source={image}

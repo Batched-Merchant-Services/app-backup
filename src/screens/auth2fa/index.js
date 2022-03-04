@@ -14,6 +14,9 @@ import { TouchableOpacity, Switch } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import IconRightRow from '@assets/iconSVG/IconRightRow';
 import Styles from './styles';
+import LottieView from 'lottie-react-native';
+
+
 const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
@@ -73,8 +76,10 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
       <View centerV padding-20 style={{ borderColor: colors.blue02, borderWidth: 1 }}>
         <View centerH>
-          <IconSecurityLock width={scale(130)} height={verticalScale(130)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
+        <LottieView source={require('../../assets/animationsLottie/IconSecurityLock.json')} autoPlay loop style={{ width: scale(85),height:verticalScale(85) }} />
+        {/* <IconSecurityLock width={scale(130)} height={verticalScale(130)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} /> */}
         </View>
+        <Divider height-15 />
         <Text h16 regular blue02>{i18n.t('Auth2fa.textSecurityOfYourAccount')}</Text>
         <Divider height-10 />
         <Text h12 white semibold>{i18n.t('Auth2fa.textForUsYourSafetyIs')}</Text>

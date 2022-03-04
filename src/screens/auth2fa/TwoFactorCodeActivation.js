@@ -17,6 +17,8 @@ import IconClock from '@assets/iconSVG/IconAuth2fa/IconClock';
 import i18n from '@utils/i18n';
 import { Activation2faApp } from '@store/actions/auth.actions';
 import Loading from '../Loading';
+import LottieView from 'lottie-react-native';
+
 
 const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
@@ -44,20 +46,23 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
+     <Divider height-15 />
       <View centerH>
-        <IconClock width={scale(180)} height={verticalScale(180)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
+        <LottieView source={require('../../assets/animationsLottie/IconClock.json')} autoPlay loop style={{ width: scale(130),height:verticalScale(130) }} />
+        {/* <IconClock width={scale(180)} height={verticalScale(180)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} /> */}
       </View>
-      {params.page !== 'change' &&(
+      <Divider height-20 />
+      {params?.page !== 'change' &&(
         <Text h16 regular blue02>{i18n.t('Auth2fa.textActivateTwoFactorAuthentication')}</Text>
       )}
-      {params.page === 'change' &&(
+      {params?.page === 'change' &&(
         <Text h16 regular blue02>{i18n.t('Auth2fa.textChangeTwoFactorAuthentication')}</Text>
       )}
       <Divider height-20 />
-      {params.page !== 'change' &&(
+      {params?.page !== 'change' &&(
         <Text h10 white semibold>{i18n.t('Auth2fa.textEnterTheCodeYou')}{' '}<Text white regular>{i18n.t('Auth2fa.textIfTimeRunsOut')}</Text></Text>
       )}
-      {params.page === 'change' &&(
+      {params?.page === 'change' &&(
         <Text h10 white semibold>{i18n.t('Auth2fa.textEnterTheCodeYouGot')}<Text white regular>{i18n.t('Auth2fa.textIfTimeRunsOut')}</Text></Text>
       )}
       <Divider height-30 />

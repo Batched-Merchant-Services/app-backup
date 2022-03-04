@@ -46,7 +46,7 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
     changeHandlerSelect: 'onSelect'
   });
   const error = useSelector(state => state?.profile?.errorProfile);
-  const successEdit = useSelector(state => state?.profile?.successEditKYC);
+  const success = useSelector(state => state?.profile?.successEditKYC);
 
 
   useEffect(() => {
@@ -65,7 +65,7 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
       }
     }
   }, [profile?.dropDownIdentification]);
-  
+
 
   function getUpdateAddress() {
     const typeIdent = typeIdentificationD?.value;
@@ -101,6 +101,7 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
   }
 
   return (
+    <Fragment>
       <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
         <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
           <StepIndicator step={3} totalSteps={5} />
@@ -197,16 +198,16 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
             </Text>
           </ButtonRounded>
         </View>
-        <Divider height-10 />
-        <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
         <Loading modalVisible={profile?.isLoadingProfile} />
-        <View flex-1 bottom>
-          <SnackNotice
-            visible={error || successEdit}
-            message={profile?.error?.message}
-          />
-        </View>
       </BackgroundWrapper>
+      <View blue04 paddingH-20 centerH>
+        <SnackNotice
+          visible={error || success}
+          message={profile?.error?.message}
+        />
+      </View>
+      <View blue04 height-20 />
+    </Fragment>
   );
 }
 

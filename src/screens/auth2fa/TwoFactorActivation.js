@@ -58,17 +58,17 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
-      {params.page !== 'change' &&(
+      {params?.page !== 'change' &&(
         <Text h16 regular blue02>{i18n.t('Auth2fa.textActivateTwoFactorAuthentication')}</Text>
       )}
-      {params.page === 'change' &&(
+      {params?.page === 'change' &&(
         <Text h16 regular blue02>{i18n.t('Auth2fa.textChangeTwoFactorAuthentication')}</Text>
       )}
       <Divider height-10 />
-      {params.page !== 'change' &&(
+      {params?.page !== 'change' &&(
         <Text h10 white regular>{i18n.t('Auth2fa.textScanTheQRCodeOrEnter')}</Text>
       )}
-      {params.page === 'change' &&(
+      {params?.page === 'change' &&(
         <Text h10 white regular>{i18n.t('Auth2fa.textScanTheQRCodeNewDevice')}</Text>
       )}
       <Divider height-20 />

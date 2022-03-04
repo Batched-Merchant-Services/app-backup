@@ -1,17 +1,12 @@
 import React, { useState,useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { TouchableOpacity, ViewBase } from 'react-native';
-import { View, Text, Divider, ImageResize, ButtonRounded, DropDownPicker } from '@components';
+import { View, Text, Divider, ImageResize, ButtonRounded } from '@components';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { useSelector, useDispatch } from 'react-redux';
-import whiteWallet from '@assets/icons/white-wallet.png';
-import blueReferred from '@assets/icons/blue-referred.png';
-import blueRow from '@assets/icons/blue-row-double-down.png';
 import EmptyState from '../EmptyState';
 import Styles from './styles';
 import i18n from '@utils/i18n';
-import { convertUtc, formatDate, formatDateGMT, formatDateSend, getLocalDateFromUTC } from '../../utils/formatters';
+import { formatDate, generateColorRandom } from '../../utils/formatters';
 
 const Referred = ({ navigation, step, onPress, label }) => {
   const dispatch = useDispatch();
@@ -38,13 +33,6 @@ const Referred = ({ navigation, step, onPress, label }) => {
 
   }, []);
 
-
-  const generateColor = () => {
-    const randomColor = Math.floor(Math.random() * 16777215)
-      .toString(16)
-      .padStart(6, '0');
-    return `#${randomColor}`;
-  };
 
   const orderByDate=()=>{
     const sortedActivities = dataInfo.slice().sort((a, b) => b.referenceDate - a.referenceDate)
@@ -142,7 +130,7 @@ const Referred = ({ navigation, step, onPress, label }) => {
                 </View>
               )}
               {data?.avatarImage === '' && (
-                <View width-35 height-34 centerH centerV style={{ backgroundColor: generateColor() }}>
+                <View width-35 height-34 centerH centerV style={{ backgroundColor: generateColorRandom() }}>
                   <Text h16 white bold></Text>
                 </View>
               )}

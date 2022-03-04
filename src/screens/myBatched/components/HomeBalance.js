@@ -11,7 +11,9 @@ import { cleanErrorPoints } from '../../../store/actions/points.actions';
 import { toggleSnackbarClose } from '../../../store/actions/app.actions';
 import IconLineDotted from '../../../assets/iconSVG/IconLineDotted';
 import { useTheme } from '@react-navigation/native';
-import IconRowBack from '../../../assets/iconSVG/IconRowBack';
+// import IconRowBack from '../../../assets/iconSVG/IconRowBack';
+import LottieView from 'lottie-react-native';
+const IconRowBack = require('../../../assets/animationsLottie/LineDown.json');
 
 const HomeBalance = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -75,17 +77,19 @@ const HomeBalance = ({ navigation }) => {
             <Divider height-5 />
             <Text h14 white semibold>{accounts?.firstName}{' '}{accounts?.middleName || accounts?.secondLastName}{' '}{accounts?.lastName}</Text>
           </View>
-          <View width-38 height-36 centerH centerV>
+          <View width-38 height-36 centerH centerV style={{borderColor:colors.blue02,borderWidth:1}}>
             {accounts?.avatarImage !== '' && (
               <ImageResize
                 source={{ uri: accounts?.avatarImage }}
-                height={verticalScale(45)}
-                width={verticalScale(45)}
+                height={verticalScale(33)}
+                width={verticalScale(33)}
+                resizeMode="stretch"
               />
             )}
             {accounts?.avatarImage === '' && (
               <Text h20 semibold>{accounts?.alias}</Text>
             )}
+            
           </View>
         </View>
         <Divider height-8 />
@@ -157,13 +161,15 @@ const HomeBalance = ({ navigation }) => {
       <Divider height-5 />
       <Text h10 white>{i18n.t('home.myBatchedBalance.textCommissionBalanceCan')}</Text>
       <Divider height-15 />
-      <View row centerV>
+      <LottieView source={IconRowBack} autoPlay loop style={{ width: scale(20),height:verticalScale(20) }} />
+      {/* <View row centerV>
         <View flex-1 style={Styles.borderDoted} />
         <Divider width-5 />
+       
         <IconRowBack height={verticalScale(18)} width={scale(18)} fill={brandTheme?.blue02 ?? colors.blue02} />
         <Divider width-5 />
         <View flex-1 style={Styles.borderDoted} />
-      </View>
+      </View> */}
       <Divider height-15 />
       <View row>
         <View flex-1 column>

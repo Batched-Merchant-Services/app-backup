@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import { scale, verticalScale } from 'react-native-size-matters';
@@ -32,17 +32,24 @@ const Login = ({ navigation }) => {
   const [values, setValues] = useState(false);
   const authData = redux?.auth;
   const licensesData = redux?.licenses;
-  const email = useValidatedInput('', '');
+  const email = useValidatedInput('','');
   const password = useValidatedInput('password', '');
   const isValid = isFormValid(email, password);
   const error = useSelector(state => state?.auth?.showError);
-
+  const todoInput = useRef(null);
+ 
 
   useEffect(() => {
     dispatch(cleanError());
     dispatch(toggleSnackbarClose());
     dispatch(userInactivity(false));
+    setValues(true);
   }, [dispatch]);
+
+  useEffect(() => {
+    console.log('mdmmdmdd',email?.value)
+    setValues(false);
+  }, [email?.value]);
 
 
   function fetchSession() {
@@ -78,9 +85,11 @@ const Login = ({ navigation }) => {
     }
   }
 
-  function handleClose() {
+  const onChangeTextL = () => {
+    console.log('sip')
     setValues(false)
   }
+
 
 
   return (
@@ -95,6 +104,7 @@ const Login = ({ navigation }) => {
       <Divider height-25 />
       <FloatingInput
         {...email}
+        value={values?'':email?.value}
         label={i18n.t('Login.inputEmail')}
         keyboardType={'default'}
         autoCapitalize={'none'}
@@ -102,6 +112,7 @@ const Login = ({ navigation }) => {
       <Divider height-5 />
       <FloatingInput
         {...password}
+        value={''}
         label={i18n.t('Login.inputPassword')}
         autoCapitalize={'none'}
         secureTextEntry

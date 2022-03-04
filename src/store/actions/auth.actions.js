@@ -93,6 +93,7 @@ export const getLoginTwoFactor = ({ codeSecurity }) => async (dispatch) => {
         await LocalStorage.set('uuid', uuid);
         dispatch(userInactivity(true));
         dispatch(getLicenses());
+        dispatch(getDataUser());
       }
     }).catch((error) => {
       console.log('error1 two factor',error)

@@ -4,8 +4,7 @@ declare module '*.svg' {
   import { SvgProps } from 'react-native-svg';
   const content: React.FC<
     SvgProps & {
-       fill?: string;
-       fillSecondary?: string;
+      fillSecondary?: string;
     }
   >;
   export default content;

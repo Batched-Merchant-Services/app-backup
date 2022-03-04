@@ -2,20 +2,17 @@ import React, { useEffect, useState } from 'react';
 import {
   Text,
   View,
-  Link,
   Divider,
   ButtonRounded,
   BackgroundWrapper
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
-import { useValidatedInput } from '@hooks/validation-hooks';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { useTheme } from '@react-navigation/native';
 import Clipboard from '@react-native-community/clipboard';
 import IconSecurityLock from '@assets/iconSVG/IconAuth2fa/IconSecurityLock';
-import IconWarning from '@assets/iconSVG/IconWarning';
 import i18n from '@utils/i18n';
-import Styles from './styles';
+import LottieView from 'lottie-react-native';
 
 const ConfirmationAuth = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
@@ -34,17 +31,20 @@ const ConfirmationAuth = ({ navigation, route, navigation: { goBack } }) => {
 
   return (
     <BackgroundWrapper showNavigation={true}  navigation={navigation}>
+     <Divider height-15 />
       <View centerH >
-        <IconSecurityLock width={scale(180)} height={verticalScale(180)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
+        <LottieView source={require('../../assets/animationsLottie/IconSecurityLock.json')} autoPlay loop style={{ width: scale(120),height:verticalScale(120) }} />
+        {/* <IconSecurityLock width={scale(180)} height={verticalScale(180)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} /> */}
       </View>
+      <Divider height-15 />
       <View width-170>
-      {params.page === 'SMS' &&(
+      {params?.page === 'SMS' &&(
         <Text h18 regular blue02>{i18n.t('Auth2fa.textSMSAuthenticationActivated')}</Text>
       )}
-      {params.page === 'Email' &&(
+      {params?.page === 'Email' &&(
         <Text h18 regular blue02>{i18n.t('Auth2fa.textEmailAuthenticationActivated')}</Text>
       )}
-      {params.page === 'App' &&(
+      {params?.page === 'App' &&(
         <Text h18 regular blue02>{i18n.t('Auth2fa.textTwoFactorAuthenticationActivated')}</Text>
       )}
       
@@ -53,13 +53,13 @@ const ConfirmationAuth = ({ navigation, route, navigation: { goBack } }) => {
       <View blue01 width-36 height-1 />
       <Divider height-20 />
       <Text h13 white regular>{i18n.t('Auth2fa.textRememberToEnterSixDigits')} 
-      {params.page === 'SMS' &&(
+      {params?.page === 'SMS' &&(
         <Text blue02 semibold>{' '}{i18n.t('Auth2fa.textYouWillReceivePhone')}{' '}</Text>
       )} 
-      {params.page === 'Email' &&(
+      {params?.page === 'Email' &&(
         <Text  blue02>{' '}{i18n.t('Auth2fa.textYouWillReceiveEmail')}{' '}</Text>
       )}
-      {params.page === 'App' &&(
+      {params?.page === 'App' &&(
         <Text  blue02>{' '}{i18n.t('Auth2fa.textYouWillReceiveApp')}{' '}</Text>
       )}
       {i18n.t('Auth2fa.textEveryTimeYouLog')}</Text>

@@ -11,6 +11,7 @@ import Back from '@assets/icons/backBlue.png';
 import { useTheme } from '@react-navigation/native';
 import IconBack from '../../assets/iconSVG/IconBack';
 import IconMenu from '../../assets/iconSVG/IconMenu';
+import LottieView from 'lottie-react-native';
 
 
 
@@ -46,7 +47,7 @@ const RenderLeftBack = ({ navigation,onPressLeft, Style, brandTheme, left,menu }
     )}
     
     {menu && left &&(
-      <IconMenu width={scale(30)} height={verticalScale(30)} fill={brandTheme?.blue02?? colors?.blue02} />
+      <LottieView source={require('../../assets/animationsLottie/menu.json')} autoPlay loop />
     )}
 
     {/* <ImageResize source={left !== true ? left : Back} height={verticalScale(menu?28:20)} width={scale(menu?28:20)} /> */}
@@ -68,7 +69,8 @@ const RenderRightBack = ({ navigation,onPressRight, Style, brandTheme, IconRight
       }, Style]}
       onPress={onPressRight}
     >
-      <IconRight width={scale(32)} height={verticalScale(32)} fill={brandTheme?.blue02?? colors?.blue02} />
+    <LottieView source={IconRight} autoPlay loop style={{ width: scale(32),height:verticalScale(32) }} />
+    {/* <IconRight width={scale(32)} height={verticalScale(32)} fill={brandTheme?.blue02?? colors?.blue02} /> */}
     </TouchableOpacity>
   );
 };

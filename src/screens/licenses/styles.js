@@ -14,11 +14,11 @@ const styles = StyleSheet.create({
     marginLeft: verticalScale(8),
   },
   image: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems:'center'
+    width: null,
+    height: verticalScale(110)
   },
   loginScreenButton:{
+    width: verticalScale(100),
     height:    verticalScale(35),
     borderRadius: verticalScale(2),
     justifyContent: "center",

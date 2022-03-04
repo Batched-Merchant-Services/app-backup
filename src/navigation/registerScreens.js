@@ -65,7 +65,7 @@ const DrawerScreen = () => {
   return (
     <Drawer.Navigator
       drawerContent={(props) => <CustomDrawer {...props} />} drawerStyle={{ width: "100%" }}>
-        <Drawer.Screen options={{
+      <Drawer.Screen options={{
         headerShown: false,
       }} name="HomeMyBatched" component={HomeMyBatched} screenOptions={{ headerShown: false }} />
       <Drawer.Screen name="Dashboard" options={{
@@ -74,7 +74,6 @@ const DrawerScreen = () => {
       <Drawer.Screen options={{
         headerShown: false,
       }} name="ActivationConfirmation" component={ActivationConfirmation} screenOptions={{ headerShown: false }} />
-    
       <Drawer.Screen options={{
         headerShown: false,
       }} name="HomeProfile" component={HomeProfile} screenOptions={{ headerShown: false }} />
@@ -117,7 +116,7 @@ const signOutScreens = () => {
 const signInScreens = () => {
   //aqui pondremos las que no contienen un menu  pero son de adentro haciendo login
   return (
-    <Stack.Navigator initialRouteName="BankInformation" screenOptions={{ headerShown: false, gestureEnabled: false }}>
+    <Stack.Navigator initialRouteName="LogOut" screenOptions={{ headerShown: false, gestureEnabled: false }}>
       <Stack.Screen name="ConfirmationTransfer" component={ConfirmationTransfer} />
       <Stack.Screen name="TransferOption" component={TransferOption} />
       <Stack.Screen name="PersonalInformation" component={PersonalInformation} />

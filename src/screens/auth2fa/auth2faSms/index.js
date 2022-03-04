@@ -11,6 +11,7 @@ import i18n from '@utils/i18n';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { useTheme } from '@react-navigation/native';
 import IconAuthSms from '@assets/iconSVG/IconAuth2fa/IconAuthSms';
+import LottieView from 'lottie-react-native';
 
 const Auth2faSms = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
@@ -26,9 +27,12 @@ const Auth2faSms = ({ navigation, route, navigation: { goBack } }) => {
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
+     <Divider height-15/>
       <View centerH>
-        <IconAuthSms width={scale(200)} height={verticalScale(210)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
+        <LottieView source={require('../../../assets/animationsLottie/IconAuthSms.json')} autoPlay loop style={{ width: scale(120),height:verticalScale(120) }} />
+        {/* <IconAuthSms width={scale(200)} height={verticalScale(210)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} /> */}
       </View>
+      <Divider height-20 />
       <Text h16 regular blue02>{i18n.t('Auth2fa.textSMSAuthentication')}</Text>
       <Divider height-10 />
       <Text h10 white regular>{i18n.t('Auth2fa.textUseYourPhoneAsYourTwoFactor')}</Text>

@@ -54,6 +54,7 @@
       "buttonSaveChanges":"Save changes",
       "textIAgreeWithThePrivacy":"I agree with the Privacy Notice.*",
       "textIAgreeWithTheTerms":"I agree with the Terms and Conditions.*",
+      "textInformationSavedSuccessfully":"Información Guardada con Éxito",
       "errors": {
         "textBadCredentials": "User or password error, bad credentials",
         "textUserNotActive": "User nor active, Please activate your account from the link sent to your E-mail",

@@ -8,15 +8,9 @@ import {
   BackgroundWrapper
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
-import { useValidatedInput } from '@hooks/validation-hooks';
-import { scale, verticalScale } from 'react-native-size-matters';
 import { useTheme } from '@react-navigation/native';
 import Clipboard from '@react-native-community/clipboard';
-import IconSecurityLock from '@assets/iconSVG/IconAuth2fa/IconSecurityLock';
-import IconWarning from '@assets/iconSVG/IconWarning';
 import i18n from '@utils/i18n';
-import Styles from './styles';
-import IconKey from '@assets/iconSVG/IconAuth2fa/IconKey';
 
 const SupportAuthentication = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();

@@ -18,6 +18,8 @@ import IconWarning from '@assets/iconSVG/IconWarning';
 import QRCode from 'react-native-qrcode-svg';
 //import Styles from './styles';
 import IconClock from '@assets/iconSVG/IconAuth2fa/IconClock';
+import LottieView from 'lottie-react-native';
+
 
 const EnterOldCode = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
@@ -39,9 +41,12 @@ const EnterOldCode = ({ navigation, route, navigation: { goBack } }) => {
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
+    <Divider height-15 />
       <View centerH>
-        <IconClock width={scale(180)} height={verticalScale(180)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
+        <LottieView source={require('../../../assets/animationsLottie/IconClock.json')} autoPlay loop style={{ width: scale(130),height:verticalScale(130) }} />
+        {/* <IconClock width={scale(180)} height={verticalScale(180)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} /> */}
       </View>
+      <Divider height-20 />
       <Text h16 regular blue02>{i18n.t('Auth2fa.textSwitchTwoFactorAuthentication')}</Text>
       <Divider height-10 />
       <Text h12 white light>{i18n.t('Auth2fa.textEnterTheCodeThatAppears')}</Text>

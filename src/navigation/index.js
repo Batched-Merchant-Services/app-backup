@@ -23,7 +23,7 @@ const screenOptionStyle = {
 
 const AppNavigation = () => {
   return (
-  <Stack.Navigator initialRouteName="SignOut" screenOptions={{ headerShown: false }}> 
+  <Stack.Navigator initialRouteName="DrawerScreen" screenOptions={{ headerShown: false }}> 
       <Stack.Screen name="SignOut" component={signOutScreens} />
       <Stack.Screen name="SignIn" component={signInScreens} />
       <Stack.Screen name="DrawerScreen" component={DrawerScreen} />

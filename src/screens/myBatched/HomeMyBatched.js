@@ -17,11 +17,17 @@ import Loading from '../Loading';
 import IconBalance from '@assets/iconSVG/IconBalance';
 import IconReferred from '@assets/iconSVG/IconReferred';
 import IconHistory from '@assets/iconSVG/IconHistory';
-import IconCycle from '@assets/iconSVG/IconCycle';
+// import IconCycle from '@assets/iconSVG/IconCycle';
 import IconLineDotted from '../../assets/iconSVG/IconLineDotted';
 import { useTheme } from '@react-navigation/native';
 import { cleanErrorPoints } from '@store/actions/points.actions';
 import { scale, verticalScale } from 'react-native-size-matters';
+const Balance = require('../../assets/animationsLottie/IconBalanceEnabled.json');
+const ReferredImage = require('../../assets/animationsLottie/IconReferred.json');
+const HistoryIcon = require('../../assets/animationsLottie/IconHistoryEnable.json');
+const IconCycle = require('../../assets/animationsLottie/IconCycle.json');
+
+
 
 const HomeMyBatched = ({ navigation}) => {
   const redux = useSelector(state => state);
@@ -72,13 +78,13 @@ const HomeMyBatched = ({ navigation}) => {
     <BackgroundWrapper showNavigation={true} childrenLeft childrenRight={IconCycle} onPressRight={handleDashboard} menu navigation={navigation}>
       <Divider height-10 />
       <View row>
-        <ButtonsOption label={i18n.t('home.myBatchedBalance.buttonBalances')} IconImage={IconBalance} onPress={showBalance} status={showStep1}/>
-        <ButtonsOption label={i18n.t('home.myBatchedBalance.buttonReferred')} IconImage={IconReferred} onPress={showReferred} status={showStep2}/>
-        <ButtonsOption label={i18n.t('home.myBatchedBalance.buttonHistory')}  IconImage={IconHistory} onPress={showHistory} status={showStep3}/>
+        <ButtonsOption label={i18n.t('home.myBatchedBalance.buttonBalances')} IconImage={IconBalance} Animation={Balance} onPress={showBalance} status={showStep1}/>
+        <ButtonsOption label={i18n.t('home.myBatchedBalance.buttonReferred')} IconImage={IconReferred} Animation={ReferredImage} onPress={showReferred} status={showStep2}/>
+        <ButtonsOption label={i18n.t('home.myBatchedBalance.buttonHistory')}  IconImage={IconHistory} Animation={HistoryIcon} onPress={showHistory} status={showStep3}/>
       </View>
       {/* <Divider style={Styles.borderDoted} /> */}
-      <Divider height-15 />
-      <IconLineDotted  height={verticalScale(1)} width={'100%'} fill={brandTheme?.blue04??colors.blue04}/>
+      <Divider height-1 />
+      <IconLineDotted  height={verticalScale(1)} width={'100%'} fill={brandTheme?.blue04??colors.blue04} />
       <Divider height-15 />
       {showStep1&&(
         <HomeBalance navigation={navigation}/>

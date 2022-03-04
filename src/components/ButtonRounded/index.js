@@ -79,9 +79,9 @@ const ButtonRounded = ({
       end={{ x: 1, y: 0 }}
       colors={backgroundGradient}
       style={[Styles.wrapper, style, btnSize,
-      dark || changeColor === 'dark' ? Styles.borderDark : [],
-      disabled || changeColor === 'disabled' ? Styles.disableColor : [],
-      green || changeColor === 'green' ? Styles.greenBorder : [],
+      dark || changeColor === 'dark' ? [Styles.borderDark,style] : [],
+      disabled || changeColor === 'disabled' ?[ Styles.disableColor,style] : [],
+      green || changeColor === 'green' ? [Styles.greenBorder,style] : [],
       ]}
     >
       

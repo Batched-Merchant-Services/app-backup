@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect,useState,useRef } from 'react';
 import {
   Text,
   View,
@@ -9,6 +9,7 @@ import {
   DropDownPicker,
   BackgroundWrapper
 } from '@components';
+import { Animated } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import { cleanErrorLicenses,getListLicenses,getTotalLicenses,getCryptoCurrency } from '@store/actions/licenses.actions';
@@ -28,6 +29,7 @@ const SelectTypeLicense = ({ navigation }) => {
   const [idCurrency, setIdCurrency] = useState(0);
   const [itemTypeLicenses, setItemTypeLicenses] = useState([]);
   const [currentLicense] = useState(licensesData?.currentLicense);
+  const [showDropDownLicenses,setShowDropDownLicenses] = useState(false);
   const typeLicenses = useValidatedInput('select', '',{
     changeHandlerSelect: 'onSelect'
   });
@@ -35,7 +37,7 @@ const SelectTypeLicense = ({ navigation }) => {
     changeHandlerSelect: 'onSelect'
   });
   const isValid = isFormValid(typeLicenses);
-
+  const fadeMoves = useRef(new Animated.Value(0)).current;
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
 
 
@@ -81,6 +83,8 @@ const SelectTypeLicense = ({ navigation }) => {
       const rest = licensesData?.cryptoCurrencies?.filter(key => key?.value === code?.value);
       setIdCurrency(rest[0]?.id);
       setCurrencyLicense(code);
+      setShowDropDownLicenses(true);
+      fadeIn();
     }
    
     if (code?.value === 'UUL') {
@@ -97,6 +101,16 @@ const SelectTypeLicense = ({ navigation }) => {
     }
   
   }
+
+  const fadeIn = () => {
+    // Will change fadeAnim value to 1 in 5 seconds
+    Animated.timing(fadeMoves, {
+      toValue: 1,
+      duration: 1000
+    }).start();
+  };
+
+
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
      <NavigationBar childrenLeft navigation={navigation}/>
@@ -128,12 +142,23 @@ const SelectTypeLicense = ({ navigation }) => {
         onSelect={(code)=> typeCurrency(code)}
        />
       <Divider height-5 />
-      <DropDownPicker
+      {showDropDownLicenses&&(
+        <Animated.View
+          style={[
+            {
+              // Bind opacity to animated value
+              opacity: fadeMoves
+            }
+          ]}>
+        <DropDownPicker
         {...typeLicenses}
         label={'Licenses'}
         options={itemTypeLicenses}
         //onFill={(code)=> filterPays(code)}
        />
+       </Animated.View>
+      )}
+      
       <Divider height-5 />
       
       <View flex-1  bottom>

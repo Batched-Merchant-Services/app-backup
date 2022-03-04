@@ -28,6 +28,7 @@ import { getCommissionPoints, getGatewayPointsBalance, getLiquidPointsBalance, g
 import { getLocalDateFromUTC } from '@utils/formatters';
 import { cleanError } from '@store/actions/auth.actions';
 import IconMenuWallet from '../../assets/iconSVG/IconMenuWallet';
+const MenuWallet = require('../../assets/animationsLottie/MenuWallet.json');
 //import moment from 'moment';
 
 
@@ -55,7 +56,6 @@ const Dashboard = ({ navigation }) => {
       dispatch(getTotalLicensesInNetwork());
       dispatch(getValidateRewardsByUser());
       dispatch(getRewardsConfig());
-      dispatch(getDataUser());
       getBatchedTransaction();
     });
     return unsubscribe;
@@ -98,7 +98,7 @@ const Dashboard = ({ navigation }) => {
 
 
   return (
-    <BackgroundWrapper showNavigation={true} childrenLeft childrenRight={IconMenuWallet} menu onPressRight={handleNavigationWallet} navigation={navigation}>
+    <BackgroundWrapper showNavigation={true} childrenLeft childrenRight={MenuWallet} menu onPressRight={handleNavigationWallet} navigation={navigation}>
       <Divider height-10 />
       {appResources?.showStatusTimers === 'blueLight' && inRange && (
         <>

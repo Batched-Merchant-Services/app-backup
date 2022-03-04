@@ -36,10 +36,10 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
     changeHandlerSelect: 'onSelect'
   });
   const [items, setItems] = useState([
-    { id: '1', name: 'Rewards points to Transaction Gateway', value: 'rewards' },
+    { id: '1', name: 'Reward points can be transfered to Transaction Gateway', value: 'rewards' },
     { id: '2', name: 'Gateway to Rewards point', value: 'gateway' },
-    { id: '3', name: 'Commission Balance to Liquidity Pool', value: 'commission' },
-    { id: '4', name: 'Liquidity Pool to Uulala Wallet', value: 'wallet' },
+    { id: '3', name: 'Commission balance can be transfered to Liquidity Pool Balance', value: 'commission' },
+    { id: '4', name: 'Liquidity pool Balance can be transfered to Uulala Wallet. ', value: 'wallet' },
   ]);
 
   const isValid = isFormValid(amount);

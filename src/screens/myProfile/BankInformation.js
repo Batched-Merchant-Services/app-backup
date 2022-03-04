@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -106,20 +106,11 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
     dispatch(createBankInfo({ dataCreateBank }))
   }
 
-  if (success) {
-    setSuccessInfo(true)
-  }
 
-  function handleSuccessInfo() {
-    setSuccessInfo(true)
-  }
 
-  function closeSnack() {
-    setSuccessInfo(false)
-  }
 
   return (
-    <>
+    <Fragment>
       <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
         <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
           <StepIndicator step={5} totalSteps={5} />
@@ -197,8 +188,8 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
         <Divider height-10 />
         <View flex-1 row bottom >
           <ButtonRounded
-            //onPress={accounts?.bankInformation?.length > 0? updateBankInformation:createBankInformation}
-            onPress={handleSuccessInfo}
+            onPress={accounts?.bankInformation?.length > 0? updateBankInformation:createBankInformation}
+            //onPress={handleSuccessInfo}
             disabled={false}
             dark
             size='sm'
@@ -225,23 +216,15 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
           </ButtonRounded>
         </View>
         <Loading modalVisible={profile?.isLoadingProfile} />
-        <View flex-1 bottom>
-          <SnackNotice
-              visible={error || successInfo}
-              message={profile?.error?.message}
-          />
-        </View>
       </BackgroundWrapper>
-      <View blue04 paddingH-20>
-        <SnackBar
-          success
-          visible={successInfo}
-          message={'Informacion Guardada con exito'}
-          handleClose={closeSnack}
+      <View blue04 paddingH-20 centerH>
+        <SnackNotice
+          visible={error || successInfo}
+          message={profile?.error?.message}
         />
-        <Divider height-20 />
       </View>
-    </>
+      <View blue04 height-20 />
+    </Fragment>
   );
 }
 

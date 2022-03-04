@@ -43,7 +43,7 @@ static void InitializeFlipper(UIApplication *application) {
   if (@available(iOS 13.0, *)) {
       rootView.backgroundColor = [UIColor systemBackgroundColor];
   } else {
-      rootView.backgroundColor = [UIColor colorWithRed:(36/255.0) green:(44/255.0) blue:(76/255.0) alpha:1.0];
+      rootView.backgroundColor = [UIColor colorWithRed:(25/255.0) green:(33/255.0) blue:(66/255.0) alpha:1.0];
   }
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
@@ -54,7 +54,7 @@ static void InitializeFlipper(UIApplication *application) {
   
  Dynamic *t = [Dynamic new];
   UIView *animationView = [t createAnimationViewWithRootView:rootView lottieName:@"loading"];
-   animationView.backgroundColor = [UIColor colorWithRed:(36/255.0) green:(44/255.0) blue:(76/255.0) alpha:1.0]; // change background color
+   animationView.backgroundColor = [UIColor colorWithRed:(25/255.0) green:(33/255.0) blue:(66/255.0) alpha:1.0]; // change background color
    // register LottieSplashScreen to RNSplashScreen
    [RNSplashScreen showLottieSplash:animationView inRootView:rootView];
 

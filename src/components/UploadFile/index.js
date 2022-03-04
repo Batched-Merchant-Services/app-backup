@@ -85,7 +85,7 @@ const UploadFile = ({ value, error, onChangeText,navigation,labelInput,labelButt
           dark
         >
           <Text h14 semibold blue02>
-            {singleFile != null ?i18n.t('Licenses.textChooseFile'):i18n.t('Register.textChooseFile')}
+            {singleFile != null ?i18n.t('Licenses.textChooseFile'):i18n.t('Licenses.textChooseFile')}
           </Text>
         </ButtonRounded>
     </View>

@@ -12,7 +12,7 @@ import i18n from '@utils/i18n';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { useTheme } from '@react-navigation/native';
 import IconNumber from '@assets/iconSVG/IconAuth2fa/IconNumber';
-
+import LottieView from 'lottie-react-native';
 
 const TwoFactorInstructions = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
@@ -34,8 +34,10 @@ const TwoFactorInstructions = ({ navigation, route, navigation: { goBack } }) =>
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
+      <Divider height-15 />
       <View centerH>
-        <IconNumber width={scale(120)} height={verticalScale(120)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
+      <LottieView source={require('../../assets/animationsLottie/IconNumber.json')} autoPlay loop style={{ width: scale(150),height:verticalScale(120) }} />
+        {/* <IconNumber width={scale(120)} height={verticalScale(120)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} /> */}
       </View>
       <Divider height-30 />
       <Text h16 regular blue02>{i18n.t('Auth2fa.textTwoFactorAuthentication')}</Text>

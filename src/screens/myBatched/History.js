@@ -1,16 +1,17 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, Divider, ButtonRounded, DropDownPicker, SnackNotice, Link } from '@components';
+import { Animated } from "react-native";
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import { useSelector, useDispatch } from 'react-redux';
 import EmptyState from '../EmptyState';
 import i18n from '@utils/i18n';
-import Colors from '@styles/Colors';
 import { formatDateSend, getLocalDateFromUTC, moneyFormatter } from '../../utils/formatters';
 import { pointsConstants } from '../../store/constants';
 import { cleanErrorPoints, getExecutedPointsTransactions } from '../../store/actions/points.actions';
-import { useIsFocused } from "@react-navigation/native";
 import { toggleSnackbarClose } from '../../store/actions/app.actions';
+import { useTheme } from '@react-navigation/native';
 import Loading from '../Loading';
+import { verticalScale } from 'react-native-size-matters';
 
 const DataHistory = (dataHistory) => {
   if (dataHistory?.dataHistory) {
@@ -34,6 +35,7 @@ const History = ({ navigation }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const infoUser = redux?.user;
+  const brandTheme = infoUser?.Theme?.colors;
   const userProfile = infoUser?.dataUser?.usersProfile ? infoUser?.dataUser?.usersProfile[0] : '';
   const points = redux?.points;
   const kindOfData = useValidatedInput('select', '', {
@@ -66,8 +68,29 @@ const History = ({ navigation }) => {
     { id: '5', name: 'Gateway points transactions', value: pointsConstants.POOLS.GATEWAY },
     { id: '6', name: 'Buy transactions', value: 6 }
   ]);
+  const fadeDownlands = useRef(new Animated.Value(0)).current;
+  const fadeMoves = useRef(new Animated.Value(0)).current;
 
+  const { colors } = useTheme();
   const isValid = isFormValid(kindOfData);
+
+
+
+  const fadeIn = () => {
+    // Will change fadeAnim value to 1 in 5 seconds
+    Animated.timing(fadeDownlands, {
+      toValue: 1,
+      duration: 1000
+    }).start();
+  };
+
+  const fadeOut = () => {
+    // Will change fadeAnim value to 0 in 3 seconds
+    Animated.timing(fadeMoves, {
+      toValue: 1,
+      duration: 3000
+    }).start();
+  };
 
   useEffect(() => {
     dispatch(cleanErrorPoints());
@@ -155,17 +178,19 @@ const History = ({ navigation }) => {
   ]);
 
   function showMovements() {
+    fadeOut();
     setShowLastMovement(true);
     setShowDowland(false);
   }
 
   function showDownlands() {
+    fadeIn();
     setShowLastMovement(false);
     setShowDowland(true);
   }
 
   async function filterPays(value) {
-    setSendPdf(value === undefined?true:false);
+    setSendPdf(value === undefined ? true : false);
     const id = infoUser?.dataUser?.clients ? infoUser?.dataUser?.clients[0]?.account?.id : 0;
     const pool = value?.value ?? 0;
     setValuePool(pool);
@@ -196,7 +221,7 @@ const History = ({ navigation }) => {
   function monthFilter(month) {
     setMonthSelect(month?.value)
   }
-  
+
   function yearFilter(year) {
     setYearSelect(year?.value)
   }
@@ -206,20 +231,22 @@ const History = ({ navigation }) => {
     const events = dataHistory?.filter(e => {
       const date = new Date(e?.createdDate);
       const year = date.getFullYear();
-      const month = ('0' + (date.getUTCMonth()+1)).slice(-2);
-      const ls = month ===  monthSelect;
+      const month = ('0' + (date.getUTCMonth() + 1)).slice(-2);
+      const ls = month === monthSelect;
       const lsyear = year.toString() === yearSelect;
       return ls && lsyear;
-      
+
     });
   }
 
   return (
     <View flex-1>
       <Text h14 white regular>{i18n.t('home.history.textRegisterOfMovements')}</Text>
-      <View row >
+      <Divider height-15 />
+      <View row padding-2 style={{ borderColor: brandTheme?.blue02 ?? colors.blue02, borderWidth: 1 }}>
         <View flex-1>
           <ButtonRounded
+            style={{ borderWidth: 0, borderRadius: 0, height: verticalScale(34) }}
             disabled={false}
             changeColor={showLastMovement ? 'blue' : 'dark'}
             onPress={showMovements}
@@ -231,6 +258,7 @@ const History = ({ navigation }) => {
         </View>
         <View flex-1>
           <ButtonRounded
+            style={{ borderWidth: 0, borderRadius: 0, height: verticalScale(34) }}
             onPress={showDownlands}
             disabled={false}
             changeColor={showDowland ? 'blue' : 'dark'}
@@ -252,7 +280,13 @@ const History = ({ navigation }) => {
         <EmptyState />
       )}
       {showLastMovement && showData && (
-        <>
+        <Animated.View
+          style={[
+            {
+              // Bind opacity to animated value
+              opacity: fadeMoves
+            }
+          ]}>
           <View row>
             <View flex-1><Text h11 blue02 semibold center>{i18n.t('home.history.textDate/Hour')}</Text></View>
             <View flex-1><Text h11 blue02 semibold center>{i18n.t('home.history.textRPAmount')}</Text></View>
@@ -268,44 +302,53 @@ const History = ({ navigation }) => {
               </Link>
             )
           )}
-        </>
+        </Animated.View>
       )}
       {showDowland && (
-        <View>
-          <Text h12 white light>{i18n.t('home.history.textSelectTheKindOf')}</Text>
-          <Divider height-15 />
-          <View row flex-1>
-            <View width-130>
-              <DropDownPicker
-                {...month}
-                label={i18n.t('home.history.dropDownMonth')}
-                options={months}
-                onSelect={(code)=> monthFilter(code)}
-              />
+        <Animated.View
+          style={[
+            {
+              // Bind opacity to animated value
+              opacity: fadeDownlands
+            }
+          ]}
+        >
+          <View>
+            <Text h12 white light>{i18n.t('home.history.textSelectTheKindOf')}</Text>
+            <Divider height-15 />
+            <View row flex-1>
+              <View width-130>
+                <DropDownPicker
+                  {...month}
+                  label={i18n.t('home.history.dropDownMonth')}
+                  options={months}
+                  onSelect={(code) => monthFilter(code)}
+                />
+              </View>
+              <Divider width-10 />
+              <View width-130>
+                <DropDownPicker
+                  {...year}
+                  label={i18n.t('home.history.dropDownYear')}
+                  options={years}
+                  onSelect={(code) => yearFilter(code)}
+                />
+              </View>
             </View>
-            <Divider width-10 />
-            <View width-130>
-              <DropDownPicker
-                {...year}
-                label={i18n.t('home.history.dropDownYear')}
-                options={years}
-                onSelect={(code)=> yearFilter(code)}
-              />
+            <Divider height-10 />
+            <View bottom>
+              <ButtonRounded
+                onPress={sendReport}
+                disabled={sendPdf}
+                blue
+              >
+                <Text h14 semibold white>
+                  {i18n.t('home.history.buttonDownloadPDF')}
+                </Text>
+              </ButtonRounded>
             </View>
           </View>
-          <Divider height-10 />
-          <View bottom>
-            <ButtonRounded
-              onPress={sendReport}
-              disabled={sendPdf}
-              blue
-            >
-              <Text h14 semibold white>
-                {i18n.t('home.history.buttonDownloadPDF')}
-              </Text>
-            </ButtonRounded>
-          </View>
-        </View>
+        </Animated.View>
       )}
     </View>
   );

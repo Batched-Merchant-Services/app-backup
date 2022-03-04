@@ -16,8 +16,7 @@ import Lottie
     let animationView = AnimationView(name: lottieName)
     animationView.frame = rootView.frame
     animationView.center = rootView.center
-    animationView.contentMode = .scaleAspectFit
-    animationView.backgroundColor = UIColor.white
+    animationView.contentMode = .scaleAspectFill
     return animationView;
   }
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import {
   Text,
   View,
@@ -21,6 +21,11 @@ import { launchImageLibrary } from 'react-native-image-picker';
 import { cleanDataFile, setFile } from '../../store/actions/user.action';
 import { convertImage } from '@utils/formatters';
 import { cleanErrorProfile, updateUserAvatar } from '../../store/actions/profile.actions';
+import Loading from '../Loading';
+import IconUpload from '../../assets/iconSVG/IconsKYC/IconUpload';
+import { useTheme } from '@react-navigation/native';
+import { generateColorRandom } from '../../utils/formatters';
+
 
 const options = {
   title: 'Choose an Image',
@@ -34,12 +39,13 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
   const [nameAvatar, setNameAvatar] = useState('pending');
   const [successInfo, setSuccessInfo] = useState(false);
   const dataUser = redux?.user;
+  const brandTheme = dataUser?.Theme?.colors;
   const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
   const accounts = userProfile?.accounts;
   const profile = redux?.profile;
   const errorFile = useSelector(state => state?.user?.showErrorFile);
   const success = useSelector(state => state?.profile?.successUpdateAvatar);
-
+  const { colors } = useTheme();
 
   useEffect(() => {
     dispatch(cleanErrorProfile());
@@ -88,6 +94,7 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
     setSuccessInfo(false)
   }
   return (
+    <Fragment>
       <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
         <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
           <StepIndicator step={4} totalSteps={5} />
@@ -95,12 +102,12 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
         <Divider height-10 />
         <Text h14 blue02 regular>Profile picture:</Text>
         <View flex-1 centerH centerV>
-          <View width-320 height-320 blue02 centerH>
+          <View width-320 height-320 centerH style={{backgroundColor: generateColorRandom()}}>
             {accounts?.avatarImage !== '' && nameAvatar === 'pending' && (
               <ImageResize
                 source={{ uri: accounts?.avatarImage }}
                 height={verticalScale(320)}
-                width={scale(320)}
+                width={scale(290)}
               />
             )}
 
@@ -117,12 +124,8 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
               />
             )}
 
-            <TouchableHighlight style={[Styles.containerProfile, { backgroundColor: Colors.blue04 }]} onPress={handleImages} >
-              <ImageResize
-                source={upload}
-                height={verticalScale(28)}
-                width={scale(28)}
-              />
+            <TouchableHighlight style={[Styles.containerProfile, { backgroundColor: brandTheme?.blue02??colors?.blue02 }]} onPress={handleImages} >
+              <IconUpload  height={verticalScale(34)} width={scale(46)} fill={brandTheme?.white??colors?.white}/>
             </TouchableHighlight>
           </View>
 
@@ -143,15 +146,16 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
             </Text>
           </ButtonRounded>
         </View>
-        <Divider height-10 />
-        <Text h10 white light>{i18n.t('General.textAllRightsReserved')}</Text>
-        <View flex-1 bottom>
-          <SnackNotice
-            visible={errorFile || success}
-            message={profile?.error?.message}
-          />
-      </View>
+        <Loading modalVisible={profile?.isLoadingProfile} />
       </BackgroundWrapper>
+      <View blue04 paddingH-20 centerH>
+        <SnackNotice
+          visible={errorFile || success}
+          message={profile?.error?.message}
+        />
+      </View>
+      <View blue04 height-20/>
+    </Fragment>
   );
 }
 
