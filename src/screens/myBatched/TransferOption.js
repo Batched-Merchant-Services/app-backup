@@ -14,13 +14,14 @@ import {
 import { scale, verticalScale } from 'react-native-size-matters';
 import { useSelector, useDispatch } from 'react-redux';
 import blueRow from '@assets/icons/blue-row-double-down.png';
-import Styles from './styles';
-import i18n from '@utils/i18n';
 import { thousandsSeparator } from '../../utils/formatters';
-import { cleanErrorPoints, setCommissionBalanceToLiquidityPool, setGatewayPointsToTransactionRewards, setLiquidityPoolToUulalaWallet, setRewardsPointsToTransactionGateway } from '../../store/actions/points.actions';
+import { cleanErrorPoints } from '../../store/actions/points.actions';
 import Loading from '../Loading';
 import { toggleSnackbarClose } from '../../store/actions/app.actions';
-import { validateCodeSms } from '../../store/actions/auth.actions';
+import i18n from '@utils/i18n';
+import LottieView from 'lottie-react-native';
+const IconRowBack = require('@assets/animationsLottie/LineDown.json');
+
 
 const TransferOption = ({ navigation, step, onPress, label }) => {
   const dispatch = useDispatch();
@@ -97,7 +98,8 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
       <Divider height-5 />
       <Text h10 white>{i18n.t('home.myBatchedBalance.textLiquidityPoolBalance')}</Text>
       <Divider height-15 />
-      <View row centerV>
+      <LottieView source={IconRowBack} autoPlay loop style={{ width: scale(20),height:verticalScale(20) }} />
+      {/* <View row centerV>
         <View flex-1 style={Styles.borderDoted} />
         <Divider width-5 />
         <ImageResize
@@ -107,7 +109,7 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
         />
         <Divider width-5 />
         <View flex-1 style={Styles.borderDoted} />
-      </View>
+      </View> */}
       <Divider height-10 />
       <Text h12 white>{i18n.t('home.myBatchedTransfer.textSelectTheAmount')}</Text>
       <Divider height-10 />

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { TextInput, View } from 'react-native';
 import { scale } from 'react-native-size-matters';
@@ -41,6 +41,9 @@ const PinInput = ({ value, error, onChangeText, onSubmit,pinLength = 6, ...props
     
      if (value.length+ 1  === pinLength && text.length !== 0) {
         onSubmit(values.join(''));
+        values.map((v, index, arr) => {
+          onChangeText('');
+        });
       }
 
      
@@ -59,11 +62,19 @@ const PinInput = ({ value, error, onChangeText, onSubmit,pinLength = 6, ...props
    
   };
 
-  const makeHandleFocus = index => () => setFocused(index);
+  const makeHandleFocus = index => () =>{
+    setFocused(index);
+  }
 
   const handleBlur = () => {
     setFocused(null)
+    
   };
+  const handleClear = () => {
+    console.log('clear',refs,values)
+    refs[0].current.clear();
+  };
+  
 
 
   return (
@@ -87,7 +98,6 @@ const PinInput = ({ value, error, onChangeText, onSubmit,pinLength = 6, ...props
             onChangeText={makeHandleTextChange(index)}
             onFocus={makeHandleFocus(index)}
             onEndEditing={handleBlur}
-            blurOnSubmit
             {...props}
           />
           

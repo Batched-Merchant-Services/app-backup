@@ -48,15 +48,21 @@ const FloatingLabelInput = ({
   
   useEffect(() => {
     value && toMax({ immediately: true });
-  }, []);
+  }, [value]);
 
   // Focus handler
   const handleFocus = () => {
-
+    onChangeTextL();
     setIsFocused(true);
     toMax();
     onFocus && onFocus();
   };
+
+
+  const onChangeTextL = () => {
+    inputRef.current.clear();
+  }
+
 
   // Blur handler
   const handleBlur = () => {
@@ -71,6 +77,9 @@ const FloatingLabelInput = ({
 
   const handleChangePass = () => {
     setShowPass(!showPass);
+  };
+  const handleSubmit = () => {
+   
   };
  
   if (value) {
@@ -97,7 +106,7 @@ const FloatingLabelInput = ({
                       {...props}
                       onChangeText={onChangeText}
                       ref={inputRef}
-                      blurOnSubmit
+                      //clearTextOnFocus
                       onBlur={handleBlur}
                       onFocus={handleFocus}
                       selectionColor={brandTheme?.white??Colors.white}

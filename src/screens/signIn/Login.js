@@ -85,10 +85,6 @@ const Login = ({ navigation }) => {
     }
   }
 
-  const onChangeTextL = () => {
-    console.log('sip')
-    setValues(false)
-  }
 
 
 
@@ -112,10 +108,11 @@ const Login = ({ navigation }) => {
       <Divider height-5 />
       <FloatingInput
         {...password}
-        value={''}
+        value={values?'':password?.value}
         label={i18n.t('Login.inputPassword')}
         autoCapitalize={'none'}
         secureTextEntry
+        navigation={navigation}
       />
       <Divider height-10 />
       <View left>

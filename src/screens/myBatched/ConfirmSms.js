@@ -179,7 +179,7 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
       <Divider height-30 />
       <Text h12 blue02>{i18n.t('home.myBatchedTransfer.textConfirmationCode')}</Text>
       <Divider height-10 />
-      <PinInput {...codeSecurity} onSubmit={(code) => getInfo(code)} />
+      <PinInput {...codeSecurity} onSubmit={(code) => getInfo(code)}/>
       <Divider height-25 />
       <Divider style={Styles.borderDoted} />
       <Divider height-25 />
