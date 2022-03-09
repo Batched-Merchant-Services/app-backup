@@ -123,12 +123,10 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
                 width={'90%'}
               />
             )}
-
             <TouchableHighlight style={[Styles.containerProfile, { backgroundColor: brandTheme?.blue02??colors?.blue02 }]} onPress={handleImages} >
               <IconUpload  height={verticalScale(34)} width={scale(46)} fill={brandTheme?.white??colors?.white}/>
             </TouchableHighlight>
           </View>
-
         </View>
         <View flex-1 bottom >
           <ButtonRounded

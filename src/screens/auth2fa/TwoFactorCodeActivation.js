@@ -48,7 +48,7 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
      <Divider height-15 />
       <View centerH>
-        <LottieView source={require('../../assets/animationsLottie/IconClock.json')} autoPlay loop style={{ width: scale(130),height:verticalScale(130) }} />
+        <LottieView source={require('../../assets/animationsLottie/IconClock.json')} autoPlay loop style={{ width: '90%' }} />
         {/* <IconClock width={scale(180)} height={verticalScale(180)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} /> */}
       </View>
       <Divider height-20 />

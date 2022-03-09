@@ -152,6 +152,8 @@
       "textWithNonConsecutive":"with non-consecutive letters and numbers",
       "inputDefineYourPassword":"Define your password (8 Digits code)*",
       "inputRepeatYourPassword":"Repeat your password (8 Digits code)*",
+      "textChangePassword":"Change Password",
+      "textChangeYourPasswordPeriodically":"Change your password periodically to increase the security of your account or if you think it has been compromised.",
       "confirmation":{
         "textPasswordActualized":"Password actualized",
         "textIfYouWantToMake":"If you want to make adjustments such as change of confirmation PIN or change of secret answer, you can access your settings in the",

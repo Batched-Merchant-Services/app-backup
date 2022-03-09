@@ -45,14 +45,15 @@ const NewPassword = ({ navigation, navigation: { goBack },route }) => {
 
   const error = useSelector(state => state?.forgotPassword?.showError);
  
-
+ 
   if (forgotData?.finishForgotSuccess) {
     navigation.navigate("ConfirmationForgot");
   }
 
   function handleSetPassword() {
+    const codeComposition = '2fa' + '-' + code;
     let dataConfirm = {
-      token:code,
+      token:codeComposition,
       password:generateRSA(password?.value),
       confirmPassword:generateRSA(confirmPassword?.value)
     }

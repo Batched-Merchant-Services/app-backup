@@ -63,8 +63,6 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
     }, 2000);
   }
 
-
-
   return (
     <BackgroundWrapper navigation={navigation}>
       <Logo width={scale(169)} height={verticalScale(24)} fill="green" />

@@ -13,33 +13,40 @@ import { scale, verticalScale } from 'react-native-size-matters';
 import { useTheme } from '@react-navigation/native';
 import IconAuthEmail from '@assets/iconSVG/IconAuth2fa/IconAuthEmail';
 import LottieView from 'lottie-react-native';
-const Auth2faApp = ({ navigation, route, navigation: { goBack } }) => {
+
+
+const ChangePasswordInside = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const appData = redux.app;
   const brandTheme = appData?.Theme?.colors;
   const { colors } = useTheme();
 
+  function handleChangePass() {
+    navigation.navigate('SignOut', {
+      screen: 'ConfirmSms',
+      params: { page: 'ChangePass' }
+    });
+  }
+
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
       <Divider height-15 />
-      <View centerH>
-        <LottieView source={require('../../../assets/animationsLottie/IconAuthEmail.json')} autoPlay loop style={{ width: '90%' }} />
-        {/* <IconAuthEmail width={scale(200)} height={verticalScale(210)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} /> */}
+      <View centerH >
+      <LottieView source={require('../../assets/animationsLottie/IconSecurityLock.json')} autoPlay loop style={{ width: '90%' }} />
       </View>
-      <Divider height-20 />
-      <Text h16 regular blue02>Autenticación de dos factores</Text>
+      <Divider height-40 />
+      <Text h16 regular blue02>{i18n.t('ForgotPassword.textChangePassword')}</Text>
       <Divider height-10 />
-      <Text h10 white regular>Use an Authenticator App as your Two-Factor Authentication (2FA). When you sign in you’ll be required to use the security code provided by your Authenticator App.</Text>
+      <Text h12 white regular>{i18n.t('ForgotPassword.textChangeYourPasswordPeriodically')}</Text>
       <Divider height-20 />
-      
       <View flex-1 bottom>
         <ButtonRounded
           blue
-          onPress={() => navigation.navigate('ActivationEmail')}
+          onPress={handleChangePass}
         >
           <Text h13 semibold white center>
-            Activar autenticación vía App
+            {i18n.t('Auth2fa.textActivateEmailAuthentication')}
           </Text>
         </ButtonRounded>
       </View>
@@ -48,4 +55,4 @@ const Auth2faApp = ({ navigation, route, navigation: { goBack } }) => {
 
   );
 }
-export default Auth2faApp;
+export default ChangePasswordInside;

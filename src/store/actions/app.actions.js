@@ -3,6 +3,8 @@ import {
   TOGGLE_STATUS_CHANGE,
   VALIDATE_REWARDS_STATUS,
   TOGGLE_STATUS_CHANGE_STATUS,
+  SAVE_HISTORY_PAGINATION,
+  CLEAN_HISTORY_PAGINATION,
   SET_ERROR_APP,
   USER_ACTIVE
 } from '../constants'
@@ -78,5 +80,11 @@ export const changeStatusTimers = (status,colorStatus) => async (dispatch) => {
 
 export const changeStatusTimerSecond = (status) => async (dispatch) => {
   return dispatch({ type: TOGGLE_STATUS_CHANGE_STATUS, payload:status })
+};
+export const saveHistoryPagination = (data,page) => async (dispatch) => {
+  return dispatch({ type: SAVE_HISTORY_PAGINATION, payload:data , page:page})
+};
+export const cleanHistoryPagination = () => async (dispatch) => {
+  return dispatch({ type: CLEAN_HISTORY_PAGINATION })
 };
 

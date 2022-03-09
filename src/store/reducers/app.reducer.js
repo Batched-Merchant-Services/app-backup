@@ -3,6 +3,8 @@ import {
     TOGGLE_SNACKBAR_CLOSE,
     TOGGLE_STATUS_CHANGE,
     TOGGLE_STATUS_CHANGE_STATUS,
+    SAVE_HISTORY_PAGINATION,
+    CLEAN_HISTORY_PAGINATION,
     GET_APP_RESOURCES,
     SET_ERROR_APP,
     USER_ACTIVE
@@ -14,9 +16,11 @@ const initialState = {
     changeStatus: 0,
     changeSeconds: 0,
     showStatusTimers: 'blueDark',
-    statusUserActive:false,
+    dataHistorySave: [],
+    page: 0,
+    statusUserActive: false,
     snackbarMessage: null,
-    typeSnack:'error',
+    typeSnack: 'error',
     getAppResources: null,
     showError: false,
     error: {},
@@ -39,6 +43,19 @@ export default appReducer = (state = initialState, action) => {
                 ...state,
                 toggleSnackbar: false,
                 snackbarMessage: null,
+            };
+
+        case SAVE_HISTORY_PAGINATION:
+            return {
+                ...state,
+                dataHistorySave: action.payload,
+                pagePagination: action.page,
+            };
+        case CLEAN_HISTORY_PAGINATION:
+            return {
+                ...state,
+                dataHistorySave: [],
+                pagePagination: 0,
             };
         case GET_APP_RESOURCES:
             return {

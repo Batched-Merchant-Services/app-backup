@@ -41,9 +41,12 @@ const PinInput = ({ value, error, onChangeText, onSubmit,pinLength = 6, ...props
     
      if (value.length+ 1  === pinLength && text.length !== 0) {
         onSubmit(values.join(''));
-        values.map((v, index, arr) => {
-          onChangeText('');
-        });
+        setTimeout(() => {
+          values.map((v, index, arr) => {
+            onChangeText('');
+          });
+        }, 3000);
+        
       }
 
      

@@ -8,7 +8,7 @@ import i18n from '@utils/i18n';
 import { formatDateSend, getLocalDateFromUTC, moneyFormatter } from '../../utils/formatters';
 import { pointsConstants } from '../../store/constants';
 import { cleanErrorPoints, getExecutedPointsTransactions } from '../../store/actions/points.actions';
-import { toggleSnackbarClose } from '../../store/actions/app.actions';
+import { saveHistoryPagination, toggleSnackbarClose } from '../../store/actions/app.actions';
 import { useTheme } from '@react-navigation/native';
 import Loading from '../Loading';
 import { verticalScale } from 'react-native-size-matters';
@@ -35,6 +35,7 @@ const History = ({ navigation }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const infoUser = redux?.user;
+  const dataHistoryArray = redux?.app?.dataHistorySave;
   const brandTheme = infoUser?.Theme?.colors;
   const userProfile = infoUser?.dataUser?.usersProfile ? infoUser?.dataUser?.usersProfile[0] : '';
   const points = redux?.points;
@@ -107,37 +108,51 @@ const History = ({ navigation }) => {
 
   }
 
+  useEffect(() => {
+    fadeOut();
+  }, []);
+
+
 
   useEffect(() => {
     var arrayBuy = [];
+    var newArrayExecute = [];
     if (infoUser?.dataUser?.bachedTransaction) {
       if (infoUser?.dataUser?.bachedTransaction?.length > 0) {
         arrayBuy.push(...infoUser?.dataUser?.bachedTransaction);
         if (points?.executeDataCommission?.length > 0) {
           const newBuy = [...arrayBuy, ...points?.executeDataCommission];
+           console.log('newBuy',points?.executeDataCommission?.length)
           setDataHistory(newBuy);
-          if (points?.executeDataCommission?.length < 11) setShowMore(false)
+          if (points?.executeDataCommission?.length < 9) setShowMore(false)
+          else setShowMore(true)
         }
         if (points?.executeData?.length > 0) {
-          setNewArray(points?.executeData)
+          newArrayExecute?.push(...dataHistory)
         }
         setShowData(true);
       }
     }
 
     if (showNewPagination && points?.executeData?.length > 0) {
-      const newData = [...arrayBuy, ...points?.executeData, ...newArray];
-      setShowMore(false)
-      setDataHistory(newData);
+      dispatch(saveHistoryPagination({ data: points?.executeData , page: offset }));
+      const newData = [...points?.executeData, ...newArrayExecute];
+      const sort = newData.sort((a, b) => a?.id?.toString()?.localeCompare(b.id?.toString()));
+      console.log('sort',sort)
+      setShowMore(true)
+      setDataHistory(sort);
     }
-  }, [points?.executeData, showNewPagination]);
+  }, [points?.executeData, showNewPagination,points?.executeDataCommission]);
 
 
 
   useEffect(() => {
+    console.log('showFilter', points?.executeData?.length);
     if (showFilter) {
       if (points?.executeData) {
         if (points?.executeData?.length > 0) {
+          if (points?.executeData?.length < 9) setShowMore(false)
+          else setShowMore(true)
           const newData = [...points?.executeData]
           setDataHistory(newData);
           setShowData(true);
@@ -213,9 +228,6 @@ const History = ({ navigation }) => {
     const offSet = offset + 1
     dispatch(getExecutedPointsTransactions({ id, pool: valuePool, offset: offSet }));
     setShowNewPagination(true);
-    if (showNewPagination && points?.executeData.length > 0) {
-      setShowMore(false)
-    }
   }
 
   function monthFilter(month) {

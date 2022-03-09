@@ -55,6 +55,7 @@ import ConfirmationAuth from '@screens/auth2fa/ConfirmationAuth';
 import TwoFactorOptions from '@screens/auth2fa/TwoFactorOptions';
 import EnterOldCode from '@screens/auth2fa/changeToNewDevice/EnterOldCode';
 import SupportAuthentication from '@screens/auth2fa/SupportAuthentication';
+import ChangePasswordInside from '@screens/forgotPassword/ChangePasswordInside';
 
 
 const Drawer = createDrawerNavigator();
@@ -110,6 +111,8 @@ const signOutScreens = () => {
       <Stack.Screen name="NewPassword" component={NewPassword} />
       <Stack.Screen name="EmailConfirm" component={EmailConfirm} />
       <Stack.Screen name="ConfirmationForgot" component={Confirmation} />
+      <Stack.Screen name="ChangePasswordInside" component={ChangePasswordInside} />
+      
     </Stack.Navigator>
   );
 }

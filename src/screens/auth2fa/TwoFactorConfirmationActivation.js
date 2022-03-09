@@ -54,7 +54,7 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
     <BackgroundWrapper showNavigation={true}  navigation={navigation}>
      <Divider height-20 />
       <View centerH>
-        <LottieView source={require('../../assets/animationsLottie/IconSecurityLock.json')} autoPlay loop style={{ width: scale(120),height:verticalScale(120) }} />
+        <LottieView source={require('../../assets/animationsLottie/IconSecurityLock.json')} autoPlay loop style={{ width: '90%' }} />
         {/* <IconSecurityLock width={scale(180)} height={verticalScale(180)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} /> */}
       </View>
       <Divider height-20 />

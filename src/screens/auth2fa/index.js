@@ -71,12 +71,18 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
     
   }
 
+  const handleChangePass = () => {
+    navigation.navigate('SignOut',{
+      screen: 'ChangePasswordInside'
+    }); 
+  }
+
   
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
       <View centerV padding-20 style={{ borderColor: colors.blue02, borderWidth: 1 }}>
         <View centerH>
-        <LottieView source={require('../../assets/animationsLottie/IconSecurityLock.json')} autoPlay loop style={{ width: scale(85),height:verticalScale(85) }} />
+        <LottieView source={require('../../assets/animationsLottie/IconSecurityLock.json')} autoPlay loop style={{ width: '90%' }} />
         {/* <IconSecurityLock width={scale(130)} height={verticalScale(130)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} /> */}
         </View>
         <Divider height-15 />
@@ -84,7 +90,7 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
         <Divider height-10 />
         <Text h12 white semibold>{i18n.t('Auth2fa.textForUsYourSafetyIs')}</Text>
         <Divider height-10 />
-        <TouchableOpacity style={{ width: '100%' }}>
+        <TouchableOpacity style={{ width: '100%' }} onPress={handleChangePass}>
           <View row centerV>
             <View flex-1>
               <Text h14 semibold success>{i18n.t('Auth2fa.linkChangePassword')}</Text>

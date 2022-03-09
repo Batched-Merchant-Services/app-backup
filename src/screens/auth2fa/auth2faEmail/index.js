@@ -26,7 +26,7 @@ const Auth2faEmail = ({ navigation, route, navigation: { goBack } }) => {
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
       <Divider height-15 />
       <View centerH>
-      <LottieView source={require('../../../assets/animationsLottie/IconAuthEmail.json')} autoPlay loop style={{ width: scale(120),height:verticalScale(120) }} />
+      <LottieView source={require('../../../assets/animationsLottie/IconAuthEmail.json')} autoPlay loop style={{ width: '90%' }}/>
         {/* <IconAuthEmail width={scale(200)} height={verticalScale(210)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} /> */}
       </View>
       <Divider height-20 />

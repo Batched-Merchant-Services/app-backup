@@ -36,7 +36,7 @@ const TwoFactorOptions = ({ navigation, route, navigation: { goBack } }) => {
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
      <Divider height-15 />
       <View centerH >
-        <LottieView source={require('../../assets/animationsLottie/IconNumber.json')} autoPlay loop style={{ width: scale(150),height:verticalScale(120) }} />
+        <LottieView source={require('../../assets/animationsLottie/IconNumber.json')} autoPlay loop style={{ width: '90%' }} />
         {/* <IconNumber width={scale(183)} height={verticalScale(137)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} /> */}
       </View>
       <Divider height-30 />

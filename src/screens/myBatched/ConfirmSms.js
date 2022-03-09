@@ -105,7 +105,6 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
   };
 
   const handleGetLoginTwoFactor = async (code) => {
-    console.log('code',code)
     const codeLeft = await LocalStorage.get('left');
     const codeSecurity = auth?.user?.type2fa !== 1 ? codeLeft + '-' + code: '2fa' + '-' + code;
     dispatch(getLoginTwoFactor({ codeSecurity }));
@@ -114,7 +113,12 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
   function getInfo(code) {
     if (params?.page === 'Login') {
       handleGetLoginTwoFactor(code);
-    } else {
+    } else if(params?.page === 'ChangePass') {
+      navigation.navigate('SignOut', {
+        screen: 'NewPassword',
+        params: { code: code }
+      });
+    }else{
       handleCreateTransfer(code);
     }
 
@@ -157,7 +161,6 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
       params: { amount: amount?.value} 
     });
   }
-  console.log('auth',auth,dataUser)
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
