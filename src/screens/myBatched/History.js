@@ -8,7 +8,7 @@ import i18n from '@utils/i18n';
 import { formatDateSend, getLocalDateFromUTC, moneyFormatter } from '../../utils/formatters';
 import { pointsConstants } from '../../store/constants';
 import { cleanErrorPoints, getExecutedPointsTransactions } from '../../store/actions/points.actions';
-import { saveHistoryPagination, toggleSnackbarClose } from '../../store/actions/app.actions';
+import { cleanHistoryPagination, saveHistoryPagination, toggleSnackbarClose } from '../../store/actions/app.actions';
 import { useTheme } from '@react-navigation/native';
 import Loading from '../Loading';
 import { verticalScale } from 'react-native-size-matters';
@@ -95,6 +95,7 @@ const History = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(cleanErrorPoints());
+    dispatch(cleanHistoryPagination());
     dispatch(toggleSnackbarClose());
     someFetchActionCreator();
   }, []);
@@ -122,13 +123,12 @@ const History = ({ navigation }) => {
         arrayBuy.push(...infoUser?.dataUser?.bachedTransaction);
         if (points?.executeDataCommission?.length > 0) {
           const newBuy = [...arrayBuy, ...points?.executeDataCommission];
-           console.log('newBuy',points?.executeDataCommission?.length)
           setDataHistory(newBuy);
           if (points?.executeDataCommission?.length < 9) setShowMore(false)
           else setShowMore(true)
         }
         if (points?.executeData?.length > 0) {
-          newArrayExecute?.push(...dataHistory)
+          newArrayExecute?.push(...points?.executeData,...dataHistory)
         }
         setShowData(true);
       }
@@ -136,11 +136,13 @@ const History = ({ navigation }) => {
 
     if (showNewPagination && points?.executeData?.length > 0) {
       dispatch(saveHistoryPagination({ data: points?.executeData , page: offset }));
-      const newData = [...points?.executeData, ...newArrayExecute];
+      const newData = [...newArrayExecute];
       const sort = newData.sort((a, b) => a?.id?.toString()?.localeCompare(b.id?.toString()));
-      console.log('sort',sort)
+      const filter = sort.filter(function(item, pos) {
+        return sort.indexOf(item) == pos;
+      })
       setShowMore(true)
-      setDataHistory(sort);
+      setDataHistory(filter);
     }
   }, [points?.executeData, showNewPagination,points?.executeDataCommission]);
 
@@ -159,6 +161,7 @@ const History = ({ navigation }) => {
         } else {
           setDataHistory(dataHistory);
           setShowData(false);
+          setShowMore(false)
         }
       }
     }
