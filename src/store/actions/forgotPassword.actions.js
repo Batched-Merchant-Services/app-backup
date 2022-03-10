@@ -20,13 +20,16 @@ export const getForgotPassword = ({dataRecovery }) => async (dispatch) => {
       fetchPolicy : 'network-only' ,  
       nextFetchPolicy : 'network-only'
     }).then(async (response) => {
+      console.log('response forgot',response)
       if (response.data) {
-        dispatch({ type: FORGOT_YOUR_PASSWORD_SUCCESS, payload: response?.data });
+        dispatch({ type: FORGOT_YOUR_PASSWORD_SUCCESS, payload: response?.data['setRecoveryPwd'] });
       }
     }).catch((error) => {
+      console.log('error 1 forgot',error)
       dispatch({ type: FORGOT_ERROR, payload: error });
     })
   } catch (error) {
+    console.log('error 2 forgot',error)
     dispatch({ type: FORGOT_ERROR, payload: error });
   }
 };

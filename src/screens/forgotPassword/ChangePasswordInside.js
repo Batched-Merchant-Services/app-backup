@@ -13,17 +13,44 @@ import { scale, verticalScale } from 'react-native-size-matters';
 import { useTheme } from '@react-navigation/native';
 import IconAuthEmail from '@assets/iconSVG/IconAuth2fa/IconAuthEmail';
 import LottieView from 'lottie-react-native';
+import { cleanErrorForgot, getForgotPassword } from '../../store/actions/forgotPassword.actions';
+import { toggleSnackbarClose } from '../../store/actions/app.actions';
 
 
-const ChangePasswordInside = ({ navigation, route, navigation: { goBack } }) => {
+const ChangePasswordInside = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const appData = redux.app;
+  const dataUser = redux?.user;
+  const auth = redux?.auth;
+  const forgotData = redux?.forgotPassword;
+  const userProfile = dataUser?.dataUser? dataUser?.dataUser : ''
   const brandTheme = appData?.Theme?.colors;
   const { colors } = useTheme();
+  console.log('auth?.user',auth?.user)
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanErrorForgot());
+      dispatch(toggleSnackbarClose());
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   function handleChangePass() {
-    navigation.navigate('SignOut', {
+    const countryCode = dataUser?.dataUser?.lada;
+    console.log('countryCode',countryCode)
+    let dataRecovery = {
+      email: userProfile?.email,
+      phone: countryCode + userProfile?.phoneNumber,
+      type: auth?.user?.type2fa === 2?1: auth?.user?.type2fa === 3?2:3
+    }
+    console.log('dataRecovery',dataRecovery)
+    dispatch(getForgotPassword({ dataRecovery }));
+  }
+
+  if (forgotData?.sendMessage) {
+   navigation.navigate('SignOut', {
       screen: 'ConfirmSms',
       params: { page: 'ChangePass' }
     });

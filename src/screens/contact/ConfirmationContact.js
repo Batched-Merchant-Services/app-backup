@@ -9,14 +9,7 @@ import {
 } from '@components';
 import { useSelector } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
-import { scale, verticalScale } from 'react-native-size-matters';
-import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
-import rectangleConfirm from '@assets/icons/rectangleConfirm.png';
-import confirmationCheck from '@assets/icons/confirmationCheckRectangle.png';
-import Styles from './styles'
 import i18n from '@utils/i18n';
-import { cleanContactError } from '@store/actions/contact.actions';
-
 
 const ConfirmationContact = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -26,13 +19,9 @@ const ConfirmationContact = ({ navigation, navigation: { goBack } }) => {
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
       <Divider height-20 />
-      <ImageBackground source={rectangleConfirm} resizeMode="cover" style={Styles.image}>
-        <ImageResize
-          source={confirmationCheck}
-          height={verticalScale(90)}
-          width={scale(90)}
-        />
-      </ImageBackground>
+      <View centerH>
+        <LottieView source={require('../../assets/animationsLottie/IconMessage.json')} autoPlay loop style={{ width: '90%' }} />
+      </View>
       <Divider height-30 />
       <Text h18 regular blue02>{i18n.t('contact.textMessageSent')}</Text>
       <Divider height-20 />

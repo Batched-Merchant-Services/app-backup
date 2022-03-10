@@ -16,19 +16,16 @@ import {
 import Logo from '@assets/brandBatched/logo.svg';
 import { useSelector, useDispatch } from 'react-redux';
 import LocalStorage from '@utils/localStorage';
-
 import StepIndicator from '../../components/StepIndicator';
-import rectangleConfirm from '@assets/icons/rectangleConfirm.png';
-import confirmationCheck from '@assets/icons/confirmationCheckRectangle.png';
 
 import Styles from './styles';
 import i18n from '@utils/i18n';
 
-
 //actions
 import { toggleSnackbarClose } from '@store/actions/app.actions';
 import { cleanErrorRegister,setPassword} from '@store/actions/register.actions';
-import Loading from '../Loading';
+import LottieView from 'lottie-react-native';
+
 
 const CreateNewPassword = ({ navigation,navigation: { goBack } }) => {
   const dispatch = useDispatch();
@@ -55,8 +52,6 @@ const CreateNewPassword = ({ navigation,navigation: { goBack } }) => {
     navigation.navigate("NewPin")
   }
   
-  
- 
   return (
     <BackgroundWrapper navigation={navigation}>
       <View row>
@@ -69,13 +64,9 @@ const CreateNewPassword = ({ navigation,navigation: { goBack } }) => {
       </View>
       <Divider height-40 />
       <View style={Styles.container}>
-        <ImageBackground source={rectangleConfirm} resizeMode="cover" style={Styles.image}>
-          <ImageResize
-            source={confirmationCheck}
-            height={verticalScale(90)}
-            width={scale(90)}
-          />
-        </ImageBackground>
+      <View centerH>
+        <LottieView source={require('@assets/animationsLottie/IconCheck.json')} autoPlay loop style={{ width: '90%' }} />
+      </View>
         <Divider height-40 />
         <Text h16 blue02 regular>{i18n.t('Register.textDefineYourPassword')}</Text>
         <Divider height-10 />

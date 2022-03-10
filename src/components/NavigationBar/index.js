@@ -20,7 +20,7 @@ const RenderLeftBack = ({ navigation,onPressLeft, Style, brandTheme, left,menu }
   const { colors } = useTheme();
 
   function handleBack() {
-    navigation.goBack();
+    navigation.goBack(null);
   }
 
   function handleOpenMenuDrawer() {

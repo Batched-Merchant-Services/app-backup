@@ -10,12 +10,10 @@ import {
 import { useSelector } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
 import { scale, verticalScale } from 'react-native-size-matters';
-import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
-import rectangleConfirm from '@assets/icons/rectangleConfirm.png';
-import confirmationCheck from '@assets/icons/confirmationCheckRectangle.png';
 import hamburgerMenu from '@assets/icons/hamburgerMenu.png';
 import i18n from '@utils/i18n';
-import Styles from './styles'
+import LottieView from 'lottie-react-native';
+
 
 const Confirmation = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -24,13 +22,9 @@ const Confirmation = ({ navigation, navigation: { goBack } }) => {
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
       <Divider height-10 />
-      <ImageBackground source={rectangleConfirm} resizeMode="cover" style={Styles.image}>
-        <ImageResize
-          source={confirmationCheck}
-          height={verticalScale(90)}
-          width={scale(90)}
-        />
-      </ImageBackground>
+      <View centerH>
+        <LottieView source={require('../../assets/animationsLottie/IconCheck.json')} autoPlay loop style={{ width: '90%' }} />
+      </View>
       <Divider height-30 />
       <Text h18 regular blue02>{i18n.t('ForgotPassword.confirmation.textPasswordActualized')}</Text>
       <Divider height-20 />
@@ -56,9 +50,7 @@ const Confirmation = ({ navigation, navigation: { goBack } }) => {
             {i18n.t('General.buttonBackToLogin')}
           </Text>
         </ButtonRounded>
-        <Divider height-40 />
         <Divider height-10 />
-        <Text h10 blue01 light>{i18n.t('General.textAllRightsReserved')}{' '}Batched.com</Text>
       </View>
     </BackgroundWrapper>
   );

@@ -110,9 +110,7 @@ const signOutScreens = () => {
       <Stack.Screen name="AccountConfirmation" component={AccountConfirmation} />
       <Stack.Screen name="NewPassword" component={NewPassword} />
       <Stack.Screen name="EmailConfirm" component={EmailConfirm} />
-      <Stack.Screen name="ConfirmationForgot" component={Confirmation} />
-      <Stack.Screen name="ChangePasswordInside" component={ChangePasswordInside} />
-      
+      <Stack.Screen name="ConfirmationForgot" component={Confirmation} />      
     </Stack.Navigator>
   );
 }
@@ -143,6 +141,7 @@ const signInScreens = () => {
       <Stack.Screen name="ConfirmationAuth" component={ConfirmationAuth} />
       <Stack.Screen name="EnterOldCode" component={EnterOldCode} />
       <Stack.Screen name="SupportAuthentication" component={SupportAuthentication} />
+      <Stack.Screen name="ChangePasswordInside" component={ChangePasswordInside} />
     </Stack.Navigator>
   );
 }

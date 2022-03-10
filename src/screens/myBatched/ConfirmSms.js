@@ -56,8 +56,9 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
     dispatch(cleanErrorPoints());
     dispatch(cleanErrorLicenses());
     dispatch(toggleSnackbarClose());
-    dispatch(cleanError());
-    if (params?.page !== 'Login') {
+    if(params?.page !== 'ChangePass')  dispatch(cleanError());
+   
+    if (params?.page !== 'Login' || params?.page !== 'LoginChange') {
       switch (auth?.user?.type2fa) {
         case 1:
           setCodeSmsEmail('2fa')
@@ -113,10 +114,10 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
   function getInfo(code) {
     if (params?.page === 'Login') {
       handleGetLoginTwoFactor(code);
-    } else if(params?.page === 'ChangePass') {
+    } else if(params?.page === 'ChangePass'  || params?.page === 'LoginChange') {
       navigation.navigate('SignOut', {
         screen: 'NewPassword',
-        params: { code: code }
+        params: { code: code, page: params?.page }
       });
     }else{
       handleCreateTransfer(code);
@@ -162,8 +163,20 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
     });
   }
 
+  function handleGoToBack() {
+    if ( params?.page === 'ChangePass') {
+      navigation.navigate('SignIn', {
+        screen: 'ChangePasswordInside'
+      });
+    }else{
+      goBack();
+    }
+   
+  }
+  console.log('auth?.user?.type2fa',auth?.user?.type2fa,params?.typeAuth,auth?.user?.type2fa === 2 || params?.typeAuth === 1)
+
   return (
-    <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
+    <BackgroundWrapper showNavigation={true}  navigation={navigation}>
       <Divider height-20 />
       <Text h16 blue02 regular>{i18n.t('Auth2fa.textTwoFactorAuthentication')}</Text>
       <Divider height-30 />
@@ -171,10 +184,16 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
         <Text h16 white semibold>{thousandsSeparator(RewardsData?.total)}</Text>
       <Divider height-10 /> */}
       {auth?.user?.type2fa === 2 && (
-        <Text h15 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentYou')}{' '}<Text h12 white>{maskNumbers(accounts?.phoneNumber)}</Text></Text>
+        <Text h15 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentYou')}{' '}<Text h12 white>{maskNumbers(accounts?.phoneNumber || params?.phone)}</Text></Text>
+      )}
+      {params?.typeAuth === 1 && (
+        <Text h15 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentYou')}{' '}<Text h12 white>{maskNumbers(accounts?.phoneNumber || params?.phone)}</Text></Text>
       )}
       {auth?.user?.type2fa === 3 && (
-        <Text h15 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentEmail')}{' '}<Text h12 white>{maskEmail(accounts?.email)}</Text></Text>
+        <Text h15 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentEmail')}{' '}<Text h12 white>{maskEmail(accounts?.email || params?.email)}</Text></Text>
+      )}
+      {params?.typeAuth === 2 && (
+        <Text h15 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentEmail')}{' '}<Text h12 white>{maskEmail(accounts?.email || params?.email)}</Text></Text>
       )}
       {auth?.user?.type2fa === 1 && (
         <Text h15 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentApp')}{' '}<Text white semibold>{i18n.t('home.myBatchedTransfer.textAuthenticatorApp')}</Text></Text>
@@ -193,7 +212,7 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
       <Divider height-30 />
       <View flex-1 bottom>
         <ButtonRounded
-          onPress={() => goBack()}
+          onPress={handleGoToBack}
           disabled={false}
           dark
           size='sm'

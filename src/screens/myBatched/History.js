@@ -81,7 +81,8 @@ const History = ({ navigation }) => {
     // Will change fadeAnim value to 1 in 5 seconds
     Animated.timing(fadeDownlands, {
       toValue: 1,
-      duration: 1000
+      duration: 1000,
+      useNativeDriver: true
     }).start();
   };
 
@@ -89,7 +90,8 @@ const History = ({ navigation }) => {
     // Will change fadeAnim value to 0 in 3 seconds
     Animated.timing(fadeMoves, {
       toValue: 1,
-      duration: 3000
+      duration: 3000,
+      useNativeDriver: true
     }).start();
   };
 

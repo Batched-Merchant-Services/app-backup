@@ -72,9 +72,7 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
   }
 
   const handleChangePass = () => {
-    navigation.navigate('SignOut',{
-      screen: 'ChangePasswordInside'
-    }); 
+    navigation.navigate('ChangePasswordInside'); 
   }
 
   

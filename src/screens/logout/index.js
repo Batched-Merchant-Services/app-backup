@@ -3,24 +3,16 @@ import {
   Text,
   View,
   Divider,
-  ImageResize,
   ButtonRounded,
   BackgroundWrapper
 } from '@components';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
-import { scale, verticalScale } from 'react-native-size-matters';
-import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
-import rectangleConfirm from '@assets/icons/rectangleConfirm.png';
-import logout from '@assets/icons/logout.png';
-import Styles from './styles'
 import i18n from '@utils/i18n';
 import { ViewBase } from 'react-native';
-import Colors from '@styles/Colors';
-import { cleanError } from '../../store/actions/auth.actions';
 import { toggleSnackbarClose } from '../../store/actions/app.actions';
-
+import LottieView from 'lottie-react-native';
 
 const Logout = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -36,16 +28,10 @@ const Logout = ({ navigation, navigation: { goBack } }) => {
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
       <Divider height-20 />
-      <ImageBackground source={rectangleConfirm} resizeMode="cover" style={Styles.image}>
-        <View centerH centerV style={[Styles.borderCircle,{borderColor:Colors.white}]}>
-          <ImageResize
-            source={logout}
-            height={verticalScale(40)}
-            width={scale(40)}
-          />
-        </View>
-        
-      </ImageBackground>
+      <View centerH>
+        <LottieView source={require('@assets/animationsLottie/IconLogout.json')} autoPlay loop style={{ width: '90%' }} />
+      </View>
+        <Divider height-40 />
       <Divider height-30 />
       <Text h18 regular blue02>{i18n.t('Logout.textLogout')}</Text>
       <Divider height-20 />

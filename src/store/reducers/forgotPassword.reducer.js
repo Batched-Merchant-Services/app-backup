@@ -12,6 +12,7 @@ export const initialState = {
   sendMessage:false,
   finishForgotSuccess: false,
   showError: false,
+  codeLeft:'',
   error: {},
   success: {},
 };
@@ -28,6 +29,7 @@ export default authReducer = (state = initialState, action) => {
         finishForgotSuccess: false,
         sendMessage:true,
         showError: false,
+        codeLeft: action.payload,
         error: {},
         success: {},
       };

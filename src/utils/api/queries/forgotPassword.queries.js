@@ -8,6 +8,6 @@ mutation($email:String!,$phone:String!,$type:Int!){
 
 
 export const SET_CONFIRM_PASSWORD = gql`
-mutation($token:String!,$password:String!,$confirmPassword:String!){
-  setResetPwd(token:$token,password:$password,confirmPassword:$confirmPassword)
+mutation($token:String!,$code:String!,$password:String!,$confirmPassword:String!){
+  setResetPwd(token:$token,code:$code,password:$password,confirmPassword:$confirmPassword)
 }`;

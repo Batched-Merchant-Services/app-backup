@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState,useRef } from 'react';
 import {
   Text,
   View,
+  Link,
   Divider,
   SnackNotice,
   FloatingInput,
@@ -11,6 +12,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import { scale, verticalScale } from 'react-native-size-matters';
+import { Animated } from 'react-native';
 import Logo from '@assets/brandBatched/logo.svg';
 import i18n from '@utils/i18n';
 import Styles from './styles'
@@ -27,10 +29,18 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
   const forgotData = redux?.forgotPassword;
   const userData = redux?.user;
   const email = useValidatedInput('email', '');
-  const referenceCode = useValidatedInput('sms', '');
-  const isValid = isFormValid(email, referenceCode);
+  const phone = useValidatedInput('phone', '');
+  const [showInputEmail, setShowInputEmail] = useState(false);
+  const [showInputSMS, setShowInputSMS] = useState(false);
+  const [animatedEmail,setAnimatedEmail] = useState(new Animated.Value(0))
+  const [animatedSms,setAnimatedSms] = useState(new Animated.Value(0))
+  const [typeAuthentication,setTypeAuthentication] = useState(2)
+  const error = useSelector(state => state?.forgotPassword?.showError);
   const isValidEmail = isFormValid(email);
-  const [snackVisible, setSnackVisible] = useState(false);
+  const isValidPhone = isFormValid(phone);
+
+
+  console.log('forgotData',forgotData,error)
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -41,63 +51,116 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
 
   }, []);
 
-  const error = useSelector(state => state?.forgotPassword?.showError);
+
+  useEffect(() => {
+    Animated.timing(animatedEmail, {
+      toValue: 1,
+      duration: 1500,
+      useNativeDriver: true
+    }).start();
+
+  }, [animatedEmail]);
 
 
-  function handleForgotPassword() {
-    navigation.navigate("NewPassword", { code: referenceCode?.value });
-  }
+  useEffect(() => {
+    Animated.timing(animatedSms, {
+      toValue: 1,
+      duration: 1500,
+      useNativeDriver: true
+    }).start();
+
+  }, [showInputSMS]);
+
+
 
   function handleSendCode() {
-    
+
     let dataRecovery = {
       email: email?.value,
-      phone: '',
-      type: 2
+      phone: phone?.value,
+      type: typeAuthentication
     }
+    console.log('dataRecovery',dataRecovery)
     dispatch(getForgotPassword({ dataRecovery }));
-    setTimeout(() => {
-      if (forgotData?.sendMessage) {
-        dispatch(toggleSnackbarOpen(i18n.t('ForgotPassword.snackNotice.textTheCodeHasBeen')))
-      }
-    }, 2000);
   }
+
+  function handleShowEmail() {
+    setAnimatedEmail(new Animated.Value(0));
+    setTypeAuthentication(2);
+    setShowInputEmail(!showInputEmail);
+    setShowInputSMS(false);
+  }
+  function handleShowPhone() {
+    setAnimatedSms(new Animated.Value(0));
+    setTypeAuthentication(1);
+    setShowInputSMS(!showInputSMS);
+    setShowInputEmail(false);
+  }
+
+  if (forgotData?.sendMessage) {
+    navigation.navigate("ConfirmSms", {
+      page: 'LoginChange',
+      typeAuth: typeAuthentication,
+      email:email?.value,
+      phone:phone?.value 
+    });
+  }
+  
 
   return (
     <BackgroundWrapper navigation={navigation}>
       <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
       <Divider height-20 />
-      <Text h16 regular blue02>{i18n.t('ForgotPassword.textRecoverYourPassword')}</Text>
-      <Divider height-10 />
-      <Text h16 medium white>{i18n.t('ForgotPassword.textEmailConfirm')}</Text>
-      <Divider height-10 />
-      <Text h12 light white>{i18n.t('ForgotPassword.textEnterYourRegistration')}:</Text>
-      <Divider height-10 />
-      <FloatingInput
-        {...email}
-        label={i18n.t('ForgotPassword.inputEmail')}
-        autoCapitalize={'none'}
-      />
-      <Divider height-10 />
-      <ButtonRounded
-        onPress={handleSendCode}
-        disabled={!isValidEmail}
-        dark
-      >
-        <Text h14 semibold blue02>
-          {i18n.t('ForgotPassword.buttonSendCode')}
-        </Text>
-      </ButtonRounded>
+      <Text h18 regular blue02>{i18n.t('ForgotPassword.textRecoverYourPassword')}</Text>
       <Divider height-20 />
-      <Text h12 light white>{i18n.t('ForgotPassword.textYourCodeIsValid')}{' '}<Text h12 semibold white>{i18n.t('ForgotPassword.textFiveMin')}{' '}</Text>,{i18n.t('ForgotPassword.textIfYouCantFind')}</Text>
+      <Text h14 light>Select password recovery option</Text>
       <Divider height-20 />
-      <FloatingInput
-        {...referenceCode}
-        label={i18n.t('ForgotPassword.inputSixDigits')}
-        autoCapitalize={'none'}
-      />
-      <Divider height-30 />
-      <Text h12 white>{i18n.t('General.textRequiredFields')}</Text>
+      <Text h11 light white>{i18n.t('ForgotPassword.textYourCodeIsValid')}{' '}<Text h12 semibold white>{i18n.t('ForgotPassword.textFiveMin')}{' '}</Text>,{i18n.t('ForgotPassword.textIfYouCantFind')}</Text>
+      <Divider height-20 />
+      <View row centerV>
+        <Text blue02 h5>{'\u2B24'}</Text>
+        <Divider width-5 />
+        <Link onPress={handleShowEmail}>
+          <Text h16 blue02>Correo electronico</Text>
+        </Link>
+      </View>
+      <Divider height-20 />
+      {showInputEmail && (
+        <Fragment>
+          <Animated.View style={{ opacity: animatedEmail }}>
+          <Text h12 light white>{i18n.t('ForgotPassword.textEnterYourRegistration')}:</Text>
+          <Divider height-10 />
+            <FloatingInput
+              {...email}
+              label={i18n.t('ForgotPassword.inputEmail')}
+              autoCapitalize={'none'}
+            />
+          </Animated.View>
+        </Fragment>
+      )}
+      <View row centerV>
+        <Text blue02 h5>{'\u2B24'}</Text>
+        <Divider width-5 />
+        <Link onPress={handleShowPhone}>
+          <Text h16 blue02>SMS</Text>
+        </Link>
+      </View>
+      <Divider height-20 />
+      {showInputSMS && (
+        <Fragment>
+          <Animated.View style={{ opacity: animatedSms }}>
+          <Text h12 light white>{i18n.t('ForgotPassword.textEnterYourRegistrationPhone')}:</Text>
+          <Divider height-10 />
+            <FloatingInput
+              {...phone}
+              label={i18n.t('ForgotPassword.inputPhone')}
+              autoCapitalize={'none'}
+            />
+          </Animated.View>
+        </Fragment>
+      )}
+      <Divider height-20 />
+
       <View flex-1 row bottom >
         <ButtonRounded
           onPress={() => goBack()}
@@ -111,8 +174,8 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
         </ButtonRounded>
         <Divider width-10 />
         <ButtonRounded
-          onPress={handleForgotPassword}
-          disabled={!isValid}
+          onPress={handleSendCode}
+          disabled={typeAuthentication === 1?!isValidPhone:!isValidEmail}
           blue
           size='sm'
         >
@@ -120,15 +183,13 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
             {i18n.t('General.buttonNext')}
           </Text>
         </ButtonRounded>
-      </View>
-      <Loading modalVisible={forgotData?.isLoadingForgot} />
-      <View bottom>
+        <Loading modalVisible={forgotData?.isLoadingForgot} />
         <SnackNotice
           visible={error}
           message={forgotData?.error?.message}
-          timeout={3000}
         />
       </View>
+      <Divider height-15 />
     </BackgroundWrapper>
 
   );

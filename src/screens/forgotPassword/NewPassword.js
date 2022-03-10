@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
   Text,
   View,
@@ -16,25 +16,30 @@ import i18n from '@utils/i18n';
 import Styles from './styles'
 
 //actions
-import { toggleSnackbarClose,toggleSnackbarOpen } from '@store/actions/app.actions';
+import { toggleSnackbarClose, toggleSnackbarOpen } from '@store/actions/app.actions';
 import { cleanErrorForgot, confirmForgotPassword } from '@store/actions/forgotPassword.actions';
 import Loading from '../Loading';
 import { generateRSA } from '@utils/api/encrypt';
+import LottieView from 'lottie-react-native';
 
-
-
-const NewPassword = ({ navigation, navigation: { goBack },route }) => {
+const NewPassword = ({ navigation, navigation: { goBack }, route }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const forgotData = redux?.forgotPassword;
-  const userData = redux?.user;
+  const auth = redux?.auth;
   const code = route?.params?.code;
+  const params = route?.params;
   const password = useValidatedInput('password', '');
   const confirmPassword = useValidatedInput('confirmPassword', '', {
     validationParams: [password.value]
   });
   const isValid = isFormValid(password, confirmPassword);
+  const error = useSelector(state => state?.forgotPassword?.showError);
+
+  console.log('forgotData', forgotData, auth?.user?.type2fa)
+
   useEffect(() => {
+    dispatch(cleanErrorForgot());
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanErrorForgot());
       dispatch(toggleSnackbarClose());
@@ -43,30 +48,39 @@ const NewPassword = ({ navigation, navigation: { goBack },route }) => {
 
   }, []);
 
-  const error = useSelector(state => state?.forgotPassword?.showError);
- 
- 
+
   if (forgotData?.finishForgotSuccess) {
     navigation.navigate("ConfirmationForgot");
   }
 
   function handleSetPassword() {
-    const codeComposition = '2fa' + '-' + code;
+    const codeComposition = auth?.user?.type2fa === 1 ? '2fa' + '-' + code : forgotData?.codeLeft + '-' + code;
     let dataConfirm = {
-      token:codeComposition,
-      password:generateRSA(password?.value),
-      confirmPassword:generateRSA(confirmPassword?.value)
+      token: auth?.user?.type2fa === 1 ? forgotData?.codeLeft : code,
+      code: codeComposition,
+      password: generateRSA(password?.value),
+      confirmPassword: generateRSA(confirmPassword?.value)
     }
-    dispatch(confirmForgotPassword({dataConfirm}));
-   
+    dispatch(confirmForgotPassword({ dataConfirm }));
+
   }
+
 
   return (
     <BackgroundWrapper navigation={navigation}>
       <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
       <Divider height-20 />
-      <Text h16 regular blue02>{i18n.t('ForgotPassword.textRecoverYourPassword')}</Text>
-      <Divider height-10 />
+      <View centerH>
+        <LottieView source={require('../../assets/animationsLottie/IconCheck.json')} autoPlay loop style={{ width: '90%' }} />
+      </View>
+      <Divider height-30 />
+      {params?.page !== 'ChangePass' && (
+        <Fragment>
+          <Text h16 regular blue02>{i18n.t('ForgotPassword.textRecoverYourPassword')}</Text>
+          <Divider height-10 />
+        </Fragment>
+
+      )}
       <Text h16 medium white>{i18n.t('ForgotPassword.textDefineYourNew')}</Text>
       <Divider height-10 />
       <Text h12 light white>{i18n.t('ForgotPassword.textAtLeast')}{' '}<Text h12 semibold white>{i18n.t('ForgotPassword.textEightCharacters')}{' '}</Text>{i18n.t('ForgotPassword.textWithNonConsecutive')}</Text>
@@ -98,19 +112,19 @@ const NewPassword = ({ navigation, navigation: { goBack },route }) => {
           </Text>
         </ButtonRounded>
         <Divider width-10 />
-          <ButtonRounded
-            onPress={handleSetPassword}
-            disabled={!isValid}
-            blue
-            size='sm'
-          >
-            <Text h14 semibold>
+        <ButtonRounded
+          onPress={handleSetPassword}
+          disabled={!isValid}
+          blue
+          size='sm'
+        >
+          <Text h14 semibold>
             {i18n.t('General.buttonSave')}
-            </Text>
-          </ButtonRounded>
+          </Text>
+        </ButtonRounded>
       </View>
       <Loading modalVisible={forgotData?.isLoadingForgot} />
-      <View  bottom>
+      <View bottom>
         <SnackNotice
           visible={error}
           message={forgotData?.error?.message}

@@ -8,8 +8,7 @@ import {
   BackgroundWrapper
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
-import { Animated } from 'react-native'
-import { Linking } from 'react-native';
+import { Linking,Animated } from 'react-native';
 import { useValidatedInput } from '@hooks/validation-hooks';
 import BoxLicenses from './components/BoxLicenses';
 import i18n from '@utils/i18n';
