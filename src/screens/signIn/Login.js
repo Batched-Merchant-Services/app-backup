@@ -61,14 +61,9 @@ const Login = ({ navigation }) => {
     console.log('authData?.user?.isTwoFactor',authData?.user?.isTwoFactor)
     if (authData?.user?.isTwoFactor) {
       if (!authData?.user?.isTwoFactor) {
-        navigation.navigate('SignIn', {
-          screen: 'Auth2fa'
-        });
+        navigation.navigate('Auth2fa');
       } else {
-        navigation.navigate('SignOut', {
-          screen: 'ConfirmSms',
-          params: { page: 'Login' }
-        });
+        navigation.push('ConfirmSms', { page: 'Login' });
       }
     } else {
       if (licensesData?.getLicenses) {
@@ -77,9 +72,7 @@ const Login = ({ navigation }) => {
             screen: 'Dashboard'
           });
         } else {
-          navigation.navigate('SignOut', {
-            screen: 'GetLicenses'
-          });
+          navigation.navigate('GetLicenses');
         }
       }
     }

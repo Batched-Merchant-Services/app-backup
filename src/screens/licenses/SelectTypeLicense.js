@@ -164,10 +164,7 @@ const SelectTypeLicense = ({ navigation }) => {
       <View flex-1  bottom>
       <ButtonRounded
       onPress={() => {
-          navigation.navigate('SignOut',{
-            screen: 'TransferCryptoCurrency',
-            params: { id: idCurrency,currency: currencyLicense?.value}
-          });
+          navigation.navigate('TransferCryptoCurrency',{ id: idCurrency,currency: currencyLicense?.value});
         }}
         disabled={!isValid}
         blue

@@ -7,17 +7,36 @@ import {
   ButtonRounded,
   BackgroundWrapper
 } from '@components';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
 import { scale, verticalScale } from 'react-native-size-matters';
 import hamburgerMenu from '@assets/icons/hamburgerMenu.png';
 import i18n from '@utils/i18n';
 import LottieView from 'lottie-react-native';
+import { cleanErrorForgot } from '../../store/actions/forgotPassword.actions';
+import { toggleSnackbarClose } from '../../store/actions/app.actions';
 
 
-const Confirmation = ({ navigation, navigation: { goBack } }) => {
+const Confirmation = ({ navigation, route }) => {
   const redux = useSelector(state => state);
   const referenceCode = useValidatedInput('sms', '');
+  const dispatch = useDispatch();
+  const params = route?.params;
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanErrorForgot());
+      dispatch(toggleSnackbarClose());
+    });
+    return unsubscribe;
+  }, [navigation]);
+  
+
+  function handleGoToNext() {
+    
+    if (params?.page === 'ChangePass') navigation.navigate('Auth2fa');
+    else  navigation.navigate("Login")
+  }
 
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
@@ -42,7 +61,7 @@ const Confirmation = ({ navigation, navigation: { goBack } }) => {
       
       <View flex-1 bottom>
         <ButtonRounded
-          onPress={() => navigation.navigate("Login")}
+          onPress={handleGoToNext}
           disabled={false}
           blue
         >

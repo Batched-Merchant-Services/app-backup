@@ -30,8 +30,8 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
   const [isEnabledSMS, setIsEnabledSMS] = useState(false);
 
   useEffect(() => {
-    console.log('auth?.user?.type2f',user)
-    switch (user?.dataUser?.type2fa) {
+    console.log('auth?.user?.type2f',user?.dataUser?.type2fa,auth?.type2fa)
+    switch (auth?.type2fa) {
       case 1:
         setIsEnabledApp(true);
       break;

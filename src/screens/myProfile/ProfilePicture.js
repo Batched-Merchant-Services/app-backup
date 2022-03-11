@@ -131,10 +131,7 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
         <View flex-1 bottom >
           <ButtonRounded
             onPress={() => {
-              navigation.navigate('SignIn', {
-                screen: 'BankInformation',
-                merge: true
-              });
+              navigation.navigate('BankInformation');
             }}
             //disabled={!isValid}
             dark

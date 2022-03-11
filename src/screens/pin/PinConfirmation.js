@@ -63,18 +63,12 @@ const PinConfirmation = ({ navigation, navigation: { goBack }, route }) => {
         setSnackVisible(false);
       }
     } else if (page === 'forgotPassword') {
-      navigation.navigate('SignOut', {
-        screen: 'NewPassword'
-      });
+      navigation.navigate('NewPassword');
     } else if (page === 'transferOption') {
-      navigation.navigate('SignIn', {
-        screen: 'ConfirmationTransfer'
-      });
+      navigation.navigate('ConfirmationTransfer');
     }
     else {
-      navigation.navigate('SignIn', {
-        screen: 'Login'
-      });
+      navigation.navigate('Login');
     }
   };
 
@@ -89,9 +83,7 @@ const PinConfirmation = ({ navigation, navigation: { goBack }, route }) => {
   }
 
   if (registerData?.finishSetPasswordSuccess) {
-    navigation.navigate('SignOut', {
-      screen: 'TermConditions'
-    });
+    navigation.navigate('TermConditions');
   }
 
   return (

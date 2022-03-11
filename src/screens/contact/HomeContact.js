@@ -62,7 +62,7 @@ const HomeContact = ({ navigation, navigation: { goBack } }) => {
   
 
   if (contact?.successContact) {
-    navigation.navigate('SignIn', { screen: 'ConfirmationContact'})
+    navigation.navigate('ConfirmationContact')
   }
 
   

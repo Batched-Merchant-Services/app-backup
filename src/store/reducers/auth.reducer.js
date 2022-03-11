@@ -20,7 +20,8 @@ import {
   GET_ENABLE_SMS,
   GET_ENABLE_SMS_SUCCESS,
   GET_ENABLE_EMAIL,
-  GET_ENABLE_EMAIL_SUCCESS
+  GET_ENABLE_EMAIL_SUCCESS,
+  CHANGE_TYPE_AUTHENTICATION
 } from '../constants';
 
 export const initialState = {
@@ -49,6 +50,7 @@ export const initialState = {
   dataQrCode: null,
   dataCode: null,
   dataCodeEmail: null,
+  type2fa:null,
   error: {},
   success: {},
 };
@@ -124,6 +126,7 @@ export default authReducer = (state = initialState, action) => {
         ...state,
         isActivateApp: false,
         successActivateApp: true,
+        type2fa:1,
         showError: false,
         error: {},
         success: {},
@@ -135,6 +138,7 @@ export default authReducer = (state = initialState, action) => {
         ...state,
         isActivateSms: false,
         successActivateSms: true,
+        type2fa:2,
         showError: false,
         codeLeft: action.payload,
         error: {},
@@ -147,6 +151,7 @@ export default authReducer = (state = initialState, action) => {
         ...state,
         isActivateEmail: false,
         successActivateEmail: true,
+        type2fa:3,
         showError: false,
         codeLeft: action.payload,
         error: {},
@@ -227,6 +232,8 @@ export default authReducer = (state = initialState, action) => {
         error: action.payload,
         success: {},
       };
+
+      
     case SET_ERROR:
       return {
         ...state,
@@ -235,6 +242,13 @@ export default authReducer = (state = initialState, action) => {
         showError: true,
         error: action.payload,
         user: null,
+        success: {},
+      };
+      case CHANGE_TYPE_AUTHENTICATION:
+      return {
+        ...state,
+        type2fa: action.payload,
+        error: {},
         success: {},
       };
 

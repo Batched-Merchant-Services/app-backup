@@ -217,10 +217,7 @@ const Dashboard = ({ navigation }) => {
       <Divider height-20 />
       <ButtonRounded
         green
-        onPress={() => navigation.navigate('SignOut',{
-          screen: 'GetLicenses',
-          params: { page:'dashboard'}
-        })}
+        onPress={() => navigation.navigate('GetLicenses',{ page:'dashboard'})}
         disabled={false}
       >
         <Text h14 green>

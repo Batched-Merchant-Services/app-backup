@@ -38,10 +38,7 @@ const ActivationEmail = ({ navigation, route, navigation: { goBack } }) => {
   }, []);
 
   if (authData?.successActivateEmail) {
-    navigation.navigate('SignIn',{
-      screen: 'ConfirmationAuth',
-      params: { page:'Email'}
-    })
+    navigation.navigate('ConfirmationAuth',{ page:'Email'})
   }
 
   useEffect(() => {

@@ -21,6 +21,7 @@ import Styles from './styles'
 import { toggleSnackbarClose, toggleSnackbarOpen } from '@store/actions/app.actions';
 import { cleanErrorForgot, getForgotPassword } from '@store/actions/forgotPassword.actions';
 import Loading from '../Loading';
+import { changeTypeAuth } from '../../store/actions/auth.actions';
 
 
 const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
@@ -74,10 +75,10 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
 
 
   function handleSendCode() {
-
+    const countryCode = userData?.dataUser?.lada;
     let dataRecovery = {
       email: email?.value,
-      phone: phone?.value,
+      phone: '+'+countryCode + phone?.value,
       type: typeAuthentication
     }
     console.log('dataRecovery',dataRecovery)
@@ -87,22 +88,25 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
   function handleShowEmail() {
     setAnimatedEmail(new Animated.Value(0));
     setTypeAuthentication(2);
+    dispatch(changeTypeAuth(3))
     setShowInputEmail(!showInputEmail);
     setShowInputSMS(false);
   }
   function handleShowPhone() {
     setAnimatedSms(new Animated.Value(0));
     setTypeAuthentication(1);
+    dispatch(changeTypeAuth(2))
     setShowInputSMS(!showInputSMS);
     setShowInputEmail(false);
   }
 
   if (forgotData?.sendMessage) {
+    const countryCode = userData?.dataUser?.lada;
     navigation.navigate("ConfirmSms", {
       page: 'LoginChange',
       typeAuth: typeAuthentication,
       email:email?.value,
-      phone:phone?.value 
+      phone:'+'+countryCode + phone?.value,
     });
   }
   

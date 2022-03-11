@@ -36,7 +36,7 @@ const NewPassword = ({ navigation, navigation: { goBack }, route }) => {
   const isValid = isFormValid(password, confirmPassword);
   const error = useSelector(state => state?.forgotPassword?.showError);
 
-  console.log('forgotData', forgotData, auth?.user?.type2fa)
+  console.log('auth?.user?.type2fa', auth)
 
   useEffect(() => {
     dispatch(cleanErrorForgot());
@@ -50,13 +50,13 @@ const NewPassword = ({ navigation, navigation: { goBack }, route }) => {
 
 
   if (forgotData?.finishForgotSuccess) {
-    navigation.navigate("ConfirmationForgot");
+    navigation.navigate("ConfirmationForgot",{page: params?.page});
   }
 
   function handleSetPassword() {
-    const codeComposition = auth?.user?.type2fa === 1 ? '2fa' + '-' + code : forgotData?.codeLeft + '-' + code;
+    const codeComposition = auth?.type2fa === 1 ? '2fa' + '-' + code : forgotData?.codeLeft + '-' + code;
     let dataConfirm = {
-      token: auth?.user?.type2fa === 1 ? forgotData?.codeLeft : code,
+      token: auth?.type2fa === 1 ? forgotData?.codeLeft : code,
       code: codeComposition,
       password: generateRSA(password?.value),
       confirmPassword: generateRSA(confirmPassword?.value)

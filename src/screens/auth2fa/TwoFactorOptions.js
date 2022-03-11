@@ -27,7 +27,7 @@ const TwoFactorOptions = ({ navigation, route, navigation: { goBack } }) => {
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   function handleSupport() {
-    navigation.navigate('SignIn',{screen: 'SupportAuthentication'});
+    navigation.navigate('SupportAuthentication');
     
   }
 

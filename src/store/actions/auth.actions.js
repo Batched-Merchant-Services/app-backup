@@ -19,7 +19,8 @@ import {
   GET_ENABLE_SMS,
   GET_ENABLE_SMS_SUCCESS,
   GET_ENABLE_EMAIL,
-  GET_ENABLE_EMAIL_SUCCESS
+  GET_ENABLE_EMAIL_SUCCESS,
+  CHANGE_TYPE_AUTHENTICATION
 } from '../constants'
 import { LOGIN_QUERY,LOGIN_TWO_FACTOR_QUERY } from '@utils/api/queries/auth.queries';
 import { client } from '@utils/api/apollo';
@@ -49,15 +50,17 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
       },
       fetchPolicy: 'no-cache'
     }).then(async (response) => {
+      console.log('login',response?.data['getLoggin'])
       if (response.data) {
-        const { token,uuid,left,isTwoFactor } = response?.data['getLoggin'];
+        const { token,uuid,left,isTwoFactor,type2fa } = response?.data['getLoggin'];
         dispatch({ type: LOGIN_SUCCESS, payload: response?.data['getLoggin'] });
+        dispatch({ type: CHANGE_TYPE_AUTHENTICATION, payload: type2fa })
         await LocalStorage.set('auth_token', token);
         await LocalStorage.set('uuid', uuid);
         await LocalStorage.set('left', left);
-        dispatch(userInactivity(true));
         if(!isTwoFactor) {
           dispatch(getLicenses());
+          dispatch(getDataUser());
         }
       }
     }).catch((error) => {
@@ -320,6 +323,10 @@ export const logoutSession = () => async (dispatch) => {
 
 };
 
+export const changeTypeAuth = (type) => async (dispatch) => {
+  console.log('type',type)
+  return dispatch({ type: CHANGE_TYPE_AUTHENTICATION , payload:type })
+};
 
 export const cleanError = () => async (dispatch) => {
   try {

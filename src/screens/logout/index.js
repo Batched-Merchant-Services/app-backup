@@ -61,10 +61,7 @@ const Logout = ({ navigation, navigation: { goBack } }) => {
         <Divider width-10 />
         <ButtonRounded
           onPress={() => {
-            navigation.navigate('SignOut',{
-              screen: 'Login',
-              merge: true
-            });
+            navigation.navigate('Login');
           }}
           //disabled={!isValid}
           blue

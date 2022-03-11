@@ -42,15 +42,18 @@ const GetLicenses = ({ navigation, route }) => {
     Animated.timing(animated, {
       toValue: 1,
       duration: 1500,
+      useNativeDriver: true
     }).start();
 
     Animated.timing(animatedTwo, {
       toValue: 1,
       duration: 1800,
+      useNativeDriver: true
     }).start();
     Animated.timing(animatedThree, {
       toValue: 1,
       duration: 2000,
+      useNativeDriver: true
     }).start();
 
   }, [licensesData?.getLicenses]);

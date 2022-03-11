@@ -166,10 +166,7 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
           <Divider width-10 />
           <ButtonRounded
             onPress={() => {
-              navigation.navigate('SignIn', {
-                screen: 'ContactInformation',
-                merge: true
-              });
+              navigation.navigate('ContactInformation');
             }}
             //disabled={!isValid}
             dark

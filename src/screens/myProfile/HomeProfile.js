@@ -34,9 +34,7 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
   }
 
   function handleProfilePicture() {
-    navigation.navigate('SignIn', {
-      screen: 'ProfilePicture'
-    });
+    navigation.navigate('ProfilePicture');
   }
 
 
@@ -124,10 +122,7 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
         disabled={false}
         blue
         onPress={() => {
-          navigation.navigate('SignIn', {
-            screen: 'PersonalInformation',
-            merge: true
-          });
+          navigation.navigate('PersonalInformation');
         }}
       >
         <Text h14 white semibold>{i18n.t('myProfile.buttonCompleteInformation')}</Text>

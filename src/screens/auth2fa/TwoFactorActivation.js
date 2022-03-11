@@ -35,10 +35,7 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
   const [clabe, setClabe] = useState('QrCode');
 
   function handleCodeActivation() {
-    navigation.navigate('SignIn',{
-      screen: 'TwoFactorCodeActivation',
-      params: { page:'change'}
-    });
+    navigation.navigate('TwoFactorCodeActivation',{ page:'change'});
   }
 
   const copyToClipboard = () => {

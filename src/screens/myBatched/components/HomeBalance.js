@@ -63,10 +63,7 @@ const HomeBalance = ({ navigation }) => {
   }
 
   function handleGetLicenses() {
-    navigation.navigate('SignOut', {
-      screen: 'GetLicenses',
-      params: { page: 'myBatched' }
-    });
+    navigation.navigate('GetLicenses', {page: 'myBatched' });
   }
   return (
     <View flex-1>
@@ -190,7 +187,7 @@ const HomeBalance = ({ navigation }) => {
       <Text h10 white>{i18n.t('home.myBatchedBalance.textLiquidityPoolBalance')}</Text>
       <Divider height-20 />
       <ButtonRounded
-        onPress={() => navigation.navigate('SignIn', { screen: 'TransferOption' })}
+        onPress={() => navigation.navigate('TransferOption')}
         //onPress={() => navigation.navigate("TransferOption")}
         disabled={false}
         blue

@@ -65,9 +65,7 @@ const CustomDrawer = props => {
   }
 
   if (auth?.isLoggedOut) {
-    navigation.navigate('SignIn', {
-      screen: 'LogOut'
-    });
+    navigation.navigate('LogOut');
   }
   useEffect(async() => {
     AsyncStorage.getItem('lang').then((value) => {
@@ -271,7 +269,7 @@ const CustomDrawer = props => {
               label={({ focused }) => <CustomLabel label={'Contact'} />}
             />
           </Ripple>
-          <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('SignIn', { screen: 'Auth2fa' })}>
+          <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('Auth2fa')}>
             <DrawerItem
               label={({ focused }) => <CustomLabel label={'Security'} />}
             />
@@ -281,9 +279,7 @@ const CustomDrawer = props => {
           />
           <Ripple color={'rgb(0, 106, 200)'} centered={true}
             // onPress={() => {
-            //   navigation.navigate('SignIn', {
-            //     screen: 'LogOut'
-            //   })
+            //   navigation.navigate('LogOut')
             // }}
             onPress={handleLogout}
           >

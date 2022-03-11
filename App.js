@@ -120,9 +120,7 @@
     setActive(active);
     if (!active && userActive) {
       setTimerOn(false);
-      NavigationService.navigate('SignOut',{
-        screen: 'Login'
-      });
+      NavigationService.navigate('Login');
       configStore?.dispatch(userInactivity(false));
     }else {
       setTimerOn(true);

@@ -3,7 +3,7 @@ import React from "react";
 import {Animated} from "react-native"
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { signInScreens, signOutScreens,DrawerScreen } from './registerScreens';
+import { SignAllScreens,DrawerScreen } from './registerScreens';
 import CustomDrawer from "./DrawerAware";
 const {
   interpolate,
@@ -23,9 +23,8 @@ const screenOptionStyle = {
 
 const AppNavigation = () => {
   return (
-  <Stack.Navigator initialRouteName="SignOut" screenOptions={{ headerShown: false }}> 
-      <Stack.Screen name="SignOut" component={signOutScreens} />
-      <Stack.Screen name="SignIn" component={signInScreens} />
+  <Stack.Navigator initialRouteName="SignAllScreens" screenOptions={{ headerShown: false }}> 
+      <Stack.Screen name="SignAllScreens" component={SignAllScreens} />
       <Stack.Screen name="DrawerScreen" component={DrawerScreen} />
     </Stack.Navigator>
   );

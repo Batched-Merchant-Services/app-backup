@@ -86,6 +86,60 @@ const DrawerScreen = () => {
   );
 }
 
+const SignAllScreens = () => {
+  return (
+    <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false,gestureEnabled: false }}>
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="Register" component={Register}/>
+      <Stack.Screen name="CodeSms" component={CodeSms}/>
+      <Stack.Screen name="ConfirmSms" component={ConfirmSms}  />
+      <Stack.Screen name="TermConditions" component={TermsAndConditions} />
+      <Stack.Screen name="SecretAnswer" component={SecretAnswer} />
+      <Stack.Screen name="ReferralCode" component={ReferralCode} />
+      <Stack.Screen name="GetLicenses" component={GetLicenses} />
+      <Stack.Screen name="SelectLicense" component={SelectTypeLicense} />
+      <Stack.Screen name="TransferCryptoCurrency" component={TransferCryptoCurrency} />
+      <Stack.Screen name="QrCodeTransaction" component={QrCodeTransaction} />
+      <Stack.Screen name="ConfirmationLicenses" component={ConfirmationLicenses} />
+      <Stack.Screen name="LoginCode" component={LoginCode} />
+      <Stack.Screen name="RegisterProfileBasic" component={RegisterProfileBasic} />
+      <Stack.Screen name="CreateNewPassword" component={CreateNewPassword} />
+      <Stack.Screen name="NewPin" component={NewPin} />
+      <Stack.Screen name="PinConfirmation" component={PinConfirmation} />
+      <Stack.Screen name="AccountConfirmation" component={AccountConfirmation} />
+      <Stack.Screen name="NewPassword" component={NewPassword} />
+      <Stack.Screen name="EmailConfirm" component={EmailConfirm} />
+      <Stack.Screen name="ConfirmationForgot" component={Confirmation} />
+
+      <Stack.Screen name="ConfirmationTransfer" component={ConfirmationTransfer} />
+      <Stack.Screen name="TransferOption" component={TransferOption} />
+      <Stack.Screen name="PersonalInformation" component={PersonalInformation} />
+      <Stack.Screen name="ContactInformation" component={ContactInformation} />
+      <Stack.Screen name="BankInformation" component={BankInformation} />
+      <Stack.Screen name="ProfilePicture" component={ProfilePicture} />
+      <Stack.Screen name="VerificationInformation" component={VerificationInformation} />
+      <Stack.Screen name="ConfirmationContact" component={ConfirmationContact} />
+      <Stack.Screen name="LogOut" component={LogOut} />
+      <Stack.Screen name="Auth2fa" component={Auth2fa} />
+      <Stack.Screen name="TwoFactorInstructions" component={TwoFactorInstructions} />
+      <Stack.Screen name="TwoFactorActivation" component={TwoFactorActivation} />
+      <Stack.Screen name="TwoFactorCodeActivation" component={TwoFactorCodeActivation} />
+      <Stack.Screen name="TwoFactorConfirmationActivation" component={TwoFactorConfirmationActivation} />
+      <Stack.Screen name="TwoFactorOptions" component={TwoFactorOptions} />
+      <Stack.Screen name="Auth2faSms" component={Auth2faSms} />
+      <Stack.Screen name="ActivationSms" component={ActivationSms} />
+      <Stack.Screen name="Auth2faEmail" component={Auth2faEmail} />
+      <Stack.Screen name="ActivationEmail" component={ActivationEmail} />
+      <Stack.Screen name="Auth2faApp" component={Auth2faApp} />
+      <Stack.Screen name="ConfirmationAuth" component={ConfirmationAuth} />
+      <Stack.Screen name="EnterOldCode" component={EnterOldCode} />
+      <Stack.Screen name="SupportAuthentication" component={SupportAuthentication} />
+      <Stack.Screen name="ChangePasswordInside" component={ChangePasswordInside} />
+    </Stack.Navigator>
+  );
+}
+
+
 const signOutScreens = () => {
   //aqui pondremos las que contienen un menu 
   return (
@@ -110,7 +164,8 @@ const signOutScreens = () => {
       <Stack.Screen name="AccountConfirmation" component={AccountConfirmation} />
       <Stack.Screen name="NewPassword" component={NewPassword} />
       <Stack.Screen name="EmailConfirm" component={EmailConfirm} />
-      <Stack.Screen name="ConfirmationForgot" component={Confirmation} />      
+      <Stack.Screen name="ConfirmationForgot" component={Confirmation} />
+
     </Stack.Navigator>
   );
 }
@@ -146,4 +201,4 @@ const signInScreens = () => {
   );
 }
 
-export { signInScreens, signOutScreens, DrawerScreen };
+export { SignAllScreens, DrawerScreen };

@@ -33,10 +33,7 @@ const EnterOldCode = ({ navigation, route, navigation: { goBack } }) => {
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   function getInfo(code) {
-    navigation.navigate('SignOut',{
-      screen: 'TwoFactorActivation',
-      params: { page:'change'}
-    });
+    navigation.navigate('TwoFactorActivation',{ page:'change'});
   }
 
   return (

@@ -184,10 +184,7 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
           <Divider width-10 />
           <ButtonRounded
             onPress={() => {
-              navigation.navigate('SignIn', {
-                screen: 'ProfilePicture',
-                merge: true
-              });
+              navigation.navigate('ProfilePicture');
             }}
             //disabled={!isValid}
             dark
