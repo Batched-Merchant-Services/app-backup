@@ -88,13 +88,13 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
 
 
   useEffect(() => {
-    if (auth?.user?.type2fa === 1 || auth?.type2fa === 1) setCodeSmsEmail('2fa')
+    if (auth?.type2fa === 1) setCodeSmsEmail('2fa')
   }, [auth?.user?.left])
 
 
 
   useEffect(() => {
-    if (auth?.user?.type2fa || auth?.type2fa) {
+    if (auth?.type2fa === 1) {
       setCodeSmsEmail('2fa');
     } else {
       setCodeSmsEmail(auth?.dataCode);
@@ -117,7 +117,7 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
 
   const handleGetLoginTwoFactor = async (code) => {
     const codeLeft = await LocalStorage.get('left');
-    const codeSecurity = auth?.user?.type2fa !== 1 ? codeLeft + '-' + code: '2fa' + '-' + code;
+    const codeSecurity = auth?.type2fa !== 1 ? codeLeft + '-' + code: '2fa' + '-' + code;
     dispatch(getLoginTwoFactor({ codeSecurity }));
   }
 
@@ -125,14 +125,14 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
     if (params?.page === 'Login') {
       handleGetLoginTwoFactor(code);
     } else if(params?.page === 'ChangePass'  || params?.page === 'LoginChange') {
-      navigation.navigate('NewPassword', { code: code, page: params?.page });
+      navigation.push('NewPassword', { code: code, page: params?.page });
     }else{
       handleCreateTransfer(code);
     }
 
   }
   function onPressResendCode() {
-    switch (auth?.user?.type2fa) {
+    switch (auth?.type2fa) {
       case 1:
         setCodeSmsEmail('2fa');
         break;
@@ -151,9 +151,7 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
   if (auth?.isSessionTwoFactors) {
     if (licensesData?.getLicenses) {
       if (licensesData?.getLicenses) {
-        navigation.navigate('DrawerScreen', {
-          screen: 'Dashboard'
-        });
+        navigation.navigate('Dashboard');
       } else {
         navigation.push('GetLicenses');
       }
@@ -162,7 +160,7 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
 
 
   if (points?.successTransferGatewayLiquid) {
-    navigation.push('ConfirmationTransfer', { amount: amount?.value});
+    navigation.navigate('ConfirmationTransfer', { amount: amount?.value});
   }
 
   function handleGoToBack() {
@@ -171,28 +169,14 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
     }else{
       goBack(null);
     }
-   
   }
-  console.log('params',params)
+
 
   return (
     <BackgroundWrapper showNavigation={true}  childrenLeft  onPressLeft={()=> goBack(null)}>
       <Divider height-20 />
       <Text h16 blue02 regular>{i18n.t('Auth2fa.textTwoFactorAuthentication')}</Text>
       <Divider height-30 />
-      {/* <Text h14 blue02>{i18n.t('home.myBatchedTransfer.textRewardPoints')}</Text>
-        <Text h16 white semibold>{thousandsSeparator(RewardsData?.total)}</Text>
-      <Divider height-10 /> */}
-      {/* {auth?.user?.type2fa === 2 && params?.page !== 'ChangePass' && params?.page !== 'LoginChange' &&(
-        <Text h15 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentYou')}{' '}<Text h12 white>{maskNumbers(accounts?.phoneNumber || params?.phone)}</Text></Text>
-      )}
-      {auth?.user?.type2fa === 3 && params?.page !== 'ChangePass' && params?.page !== 'LoginChange' &&(
-        <Text h15 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentEmail')}{' '}<Text h12 white>{maskEmail(accounts?.email || params?.email)}</Text></Text>
-      )}
-      {auth?.user?.type2fa === 1 && params?.page !== 'ChangePass' && params?.page !== 'LoginChange' &&(
-        <Text h15 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentApp')}{' '}<Text white semibold>{i18n.t('home.myBatchedTransfer.textAuthenticatorApp')}</Text></Text>
-      )} */}
-
       {auth?.type2fa === 2 &&(
         <Text h15 blue02>{i18n.t('home.myBatchedTransfer.textWeHaveSentYou')}{' '}<Text h12 white>{maskNumbers(accounts?.phoneNumber || params?.phone)}</Text></Text>
       )}

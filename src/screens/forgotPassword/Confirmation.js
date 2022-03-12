@@ -35,7 +35,7 @@ const Confirmation = ({ navigation, route }) => {
   function handleGoToNext() {
     
     if (params?.page === 'ChangePass') navigation.navigate('Auth2fa');
-    else  navigation.navigate("Login")
+    else  navigation.push("Login")
   }
 
   return (

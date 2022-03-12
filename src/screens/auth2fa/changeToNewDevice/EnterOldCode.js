@@ -33,7 +33,7 @@ const EnterOldCode = ({ navigation, route, navigation: { goBack } }) => {
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   function getInfo(code) {
-    navigation.navigate('TwoFactorActivation',{ page:'change'});
+    navigation.push('TwoFactorActivation',{ page:'change'});
   }
 
   return (

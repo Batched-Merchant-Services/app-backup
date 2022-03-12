@@ -40,7 +40,7 @@ const Auth2faSms = ({ navigation, route, navigation: { goBack } }) => {
       <View flex-1 bottom>
         <ButtonRounded
           blue
-          onPress={() => navigation.navigate('ActivationSms')}
+          onPress={() => navigation.push('ActivationSms')}
         >
           <Text h13 semibold white center>
             {i18n.t('Auth2fa.textActivateAuthenticationSMS')}

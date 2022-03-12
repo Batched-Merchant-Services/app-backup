@@ -73,12 +73,7 @@ const PinInput = ({ value, error, onChangeText, onSubmit,pinLength = 6, ...props
     setFocused(null)
     
   };
-  const handleClear = () => {
-    console.log('clear',refs,values)
-    refs[0].current.clear();
-  };
-  
-
+ 
 
   return (
     <View style={Styles.container}>

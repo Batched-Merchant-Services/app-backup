@@ -42,15 +42,13 @@ const ActivationSms = ({ navigation, route, navigation: { goBack } }) => {
 
 
   if (authData?.successActivateSms) {
-    navigation.navigate('ConfirmationAuth',{ page:'SMS'})
+    navigation.push('ConfirmationAuth',{ page:'SMS'})
   }
   
   useEffect(() => {
     setCodeSmsEmail(authData?.dataCode);
   }, [authData?.dataCode])
 
-
-  console.log('authData?.isActivateSms',authData?.isActivateSms,authData?.isValidateCode)
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>

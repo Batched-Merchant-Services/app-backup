@@ -35,23 +35,19 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
   const [clabe, setClabe] = useState('QrCode');
 
   function handleCodeActivation() {
-    navigation.navigate('TwoFactorCodeActivation',{ page:'change'});
+    navigation.push('TwoFactorCodeActivation',{ page:'change'});
   }
 
   const copyToClipboard = () => {
     Clipboard.setString(accounts?.id);
   }
-
   useEffect(() => {
     dispatch(getAuth2faQr());
   }, [dispatch]);
   
   useEffect(() => {
-    console.log('authData?.dataQrCode',authData)
     setClabe(authData?.dataQrCode?.secretCode)
   }, [authData?.dataQrCode]);
-
-  console.log('dataQrCode',authData?.dataQrCode?.qrCodeUrl)
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>

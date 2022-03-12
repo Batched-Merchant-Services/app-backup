@@ -27,7 +27,7 @@ const TwoFactorOptions = ({ navigation, route, navigation: { goBack } }) => {
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   function handleSupport() {
-    navigation.navigate('SupportAuthentication');
+    navigation.push('SupportAuthentication');
     
   }
 
@@ -50,7 +50,7 @@ const TwoFactorOptions = ({ navigation, route, navigation: { goBack } }) => {
           <Divider height-5 />
           <Text h12 white regular>{i18n.t('Auth2fa.textUseYourCurrent')}</Text>
           <Divider height-5 />
-          <Link onPress={()=>navigation.navigate('EnterOldCode')}>
+          <Link onPress={()=>navigation.push('EnterOldCode')}>
             <Text h12 blue02 medium>{i18n.t('Auth2fa.linkContinue')}</Text>
           </Link>
         </View>

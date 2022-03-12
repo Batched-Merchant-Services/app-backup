@@ -41,17 +41,14 @@ export const getDataUser = () => async (dispatch) => {
       fetchPolicy : 'network-only' ,  
       nextFetchPolicy : 'network-only'
     }).then(async (response) => {
-      console.log('response getUser',response)
       if (response.data) {
         dispatch({ type: GET_USER_DATA_SUCCESS, payload: response?.data?.getUsersByField[0] });
       }
     }).catch((error) => {
-      console.log('error1 getUser',error)
       dispatch({ type: USER_ERROR, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('error2 getUser',error)
     dispatch({ type: USER_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }

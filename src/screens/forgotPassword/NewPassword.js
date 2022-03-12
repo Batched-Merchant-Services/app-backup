@@ -36,8 +36,6 @@ const NewPassword = ({ navigation, navigation: { goBack }, route }) => {
   const isValid = isFormValid(password, confirmPassword);
   const error = useSelector(state => state?.forgotPassword?.showError);
 
-  console.log('auth?.user?.type2fa', auth)
-
   useEffect(() => {
     dispatch(cleanErrorForgot());
     const unsubscribe = navigation.addListener('focus', () => {
@@ -50,10 +48,11 @@ const NewPassword = ({ navigation, navigation: { goBack }, route }) => {
 
 
   if (forgotData?.finishForgotSuccess) {
-    navigation.navigate("ConfirmationForgot",{page: params?.page});
+    navigation.push("ConfirmationForgot",{page: params?.page});
   }
 
   function handleSetPassword() {
+  
     const codeComposition = auth?.type2fa === 1 ? '2fa' + '-' + code : forgotData?.codeLeft + '-' + code;
     let dataConfirm = {
       token: auth?.type2fa === 1 ? forgotData?.codeLeft : code,
@@ -65,7 +64,7 @@ const NewPassword = ({ navigation, navigation: { goBack }, route }) => {
 
   }
 
-
+  console.log('auth?.type2fa ',auth?.type2fa,error)
   return (
     <BackgroundWrapper navigation={navigation}>
       <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
@@ -125,12 +124,13 @@ const NewPassword = ({ navigation, navigation: { goBack }, route }) => {
       </View>
       <Loading modalVisible={forgotData?.isLoadingForgot} />
       <View bottom>
-        <SnackNotice
+       
+      </View>
+      <SnackNotice
           visible={error}
           message={forgotData?.error?.message}
           timeout={3000}
         />
-      </View>
     </BackgroundWrapper>
 
 

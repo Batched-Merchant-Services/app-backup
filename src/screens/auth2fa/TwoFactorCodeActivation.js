@@ -41,7 +41,7 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
   }
 
   if (authData?.successActivateApp) {
-    navigation.navigate('TwoFactorConfirmationActivation');
+    navigation.push('TwoFactorConfirmationActivation');
   }
 
   return (

@@ -62,7 +62,7 @@ const HomeContact = ({ navigation, navigation: { goBack } }) => {
   
 
   if (contact?.successContact) {
-    navigation.navigate('ConfirmationContact')
+    navigation.push('ConfirmationContact')
   }
 
   

@@ -26,7 +26,6 @@ const RenderLeftBack = ({ navigation,onPressLeft, Style, brandTheme, left,menu }
   function handleOpenMenuDrawer() {
     navigation.openDrawer();
   }
-  console.log('menuuu',menu,left)
 
   return (
     <TouchableOpacity

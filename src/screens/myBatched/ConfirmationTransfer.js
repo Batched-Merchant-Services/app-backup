@@ -36,10 +36,7 @@ const ConfirmationTransfer = ({ navigation, navigation: { goBack },route }) => {
   }, [dispatch])
 
   function handleGoToHomeBatched() {
-    navigation.navigate('DrawerScreen',{
-      screen: 'HomeMyBatched',
-      merge: true
-    });
+    navigation.navigate('HomeMyBatched');
     dispatch(cleanErrorPoints());
   }
 

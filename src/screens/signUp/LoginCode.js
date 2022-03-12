@@ -52,7 +52,7 @@ const LoginCode = ({ navigation, navigation: { goBack } }) => {
 
 
   if (registerData?.finishValidateCodeSuccess) {
-    navigation.navigate('Register');
+    navigation.push('Register');
   }
 
 

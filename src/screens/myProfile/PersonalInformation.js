@@ -166,7 +166,7 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
           <Divider width-10 />
           <ButtonRounded
             onPress={() => {
-              navigation.navigate('ContactInformation');
+              navigation.push('ContactInformation');
             }}
             //disabled={!isValid}
             dark

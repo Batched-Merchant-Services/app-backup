@@ -36,6 +36,7 @@ import { DevSettings, Linking, AsyncStorage, TouchableOpacity } from 'react-nati
 import IconBack from '../assets/iconSVG/IconBack';
 import IconRowRight from '../assets/iconSVG/IconRowRight';
 import IconLogOut from '../assets/iconSVG/IconLogOut';
+import NavigationService from './../../NavigationService';
 const {
   interpolate,
   Extrapolate
@@ -65,7 +66,7 @@ const CustomDrawer = props => {
   }
 
   if (auth?.isLoggedOut) {
-    navigation.navigate('LogOut');
+    navigation.push('LogOut');
   }
   useEffect(async() => {
     AsyncStorage.getItem('lang').then((value) => {
@@ -107,7 +108,6 @@ const CustomDrawer = props => {
       navigation.closeDrawer();
   }
 
-    console.log('language',languageMenu)
     return (
       <TouchableOpacity
         style={[{
@@ -219,12 +219,12 @@ const CustomDrawer = props => {
               label={({ focused }) => <CustomLabel label={'Distribution cycle'} />}
             />
           </Ripple>
-          <Ripple color={'rgb(0, 106, 200)'} centered={true}
+          {/* <Ripple color={'rgb(0, 106, 200)'} centered={true}
           >
             <DrawerItem
               label={({ focused }) => <CustomLabel label={'Enter referral code'} />}
             />
-          </Ripple>
+          </Ripple> */}
           <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('HomeProfile')}>
             <DrawerItem
               label={({ focused }) => <CustomLabel label={'My profile'} />}

@@ -34,7 +34,7 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
   }
 
   function handleProfilePicture() {
-    navigation.navigate('ProfilePicture');
+    navigation.push('ProfilePicture');
   }
 
 

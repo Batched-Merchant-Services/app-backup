@@ -212,8 +212,9 @@ export const registerProfile = ({ dataRegisterProf,term }) => async (dispatch) =
 
 
 
-export const setPassword = ({ pinConfirm,password }) => async (dispatch) => {
+export const setPassword = ({ passwordValue }) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
+  console.log()
   try {
     dispatch({ type: SET_PASSWORD });
    
@@ -221,18 +222,21 @@ export const setPassword = ({ pinConfirm,password }) => async (dispatch) => {
       mutation: SET_PASSWORD_QUERY,
       variables: {
         token: token,
-        pin:generateRSA(pinConfirm),
-        password:generateRSA(password) 
+        pin:generateRSA('123456'),
+        password: generateRSA(passwordValue) 
       }
     }).then(async (response) => {
+      console.log('response',response)
       if (response.data) {
         dispatch({ type: SET_PASSWORD_SUCCESS, payload: response?.data });
       }
     }).catch((error) => {
+      console.log('error1',error)
       dispatch({ type: REGISTER_ERROR, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
+    console.log('error2',error)
     dispatch({ type: REGISTER_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }

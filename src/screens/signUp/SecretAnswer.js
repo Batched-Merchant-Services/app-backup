@@ -76,7 +76,7 @@ const SecretAnswer = ({ navigation, navigation: { goBack } }) => {
         </ButtonRounded>
         <Divider width-10 />
         <ButtonRounded
-         onPress={() => navigation.navigate("TermConditions")}
+         onPress={() => navigation.push("TermConditions")}
           disabled={!isValid}
           blue
           size='sm'

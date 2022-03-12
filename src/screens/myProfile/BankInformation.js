@@ -201,10 +201,7 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
           <Divider width-10 />
           <ButtonRounded
             onPress={() => {
-              navigation.navigate('DrawerScreen', {
-                screen: 'HomeProfile',
-                merge: true
-              });
+              navigation.navigate('HomeProfile');
             }}
             //disabled={!isValid}
             dark

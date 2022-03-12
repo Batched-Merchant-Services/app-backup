@@ -45,9 +45,7 @@ const ConfirmationLicenses = ({ navigation,navigation: { goBack }  }) => {
       <Divider height-120 />
       <ButtonRounded
         onPress={() => {
-          navigation.navigate('DrawerScreen', {
-            screen: 'Dashboard'
-          });
+          navigation.navigate('Dashboard');
         }}
         disabled={false}
         blue

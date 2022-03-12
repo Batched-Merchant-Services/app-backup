@@ -100,9 +100,7 @@ export const maskNumbers = cardNumber => {
 export const maskEmail = cardNumber => {
   if (cardNumber) {
     const chunks = String(cardNumber).match(/.{0,4}/g);
-    console.log('chunks',chunks)
     const maskedArray = chunks.map((element, index) => {
-      console.log('element',element,index)
       if (index === 0  || index === 1) {
         return element.replace(/[^0-9]+/g, "*");
        
@@ -139,13 +137,12 @@ export const convertImage = async(path) => {
 
 
 export const regexTermsAndConditions = text => {
-  console.log('text',text)
-  const text2 = text.replace(/^\s+|\s+$|\s+(?=\s)/g, "") 
-  const text3 = text2.replace(/(<\/br>)/g,'\n')
-  text = text3.split(/(<.*?>.*?<\/.*?>)/g);
+  const text2 = text?.replace(/^\s+|\s+$|\s+(?=\s)/g, "") 
+  const text3 = text2?.replace(/(<\/br>)/g,'\n')
+  text = text3?.split(/(<.*?>.*?<\/.*?>)/g);
   
-  for(var i = 1; i < text.length; i += 2) {
-    var word = text[i].replace(/<.*?>(.*?)<\/.*?>/, '$1');
+  for(var i = 1; i < text?.length; i += 2) {
+    var word = text[i]?.replace(/<.*?>(.*?)<\/.*?>/, '$1');
     text[i] = <Text style={{fontWeight:lookup['strong']}}>{word}</Text>;
   }
   return text;

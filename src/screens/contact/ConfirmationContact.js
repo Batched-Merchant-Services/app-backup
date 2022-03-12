@@ -32,10 +32,7 @@ const ConfirmationContact = ({ navigation, navigation: { goBack } }) => {
       <View flex-1 bottom>
         <ButtonRounded
           onPress={() => {
-            navigation.navigate('DrawerScreen', {
-              screen: 'Dashboard',
-              merge: true
-            })
+            navigation.navigate('Dashboard')
           }}
           disabled={false}
           blue

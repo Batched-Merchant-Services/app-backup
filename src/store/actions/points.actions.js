@@ -151,7 +151,6 @@ export const getExecutedPointsTransactions = ({ id, pool,offset }) => async (dis
     }).then(async (response) => {
       if (response.data) {
         const executeResponse = response?.data['getAccountTransactionsTokens'];  
-        console.log('executeResponse',executeResponse)
         dispatch({ type: EXECUTES_POINTS_SUCCESS, payload: executeResponse });
         switch (pool) {
           case 1:

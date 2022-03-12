@@ -1,4 +1,5 @@
-import { CommonActions } from '@react-navigation/native';
+import { CommonActions,NavigationActions } from '@react-navigation/native';
+
 
 let _navigator;
 
@@ -16,9 +17,26 @@ function navigate(name, params) {
   );
   
 }
+function push(name, params) {
+  _navigator.dispatch(
+    CommonActions.reset({
+      index: 2,
+      routes: [
+        { name: 'Login' },
+        {
+          name: 'Login',
+          params: { user: 'jane' },
+        },
+      ],
+    })
+  );
+  
+}
+
 // add other navigation functions that you need and export them
 
 export default {
   navigate,
+  push,
   setTopLevelNavigator,
 };

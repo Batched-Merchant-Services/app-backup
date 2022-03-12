@@ -50,7 +50,6 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
       },
       fetchPolicy: 'no-cache'
     }).then(async (response) => {
-      console.log('login',response?.data['getLoggin'])
       if (response.data) {
         const { token,uuid,left,isTwoFactor,type2fa } = response?.data['getLoggin'];
         dispatch({ type: LOGIN_SUCCESS, payload: response?.data['getLoggin'] });
@@ -76,7 +75,6 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
 
 export const getLoginTwoFactor = ({ codeSecurity }) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
-  console.log('token',token,'codeSecurity',codeSecurity)
   try {
     dispatch({ type: LOGIN });
     client.query({
@@ -89,7 +87,6 @@ export const getLoginTwoFactor = ({ codeSecurity }) => async (dispatch) => {
       nextFetchPolicy : 'network-only'
     }).then(async (response) => {
       if (response.data) {
-        console.log('response.data two factor',response.data)
         const { token,uuid } = response?.data['getLogginTwoFactor'];
         dispatch({ type: LOGIN_TWO_FACTORS_SUCCESS, payload: response?.data['getLogginTwoFactor'] });
         await LocalStorage.set('auth_token', token);
@@ -99,12 +96,10 @@ export const getLoginTwoFactor = ({ codeSecurity }) => async (dispatch) => {
         dispatch(getDataUser());
       }
     }).catch((error) => {
-      console.log('error1 two factor',error)
       dispatch({ type: LOGIN_ERROR, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
-    console.log('error2 two factor',error)
     dispatch({ type: LOGIN_ERROR, payload: error });
   }
 
@@ -136,7 +131,6 @@ export const getAuth2faQr = () => async (dispatch) => {
 
 export const Activation2faApp = ({code}) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
-  console.log('code',code)
   try {
     dispatch({ type: GET_ENABLE_THIRD_PARTY });
       client.mutate({
@@ -149,16 +143,13 @@ export const Activation2faApp = ({code}) => async (dispatch) => {
       fetchPolicy : 'network-only' ,  
       nextFetchPolicy : 'network-only'
     }).then(async (response) => {
-      console.log('response Activation2faApp',response)
       if (response.data) {
         dispatch({ type: GET_ENABLE_THIRD_PARTY_SUCCESS, payload: response?.data['Activation2faApp'] });
       }
     }).catch((error) => {
-      console.log('error1',error)
       dispatch({ type: LOGIN_ERROR, payload: error });
     })
   } catch (error) {
-    console.log('error2',error)
     dispatch({ type: LOGIN_ERROR, payload: error });
   }
 }
@@ -178,16 +169,13 @@ export const Activation2faSms = ({codeComposition}) => async (dispatch) => {
       fetchPolicy : 'network-only' ,  
       nextFetchPolicy : 'network-only'
     }).then(async (response) => {
-      console.log('response Activation2faSms',response)
       if (response.data) {
         dispatch({ type: GET_ENABLE_SMS_SUCCESS, payload: response?.data['Activation2faApp'] });
       }
     }).catch((error) => {
-      console.log('Activation2faSms error1',error)
       dispatch({ type: LOGIN_ERROR, payload: error });
     })
   } catch (error) {
-    console.log('Activation2faSms error2',error)
     dispatch({ type: LOGIN_ERROR, payload: error });
   }
 }
@@ -195,7 +183,6 @@ export const Activation2faSms = ({codeComposition}) => async (dispatch) => {
 
 export const Activation2faEmail = ({codeComposition}) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');
-  console.log('codeComposition',codeComposition)
   try {
     dispatch({ type: GET_ENABLE_EMAIL });
       client.mutate({
@@ -208,16 +195,13 @@ export const Activation2faEmail = ({codeComposition}) => async (dispatch) => {
       fetchPolicy : 'network-only' ,  
       nextFetchPolicy : 'network-only'
     }).then(async (response) => {
-      console.log('response Activation2faApp',response)
       if (response.data) {
         dispatch({ type: GET_ENABLE_EMAIL_SUCCESS, payload: response?.data['Activation2faApp'] });
       }
     }).catch((error) => {
-      console.log('error1',error)
       dispatch({ type: LOGIN_ERROR, payload: error });
     })
   } catch (error) {
-    console.log('error2',error)
     dispatch({ type: LOGIN_ERROR, payload: error });
   }
 }
@@ -324,7 +308,6 @@ export const logoutSession = () => async (dispatch) => {
 };
 
 export const changeTypeAuth = (type) => async (dispatch) => {
-  console.log('type',type)
   return dispatch({ type: CHANGE_TYPE_AUTHENTICATION , payload:type })
 };
 

@@ -6,19 +6,15 @@ import {
   ButtonRounded,
   BackgroundWrapper
 } from '@components';
-
 import { useSelector, useDispatch } from 'react-redux';
-import { useValidatedInput } from '@hooks/validation-hooks';
 import i18n from '@utils/i18n';
-import { ViewBase } from 'react-native';
 import { toggleSnackbarClose } from '../../store/actions/app.actions';
 import LottieView from 'lottie-react-native';
+import { cleanError } from '../../store/actions/auth.actions';
 
 const Logout = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
   const dispatch = useDispatch();
-  const authData = redux?.auth;
-  const referenceCode = useValidatedInput('sms', '');
 
   useEffect(() => {
     dispatch(cleanError());
@@ -45,10 +41,7 @@ const Logout = ({ navigation, navigation: { goBack } }) => {
       <View flex-1 row bottom >
         <ButtonRounded
           onPress={() => {
-            navigation.navigate('DrawerScreen',{
-              screen: 'Dashboard',
-              merge: true
-            });
+            navigation.navigate('Dashboard');
           }}
           disabled={false}
           dark
@@ -61,7 +54,7 @@ const Logout = ({ navigation, navigation: { goBack } }) => {
         <Divider width-10 />
         <ButtonRounded
           onPress={() => {
-            navigation.navigate('Login');
+            navigation.push('Login');
           }}
           //disabled={!isValid}
           blue

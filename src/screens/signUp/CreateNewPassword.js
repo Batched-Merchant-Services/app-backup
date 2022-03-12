@@ -48,9 +48,14 @@ const CreateNewPassword = ({ navigation,navigation: { goBack } }) => {
   }, []);
 
   async function handleNewPin() {
-    await LocalStorage.set('password', confirmPassword?.value);
-    navigation.navigate("NewPin")
+    const passwordValue = password?.value;
+    dispatch(setPassword({ passwordValue }));
   }
+
+  if (registerData?.finishSetPasswordSuccess) {
+    navigation.push('TermConditions');
+  }
+
   
   return (
     <BackgroundWrapper navigation={navigation}>

@@ -187,7 +187,7 @@ const HomeBalance = ({ navigation }) => {
       <Text h10 white>{i18n.t('home.myBatchedBalance.textLiquidityPoolBalance')}</Text>
       <Divider height-20 />
       <ButtonRounded
-        onPress={() => navigation.navigate('TransferOption')}
+        onPress={() => navigation.push('TransferOption')}
         //onPress={() => navigation.navigate("TransferOption")}
         disabled={false}
         blue

@@ -66,18 +66,14 @@ const GetLicenses = ({ navigation, route }) => {
       amountStep: licensesData?.getLicenses?.cost
     }
     dispatch(saveCurrentLicense({ selectLicense }));
-    navigation.navigate("SelectLicense")
+    navigation.push("SelectLicense")
   }
 
   const handleDashboard = () => {
     if (params?.page === 'myBatched') {
-      navigation.navigate('DrawerScreen', {
-        screen: 'HomeMyBatched'
-      })
+      navigation.navigate('HomeMyBatched')
     } else if (params?.page === 'dashboard') {
-      navigation.navigate('DrawerScreen', {
-        screen: 'Dashboard'
-      })
+      navigation.navigate('Dashboard')
     } else {
       return null
     }

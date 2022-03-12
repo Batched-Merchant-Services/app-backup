@@ -106,7 +106,6 @@
 
   useEffect(() => {
     const userActive = storePromise?.getState()?.app?.statusUserActive;
-    console.log('userActive',userActive)
     if (userActive) {
       setTimerOn(true);
       setSecondsLeft(60 * 4.5)

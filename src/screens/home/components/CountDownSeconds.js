@@ -95,7 +95,7 @@ const CountDownSeconds = ({ navigation, ...props }) => {
       dispatch(setValidateRewardsProcess({ isStart: false }));
       setCountDown(0);
       setShowButtonStart(false);
-      navigation.navigate("ActivationConfirmation");
+      navigation.push("ActivationConfirmation");
     }
   }, [countDown, runTimer]);
 

@@ -37,7 +37,7 @@ const Auth2faEmail = ({ navigation, route, navigation: { goBack } }) => {
       <View flex-1 bottom>
         <ButtonRounded
           blue
-          onPress={() => navigation.navigate('ActivationEmail')}
+          onPress={() => navigation.push('ActivationEmail')}
         >
           <Text h13 semibold white center>
             {i18n.t('Auth2fa.textActivateEmailAuthentication')}

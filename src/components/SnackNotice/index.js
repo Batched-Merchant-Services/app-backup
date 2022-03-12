@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
-import { Text, View, Divider, ImageResize, ButtonRounded } from '@components';
+import React, { useEffect,useState } from 'react';
+import { Text, View, Divider, ImageResize } from '@components';
 import { Animated, TouchableOpacity } from 'react-native'
 import styles from './styles';
 import { useDispatch, useSelector } from "react-redux";
 import Colors from '@styles/Colors';
-import { toggleSnackbarClose, toggleSnackbarOpen } from '@store/actions/app.actions';
+import { toggleSnackbarClose } from '@store/actions/app.actions';
 import { scale, verticalScale } from 'react-native-size-matters';
 import IconWarning from '@assets/iconSVG/IconWarning';
 import close from '@assets/icons/white-x.png';
@@ -23,7 +23,7 @@ const SnackNotice = ({
   const SHOW = useSelector(state => state?.app?.toggleSnackbar);
   const MESSAGE = useSelector((state) => state?.app?.snackbarMessage);
   const TYPE = useSelector((state) => state?.app?.typeSnack);
-  const animated = new Animated.Value(0);
+  const [animated,setAnimated] = useState(new Animated.Value(0))
   const duration = 1000;
 
   const TIME = (timeout - 500) / 1000 + "s";
@@ -57,6 +57,7 @@ const SnackNotice = ({
   function handleTimeout() {
     TIMER = setTimeout(() => {
       dispatch(toggleSnackbarClose());
+      setAnimated(new Animated.Value(0));
     }, timeout);
   }
 
@@ -86,6 +87,7 @@ const SnackNotice = ({
     default:
       backgroundSnack = errorColor;
   }
+
 
   if (SHOW) {
     return (

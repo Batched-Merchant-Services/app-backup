@@ -30,7 +30,6 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
   const [isEnabledSMS, setIsEnabledSMS] = useState(false);
 
   useEffect(() => {
-    console.log('auth?.user?.type2f',user?.dataUser?.type2fa,auth?.type2fa)
     switch (auth?.type2fa) {
       case 1:
         setIsEnabledApp(true);
@@ -49,30 +48,30 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
     setIsEnabledApp(previousState => !previousState);
     setIsEnabledEmail(false);
     setIsEnabledSMS(false);
-    navigation.navigate("TwoFactorInstructions")
+    navigation.push("TwoFactorInstructions")
   }
 
   const toggleSwitchEmail = () => {
     setIsEnabledEmail(previousState => !previousState);
     setIsEnabledApp(false);
     setIsEnabledSMS(false);
-    navigation.navigate("Auth2faEmail")
+    navigation.push("Auth2faEmail")
   }
 
   const toggleSwitchSMS = () => {
     setIsEnabledSMS(previousState => !previousState);
     setIsEnabledEmail(false);
     setIsEnabledApp(false);
-    navigation.navigate("Auth2faSms");
+    navigation.push("Auth2faSms");
   }
 
   const handleGoToOptions = () => {
-    navigation.navigate("TwoFactorOptions");
+    navigation.push("TwoFactorOptions");
     
   }
 
   const handleChangePass = () => {
-    navigation.navigate('ChangePasswordInside'); 
+    navigation.push('ChangePasswordInside'); 
   }
 
   

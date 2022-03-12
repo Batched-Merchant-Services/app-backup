@@ -47,7 +47,6 @@ const Login = ({ navigation }) => {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log('mdmmdmdd',email?.value)
     setValues(false);
   }, [email?.value]);
 
@@ -58,7 +57,6 @@ const Login = ({ navigation }) => {
   }
 
   if (authData?.isSession) {
-    console.log('authData?.user?.isTwoFactor',authData?.user?.isTwoFactor)
     if (authData?.user?.isTwoFactor) {
       if (!authData?.user?.isTwoFactor) {
         navigation.navigate('Auth2fa');
@@ -68,9 +66,7 @@ const Login = ({ navigation }) => {
     } else {
       if (licensesData?.getLicenses) {
         if (licensesData?.getLicenses) {
-          navigation.navigate('DrawerScreen', {
-            screen: 'Dashboard'
-          });
+          navigation.navigate('Dashboard');
         } else {
           navigation.navigate('GetLicenses');
         }
@@ -109,7 +105,7 @@ const Login = ({ navigation }) => {
       />
       <Divider height-10 />
       <View left>
-        <Link onPress={() => navigation.navigate("EmailConfirm")}>
+        <Link onPress={() => navigation.push("EmailConfirm")}>
           <Text h12 blue02 left>{i18n.t('Login.linkIForgotMyPassword')}</Text>
         </Link>
       </View>

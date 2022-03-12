@@ -177,7 +177,7 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
           <Divider width-10 />
           <ButtonRounded
             onPress={() => {
-              navigation.navigate('VerificationInformation', {
+              navigation.push('VerificationInformation', {
                 merge: true
               });
             }}

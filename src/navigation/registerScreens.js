@@ -56,40 +56,23 @@ import TwoFactorOptions from '@screens/auth2fa/TwoFactorOptions';
 import EnterOldCode from '@screens/auth2fa/changeToNewDevice/EnterOldCode';
 import SupportAuthentication from '@screens/auth2fa/SupportAuthentication';
 import ChangePasswordInside from '@screens/forgotPassword/ChangePasswordInside';
+import DrawerNavigator from './DrawerNavigator';
 
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
-const DrawerScreen = () => {
-  //aqui pondremos las que contienen un menu deslizable
-  return (
-    <Drawer.Navigator
-      drawerContent={(props) => <CustomDrawer {...props} />} drawerStyle={{ width: "100%" }}>
-      <Drawer.Screen options={{
-        headerShown: false,
-      }} name="HomeMyBatched" component={HomeMyBatched} screenOptions={{ headerShown: false }} />
-      <Drawer.Screen name="Dashboard" options={{
-        headerShown: false,
-      }} component={Dashboard} />
-      <Drawer.Screen options={{
-        headerShown: false,
-      }} name="ActivationConfirmation" component={ActivationConfirmation} screenOptions={{ headerShown: false }} />
-      <Drawer.Screen options={{
-        headerShown: false,
-      }} name="HomeProfile" component={HomeProfile} screenOptions={{ headerShown: false }} />
-      <Drawer.Screen options={{
-        headerShown: false,
-      }} name="HomeContact" component={HomeContact} screenOptions={{ headerShown: false }} />
-    </Drawer.Navigator>
 
-  );
-}
 
 const SignAllScreens = () => {
   return (
     <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false,gestureEnabled: false }}>
       <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name='HomeMyBatched' component={DrawerNavigator} />
+      <Stack.Screen name='Dashboard' component={DrawerNavigator} />
+      <Stack.Screen name='ActivationConfirmation' component={DrawerNavigator} />
+      <Stack.Screen name='HomeProfile' component={DrawerNavigator} />
+      <Stack.Screen name='HomeContact' component={DrawerNavigator} />
       <Stack.Screen name="Register" component={Register}/>
       <Stack.Screen name="CodeSms" component={CodeSms}/>
       <Stack.Screen name="ConfirmSms" component={ConfirmSms}  />
@@ -201,4 +184,4 @@ const signInScreens = () => {
   );
 }
 
-export { SignAllScreens, DrawerScreen };
+export { SignAllScreens };

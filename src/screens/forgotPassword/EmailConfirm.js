@@ -41,8 +41,6 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
   const isValidPhone = isFormValid(phone);
 
 
-  console.log('forgotData',forgotData,error)
-
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanErrorForgot());
@@ -81,7 +79,6 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
       phone: '+'+countryCode + phone?.value,
       type: typeAuthentication
     }
-    console.log('dataRecovery',dataRecovery)
     dispatch(getForgotPassword({ dataRecovery }));
   }
 
@@ -102,7 +99,7 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
 
   if (forgotData?.sendMessage) {
     const countryCode = userData?.dataUser?.lada;
-    navigation.navigate("ConfirmSms", {
+    navigation.push("ConfirmSms", {
       page: 'LoginChange',
       typeAuth: typeAuthentication,
       email:email?.value,

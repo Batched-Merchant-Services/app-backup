@@ -27,7 +27,6 @@ const ChangePasswordInside = ({ navigation, route }) => {
   const userProfile = dataUser?.dataUser? dataUser?.dataUser : ''
   const brandTheme = appData?.Theme?.colors;
   const { colors } = useTheme();
-  console.log('auth?.user',auth?.user,'auth',auth)
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -39,18 +38,16 @@ const ChangePasswordInside = ({ navigation, route }) => {
 
   function handleChangePass() {
     const countryCode = dataUser?.dataUser?.lada;
-    console.log('auth',auth)
     let dataRecovery = {
       email: userProfile?.email,
       phone: '+'+countryCode + userProfile?.phoneNumber,
       type: auth?.type2fa === 2?1:auth?.type2fa === 3?2:3
     }
-    console.log('dataRecovery',dataRecovery)
     dispatch(getForgotPassword({ dataRecovery }));
   }
 
   if (forgotData?.sendMessage) {
-   navigation.navigate('ConfirmSms', { page: 'ChangePass' });
+   navigation.push('ConfirmSms', { page: 'ChangePass' });
   }
 
   return (
