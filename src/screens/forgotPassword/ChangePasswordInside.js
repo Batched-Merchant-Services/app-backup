@@ -34,8 +34,9 @@ const ChangePasswordInside = ({ navigation, route }) => {
       dispatch(toggleSnackbarClose());
     });
     return unsubscribe;
-  }, [navigation]);
+  }, [dispatch]);
 
+  
   function handleChangePass() {
     const countryCode = dataUser?.dataUser?.lada;
     let dataRecovery = {
@@ -50,6 +51,7 @@ const ChangePasswordInside = ({ navigation, route }) => {
    navigation.push('ConfirmSms', { page: 'ChangePass' });
   }
 
+  console.log('lsss')
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
       <Divider height-15 />

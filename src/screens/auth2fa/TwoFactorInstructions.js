@@ -26,7 +26,7 @@ const TwoFactorInstructions = ({ navigation, route, navigation: { goBack } }) =>
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
   function handleActivation() {
-    navigation.push('TwoFactorActivation',{ page:'change'});
+    navigation.navigate('TwoFactorActivation',{ page:'change'});
   }
 
   return (

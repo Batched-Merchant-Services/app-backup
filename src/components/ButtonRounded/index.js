@@ -101,12 +101,28 @@ const ButtonRounded = ({
 };
 
 function getBtnSize(size) {
+  let sizeMd;
   const sizes = {
     lg: scale(310),
     md: scale(250),
     sm: scale(150),
   };
-  return sizes[size];
+
+  switch (size) {
+    case 'lg':
+      sizeMd = false;
+      break;
+    case 'sm':
+      sizeMd = false;
+      break;
+    case 'md':
+      sizeMd = false;
+      break;
+    default:
+      sizeMd = true;
+  }
+
+  return sizeMd ? size?parseInt(size):size : sizes[size];
 }
 
 export default ButtonRounded;

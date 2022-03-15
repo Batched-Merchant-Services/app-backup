@@ -25,6 +25,7 @@ import close from '@assets/icons/white-x.png';
 import { toggleSnackbarClose } from '@store/actions/app.actions';
 import { getDataUser } from '../../store/actions/user.action';
 import { userInactivity } from '../../store/actions/app.actions';
+import ModalInfo2fa from '../ModalInfo2fa';
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -36,6 +37,7 @@ const Login = ({ navigation }) => {
   const password = useValidatedInput('password', '');
   const isValid = isFormValid(email, password);
   const error = useSelector(state => state?.auth?.showError);
+  const [showModalDates, setShowModalDates] = useState(false);
   const todoInput = useRef(null);
  
 
@@ -51,30 +53,19 @@ const Login = ({ navigation }) => {
   }, [email?.value]);
 
 
+
   function fetchSession() {
     //setValues(true)
     dispatch(getLogin({ email, password }));
   }
 
   if (authData?.isSession) {
-    if (authData?.user?.isTwoFactor) {
-      if (!authData?.user?.isTwoFactor) {
-        navigation.navigate('Auth2fa');
-      } else {
-        navigation.push('ConfirmSms', { page: 'Login' });
-      }
+    if (!authData?.user?.isTwoFactor) {
+      navigation.navigate('Auth2fa');
     } else {
-      if (licensesData?.getLicenses) {
-        if (licensesData?.getLicenses) {
-          navigation.navigate('Dashboard');
-        } else {
-          navigation.navigate('GetLicenses');
-        }
-      }
+      navigation.navigate('ConfirmSms', { page: 'Login' });
     }
   }
-
-
 
 
   return (

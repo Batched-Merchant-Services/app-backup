@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ButtonRounded, Divider,Link } from '@components';
+import { View, Text, ButtonRounded, Divider, Link } from '@components';
 import { Modal } from 'react-native';
 import { useSelector } from 'react-redux';
 import { formatDate } from '@utils/formatters';
@@ -9,6 +9,7 @@ import { scale, verticalScale } from 'react-native-size-matters';
 import { useTheme } from '@react-navigation/native';
 import IconWarning from '@assets/iconSVG/IconWarning';
 import Styles from './styles';
+import LottieView from 'lottie-react-native';
 
 const ModalInfo2fa = ({ visible, onRequestClose, getData, onPressOverlay, ...props }) => {
   const redux = useSelector(state => state);
@@ -27,9 +28,9 @@ const ModalInfo2fa = ({ visible, onRequestClose, getData, onPressOverlay, ...pro
   useEffect(() => {
     setTimeout(() => {
       setShowButtonModal(false);
-    }, 5000);
+    }, 1000);
   }, [showButtonModal]);
-  
+
   return (
     <Modal
       animationType="slide"
@@ -37,43 +38,30 @@ const ModalInfo2fa = ({ visible, onRequestClose, getData, onPressOverlay, ...pro
       visible={visible}
       onRequestClose={onRequestClose}>
       <View flex-1 centerV centerH>
-        <View centerH centerV blue04 padding-20 style={{ width: '92%', height: '83%' }}>
+        <View centerV blue04 style={{ width: '92%', height: '80%' }}>
           <Divider height-30 />
-          <IconKey width={scale(80)} height={verticalScale(80)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
-          <Divider height-20 />
-          <Text h18 regular blue02>{i18n.t('Auth2fa.textDontForgetTo')}!</Text>
-          <Divider height-10 />
-          <Text h12 light white>{i18n.t('Auth2fa.textIsTheFormOf')}{' '}<Text white semibold>{i18n.t('Auth2fa.textRecoverYourAuthenticationIn')}</Text></Text>
-          <Divider height-10 />
-          <View row padding-10 centerV style={{ borderColor: colors.blue02, borderWidth: 1 }}>
-            <Text white h10 medium>{clabe}</Text>
-            <Divider width-8 />
-            <Link>
-              <Text h12 blue02>{i18n.t('Auth2fa.linkCopy')}</Text>
-            </Link>
+          <View centerH>
+            <LottieView source={require('../assets/animationsLottie/IconSecurityLock.json')} autoPlay loop style={{ width: '90%' }} />
           </View>
-          <Divider height-20 />
-          <View row paddingH-10 centerV warning height-55>
-            <IconWarning width={scale(18)} height={verticalScale(18)} fill={brandTheme?.white ?? colors?.white} fillSecondary={brandTheme?.warning ?? colors?.warning} />
-            <Divider width-10 />
-            <View flex-1>
-              <Text h12 semibold white>{i18n.t('Auth2fa.textKeepYourKeyWhere')},{' '}<Text regular white>{i18n.t('Auth2fa.textItWillBeRequired')}</Text></Text>
+          <Divider height-40 />
+          <View flex-1 padding-20>
+            <Text h12 regular white left>Agrega mayor seguridad a tu cuenta.</Text>
+            <Divider height-30 />
+            <Text h12 regular white left>En caso de realizar una transferencia de puntos la autenticación será requerida.</Text>
+            <View flex-1 bottom centerH >
+              <ButtonRounded
+                onPress={onPressOverlay}
+                disabled={showButtonModal}
+                size='280'
+                blue
+              >
+                <Text h14 semibold white>
+                  Activar ahora
+                </Text>
+              </ButtonRounded>
             </View>
           </View>
-          <Divider height-20 />
-          <Text h12 regular white>{i18n.t('Auth2fa.textNeverShareYour')}</Text>
-          <Divider height-20 />
-          <View flex-1 bottom centerH >
-            <ButtonRounded
-              onPress={onPressOverlay}
-              disabled={showButtonModal}
-              dark
-            >
-              <Text h14 semibold white>
-                {i18n.t('Auth2fa.textIAlreadyBackedUpPassword')}
-              </Text>
-            </ButtonRounded>
-          </View>
+          <Divider height-25 />
         </View>
 
       </View>

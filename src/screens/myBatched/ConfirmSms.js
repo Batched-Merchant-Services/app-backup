@@ -149,6 +149,7 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
   }
 
   if (auth?.isSessionTwoFactors) {
+    console.log('auth?.isSessionTwoFactors',auth?.isSessionTwoFactors,licensesData)
     if (licensesData?.getLicenses) {
       if (licensesData?.getLicenses) {
         navigation.navigate('Dashboard');

@@ -122,6 +122,7 @@ export const getAuth2faQr = () => async (dispatch) => {
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
     dispatch({ type: LOGIN_ERROR, payload: error });
@@ -148,6 +149,7 @@ export const Activation2faApp = ({code}) => async (dispatch) => {
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
     dispatch({ type: LOGIN_ERROR, payload: error });
@@ -174,6 +176,7 @@ export const Activation2faSms = ({codeComposition}) => async (dispatch) => {
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
     dispatch({ type: LOGIN_ERROR, payload: error });
@@ -200,6 +203,7 @@ export const Activation2faEmail = ({codeComposition}) => async (dispatch) => {
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
     dispatch({ type: LOGIN_ERROR, payload: error });
@@ -227,6 +231,7 @@ export const validateSession = () => async (dispatch) => {
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
     dispatch({ type: LOGIN_ERROR, payload: error });
@@ -250,6 +255,7 @@ export const validateCodeSms = () => async (dispatch) => {
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
     dispatch({ type: LOGIN_ERROR, payload: error });
@@ -274,6 +280,7 @@ export const validateCodeEmail = () => async (dispatch) => {
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
     dispatch({ type: LOGIN_ERROR, payload: error });

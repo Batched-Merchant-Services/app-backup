@@ -15,7 +15,7 @@ import { useTheme } from '@react-navigation/native';
 import IconRightRow from '@assets/iconSVG/IconRightRow';
 import Styles from './styles';
 import LottieView from 'lottie-react-native';
-
+import ModalInfo2fa from '../ModalInfo2fa';
 
 const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
@@ -28,7 +28,8 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
   const [isEnabledApp, setIsEnabledApp] = useState(false);
   const [isEnabledEmail, setIsEnabledEmail] = useState(false);
   const [isEnabledSMS, setIsEnabledSMS] = useState(false);
-
+  const [showModalInfo, setShowModalInfo] = useState(false);
+  
   useEffect(() => {
     switch (auth?.type2fa) {
       case 1:
@@ -43,36 +44,50 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
     }
   }, []);
   
+  useEffect(() => {
+    if (!auth?.user?.isTwoFactor) {
+      setShowModalInfo(true);
+    }else{
+      setShowModalInfo(false);
+    }
+  }, [auth?.user?.isTwoFactor]);
+
 
   const toggleSwitchApp = () => {
     setIsEnabledApp(previousState => !previousState);
     setIsEnabledEmail(false);
     setIsEnabledSMS(false);
-    navigation.push("TwoFactorInstructions")
+    navigation.navigate("TwoFactorInstructions")
   }
 
   const toggleSwitchEmail = () => {
     setIsEnabledEmail(previousState => !previousState);
     setIsEnabledApp(false);
     setIsEnabledSMS(false);
-    navigation.push("Auth2faEmail")
+    navigation.navigate("Auth2faEmail")
   }
 
   const toggleSwitchSMS = () => {
     setIsEnabledSMS(previousState => !previousState);
     setIsEnabledEmail(false);
     setIsEnabledApp(false);
-    navigation.push("Auth2faSms");
+    navigation.navigate("Auth2faSms");
   }
 
   const handleGoToOptions = () => {
-    navigation.push("TwoFactorOptions");
+    navigation.navigate("TwoFactorOptions");
     
   }
 
   const handleChangePass = () => {
-    navigation.push('ChangePasswordInside'); 
+    navigation.navigate('ChangePasswordInside'); 
   }
+
+
+  const handleClose = () => {
+    setShowModalInfo(!showModalInfo);
+  };
+
 
   
   return (
@@ -162,6 +177,10 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
         <Divider height-10 />
         <Divider style={[Styles.borderDoted, { borderColor: colors.blue04 }]} />
       </View>
+      <ModalInfo2fa visible={showModalInfo}
+        onRequestClose={() => { setShowModalInfo(false)}}
+        onPressOverlay={handleClose}
+      />
     </BackgroundWrapper>
 
 

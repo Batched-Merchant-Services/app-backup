@@ -73,7 +73,7 @@ const PinInput = ({ value, error, onChangeText, onSubmit,pinLength = 6, ...props
     setFocused(null)
     
   };
- 
+
 
   return (
     <View style={Styles.container}>

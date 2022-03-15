@@ -36,6 +36,7 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
   }
 
   function handleGoToAuth() {
+    console.log('new')
     navigation.navigate("Auth2fa");
   }
   useEffect(() => {
@@ -82,9 +83,10 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
       <Divider height-20 />
       <Text h12 regular white>{i18n.t('Auth2fa.textNeverShareYour')}</Text>
       {/* <Loading modalVisible={points?.isLoadingRewardsPoints} /> */}
-      <View flex-1 bottom>
+      <View flex-1 bottom style={{borderColor:'red',borderWidth:1}}>
         <ButtonRounded
           blue
+          
           onPress={handleGoToAuth}
           disable={showDisabled}
         >
@@ -97,12 +99,12 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
           message={points?.error?.message}
           timeout={3000}
         /> */}
-      </View>
         <ModalAuth2fa visible={showModalDates}
           onRequestClose={() => { setShowModalDates(false)}}
           onPressOverlay={handleClose}
-          getData={(data) => getData(data)}
         />
+      </View>
+       
     </BackgroundWrapper>
 
 

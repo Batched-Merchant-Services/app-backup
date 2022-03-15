@@ -19,6 +19,8 @@ import Styles from './styles';
 import IconKey from '@assets/iconSVG/IconAuth2fa/IconKey';
 import { getAuth2faQr } from '@store/actions/auth.actions';
 import i18n from '@utils/i18n';
+import Loading from '../Loading';
+import { cleanError } from '../../store/actions/auth.actions';
 
 
 
@@ -35,17 +37,22 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
   const [clabe, setClabe] = useState('QrCode');
 
   function handleCodeActivation() {
-    navigation.push('TwoFactorCodeActivation',{ page:'change'});
+    navigation.navigate('TwoFactorCodeActivation',{ page:'change'});
   }
 
   const copyToClipboard = () => {
     Clipboard.setString(accounts?.id);
   }
+
   useEffect(() => {
     dispatch(getAuth2faQr());
-  }, [dispatch]);
+    dispatch(cleanError());
+  }, []);
+
+
   
   useEffect(() => {
+    console.log('authData',authData)
     setClabe(authData?.dataQrCode?.secretCode)
   }, [authData?.dataQrCode]);
 
@@ -116,6 +123,7 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
           message={authData?.error?.message}
         />
       </View>
+      <Loading modalVisible={authData?.isGetInfoQrCode} />
     </BackgroundWrapper>
   );
 }
