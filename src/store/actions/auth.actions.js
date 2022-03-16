@@ -32,6 +32,7 @@ import { VALIDATE_SESSION_QUERY } from '../../utils/api/queries/user.queries';
 import { getLicenses} from '@store/actions/licenses.actions';
 import { AUTHENTICATION_TWO_FACTORS_SMS,AUTHENTICATION_TWO_FACTORS_EMAIL,AUTHENTICATION_TWO_FACTORS_QR,LOGOUT_QUERY, ACTIVATION_THIRD_PARTY, ACTIVATION_SMS, ACTIVATION_EMAIL } from '../../utils/api/queries/auth.queries';
 import { getDataUser } from './user.action';
+import { getTotalLicensesInNetwork } from './licenses.actions';
 const device = DeviceInfo.getUniqueId();
 
 
@@ -93,6 +94,7 @@ export const getLoginTwoFactor = ({ codeSecurity }) => async (dispatch) => {
         await LocalStorage.set('uuid', uuid);
         dispatch(userInactivity(true));
         dispatch(getLicenses());
+        dispatch(getTotalLicensesInNetwork());
         dispatch(getDataUser());
       }
     }).catch((error) => {

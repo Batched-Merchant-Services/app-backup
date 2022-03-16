@@ -72,10 +72,12 @@ export const setContact = ({ dataContact }) => async (dispatch) => {
         dispatch({ type: SET_CONTACT_SUCCESS, payload: response?.data['setMessageProcess'] });
       }
     }).catch((error) => {
+      console.log('error 1',error)
       dispatch({ type: ERROR_CONTACT, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
+    console.log('error 2',error)
     dispatch({ type: ERROR_CONTACT, payload: error });
   }
 };

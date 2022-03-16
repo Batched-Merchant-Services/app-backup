@@ -24,9 +24,6 @@ import NewPassword from '@screens/forgotPassword/NewPassword';
 import EmailConfirm from '@screens/forgotPassword/EmailConfirm';
 import Confirmation from '@screens/forgotPassword/Confirmation';
 //Home
-import Dashboard from '@screens/home/Dashboard';
-import ActivationConfirmation from '@screens/home/ActivationConfirmation';
-import HomeMyBatched from '@screens/myBatched/HomeMyBatched';
 import TransferOption from '@screens/myBatched/TransferOption';
 import ConfirmSms from '@screens/myBatched/ConfirmSms';
 import ConfirmationTransfer from '@screens/myBatched/ConfirmationTransfer';

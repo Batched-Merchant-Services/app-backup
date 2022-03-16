@@ -18,7 +18,10 @@ import {
   GET_ADDRESS_CURRENCIES,
   GET_ADDRESS_CURRENCIES_SUCCESS,
 	GET_TOTAL_LICENSES_IN_NETWORK,
-  GET_TOTAL_LICENSES_IN_NETWORK_SUCCESS
+  GET_TOTAL_LICENSES_IN_NETWORK_SUCCESS,
+  GET_TOTAL_LICENSES_FOR_USER,
+  GET_TOTAL_LICENSES_FOR_USER_SUCCESS
+
 } from '../constants';
 import { GET_REFERRED_ID, GET_CURRENT_TYPE_LICENSES, GET_LICENSES_QUERY,
   GET_TOTAL_LICENSES_QUERY, GET_CRYPTO_CURRENCY_QUERY, GET_CREATE_LICENSES_CRYPTO,
@@ -28,6 +31,7 @@ import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
 import { toggleSnackbarOpen } from './app.actions';
 import i18n from '@utils/i18n';
+import { GET_TOTAL_LICENSES_FOR_USER_QUERY } from '../../utils/api/queries/licenses.queries';
 
 
 export const validateReference = ({ referenceCode }) => async (dispatch) => {
@@ -194,6 +198,7 @@ export const saveCurrentLicense = ({ selectLicense }) => async (dispatch) => {
 };
 
 export const createLicense = ({createLicenses}) => async (dispatch) => {
+  console.log('createLicenses',createLicenses);
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: CREATE_LICENSE });
@@ -213,7 +218,6 @@ export const createLicense = ({createLicenses}) => async (dispatch) => {
     })
   } catch (error) {
     dispatch({ type: LICENSES_ERROR, payload: error });
-    dispatch(toggleSnackbarOpen(error));
   }
 }
 
@@ -256,6 +260,30 @@ export const getTotalLicensesInNetwork = () => async (dispatch) => {
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: GET_TOTAL_LICENSES_IN_NETWORK_SUCCESS, payload: response?.data['getTotalLicensesInNetwork'] });
+      }
+    }).catch((error) => {
+      dispatch({ type: LICENSES_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    dispatch({ type: LICENSES_ERROR, payload: error });
+    //dispatch(toggleSnackbarOpen(error));
+  }
+};
+
+export const getTotalLicensesInNetworkUser = () => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: GET_TOTAL_LICENSES_FOR_USER });
+
+    client.query({
+      query: GET_TOTAL_LICENSES_FOR_USER_QUERY,
+      variables: {
+        token: token
+      },
+    }).then(async (response) => {
+      if (response.data) {
+        dispatch({ type: GET_TOTAL_LICENSES_FOR_USER_SUCCESS, payload: response?.data['getTotalLicensesInNetworkByUser'] });
       }
     }).catch((error) => {
       dispatch({ type: LICENSES_ERROR, payload: error });

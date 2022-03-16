@@ -175,16 +175,19 @@ export const editKYC = ({ dataUpdateKYC }) => async (dispatch) => {
       fetchPolicy : 'network-only' ,  
       nextFetchPolicy : 'network-only'
     }).then(async (response) => {
+      console.log('response identity',response);
       if (response.data) {
         dispatch({ type: EDIT_KYC_SUCCESS, payload: response?.data['editAccountsKyc'] });
         dispatch(getDataUser());
         dispatch(toggleSnackbarOpen('Información Actualizada con Exito','success'));
       }
     }).catch((error) => {
+      console.log('error 1 identity',error);
       dispatch({ type: PROFILE_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
+    console.log('error 2 identity',error);
     dispatch({ type: PROFILE_ERROR, payload: error });
     dispatch(toggleSnackbarOpen(error));
   }
@@ -211,12 +214,13 @@ export const createKYC = ({dataCreateKYC}) => async (dispatch) => {
          dispatch(toggleSnackbarOpen('Información Actualizada con Exito','success'));
       }
     }).catch((error) => {
+      console.log('error 1 identity',error);
       dispatch({ type: PROFILE_ERROR , payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
+    console.log('error 2 identity',error);
     dispatch({ type: PROFILE_ERROR, payload: error });
-    dispatch(toggleSnackbarOpen(error));
   }
 };
 
@@ -309,7 +313,6 @@ export const getTypeIdentification = ({countryCode}) => async (dispatch) => {
     })
   } catch (error) {
     dispatch({ type: PROFILE_ERROR, payload: error });
-    dispatch(toggleSnackbarOpen(error));
   }
 };
 

@@ -10,12 +10,8 @@ import {
 import { useSelector } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
 import { scale,verticalScale } from 'react-native-size-matters';
-import ImageBackground from 'react-native/Libraries/Image/ImageBackground';
-import rectangleConfirm from '@assets/icons/rectangleConfirm.png';
-import confirmationCheck from '@assets/icons/confirmationCheck.png';
-import Styles from './styles'
 import i18n from '@utils/i18n';
-
+import LottieView from 'lottie-react-native';
 
 const ConfirmationLicenses = ({ navigation,navigation: { goBack }  }) => {
   const redux = useSelector(state => state);
@@ -25,17 +21,10 @@ const ConfirmationLicenses = ({ navigation,navigation: { goBack }  }) => {
 
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
-      <Text h18 regular blue02>{i18n.t('Licenses.textQRCodeForTransaction')}</Text>
-      <Divider height-10 />
-      <Text h12 white light>{i18n.t('Licenses.textScanTheFollowingQR')}</Text>
-      <Divider height-25 />
-      <ImageBackground source={rectangleConfirm} resizeMode="cover" style={Styles.image}>
-        <ImageResize
-          source={confirmationCheck}
-          height={verticalScale(90)}
-          width={scale(90)}
-        />
-      </ImageBackground>
+      <Divider height-30 />
+      <View centerH >
+        <LottieView source={require('../../assets/animationsLottie/IconCheck.json')} autoPlay loop style={{ width: scale(120),height:verticalScale(120) }} />
+      </View>
       <Divider height-20 />
       <Text h18 regular blue02>{i18n.t('Licenses.textAwaitingConfirmation')}</Text>
       <Divider height-10 />

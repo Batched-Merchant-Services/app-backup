@@ -14,6 +14,7 @@ import BoxLicenses from './components/BoxLicenses';
 import i18n from '@utils/i18n';
 import { cleanErrorLicenses, getLicenses, saveCurrentLicense } from '@store/actions/licenses.actions';
 import { toggleSnackbarClose } from '@store/actions/app.actions';
+import { cleanError } from '../../store/actions/auth.actions';
 
 
 const GetLicenses = ({ navigation, route }) => {
@@ -22,17 +23,17 @@ const GetLicenses = ({ navigation, route }) => {
   const licensesData = redux?.licenses;
   const params = route?.params;
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
-  const animated = new Animated.Value(0);
-  const animatedTwo = new Animated.Value(0);
-  const animatedThree= new Animated.Value(0);
+  const [animated, setAnimated] = useState(new Animated.Value(0));
+  const [animatedTwo, setAnimatedTwo] = useState(new Animated.Value(0));
+  const [animatedThree, setAnimatedThree] = useState(new Animated.Value(0));
   const duration = 1000;
 
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanErrorLicenses());
+      dispatch(cleanError());
       dispatch(toggleSnackbarClose());
-      dispatch(getLicenses());
     });
     return unsubscribe;
   }, []);

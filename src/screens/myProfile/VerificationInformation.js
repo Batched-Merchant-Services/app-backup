@@ -78,7 +78,8 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
       typeIdentification: typeIdent?.value,
       documentId: imageProofAddress?.value,
       kycid: kyc?.kycid ?? "0",
-      isComplete: true
+      isComplete: true,
+      ip:''
     }
     dispatch(editKYC({ dataUpdateKYC }))
   }
@@ -95,7 +96,8 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
       documentId: imageProofAddress?.value,
       status: "0",
       kycid: kyc?.kycid ?? "0",
-      isComplete: true
+      isComplete: true,
+      ip:''
     }
     dispatch(createKYC({ dataCreateKYC }))
   }
@@ -184,7 +186,7 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
           <Divider width-10 />
           <ButtonRounded
             onPress={() => {
-              navigation.navigate('ProfilePicture');
+              navigation.push('ProfilePicture');
             }}
             //disabled={!isValid}
             dark

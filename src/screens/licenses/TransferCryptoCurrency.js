@@ -28,11 +28,12 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
   const redux = useSelector(state => state);
   const licensesData = redux?.licenses;
   const amount = useValidatedInput('amount', '');
-  const address = useValidatedInput('address', licensesData?.addressCurrency?.address);
+  const address = useValidatedInput('address', '');
   const transactionIdValue = useValidatedInput(id === 1 ? 'transactionId' : id === 2 ? 'transactionIdETH' : 'transactionId', '');
   const file = useValidatedInput('file', '');
   const isValidId = isFormValid(amount, file);
   const isValid = isFormValid(amount, address, transactionIdValue, file);
+  const [addressCurrency, setAddressCurrency] = useState(licensesData?.addressCurrency?.address);
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
 
   useEffect(() => {
@@ -44,27 +45,26 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
     return unsubscribe;
   }, []);
 
+  useEffect(() => {
+    setAddressCurrency(licensesData?.addressCurrency?.address)
+  }, [licensesData?.addressCurrency?.address]);
+
 
   async function handleBuyLicense() {
-
     const typeId = licensesData?.getLicenses?.id
     const createLicenses = {
-      total: parseInt(amount?.value) ?? 0,
-      address: address?.value ?? '',
+      total: amount?.value ? parseInt(amount?.value) : amount?.value ?? 0,
+      address: addressCurrency ?? '',
       currency: currency ?? '',
       type: typeId ?? 0,
       voucherCrypto: file?.value ?? '',
       transactionId: transactionIdValue?.value ?? ''
     }
-    dispatch(createLicense({ createLicenses }));
+    navigation.navigate("ConfirmSms", { page: 'BuyLicenses', data: createLicenses })
   }
 
   const copyToClipboard = () => {
     Clipboard.setString(licensesData?.addressCurrency?.address)
-  }
-
-  if (licensesData?.successCreateLicense) {
-    navigation.navigate("ConfirmationLicenses")
   }
 
 
@@ -90,6 +90,7 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
             {...address}
             label={i18n.t('Licenses.inputAddressToTransfer')}
             editable={false}
+            value={addressCurrency}
             keyboardType={'default'}
             autoCapitalize={'none'}
           />

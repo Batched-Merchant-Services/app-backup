@@ -85,7 +85,7 @@ const HomeContact = ({ navigation, navigation: { goBack } }) => {
         multiline
       />
       <Divider height-10 />
-      <View flex-1 bottom>
+      <View flex-1 bottom >
         <ButtonRounded
           onPress={handlePressSetContact}
           disabled={!isValid}
@@ -95,16 +95,14 @@ const HomeContact = ({ navigation, navigation: { goBack } }) => {
             {i18n.t('contact.buttonSendMessage')}
           </Text>
         </ButtonRounded>
-      </View>
-      <Divider height-20 />
-      <Loading modalVisible={contact?.isLoadingContact} />
-      <View flex-1 bottom>
         <SnackNotice
           visible={error}
           message={contact?.error?.message}
           timeout={3000}
         />
       </View>
+      <Divider height-20 />
+      <Loading modalVisible={contact?.isLoadingContact} />
     </BackgroundWrapper>
   );
 }

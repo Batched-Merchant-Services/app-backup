@@ -23,6 +23,7 @@ import { cleanError, getLoginTwoFactor, validateCodeEmail, validateCodeSms } fro
 import LocalStorage from '@utils/localStorage';
 import Loading from '../Loading';
 import { cleanErrorForgot } from '../../store/actions/forgotPassword.actions';
+import { createLicense } from '../../store/actions/licenses.actions';
 
 const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
@@ -121,16 +122,28 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
     dispatch(getLoginTwoFactor({ codeSecurity }));
   }
 
+  function handleBuyLicenses(code) {
+    const data = params?.data
+    const createLicenses = {
+      ...data,
+      code: codeSmsEmail + '-' + code
+    }
+    dispatch(createLicense({ createLicenses }));
+  }
+
   function getInfo(code) {
     if (params?.page === 'Login') {
       handleGetLoginTwoFactor(code);
     } else if(params?.page === 'ChangePass'  || params?.page === 'LoginChange') {
       navigation.push('NewPassword', { code: code, page: params?.page });
-    }else{
+    }else if (params?.page === 'BuyLicenses') {
+      handleBuyLicenses(code);
+    }
+    else{
       handleCreateTransfer(code);
     }
-
   }
+  
   function onPressResendCode() {
     switch (auth?.type2fa) {
       case 1:
@@ -148,16 +161,16 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
     }
   }
 
-  if (auth?.isSessionTwoFactors) {
-    console.log('auth?.isSessionTwoFactors',auth?.isSessionTwoFactors,licensesData)
-    if (licensesData?.getLicenses) {
-      if (licensesData?.getLicenses) {
+  useEffect(() => {
+    if (auth?.isSessionTwoFactors) {
+      if (dataUser?.dataUser?.bachedTransaction?.length > 0) {
         navigation.navigate('Dashboard');
       } else {
         navigation.push('GetLicenses');
       }
     }
-  }
+  }, [auth?.isSessionTwoFactors,dataUser])
+
 
 
   if (points?.successTransferGatewayLiquid) {
@@ -172,6 +185,9 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
     }
   }
 
+  if (licensesData?.successCreateLicense) {
+    navigation.navigate("ConfirmationLicenses")
+  }
 
   return (
     <BackgroundWrapper showNavigation={true}  childrenLeft  onPressLeft={()=> goBack(null)}>

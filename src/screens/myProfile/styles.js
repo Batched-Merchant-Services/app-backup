@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     justifyContent:'center',
     position:'absolute',
     right:verticalScale(0),
-    bottom:verticalScale(0),
+    bottom:verticalScale(-1),
   }
 });
 

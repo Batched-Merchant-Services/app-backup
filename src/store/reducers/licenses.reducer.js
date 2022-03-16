@@ -17,7 +17,9 @@ import {
   GET_ADDRESS_CURRENCIES,
   GET_ADDRESS_CURRENCIES_SUCCESS,
 	GET_TOTAL_LICENSES_IN_NETWORK,
-  GET_TOTAL_LICENSES_IN_NETWORK_SUCCESS
+  GET_TOTAL_LICENSES_IN_NETWORK_SUCCESS,
+  GET_TOTAL_LICENSES_FOR_USER,
+  GET_TOTAL_LICENSES_FOR_USER_SUCCESS
 } from '../constants';
 
 export const initialState = {
@@ -38,6 +40,7 @@ export const initialState = {
   currentLicense: [],
   createLicenses: [],
   totalLicensesNetwork: null,
+  totalLicensesForUsers:null,
   addressCurrency: null,
   error: {},
   success: {},
@@ -154,6 +157,18 @@ export default licensesReducer = (state = initialState, action) => {
         isLoadingLicenses: false,
         showErrorLicenses: false,
         totalLicensesNetwork: action.payload,
+        error: {},
+      };
+
+      case GET_TOTAL_LICENSES_FOR_USER:
+      return { ...state, isLoadingLicenses: true, showErrorLicenses: false };
+
+    case GET_TOTAL_LICENSES_FOR_USER_SUCCESS:
+      return {
+        ...state,
+        isLoadingLicenses: false,
+        showErrorLicenses: false,
+        totalLicensesForUsers: action.payload,
         error: {},
       };
 

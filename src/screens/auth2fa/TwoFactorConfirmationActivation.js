@@ -83,10 +83,9 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
       <Divider height-20 />
       <Text h12 regular white>{i18n.t('Auth2fa.textNeverShareYour')}</Text>
       {/* <Loading modalVisible={points?.isLoadingRewardsPoints} /> */}
-      <View flex-1 bottom style={{borderColor:'red',borderWidth:1}}>
+      <View flex-1 bottom>
         <ButtonRounded
           blue
-          
           onPress={handleGoToAuth}
           disable={showDisabled}
         >

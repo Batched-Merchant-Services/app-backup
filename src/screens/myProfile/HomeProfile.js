@@ -37,7 +37,6 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
     navigation.push('ProfilePicture');
   }
 
-
   return (
     <BackgroundWrapper childrenLeft menu showNavigation={true} navigation={navigation}>
       <Divider height-10 />
@@ -77,7 +76,7 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
             <Text h12 green semibold>{accounts?.id}</Text>
           </View>
           <View right width-90 height-80 centerH centerV style={{ borderColor: colors.blue02, borderWidth: 1 }}>
-            {accounts?.avatarImage === '' && (
+            {accounts?.avatarImage !== '' && (
               <ImageResize
                 source={{ uri: accounts?.avatarImage }}
                 height={verticalScale(76)}
@@ -85,13 +84,13 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
                 resizeMode="stretch"
               />
             )}
-            {accounts?.avatarImage !== '' && (
+            {accounts?.avatarImage === '' && (
               <View width-90 height-80  centerH centerV style={{backgroundColor:generateColorRandom()}}>
                 <Text h30 semibold>{accounts?.alias}</Text>
               </View>
             )}
 
-            {accounts?.avatarImage !== '' && (
+            {accounts?.avatarImage === '' && (
               <TouchableHighlight style={[Styles.containerMini, { backgroundColor: brandTheme?.blue02 ?? colors?.blue02 }]} onPress={handleProfilePicture} >
                 <IconUpload height={verticalScale(18)} width={scale(18)} fill={brandTheme?.white ?? colors?.white} />
               </TouchableHighlight>
