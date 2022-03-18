@@ -32,6 +32,7 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
   const codeSecurity = useValidatedInput('code', '');
   const points = redux?.points;
   const infoUser = redux?.user;
+  const authData = redux?.auth;
   const userProfile = infoUser?.dataUser;
   const typeTransfer = useValidatedInput('select', '', {
     changeHandlerSelect: 'onSelect'
@@ -59,7 +60,8 @@ const TransferOption = ({ navigation, step, onPress, label }) => {
 
 
   function handleGoToSms(){
-    if (!userProfile.isTwoFactor) {
+    console.log('userProfile',userProfile,authData);
+    if (authData?.type2fa === 0) {
       navigation.navigate('Auth2fa');
     }else{
       navigation.push('ConfirmSms', { amount: amount,valueSelect:valueSelect});

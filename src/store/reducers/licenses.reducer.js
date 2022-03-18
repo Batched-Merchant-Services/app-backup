@@ -24,6 +24,10 @@ import {
 
 export const initialState = {
   isLoadingLicenses: false,
+  isGetAddress:false,
+  isGetLicenses:false,
+  isGetListLicense:false,
+  isCreateLicense:false,
   successLicenses: false,
   successGetLicenses: false,
   successListLicense: false,
@@ -64,12 +68,12 @@ export default licensesReducer = (state = initialState, action) => {
         success: {},
       };
     case GET_LICENSES:
-      return { ...state, isLoadingLicenses: true, showErrorLicenses: false };
+      return { ...state, isGetLicenses: true, showErrorLicenses: false };
 
     case GET_LICENSES_SUCCESS:
       return {
         ...state,
-        isLoadingLicenses: false,
+        isGetLicenses: false,
         successGetLicenses: true,
         showErrorLicenses: false,
         getLicenses: action.payload,
@@ -77,12 +81,12 @@ export default licensesReducer = (state = initialState, action) => {
         success: {},
       };
     case GET_LIST_LICENSES:
-      return { ...state, isLoadingLicenses: true, showErrorLicenses: false };
+      return { ...state, isGetListLicense: true, showErrorLicenses: false };
 
     case GET_LIST_LICENSES_SUCCESS:
       return {
         ...state,
-        isLoadingLicenses: false,
+        isGetListLicense: false,
         successListLicense: true,
         showErrorLicenses: false,
         getListLicenses: action.payload,
@@ -124,12 +128,12 @@ export default licensesReducer = (state = initialState, action) => {
         success: {},
       };
     case CREATE_LICENSE:
-      return { ...state, isLoadingLicenses: true, showErrorLicenses: false };
+      return { ...state, isCreateLicense: true, showErrorLicenses: false };
 
     case CREATE_LICENSE_SUCCESS:
       return {
         ...state,
-        isLoadingLicenses: false,
+        isCreateLicense: false,
         successCreateLicense: true,
         showErrorLicenses: false,
         createLicenses: action.payload,
@@ -137,12 +141,12 @@ export default licensesReducer = (state = initialState, action) => {
         success: {},
       };
     case GET_ADDRESS_CURRENCIES:
-      return { ...state, isLoadingLicenses: true, showErrorLicenses: false };
+      return { ...state, isGetAddress: true, showErrorLicenses: false };
 
     case GET_ADDRESS_CURRENCIES_SUCCESS:
       return {
         ...state,
-        isLoadingLicenses: false,
+        isGetAddress: false,
         showErrorLicenses: false,
         addressCurrency: action.payload,
         error: {},
@@ -181,7 +185,9 @@ export default licensesReducer = (state = initialState, action) => {
         successListLicense: false,
         successTotalLicense: false,
         successCryptoCurrencies: false,
+        successCreateLicense: false,
         showErrorLicenses: true,
+        statusCodeReferral:false,
         error: action.payload,
         success: {},
       };

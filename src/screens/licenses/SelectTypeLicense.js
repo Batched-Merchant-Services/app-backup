@@ -17,7 +17,7 @@ import { toggleSnackbarClose } from '@store/actions/app.actions';
 import i18n from '@utils/i18n';
 import Loading from '../Loading';
 import { getDataUser } from '@store/actions/user.action';
-
+import { cleanErrorPoints } from '@store/actions/points.actions';
 const SelectTypeLicense = ({ navigation }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
@@ -44,10 +44,10 @@ const SelectTypeLicense = ({ navigation }) => {
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanErrorLicenses());
+      dispatch(cleanErrorPoints());
       dispatch(toggleSnackbarClose());   
       dispatch(getListLicenses()); 
       dispatch(getCryptoCurrency());
-      dispatch(getDataUser());
       getInfoData();
 
     });
@@ -179,7 +179,7 @@ const SelectTypeLicense = ({ navigation }) => {
         message={licensesData?.error?.message}
         timeout={3000}
       />
-      <Loading modalVisible={licensesData?.isLoadingLicenses} />
+      <Loading modalVisible={licensesData?.isGetListLicense} />
     </BackgroundWrapper>
   );
 }

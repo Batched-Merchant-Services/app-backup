@@ -75,7 +75,7 @@ export default authReducer = (state = initialState, action) => {
         return {
           ...state,
           isLoggingIn: false,
-          isLoggedIn: true,
+          isLoggingIn:false,
           isSessionTwoFactors: true,
           showError: false,
           user: action.payload,
@@ -83,7 +83,7 @@ export default authReducer = (state = initialState, action) => {
           success: {},
         };
     case LOGOUT:
-      return { ...state, isLoggingIn: true, showError: false, };
+      return { ...state, showError: false, isLoggedOut:false};
 
     case LOGOUT_SUCCESS:
       return {
@@ -96,7 +96,7 @@ export default authReducer = (state = initialState, action) => {
         success: {},
       };
     case VALIDATE_SESSION:
-      return { ...state, isLoggingIn: true, showError: false, };
+      return { ...state, showError: false, };
     case VALIDATE_SESSION_SUCCESS:
       return {
         ...state,

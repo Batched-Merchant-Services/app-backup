@@ -56,10 +56,12 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
 
 
   useEffect(() => {
+    console.log('registerData?.countries',registerData?.countries)
     if (registerData?.countries) {
       if (registerData?.countries?.length > 0) {
         setItems(registerData?.countries)
         const valueCountry = registerData?.countries?.filter(key => key?.value === address?.country);
+       
         setValueCountries(...valueCountry);
       }
     }
@@ -106,6 +108,8 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
   function closeSnack() {
     setSuccessInfo(false)
   }
+
+
 
   //const isValid = isFormValid(firstName, mediumName, lastName, ssn, gender, birthDay);
   return (

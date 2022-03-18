@@ -55,10 +55,23 @@
       "textIAgreeWithThePrivacy":"I agree with the Privacy Notice.*",
       "textIAgreeWithTheTerms":"I agree with the Terms and Conditions.*",
       "textInformationSavedSuccessfully":"Information Saved Successfully",
+      "buttonGoToDistributionCycle":"Go to distribution cycle",
       "errors": {
         "textBadCredentials": "User or password error, bad credentials",
         "textUserNotActive": "User nor active, Please activate your account from the link sent to your E-mail",
         "textUserNotFound": "User not Found,The user you are trying to access does not exist"
+      },
+      "menu": {
+        "buttonDistributionCycle":"Distribution cycle",
+        "buttonMyProfile": "My profile",
+        "buttonMyBatched": "My Batched",
+        "buttonLegalInformation": "Legal information",
+        "buttonTermsAndConditions": "Terms and conditions",
+        "buttonLegalPrivacyPolicy": "Legal Privacy policy",
+        "buttonContact": "Contact",
+        "buttonSecurity": "Security",
+        "buttonLanguage": "Language",
+        "buttonLogout": "Logout"
       },
       "months":{
         "january":"January",

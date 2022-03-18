@@ -5,6 +5,7 @@ import {
   TOGGLE_STATUS_CHANGE_STATUS,
   SAVE_HISTORY_PAGINATION,
   CLEAN_HISTORY_PAGINATION,
+  SAVE_STATE_MODAL_2FA,
   SET_ERROR_APP,
   USER_ACTIVE
 } from '../constants'
@@ -86,5 +87,9 @@ export const saveHistoryPagination = (data,page) => async (dispatch) => {
 };
 export const cleanHistoryPagination = () => async (dispatch) => {
   return dispatch({ type: CLEAN_HISTORY_PAGINATION })
+};
+
+export const saveStateModal2fa = (state) => async (dispatch) => {
+  return dispatch({ type: SAVE_STATE_MODAL_2FA ,payload:state})
 };
 

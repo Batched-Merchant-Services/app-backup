@@ -16,7 +16,8 @@ import IconRightRow from '@assets/iconSVG/IconRightRow';
 import Styles from './styles';
 import LottieView from 'lottie-react-native';
 import ModalInfo2fa from '../ModalInfo2fa';
-
+import { cleanErrorLicenses } from '../../store/actions/licenses.actions';
+import { cleanErrorPoints } from '@store/actions/points.actions';
 const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
@@ -28,7 +29,6 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
   const [isEnabledApp, setIsEnabledApp] = useState(false);
   const [isEnabledEmail, setIsEnabledEmail] = useState(false);
   const [isEnabledSMS, setIsEnabledSMS] = useState(false);
-  const [showModalInfo, setShowModalInfo] = useState(false);
   
   useEffect(() => {
     switch (auth?.type2fa) {
@@ -43,14 +43,13 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
       break;
     }
   }, []);
-  
+
   useEffect(() => {
-    if (!auth?.user?.isTwoFactor) {
-      setShowModalInfo(true);
-    }else{
-      setShowModalInfo(false);
-    }
-  }, [auth?.user?.isTwoFactor]);
+    dispatch(cleanErrorLicenses());
+    dispatch(cleanErrorPoints());
+  }, []);
+  
+
 
 
   const toggleSwitchApp = () => {
@@ -82,11 +81,6 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
   const handleChangePass = () => {
     navigation.navigate('ChangePasswordInside'); 
   }
-
-
-  const handleClose = () => {
-    setShowModalInfo(!showModalInfo);
-  };
 
 
   
@@ -177,10 +171,6 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
         <Divider height-10 />
         <Divider style={[Styles.borderDoted, { borderColor: colors.blue04 }]} />
       </View>
-      <ModalInfo2fa visible={showModalInfo}
-        onRequestClose={() => { setShowModalInfo(false)}}
-        onPressOverlay={handleClose}
-      />
     </BackgroundWrapper>
 
 

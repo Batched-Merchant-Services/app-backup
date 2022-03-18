@@ -41,6 +41,7 @@ export const getDataUser = () => async (dispatch) => {
       fetchPolicy : 'network-only' ,  
       nextFetchPolicy : 'network-only'
     }).then(async (response) => {
+      console.log('response',response);
       if (response.data) {
         dispatch({ type: GET_USER_DATA_SUCCESS, payload: response?.data?.getUsersByField[0] });
       }

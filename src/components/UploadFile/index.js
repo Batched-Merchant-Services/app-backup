@@ -26,13 +26,14 @@ const UploadFile = ({ value, error, onChangeText,navigation,labelInput,labelButt
   const userData = redux?.user;
   const [singleFile, setSingleFile] = useState(null);
   const [fileError, setFileError] = useState(false);
-  
+
 
   const uploadImage = async (fileBase64) => {
       const resultBase = await convertImage(fileBase64);
       const nameFile = fileBase64?.name;
       dispatch(setFile({ nameFile, resultBase }));
       onChangeText(userData?.setFile);
+      console.log('userData?.setFile',userData?.setFile);
   };
 
 

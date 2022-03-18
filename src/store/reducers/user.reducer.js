@@ -20,6 +20,7 @@ export const initialState = {
 	isLoadingFile: false,
 	showErrorUser: false,
 	showErrorFile: false,
+	successDataUser:false,
 	setFile: null,
 	fileFront: null,
 	fileBack: null,
@@ -34,13 +35,14 @@ export const initialState = {
 export default userReducer = (state = initialState, action) => {
 	switch (action.type) {
 		case GET_USER_DATA:
-			return { ...state, isLoadingData: true, showErrorUser: false };
+			return { ...state, isLoadingData: true, showErrorUser: false,successDataUser:false };
 
 		case GET_USER_DATA_SUCCESS:
 			return {
 				...state,
 				isLoadingData: false,
 				showErrorUser: false,
+				successDataUser:true,
 				dataUser: action.payload,
 				error: {},
 			};
@@ -111,6 +113,7 @@ export default userReducer = (state = initialState, action) => {
 				isLoadingData: false,
 				showErrorUser: false,
 				showErrorFile: false,
+				successDataUser:false,
 				dataUser: null,
 				error: {},
 				errorFile: {}
@@ -121,6 +124,7 @@ export default userReducer = (state = initialState, action) => {
 				isLoadingData: false,
 				showErrorUser: false,
 				showErrorFile: false,
+				successDataUser:false,
 				setFile: null,
 				error: {},
 				errorFile: {}

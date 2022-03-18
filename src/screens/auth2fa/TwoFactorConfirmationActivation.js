@@ -37,14 +37,14 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
 
   function handleGoToAuth() {
     console.log('new')
-    navigation.navigate("Auth2fa");
+    navigation.push("Auth2fa");
   }
   useEffect(() => {
     setClabe(authData?.dataQrCode?.secretCode)
   }, [authData?.dataQrCode]);
 
   const handleClose = () => {
-    setShowModalDates(!showModalDates);
+    setShowModalDates(false);
 
     setTimeout(() => {
       setShowDisabled(false);
@@ -52,6 +52,7 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
   };
  
   return (
+    <>
     <BackgroundWrapper showNavigation={true}  navigation={navigation}>
      <Divider height-20 />
       <View centerH>
@@ -87,7 +88,6 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
         <ButtonRounded
           blue
           onPress={handleGoToAuth}
-          disable={showDisabled}
         >
           <Text h13 semibold white center>
             {i18n.t('Auth2fa.buttonBackToSecurity')}
@@ -98,13 +98,13 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
           message={points?.error?.message}
           timeout={3000}
         /> */}
-        <ModalAuth2fa visible={showModalDates}
-          onRequestClose={() => { setShowModalDates(false)}}
-          onPressOverlay={handleClose}
-        />
       </View>
-       
     </BackgroundWrapper>
+    <ModalAuth2fa visible={showModalDates}
+      onRequestClose={() => { setShowModalDates(false)}}
+      onPressOverlay={handleClose}
+    />
+    </>
 
 
   );

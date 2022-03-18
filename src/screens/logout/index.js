@@ -8,18 +8,25 @@ import {
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
 import i18n from '@utils/i18n';
-import { toggleSnackbarClose } from '../../store/actions/app.actions';
 import LottieView from 'lottie-react-native';
-import { cleanError } from '../../store/actions/auth.actions';
+import { cleanError,logoutSession } from '../../store/actions/auth.actions';
+import { toggleSnackbarClose } from '../../store/actions/app.actions';
+import Loading from '../Loading';
 
 const Logout = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
   const dispatch = useDispatch();
+  const authData = redux?.auth;
 
   useEffect(() => {
     dispatch(cleanError());
     dispatch(toggleSnackbarClose());
   }, [dispatch]);
+
+  function handleLogOut() {
+    dispatch(logoutSession());
+    navigation.navigate('Login');
+  }
 
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
@@ -53,9 +60,7 @@ const Logout = ({ navigation, navigation: { goBack } }) => {
         </ButtonRounded>
         <Divider width-10 />
         <ButtonRounded
-          onPress={() => {
-            navigation.push('Login');
-          }}
+          onPress={handleLogOut}
           //disabled={!isValid}
           blue
           size='sm'
@@ -66,6 +71,7 @@ const Logout = ({ navigation, navigation: { goBack } }) => {
         </ButtonRounded>
       </View>
       <Divider height-25 />
+      <Loading modalVisible={authData?.isLoggedOut} />
     </BackgroundWrapper>
   );
 }

@@ -102,17 +102,19 @@ export const getGender =() => async (dispatch) => {
         languaje:getLanguage()
       },
     }).then(async (response) => {
+      console.log('gender, response',response);
       if (response.data) {
         nameGender(response.data);
         dispatch({ type: GET_GENDER_SUCCESS, payload: nameGender(response.data) });
       }
     }).catch((error) => {
+      console.log('error 1, response',error)
       dispatch({ type: REGISTER_ERROR, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
+    console.log('error 2, response',error)
     dispatch({ type: REGISTER_ERROR, payload: error });
-    dispatch(toggleSnackbarOpen(error));
   }
 }
 

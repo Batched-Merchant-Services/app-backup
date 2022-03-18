@@ -29,10 +29,9 @@ import blueIconPlus from '@assets/icons/blue-icon-plus.png';
 import blueRestPlus from '@assets/icons/blue-icon-rest.png';
 import blueLogOut from '@assets/icons/blue-logout.png';
 import Logo from '@assets/brandBatched/black-logo.svg';
-import { logoutSession } from '../store/actions/auth.actions';
 //import i18n from '@utils/i18n';
 import { useTranslation, Trans, I18nextProvider } from 'react-i18next';
-import { DevSettings, Linking, AsyncStorage, TouchableOpacity } from 'react-native';
+import { DevSettings, Linking, AsyncStorage, TouchableOpacity,Platform } from 'react-native';
 import IconBack from '../assets/iconSVG/IconBack';
 import IconRowRight from '../assets/iconSVG/IconRowRight';
 import IconLogOut from '../assets/iconSVG/IconLogOut';
@@ -54,7 +53,7 @@ const CustomDrawer = props => {
   const { t, i18n } = useTranslation();
   //const progress = useDrawerProgress();
   function handleLogout() {
-    dispatch(logoutSession());
+    navigation.navigate('LogOut');
   }
 
 
@@ -65,9 +64,7 @@ const CustomDrawer = props => {
     DevSettings.reload();
   }
 
-  if (auth?.isLoggedOut) {
-    navigation.push('LogOut');
-  }
+ 
   useEffect(async() => {
     AsyncStorage.getItem('lang').then((value) => {
       setLanguageMenu(value);
@@ -128,12 +125,15 @@ const CustomDrawer = props => {
   const CustomLabel = ({ navigation, onPress, label, logout, language, legal, ...props }) => {
     const { colors } = useTheme();
     return (
-      <View width-220 >
+      <View width-210>
         {!language && !legal && (
-          <Fragment>
-            <View flex-1 row centerV >
-              <Text h14 blue04 semibold>{label}</Text>
-              <View flex-1 right>
+          <>
+            <View flex-1 row>
+              <View flex-1>
+                <Text h14 blue04 semibold>{label}</Text>
+              </View>
+             
+              <View  right >
                 {logout &&(
                   <IconLogOut width={scale(14)} height={verticalScale(16)} fill={brandTheme?.blue04?? colors?.blue04} />
                 )}
@@ -146,7 +146,7 @@ const CustomDrawer = props => {
             </View>
             <Divider height-10 />
             <View blue04 style={{ width: '100%', height: 1 }} />
-          </Fragment>
+          </>
 
         )}
         {language && !legal && (
@@ -213,12 +213,13 @@ const CustomDrawer = props => {
           <Divider width-20 />
           <Logo width={scale(120)} height={verticalScale(17)} />
         </View>
-        <DrawerContentScrollView {...props} contentContainerStyle={{ top: verticalScale(-30) }}>
-          <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('Dashboard')}>
+        <DrawerContentScrollView {...props} contentContainerStyle={{ top: Platform.OS === 'ios' ? verticalScale(-30) : verticalScale(10),width:'100%' }}>
+        <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('Dashboard')}>
             <DrawerItem
-              label={({ focused }) => <CustomLabel label={'Distribution cycle'} />}
+              label={({ focused }) => <CustomLabel label={i18n.t('General.menu.buttonDistributionCycle')} />}
             />
           </Ripple>
+          
           {/* <Ripple color={'rgb(0, 106, 200)'} centered={true}
           >
             <DrawerItem
@@ -227,16 +228,16 @@ const CustomDrawer = props => {
           </Ripple> */}
           <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('HomeProfile')}>
             <DrawerItem
-              label={({ focused }) => <CustomLabel label={'My profile'} />}
+              label={({ focused }) => <CustomLabel label={i18n.t('General.menu.buttonMyProfile')} />}
             />
           </Ripple>
           <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('HomeMyBatched')}>
             <DrawerItem
-              label={({ focused }) => <CustomLabel label={'My Batched'} />}
+              label={({ focused }) => <CustomLabel label={i18n.t('General.menu.buttonMyBatched')} />}
             />
           </Ripple>
           <DrawerItem
-            label={({ focused }) => <CustomLabel label={'Legal information'} legal />}
+            label={({ focused }) => <CustomLabel label={i18n.t('General.menu.buttonLegalInformation')} legal />}
           />
           {showTerm && (
             <View paddingL-15 centerV marginB-10>
@@ -246,7 +247,7 @@ const CustomDrawer = props => {
                 <View flex-1 row centerV>
                   <Text blue04 h4>{'\u2B24'}</Text>
                   <Divider width-5 />
-                  <Text h14 blue04 semibold>Terms and conditions</Text>
+                  <Text h14 blue04 semibold>{i18n.t('General.menu.buttonTermsAndConditions')}</Text>
                 </View>
               </TouchableOpacity>
               <Divider height-10 />
@@ -256,7 +257,7 @@ const CustomDrawer = props => {
                 <View flex-1 row centerV>
                   <Text blue04 h4>{'\u2B24'}</Text>
                   <Divider width-5 />
-                  <Text h14 blue04 semibold>Legal Privacy policy</Text>
+                  <Text h14 blue04 semibold>{i18n.t('General.menu.buttonLegalPrivacyPolicy')}</Text>
                 </View>
               </TouchableOpacity>
               <Divider height-20 />
@@ -266,16 +267,16 @@ const CustomDrawer = props => {
           )}
           <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('HomeContact')}>
             <DrawerItem
-              label={({ focused }) => <CustomLabel label={'Contact'} />}
+              label={({ focused }) => <CustomLabel label={i18n.t('General.menu.buttonContact')} />}
             />
           </Ripple>
           <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('Auth2fa')}>
             <DrawerItem
-              label={({ focused }) => <CustomLabel label={'Security'} />}
+              label={({ focused }) => <CustomLabel label={i18n.t('General.menu.buttonSecurity')} />}
             />
           </Ripple>
           <DrawerItem
-            label={({ focused }) => <CustomLabel label={'Language'} language />}
+            label={({ focused }) => <CustomLabel label={i18n.t('General.menu.buttonLanguage')} language />}
           />
           <Ripple color={'rgb(0, 106, 200)'} centered={true}
             // onPress={() => {
@@ -284,7 +285,7 @@ const CustomDrawer = props => {
             onPress={handleLogout}
           >
             <DrawerItem
-              label={({ focused }) => <CustomLabel label={'Logout'} logout />}
+              label={({ focused }) => <CustomLabel label={i18n.t('General.menu.buttonLogout')} logout />}
             />
           </Ripple>
         </DrawerContentScrollView>

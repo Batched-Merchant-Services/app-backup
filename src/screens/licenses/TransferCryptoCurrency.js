@@ -19,7 +19,8 @@ import { validateReference } from '@store/actions/licenses.actions';
 import Loading from '../Loading';
 import { toggleSnackbarClose } from '@store/actions/app.actions';
 import { cleanErrorLicenses } from '@store/actions/licenses.actions';
-import { createLicense, getAddressCurrency } from '../../store/actions/licenses.actions';
+import { getAddressCurrency } from '../../store/actions/licenses.actions';
+import { cleanErrorPoints } from '@store/actions/points.actions';
 
 const TransferCryptoCurrency = ({ navigation, route }) => {
   const id = route?.params?.id;
@@ -27,6 +28,7 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const licensesData = redux?.licenses;
+  const authData = redux?.auth;
   const amount = useValidatedInput('amount', '');
   const address = useValidatedInput('address', '');
   const transactionIdValue = useValidatedInput(id === 1 ? 'transactionId' : id === 2 ? 'transactionIdETH' : 'transactionId', '');
@@ -34,11 +36,13 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
   const isValidId = isFormValid(amount, file);
   const isValid = isFormValid(amount, address, transactionIdValue, file);
   const [addressCurrency, setAddressCurrency] = useState(licensesData?.addressCurrency?.address);
+  const [twoFactors, setTwoFactors] = useState(authData?.user?.isTwoFactor);
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanErrorLicenses());
+      dispatch(cleanErrorPoints());
       dispatch(toggleSnackbarClose());
       dispatch(getAddressCurrency(id))
     });
@@ -49,25 +53,35 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
     setAddressCurrency(licensesData?.addressCurrency?.address)
   }, [licensesData?.addressCurrency?.address]);
 
+  useEffect(() => {
+    console.log('authData',authData?.user,authData?.type2fa)
+    setTwoFactors(authData?.user?.isTwoFactor || authData?.type2fa)
+  }, [authData]);
 
   async function handleBuyLicense() {
+  
     const typeId = licensesData?.getLicenses?.id
     const createLicenses = {
       total: amount?.value ? parseInt(amount?.value) : amount?.value ?? 0,
       address: addressCurrency ?? '',
       currency: currency ?? '',
       type: typeId ?? 0,
-      voucherCrypto: file?.value ?? '',
+      voucherCrypto: file?.value ?? null,
       transactionId: transactionIdValue?.value ?? ''
     }
-    navigation.navigate("ConfirmSms", { page: 'BuyLicenses', data: createLicenses })
+    if (!twoFactors || twoFactors === 0) {
+      navigation.push("Auth2fa");
+    } else {
+      navigation.push("ConfirmSms", { page: 'BuyLicenses', data: createLicenses })
+    }
+   
   }
 
   const copyToClipboard = () => {
     Clipboard.setString(licensesData?.addressCurrency?.address)
   }
 
-
+  console.log('file transfer',authData,twoFactors)
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
       <NavigationBar childrenLeft navigation={navigation} />
@@ -144,7 +158,7 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
           {i18n.t('Licenses.buttonCheckTransaction')}
         </Text>
       </ButtonRounded>
-      <Loading modalVisible={licensesData?.isLoadingLicenses} />
+      <Loading modalVisible={licensesData?.isGetAddress} />
       <View flex-1 bottom>
         <SnackNotice
           visible={error}

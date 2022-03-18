@@ -10,6 +10,7 @@ import {
 import { useSelector } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
 import i18n from '@utils/i18n';
+import LottieView from 'lottie-react-native';
 
 const ConfirmationContact = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -38,7 +39,7 @@ const ConfirmationContact = ({ navigation, navigation: { goBack } }) => {
           blue
         >
           <Text h14 semibold white>
-            Go to distribution cycle
+            {i18n.t('General.buttonGoToDistributionCycle')}
           </Text>
         </ButtonRounded>
         <Divider height-40 />

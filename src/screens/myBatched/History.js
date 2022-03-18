@@ -18,7 +18,7 @@ const DataHistory = (dataHistory) => {
     return (dataHistory?.dataHistory?.map((i, index) => {
       return (
         <>
-          <View key={i.id} row height-28>
+          <View key={i.id} row >
             <View flex-1><Text h10 blue02 white center>{formatDateSend(i.createdDate)}</Text></View>
             <View flex-1><Text h10 blue02 white center>{moneyFormatter(i?.amount)}</Text></View>
             <View flex-1><Text h10 blue02 white center>{i?.transactionId || i?.note?.transactionId}</Text></View>
@@ -312,7 +312,7 @@ const History = ({ navigation }) => {
           </View>
           <DataHistory dataHistory={dataHistory} />
           <Divider height-10 />
-          {dataHistory && (
+          { points?.executeData?.length > 0 && (
             showMore && (
               <Link onPress={pagination}>
                 <Text h12 white>{i18n.t('home.history.linkShowMore')}</Text>

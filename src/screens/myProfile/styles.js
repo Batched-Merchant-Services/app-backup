@@ -5,7 +5,7 @@ import Colors from '@styles/Colors';
 const styles = StyleSheet.create({
   containerProfile: {
     width: verticalScale(45),
-    height: verticalScale(42),
+    height: verticalScale(45),
     alignItems:'center',
     justifyContent:'center',
     position:'absolute',

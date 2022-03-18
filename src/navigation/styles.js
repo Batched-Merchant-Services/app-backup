@@ -17,7 +17,7 @@ export default StyleSheet.create({
   },
   containerSideMenu: {
     flex : 1,
-    width: Dimensions.get('window').width * 0.717,
+
   },
 
   imageContainer: {

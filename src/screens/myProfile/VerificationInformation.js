@@ -54,7 +54,7 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
     const countryCode = accounts?.countryCode;
     dispatch(getTypeIdentification({ countryCode }));
     //getTypeIdentity();
-  }, [dispatch])
+  }, [])
 
   useEffect(() => {
     if (profile?.dropDownIdentification) {

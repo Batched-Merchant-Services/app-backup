@@ -72,7 +72,7 @@ export default registerReducer = (state = initialState, action) => {
         success: {},
       };
     case GET_COUNTRIES:
-      return { ...state, isLoading: true, showError: false, };
+      return { ...state, isLoading: true, showError: false,finishGetCountries:false };
 
     case GET_COUNTRIES_SUCCESS:
       return {
@@ -86,7 +86,7 @@ export default registerReducer = (state = initialState, action) => {
       };
 
     case GET_GENDER:
-      return { ...state, isLoading: true, showError: false, };
+      return { ...state, isLoading: true, showError: false,finishGetGender:false };
 
     case GET_GENDER_SUCCESS:
       return {

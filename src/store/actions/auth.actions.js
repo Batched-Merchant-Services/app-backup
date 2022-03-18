@@ -27,7 +27,7 @@ import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
 import DeviceInfo from 'react-native-device-info';
 import { generateRSA } from '@utils/api/encrypt';
-import { toggleSnackbarOpen, userInactivity } from './app.actions';
+import { saveStateModal2fa, toggleSnackbarOpen, userInactivity } from './app.actions';
 import { VALIDATE_SESSION_QUERY } from '../../utils/api/queries/user.queries';
 import { getLicenses} from '@store/actions/licenses.actions';
 import { AUTHENTICATION_TWO_FACTORS_SMS,AUTHENTICATION_TWO_FACTORS_EMAIL,AUTHENTICATION_TWO_FACTORS_QR,LOGOUT_QUERY, ACTIVATION_THIRD_PARTY, ACTIVATION_SMS, ACTIVATION_EMAIL } from '../../utils/api/queries/auth.queries';
@@ -93,9 +93,8 @@ export const getLoginTwoFactor = ({ codeSecurity }) => async (dispatch) => {
         await LocalStorage.set('auth_token', token);
         await LocalStorage.set('uuid', uuid);
         dispatch(userInactivity(true));
-        dispatch(getLicenses());
-        dispatch(getTotalLicensesInNetwork());
         dispatch(getDataUser());
+        dispatch(getLicenses());
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });
@@ -148,6 +147,7 @@ export const Activation2faApp = ({code}) => async (dispatch) => {
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: GET_ENABLE_THIRD_PARTY_SUCCESS, payload: response?.data['Activation2faApp'] });
+        dispatch(saveStateModal2fa(false));
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });
@@ -175,6 +175,7 @@ export const Activation2faSms = ({codeComposition}) => async (dispatch) => {
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: GET_ENABLE_SMS_SUCCESS, payload: response?.data['Activation2faApp'] });
+        dispatch(saveStateModal2fa(false));
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });
@@ -202,6 +203,7 @@ export const Activation2faEmail = ({codeComposition}) => async (dispatch) => {
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: GET_ENABLE_EMAIL_SUCCESS, payload: response?.data['Activation2faApp'] });
+        dispatch(saveStateModal2fa(false));
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });
@@ -304,7 +306,6 @@ export const logoutSession = () => async (dispatch) => {
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: LOGOUT_SUCCESS, payload: response?.data['getLogout'] });
-        dispatch(userInactivity(false));
       }
     }).catch((error) => {
       dispatch({ type: LOGIN_ERROR, payload: error });

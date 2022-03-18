@@ -26,16 +26,7 @@ const HomeContact = ({ navigation, navigation: { goBack } }) => {
   const accounts = userProfile?.accounts;
   const clients = dataUser?.dataUser?.clients?dataUser?.dataUser?.clients[0]:dataUser?.dataUser?.clients;
   const contact = redux?.contact;
-
-  const [items, setItems] = useState([
-    { id: '1', value: 'Licenses activation', name: 'Licenses activation' },
-    { id: '2', value: 'Licenses activation', name: 'Licenses activation' }
-  ]);
-
-  const reason = useValidatedInput('subject', '',{
-    changeHandlerSelect: 'onSelect'
-  });
-
+  const reason = useValidatedInput('subject', '');
   const note = useValidatedInput('message', '');
   const isValid = isFormValid(reason,note);
   const error = useSelector(state => state?.contact?.showContactError);

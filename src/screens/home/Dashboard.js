@@ -24,7 +24,7 @@ import { verticalScale } from 'react-native-size-matters';
 import CountDownDateGreen from './components/CountDownDateGreen';
 import CountDownSeconds from './components/CountDownSeconds';
 import CountDownDates from './components/CountDownDates';
-import { getCommissionPoints, getGatewayPointsBalance, getLiquidPointsBalance, getRewardsPoints } from '@store/actions/points.actions';
+import { cleanErrorPoints,getCommissionPoints, getGatewayPointsBalance, getLiquidPointsBalance, getRewardsPoints } from '@store/actions/points.actions';
 import { getLocalDateFromUTC } from '@utils/formatters';
 import { cleanError } from '@store/actions/auth.actions';
 import IconMenuWallet from '../../assets/iconSVG/IconMenuWallet';
@@ -48,10 +48,12 @@ const Dashboard = ({ navigation }) => {
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
   const currentDate = new Date();
   
+  console.log('redux?.rewards',rewardsData)
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanError());
+      dispatch(cleanErrorPoints());
       dispatch(toggleSnackbarClose());
       dispatch(getTotalLicensesInNetwork());
       dispatch(getValidateRewardsByUser());

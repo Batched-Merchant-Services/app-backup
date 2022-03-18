@@ -7,17 +7,24 @@ import {
   ButtonRounded,
   BackgroundWrapper
 } from '@components';
-import { useSelector } from 'react-redux';
+import { useSelector,useDispatch } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
 import { scale,verticalScale } from 'react-native-size-matters';
 import i18n from '@utils/i18n';
 import LottieView from 'lottie-react-native';
+import { cleanErrorLicenses } from '../../store/actions/licenses.actions';
 
 const ConfirmationLicenses = ({ navigation,navigation: { goBack }  }) => {
+  const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const referenceCode = useValidatedInput('sms', '');
 
-  
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      dispatch(cleanErrorLicenses());
+    });
+    return unsubscribe;
+  }, []);
 
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
@@ -32,17 +39,18 @@ const ConfirmationLicenses = ({ navigation,navigation: { goBack }  }) => {
       <Divider height-10 />
       <Text h12 white semibold>{i18n.t('Licenses.textTheConfirmationTimeCan')}{' '}<Text h12 white light>{i18n.t('Licenses.textDependingOnHowFastTheBlockchain')}</Text> </Text>
       <Divider height-120 />
+      <View flex-1 bottom>
       <ButtonRounded
         onPress={() => {
           navigation.navigate('Dashboard');
         }}
-        disabled={false}
         blue
       >
         <Text h14 semibold white>
           {i18n.t('Licenses.buttonGoToDistribution')}
         </Text>
       </ButtonRounded>
+      </View>
     </BackgroundWrapper>
 
 

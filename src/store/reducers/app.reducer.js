@@ -5,6 +5,7 @@ import {
     TOGGLE_STATUS_CHANGE_STATUS,
     SAVE_HISTORY_PAGINATION,
     CLEAN_HISTORY_PAGINATION,
+    SAVE_STATE_MODAL_2FA,
     GET_APP_RESOURCES,
     SET_ERROR_APP,
     USER_ACTIVE
@@ -22,6 +23,7 @@ const initialState = {
     snackbarMessage: null,
     typeSnack: 'error',
     getAppResources: null,
+    stateModalInfo2fa:false,
     showError: false,
     error: {},
     success: {},
@@ -62,6 +64,13 @@ export default appReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 getAppResources: action.payload,
+                showError: false,
+            };
+        case SAVE_STATE_MODAL_2FA:
+            return {
+                ...state,
+                loading: false,
+                stateModalInfo2fa: action.payload,
                 showError: false,
             };
         case SET_ERROR_APP:

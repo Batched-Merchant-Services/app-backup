@@ -19,13 +19,6 @@ const SupportAuthentication = ({ navigation, route, navigation: { goBack } }) =>
   const brandTheme = appData?.Theme?.colors;
   const { colors } = useTheme();
 
-  const [clabe, setClabe] = useState('BCWFNUJDXPOLQW4E5LEITVS');
-  const toggleSwitch = () => setIsEnabled(previousState => !previousState);
-
-  const copyToClipboard = () => {
-    Clipboard.setString(clabe);
-  }
-
   return (
     <BackgroundWrapper showNavigation={true}  navigation={navigation}>
        <Divider height-30 />

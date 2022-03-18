@@ -65,7 +65,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
     } else {
       style.height = options?.length > 10? verticalScale(210): style.height- verticalScale(1 * options?.length );
       style.left = style.left - verticalScale(7, 0);
-      style.top = Platform.OS === 'ios' ? style.top = style.top - verticalScale(2, 0.3) : style.top + style.height - verticalScale(135);
+      style.top = Platform.OS === 'ios' ? style.top = style.top - verticalScale(2, 0.3) : style.top  ;
     }
     return style;
   };
@@ -94,7 +94,6 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
 
     );
   };
-
   const dropSize = { width: !size ==='lg' ? getSize(size): getSize(width) };
 
   return (
@@ -108,8 +107,8 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
         </View>
         <ModalDropdown
           options={options}
-          //defaultValue={labelDefault ? labelDefault : i18n.t('General.dropDownSelectOption')}
-          defaultValue={<View height-20 style={{width:width}}><Text white h11>{labelDefault ? labelDefault : i18n.t('General.dropDownSelectOption')}</Text></View>}
+          defaultValue={labelDefault ? labelDefault : i18n.t('General.dropDownSelectOption')}
+          //defaultValue={}
           onSelect={handleSelect}
           onDropdownWillHide={handleWillShowHide}
           renderSeparator={(rowID) => renderSeparator(rowID)}

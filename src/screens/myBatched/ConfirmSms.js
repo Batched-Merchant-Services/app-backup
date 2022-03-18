@@ -163,10 +163,13 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
 
   useEffect(() => {
     if (auth?.isSessionTwoFactors) {
-      if (dataUser?.dataUser?.bachedTransaction?.length > 0) {
-        navigation.navigate('Dashboard');
-      } else {
-        navigation.push('GetLicenses');
+      console.log('dataUser?.dataUser?.bachedTransaction?.length',dataUser)
+      if(dataUser?.successDataUser){
+        if (dataUser?.dataUser?.bachedTransaction?.length > 0) {
+         navigation.navigate('Dashboard');
+        } else {
+         navigation.navigate('GetLicenses');
+        }
       }
     }
   }, [auth?.isSessionTwoFactors,dataUser])
@@ -188,7 +191,7 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
   if (licensesData?.successCreateLicense) {
     navigation.navigate("ConfirmationLicenses")
   }
-
+  console.log('points?.isLoadingRewardsPoints || auth?.isSessionTwoFactors',auth?.type2fa)
   return (
     <BackgroundWrapper showNavigation={true}  childrenLeft  onPressLeft={()=> goBack(null)}>
       <Divider height-20 />
@@ -226,7 +229,7 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
             {i18n.t('General.buttonBack')}
           </Text>
         </ButtonRounded>
-        <Loading modalVisible={points?.isLoadingRewardsPoints || auth?.isSessionTwoFactors} />
+        <Loading modalVisible={auth?.isLoggingIn} />
         <SnackNotice
           visible={error}
           message={points?.error?.message}

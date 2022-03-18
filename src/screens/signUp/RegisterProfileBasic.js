@@ -23,6 +23,7 @@ import i18n from '@utils/i18n';
 import { toggleSnackbarClose } from '@store/actions/app.actions';
 import { cleanErrorRegister,getGender,registerProfile} from '@store/actions/register.actions';
 import Loading from '../Loading';
+import { cleanErrorLicenses } from '../../store/actions/licenses.actions';
 
 
 
@@ -48,6 +49,7 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack },route }) => {
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanErrorRegister());
+      dispatch(cleanErrorLicenses());
       dispatch(toggleSnackbarClose());
       dispatch(getGender());
       getShowGender();
@@ -65,7 +67,7 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack },route }) => {
     navigation.navigate("AccountConfirmation");
   }
 
-  async function handleRegisterProfile(){
+  function handleRegisterProfile(){
     const term = true;
     const dataRegisterProf = {
       firstName:firstName?.value,
@@ -86,7 +88,7 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack },route }) => {
 
   }
 
-
+  console.log('registerData?.gender',registerData?.isLoading)
 
   return (
     <BackgroundWrapper navigation={navigation}>
@@ -129,7 +131,7 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack },route }) => {
         <DropDownPicker
           {...gender}
           label={i18n.t('Register.inputGender')}
-          options={registerData?.gender??[]}
+          options={registerData?.gender}
         //onFill={(code)=> filterPays(code)}
         />
         <Divider height-5 />
@@ -169,7 +171,7 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack },route }) => {
         message={registerData?.error?.message}
         timeout={3000}
       />
-       <Loading  modalVisible={registerData?.isLoading}/>
+      <Loading modalVisible={false}/>
     </BackgroundWrapper>
   );
 }

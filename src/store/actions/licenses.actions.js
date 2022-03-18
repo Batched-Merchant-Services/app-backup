@@ -209,14 +209,17 @@ export const createLicense = ({createLicenses}) => async (dispatch) => {
         ...createLicenses
       },
     }).then(async (response) => {
+      console.log('response createlicense',response)
       if (response.data) {
         dispatch({ type: CREATE_LICENSE_SUCCESS, payload: response.data['createLicensesCryptoTransactionDeposit'] });
       }
     }).catch((error) => {
+      console.log('error1 createlicense',error)
       dispatch({ type: LICENSES_ERROR, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
+    console.log('error2 createlicense',error)
     dispatch({ type: LICENSES_ERROR, payload: error });
   }
 }
@@ -230,7 +233,7 @@ export const getAddressCurrency = (currencyId) => async (dispatch) => {
       query: GET_ADDRESS_CURRENCY,
       variables: {
         token: token,
-        currencyId:currencyId
+        currencyId:currencyId??0
       },
     }).then(async (response) => {
       if (response.data) {
@@ -238,7 +241,7 @@ export const getAddressCurrency = (currencyId) => async (dispatch) => {
       }
     }).catch((error) => {
       dispatch({ type: LICENSES_ERROR, payload: error });
-      //dispatch(toggleSnackbarOpen(error));
+      dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
     dispatch({ type: LICENSES_ERROR, payload: error });

@@ -23,29 +23,32 @@ import Loading from '../Loading';
 import Colors from '@styles/Colors';
 import close from '@assets/icons/white-x.png';
 import { toggleSnackbarClose } from '@store/actions/app.actions';
-import { getDataUser } from '../../store/actions/user.action';
-import { userInactivity } from '../../store/actions/app.actions';
+import { cleanDataUser, getDataUser } from '../../store/actions/user.action';
+import { saveStateModal2fa, userInactivity } from '../../store/actions/app.actions';
 import ModalInfo2fa from '../ModalInfo2fa';
+
 
 const Login = ({ navigation }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const [values, setValues] = useState(false);
   const authData = redux?.auth;
-  const licensesData = redux?.licenses;
+  const app = redux?.app;
+  const dataUser = redux?.user;
   const email = useValidatedInput('','');
   const password = useValidatedInput('password', '');
   const isValid = isFormValid(email, password);
   const error = useSelector(state => state?.auth?.showError);
-  const [showModalDates, setShowModalDates] = useState(false);
-  const todoInput = useRef(null);
+  const [showModalInfo, setShowModalInfo] = useState(false);
  
 
   useEffect(() => {
     dispatch(cleanError());
     dispatch(toggleSnackbarClose());
+    dispatch(cleanDataUser());
     dispatch(userInactivity(false));
     setValues(true);
+    console.log('app',app)
   }, [dispatch]);
 
   useEffect(() => {
@@ -59,13 +62,43 @@ const Login = ({ navigation }) => {
     dispatch(getLogin({ email, password }));
   }
 
-  if (authData?.isSession) {
-    if (!authData?.user?.isTwoFactor) {
-      navigation.navigate('Auth2fa');
-    } else {
-      navigation.navigate('ConfirmSms', { page: 'Login' });
+  useEffect(() => {
+    if (authData?.isSession) {
+      if (!authData?.user?.isTwoFactor) {
+        if (app?.stateModalInfo2fa) {
+          if(dataUser?.successDataUser){
+            if (dataUser?.dataUser?.bachedTransaction?.length > 0) {
+             navigation.navigate('Dashboard');
+            } else {
+             navigation.navigate('GetLicenses');
+            }
+          }
+          setShowModalInfo(false);
+        } else {
+          setShowModalInfo(true);
+        }
+       
+      } else {
+        navigation.push('ConfirmSms', { page: 'Login' });
+        setShowModalInfo(false);
+      }
     }
-  }
+  }, [authData?.isSession,app?.stateModalInfo2fa,dataUser]);
+
+
+
+  // if (authData?.isSession) {
+  //   if (!authData?.user?.isTwoFactor) {
+  //     navigation.navigate('Auth2fa');
+  //   } else {
+  //     navigation.navigate('ConfirmSms', { page: 'Login' });
+  //   }
+  // }
+
+
+  const handleClose = () => {
+    setShowModalInfo(!showModalInfo);
+  };
 
 
   return (
@@ -125,6 +158,11 @@ const Login = ({ navigation }) => {
         message={'sip'}
       /> */}
       <Loading modalVisible={authData?.isLoggingIn} />
+      <ModalInfo2fa visible={showModalInfo}
+        onRequestClose={() => { setShowModalInfo(false)}}
+        onPressOverlay={handleClose}
+        navigation={navigation}
+      />
     </BackgroundWrapper>
   );
 }

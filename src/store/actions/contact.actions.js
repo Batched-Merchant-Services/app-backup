@@ -68,6 +68,7 @@ export const setContact = ({ dataContact }) => async (dispatch) => {
         }
       },
     }).then(async (response) => {
+      console.log('response ',response)
       if (response.data) {
         dispatch({ type: SET_CONTACT_SUCCESS, payload: response?.data['setMessageProcess'] });
       }
