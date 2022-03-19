@@ -7,6 +7,7 @@ import EmptyState from '../EmptyState';
 import Styles from './styles';
 import i18n from '@utils/i18n';
 import { formatDate, generateColorRandom } from '../../utils/formatters';
+import Clipboard from '@react-native-community/clipboard';
 
 const Referred = ({ navigation, step, onPress, label }) => {
   const dispatch = useDispatch();
@@ -43,6 +44,12 @@ const Referred = ({ navigation, step, onPress, label }) => {
     setDataInfo(sortedActivities);
   }
 
+  const copyToClipboard = () => {
+    Clipboard.setString(accounts?.id);
+  }
+
+
+
   return (
     <View flex-1>
       <View row>
@@ -52,7 +59,7 @@ const Referred = ({ navigation, step, onPress, label }) => {
         </View>
         <View>
           <ButtonRounded
-            disabled={false}
+            onPress={copyToClipboard}
             green
           >
             <Text h11 semibold white>

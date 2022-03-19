@@ -99,8 +99,7 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
         </View>
         <Divider height-12 />
         <ButtonRounded
-          disabled={false}
-          onPress={() => copyToClipboard()}
+          onPress={copyToClipboard}
           dark
         >
           <Text h12 medium blue02>{i18n.t('myProfile.textCopyMyReferenceCode')}</Text>

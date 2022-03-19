@@ -3,8 +3,6 @@ import Clipboard from '@react-native-community/clipboard';
 import { View, Text, Divider, ImageResize, ButtonRounded } from '@components';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { useSelector, useDispatch } from 'react-redux';
-import blueRow from '@assets/icons/blue-row-double-down.png';
-import Styles from '../styles';
 import i18n from '@utils/i18n';
 import { moneyFormatter, thousandsSeparator } from '../../../utils/formatters';
 import { cleanErrorPoints } from '../../../store/actions/points.actions';
@@ -22,14 +20,9 @@ const HomeBalance = ({ navigation }) => {
   const points = redux?.points;
   const brandTheme = dataUser?.Theme?.colors;
   const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
-  const accounts = userProfile?.accounts
-  const [referenceN1, setReferenceN1] = useState(0);
-  const [referenceN2, setReferenceN2] = useState(0);
-  const [gatewayPoints, setGatewayPoints] = useState(0);
+  const accounts = userProfile?.accounts;
   const [liquidPoints, setLiquidPoints] = useState(0);
   const [totalLicenses, setTotalLicenses] = useState(0);
-  const [rewardsPoints, setRewardsPoints] = useState(0);
-  const [commissionBalance, setCommissionBalance] = useState(0);
   const RewardsData = points?.rewardsData;
   const gatewayData = points?.gatewayData;
   const liquidData = points?.liquidData;
@@ -106,8 +99,7 @@ const HomeBalance = ({ navigation }) => {
       <Divider height-12 />
       <View flex-1 row centerH>
         <ButtonRounded
-          onPress={() => copyToClipboard}
-          disabled={false}
+          onPress={copyToClipboard}
           dark
           size='sm'
         >

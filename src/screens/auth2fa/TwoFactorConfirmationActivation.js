@@ -69,7 +69,7 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
         <Divider width-5 />
         <Text white h10 semibold>{clabe}</Text>
         <Divider width-5 />
-        <Link onPress={() => copyToClipboard()}>
+        <Link onPress={copyToClipboard}>
           <Text h10 blue02>{i18n.t('Auth2fa.linkCopy')}</Text>
         </Link>
       </View>

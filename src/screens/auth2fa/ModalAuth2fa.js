@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { formatDate } from '@utils/formatters';
 import i18n from '@utils/i18n';
 import IconKey from '@assets/iconSVG/IconAuth2fa/IconKey';
+import Clipboard from '@react-native-community/clipboard';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { useTheme } from '@react-navigation/native';
 import IconWarning from '@assets/iconSVG/IconWarning';
@@ -30,13 +31,18 @@ const ModalAuth2fa = ({ visible, onRequestClose, getData, onPressOverlay, ...pro
     }, 5000);
   }, [showButtonModal]);
   
+  const copyToClipboard = () => {
+    Clipboard.setString(clabe);
+  }
+
+
   return (
     <Modal
       animationType="slide"
       transparent={true}
       visible={visible}
       onRequestClose={onRequestClose}>
-      <View flex-1 centerV centerH>
+      <View flex-1 centerV centerH  style={{backgroundColor:'rgba(46, 58, 110, 0.72)'}}>
         <View centerH centerV blue04 padding-20 style={{ width: '92%', height: '83%' }}>
           <Divider height-30 />
           <IconKey width={scale(80)} height={verticalScale(80)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
@@ -48,7 +54,7 @@ const ModalAuth2fa = ({ visible, onRequestClose, getData, onPressOverlay, ...pro
           <View row padding-10 centerV style={{ borderColor: colors.blue02, borderWidth: 1 }}>
             <Text white h10 medium>{clabe}</Text>
             <Divider width-8 />
-            <Link>
+            <Link onPress={copyToClipboard}>
               <Text h12 blue02>{i18n.t('Auth2fa.linkCopy')}</Text>
             </Link>
           </View>

@@ -125,7 +125,7 @@ const CustomDrawer = props => {
   const CustomLabel = ({ navigation, onPress, label, logout, language, legal, ...props }) => {
     const { colors } = useTheme();
     return (
-      <View width-210>
+      <View width-205>
         {!language && !legal && (
           <>
             <View flex-1 row>

@@ -24,6 +24,8 @@ import LocalStorage from '@utils/localStorage';
 import Loading from '../Loading';
 import { cleanErrorForgot } from '../../store/actions/forgotPassword.actions';
 import { createLicense } from '../../store/actions/licenses.actions';
+import IconLineDotted from '../../assets/iconSVG/IconLineDotted';
+import { useTheme } from '@react-navigation/native';
 
 const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
@@ -33,6 +35,8 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
   const amount = route?.params?.amount;
   const userProfile = dataUser?.dataUser?.usersProfile ? dataUser?.dataUser?.usersProfile[0] : ''
   const accounts = userProfile?.accounts;
+  const brandTheme = dataUser?.Theme?.colors;
+  const { colors } = useTheme();
   const codeSecurity = useValidatedInput('codeSms', '');
   const [valuePhone, setValuePhone] = useState(accounts?.phoneNumber);
   const [codeSmsEmail, setCodeSmsEmail] = useState(auth?.dataCode);
@@ -211,7 +215,7 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
       <Divider height-10 />
       <PinInput {...codeSecurity} onSubmit={(code) => getInfo(code)}/>
       <Divider height-25 />
-      <Divider style={Styles.borderDoted} />
+      <IconLineDotted height={verticalScale(1)} width={'100%'} fill={brandTheme?.blue04 ?? colors.blue04} />
       <Divider height-25 />
       <Text h12 white>{i18n.t('home.myBatchedTransfer.textTheCodeWillBeValid')}{' '}
         <Link onPress={onPressResendCode}>

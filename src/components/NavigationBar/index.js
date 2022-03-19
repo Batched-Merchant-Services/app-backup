@@ -76,7 +76,7 @@ const RenderRightBack = ({ navigation,onPressRight, Style, brandTheme, IconRight
 
 const RenderBody = ({ body }) => {
   return (
-    <View flex-1 centerH >
+    <View flex-1 centerH>
       {body && (
         <ImageResize source={body} height={verticalScale(20)} width={scale(20)} />
       )}
@@ -108,6 +108,10 @@ const NavigationBar = ({ navigation, onPressLeft,onPressRight, body, childrenLef
 
               {childrenRight && (
                 <RenderRightBack IconRight={childrenRight} onPressRight={onPressRight} brandTheme={brandTheme} navigation={navigation}/>
+              )}
+
+              {!childrenRight && (
+                <View style={{ width: scale(32), height: verticalScale(32)}}/>
               )}
             </View>
           </View>

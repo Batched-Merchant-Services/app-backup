@@ -54,7 +54,7 @@ const ModalInfo2fa = ({ visible, onRequestClose, getData, onPressOverlay,navigat
       transparent={true}
       visible={visible }
       onRequestClose={onRequestClose}>
-      <View flex-1 centerV centerH>
+      <View flex-1 centerV centerH  style={{backgroundColor:'rgba(46, 58, 110, 0.72)'}}>
         <View centerV blue04 style={{ width: '92%', height: '80%' }}>
           <Divider height-30 />
           <View centerH>
@@ -62,9 +62,9 @@ const ModalInfo2fa = ({ visible, onRequestClose, getData, onPressOverlay,navigat
           </View>
           <Divider height-40 />
           <View flex-1 padding-20>
-            <Text h12 regular white left>Agrega mayor seguridad a tu cuenta.</Text>
+            <Text h12 regular white left>{i18n.t('General.modal2fa.textAddMoreSecurity')}</Text>
             <Divider height-30 />
-            <Text h12 regular white left>En caso de realizar una transferencia de puntos la autenticación será requerida.</Text>
+            <Text h12 regular white left>{i18n.t('General.modal2fa.textInCaseOfTransferring')}</Text>
             <View flex-1 bottom centerH >
               <ButtonRounded
                 onPress={handleGoToActivate}
@@ -72,13 +72,13 @@ const ModalInfo2fa = ({ visible, onRequestClose, getData, onPressOverlay,navigat
                 blue
               >
                 <Text h14 semibold white>
-                  Activar ahora
+                  {i18n.t('General.modal2fa.buttonActivateNow')}
                 </Text>
               </ButtonRounded>
             </View>
             <Divider height-20 />
             <Link onPress={handleGoToDashboard}>
-              <Text h12 blue02>Mas tarde</Text>
+              <Text h12 blue02>{i18n.t('General.modal2fa.buttonActivateNow')}</Text>
             </Link>
           </View>
           <Divider height-25 />

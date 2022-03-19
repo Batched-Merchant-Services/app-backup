@@ -106,9 +106,9 @@ const Login = ({ navigation }) => {
       <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
       <Divider height-30 />
       <Text h18 blue02>{i18n.t('Login.textAnIncredible')}{' '}<Text white>{i18n.t('Login.textInRewardPoints')}</Text></Text>
-      <Divider height-15 />
+      <Divider height-10 />
       <StepButton navigation={navigation} />
-      <Divider height-15 />
+      <Divider height-10 />
       <Text h10 white>{i18n.t('Login.textIfYouHave')}{' '}<Text white bold>{i18n.t('Login.textUulalaRegistration')}{' '}</Text>{i18n.t('Login.textYouCanAccess')}</Text>
       <Divider height-25 />
       <FloatingInput

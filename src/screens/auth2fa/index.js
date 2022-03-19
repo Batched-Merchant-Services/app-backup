@@ -9,15 +9,15 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import i18n from '@utils/i18n';
 import { scale, verticalScale } from 'react-native-size-matters';
-import IconSecurityLock from '@assets/iconSVG/IconAuth2fa/IconSecurityLock';
 import { TouchableOpacity, Switch } from 'react-native';
 import { useTheme } from '@react-navigation/native';
 import IconRightRow from '@assets/iconSVG/IconRightRow';
-import Styles from './styles';
 import LottieView from 'lottie-react-native';
-import ModalInfo2fa from '../ModalInfo2fa';
 import { cleanErrorLicenses } from '../../store/actions/licenses.actions';
 import { cleanErrorPoints } from '@store/actions/points.actions';
+import IconLineDotted from '../../assets/iconSVG/IconLineDotted';
+
+
 const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
@@ -134,7 +134,7 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
           </View>
         </View>
         <Divider height-10 />
-        <Divider style={[Styles.borderDoted, { borderColor: colors.blue04 }]} />
+        <IconLineDotted height={verticalScale(1)} width={'100%'} fill={brandTheme?.blue04 ?? colors.blue04} />
         <Divider height-10 />
         <View row>
           <View flex-1 left>
@@ -151,7 +151,7 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
           </View>
         </View>
         <Divider height-10 />
-        <Divider style={[Styles.borderDoted, { borderColor: colors.blue04 }]} />
+        <IconLineDotted height={verticalScale(1)} width={'100%'} fill={brandTheme?.blue04 ?? colors.blue04} />
 
         <Divider height-10 />
         <View row>
@@ -169,7 +169,7 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
           </View>
         </View>
         <Divider height-10 />
-        <Divider style={[Styles.borderDoted, { borderColor: colors.blue04 }]} />
+        <IconLineDotted height={verticalScale(1)} width={'100%'} fill={brandTheme?.blue04 ?? colors.blue04} />
       </View>
     </BackgroundWrapper>
 

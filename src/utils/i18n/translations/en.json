@@ -86,6 +86,12 @@
         "october":"October",
         "november":"November",
         "december":"December"
+      },
+      "modal2fa":{
+        "textAddMoreSecurity":"Add more security to your account.",
+        "textInCaseOfTransferring":"In case of transferring points, authentication will be required.",
+        "buttonActivateNow":"Activate now",
+        "linkLater":"Later"
       }
     },
     "Login":{

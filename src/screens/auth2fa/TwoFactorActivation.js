@@ -41,7 +41,7 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
   }
 
   const copyToClipboard = () => {
-    Clipboard.setString(accounts?.id);
+    Clipboard.setString(clabe);
   }
 
   useEffect(() => {
@@ -77,7 +77,7 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
         <Divider width-5 />
         <Text white h10 semibold>{clabe}</Text>
         <Divider width-5 />
-        <Link onPress={() => copyToClipboard}>
+        <Link onPress={copyToClipboard}>
           <Text h12 blue02>{i18n.t('Auth2fa.linkCopy')}</Text>
         </Link>
       </View>

@@ -120,8 +120,7 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
       )}
       <View row  >
         <ButtonRounded
-          onPress={() => copyToClipboard}
-          disabled={false}
+          onPress={copyToClipboard}
           dark
           size='sm'
         >
