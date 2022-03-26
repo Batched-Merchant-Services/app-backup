@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import ModalDropdown from 'react-native-modal-dropdown';
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity,Alert} from 'react-native';
 import PropTypes from 'prop-types';
 import { View, Text, Divider } from '@components';
 import Styles from './styles';
@@ -90,13 +90,11 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
   const renderButtonText = (rowData) => {
     const { name, value } = rowData;
     return (
-      <View style={{width:'100%', height:40}}>
         <Text h12 white>{name}</Text>
-      </View>
 
     );
   };
-  const dropSize = { width: !size ==='lg' ? getSize(size): getSize(width-10) };
+  const dropSize = { width: !size ==='lg' ? getSize(size): getSize(width) };
 
   return (
     <View onLayout={handleWrapperLayout}>
@@ -118,7 +116,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
           renderSeparator={(rowID) => renderSeparator(rowID)}
           renderButtonText={(rowData) => renderButtonText(rowData)}
           adjustFrame={handleAdjustFrame}
-          style={{ flex: 1 }}
+          style={{ flex: 1, width:'90%' }}
           textStyle={{ color: brandTheme?.white ?? Colors.white, fontSize: 14 }}
           renderRow={(rowData) => dropdownRenderRow(rowData)}
           dropdownStyle={[Styles.dropdownContainer, { backgroundColor: styleBackground, borderColor: styleBorder }]}

@@ -149,12 +149,12 @@ const CountDownSeconds = ({ navigation, ...props }) => {
                   </TouchableOpacity>
                 </ImageBackground>
             </View>
-            <LottieView source={require('../../../assets/animationsLottie/distributionEnable.json')} autoPlay loop style={{ position: 'absolute', top: 0,width:verticalScale(290) }} />
+            <LottieView source={require('../../../assets/animationsLottie/distributionEnable.json')} autoPlay loop style={{ position: 'absolute', top: 0.8,width:verticalScale(285) }} />
           </FadeInView>
         )}
         {!showButtonStart && (
           <FadeInView style={{ flex:1,justifyContent: "center", alignItems: 'center' }}>
-            <LottieView source={require('../../../assets/animationsLottie/distributionDisable.json')} autoPlay loop style={{ position: 'absolute', top: 0, justifyContent: "center", alignItems: 'center',width:verticalScale(290) }} />
+            <LottieView source={require('../../../assets/animationsLottie/distributionDisable.json')} autoPlay loop style={{ position: 'absolute', top: 0.8, justifyContent: "center", alignItems: 'center',width:verticalScale(285) }} />
             <View flex-1 style={[Styles.imageContainer]}>
               <ImageBackground source={firstLayerInactive} resizeMode="contain" style={Styles.image}>
                 <Animated.Image
