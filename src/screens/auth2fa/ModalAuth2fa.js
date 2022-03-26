@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, ButtonRounded, Divider,Link } from '@components';
+import { View, Text, ButtonRounded, Divider,Link,SnackBar } from '@components';
 import { Modal } from 'react-native';
 import { useSelector } from 'react-redux';
 import { formatDate } from '@utils/formatters';
@@ -33,6 +33,7 @@ const ModalAuth2fa = ({ visible, onRequestClose, getData, onPressOverlay, ...pro
   
   const copyToClipboard = () => {
     Clipboard.setString(clabe);
+    
   }
 
 
@@ -81,7 +82,6 @@ const ModalAuth2fa = ({ visible, onRequestClose, getData, onPressOverlay, ...pro
             </ButtonRounded>
           </View>
         </View>
-
       </View>
     </Modal>
 

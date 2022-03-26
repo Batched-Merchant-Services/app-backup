@@ -44,7 +44,6 @@ const SelectTypeLicense = ({ navigation }) => {
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanErrorLicenses());
-      dispatch(cleanErrorPoints());
       dispatch(toggleSnackbarClose());   
       dispatch(getListLicenses()); 
       dispatch(getCryptoCurrency());
@@ -106,7 +105,8 @@ const SelectTypeLicense = ({ navigation }) => {
     // Will change fadeAnim value to 1 in 5 seconds
     Animated.timing(fadeMoves, {
       toValue: 1,
-      duration: 1000
+      duration: 1000,
+      useNativeDriver: true
     }).start();
   };
 

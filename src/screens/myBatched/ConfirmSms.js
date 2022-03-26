@@ -59,13 +59,14 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
   const error = useSelector(state => state?.points?.errorPoints);
 
   useEffect(() => {
-    
-    dispatch(cleanErrorPoints());
     dispatch(cleanErrorLicenses());
     dispatch(toggleSnackbarClose());
     dispatch(cleanErrorForgot());
+    console.log('params?.page',params?.page !== 'Login' || params?.page !== 'LoginChange')
     if(params?.page !== 'ChangePass')  dispatch(cleanError());
-    if (params?.page !== 'Login' || params?.page !== 'LoginChange') {
+    if (params?.page !== 'Login') {
+      if(params?.page !== 'LoginChange'){
+     
       switch (auth?.type2fa) {
         case 1:
           setCodeSmsEmail('2fa')
@@ -81,15 +82,9 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
           break;
       }
     }
+  }
   }, [dispatch])
 
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(cleanErrorForgot());
-    });
-    return unsubscribe;
-  }, [navigation])
-  
 
 
   useEffect(() => {
@@ -181,7 +176,7 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
 
 
   if (points?.successTransferGatewayLiquid) {
-    navigation.navigate('ConfirmationTransfer', { amount: amount?.value});
+    navigation.push('ConfirmationTransfer', { amount: amount?.value,data: params?.data});
   }
 
   function handleGoToBack() {
@@ -193,7 +188,7 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
   }
 
   if (licensesData?.successCreateLicense) {
-    navigation.navigate("ConfirmationLicenses")
+    navigation.push("ConfirmationLicenses")
   }
   console.log('points?.isLoadingRewardsPoints || auth?.isSessionTwoFactors',auth?.type2fa)
   return (
@@ -218,7 +213,7 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
       <IconLineDotted height={verticalScale(1)} width={'100%'} fill={brandTheme?.blue04 ?? colors.blue04} />
       <Divider height-25 />
       <Text h12 white>{i18n.t('home.myBatchedTransfer.textTheCodeWillBeValid')}{' '}
-        <Link onPress={onPressResendCode}>
+        <Link onPress={onPressResendCode} style={{paddingTop:verticalScale(10)}}>
           <Text h12 white>{i18n.t('home.myBatchedTransfer.linkResendCode')}</Text>
         </Link></Text>
       <Divider height-30 />

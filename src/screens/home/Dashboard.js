@@ -8,27 +8,28 @@ import {
   BackgroundWrapper
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
-import Menu from '@assets/icons/hamburgerMenu.png';
-import Wallet from '@assets/icons/blue-wallet.png';
 import Styles from './styles';
 import i18n from '@utils/i18n';
 import Colors from '@styles/Colors';
 import Loading from '../Loading';
 //actions
-import { toggleSnackbarClose, changeStatusTimers, userInactivity } from '@store/actions/app.actions';
-import { cleanErrorLicenses, getTotalLicensesInNetwork } from '@store/actions/licenses.actions';
+import { toggleSnackbarClose, changeStatusTimers } from '@store/actions/app.actions';
+import { getTotalLicensesInNetwork } from '@store/actions/licenses.actions';
 import { getValidateRewardsByUser, getRewardsConfig } from '@store/actions/rewards.actions';
-import { getDataUser } from '@store/actions/user.action';
 import { thousandsSeparator } from '@utils/formatters';
 import { verticalScale } from 'react-native-size-matters';
 import CountDownDateGreen from './components/CountDownDateGreen';
 import CountDownSeconds from './components/CountDownSeconds';
 import CountDownDates from './components/CountDownDates';
-import { cleanErrorPoints,getCommissionPoints, getGatewayPointsBalance, getLiquidPointsBalance, getRewardsPoints } from '@store/actions/points.actions';
+import { cleanErrorPoints, getCommissionPoints, getGatewayPointsBalance, getLiquidPointsBalance, getRewardsPoints } from '@store/actions/points.actions';
 import { getLocalDateFromUTC } from '@utils/formatters';
 import { cleanError } from '@store/actions/auth.actions';
-import IconMenuWallet from '../../assets/iconSVG/IconMenuWallet';
+import IconLineVertical from '../../assets/iconSVG/IconLineVertical';
+import { useTheme } from '@react-navigation/native';
+import IconPoints from '../../assets/iconSVG/IconPoints';
 const MenuWallet = require('../../assets/animationsLottie/MenuWallet.json');
+import { useWindowDimensions } from 'react-native';
+
 //import moment from 'moment';
 
 
@@ -39,6 +40,8 @@ const Dashboard = ({ navigation }) => {
   const infoUser = redux?.user;
   const appResources = redux?.app;
   const rewardsData = redux?.rewards;
+  const brandTheme = infoUser?.Theme?.colors;
+  const { colors } = useTheme();
   const [statusAvailable, setStatusAvailable] = useState(false);
   const [statusStayOnline, setStatusStayOnline] = useState(false);
   const [totalLicenses, setTotalLicenses] = useState(0);
@@ -47,21 +50,27 @@ const Dashboard = ({ navigation }) => {
   const [rewardsPerUser, setRewardsPerUser] = useState(0);
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
   const currentDate = new Date();
-  
-  console.log('redux?.rewards',rewardsData)
+  const { height, width } = useWindowDimensions();
+
+
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanError());
-      dispatch(cleanErrorPoints());
       dispatch(toggleSnackbarClose());
       dispatch(getTotalLicensesInNetwork());
       dispatch(getValidateRewardsByUser());
       dispatch(getRewardsConfig());
-      getBatchedTransaction();
     });
     return unsubscribe;
   }, []);
+
+  useEffect(() => {
+    getBatchedTransaction();
+  }, [infoUser?.successDataUser]);
+
+
+
 
 
   function getBatchedTransaction() {
@@ -71,6 +80,7 @@ const Dashboard = ({ navigation }) => {
       if (transaction.status === 1 || transaction.status === 3) setTotalLicenses(totalLicenses + transaction.routingNumber ? parseInt(transaction.routingNumber) : transaction.routingNumber);
     });
     const id = infoUser?.dataUser?.clients ? infoUser?.dataUser?.clients[0]?.account?.id : 0;
+    console.log('infoUser', id)
     dispatch(getRewardsPoints({ id }));
     dispatch(getCommissionPoints({ id }));
     dispatch(getGatewayPointsBalance({ id }));
@@ -164,62 +174,46 @@ const Dashboard = ({ navigation }) => {
       <Text h16 white semibold center>{thousandsSeparator(rewardsData?.configRewards?.amount)}</Text>
       <Divider height-15 />
       <View row>
+        <IconLineVertical height={'100%'} width={verticalScale(1)} fill={brandTheme?.blue04 ?? colors.blue04} />
         <View flex-1 >
           <Text h12 blue02 right>{i18n.t('home.textLicensesInNetwork')}</Text>
           <Text h16 white right semibold>{licensesData?.totalLicensesNetwork}</Text>
         </View>
         <Divider width-10 />
-        <Divider style={Styles.borderDoted} />
+        <IconLineVertical height={'100%'} width={verticalScale(1)} fill={brandTheme?.blue04 ?? colors.blue04} />
+        {/* <Divider style={Styles.borderDoted} /> */}
         <Divider width-10 />
         <View flex-1 >
           <Text h12 blue02 left>{i18n.t('home.textTotalActiveLicenses')}</Text>
           <Text h16 white left semibold>{totalLicenses}</Text>
         </View>
+        <IconLineVertical height={'100%'} width={verticalScale(1)} fill={brandTheme?.blue04 ?? colors.blue04} />
       </View>
       <Divider height-20 />
       <CountDownSeconds navigation={navigation} />
-      {/* <View flex-1 height-280>
-        <ImageBackground source={CircleTimer} resizeMode="cover" style={Styles.image}>
-          {showButtonStart && (
-            <TouchableOpacity onPress={() => setStarTimer(true)}>
-              <View error centerV marginT-20 style={Styles.containerTime}>
-                <Text h20 white bold>Start</Text>
-              </View>
-            </TouchableOpacity>
-          )}
-          {!showButtonStart && (
-            <View blue03 centerV marginT-20 style={Styles.containerTime}>
-              <Text h24 white>{percent}</Text>
-              <Text h20 blue02>%</Text>
-            </View>
-          )}
-        </ImageBackground>
-        <View centerH>
-          <Text h14 blue02 center>{i18n.t('home.textDistributionCycle')}</Text>
-          <CountDownSeconds startTime={starTimer} valueInfo={(value) => showPercent(value)} />
-        </View>
-      </View> */}
       <Divider height-20 />
       <View marginV-5 row>
+        <IconLineVertical height={'100%'} width={verticalScale(1)} fill={brandTheme?.blue04 ?? colors.blue04} />
         <View flex-1 paddingH-15>
           <Text h9 blue02 right>{i18n.t('home.textDistributedPerDay')}</Text>
           <Text h11 white right semibold>{thousandsSeparator(parseInt(rewardsData?.configRewards?.amount))}</Text>
         </View>
-        <Divider style={Styles.borderDoted} />
+        <IconLineVertical height={'100%'} width={verticalScale(1)} fill={brandTheme?.blue04 ?? colors.blue04} />
         <View flex-1 paddingH-15>
           <Text h9 blue02 center>{i18n.t('home.textPointsPerLicence')}</Text>
           <Text h11 white center semibold>{thousandsSeparator(rewardsPerUser)}</Text>
         </View>
-        <Divider style={Styles.borderDoted} />
+        <IconLineVertical height={'100%'} width={verticalScale(1)} fill={brandTheme?.blue04 ?? colors.blue04} />
         <View flex-1 paddingH-15>
           <Text h9 blue02 left>{i18n.t('home.textAvailableThisMonth')}</Text>
           <Text h11 white left semibold>12 000 000</Text>
         </View>
+        <IconLineVertical height={'100%'} width={verticalScale(1)} fill={brandTheme?.blue04 ?? colors.blue04} />
       </View>
       <Divider height-20 />
       <ButtonRounded
         green
-        onPress={() => navigation.navigate('GetLicenses',{ page:'dashboard'})}
+        onPress={() => navigation.navigate('GetLicenses', { page: 'dashboard' })}
         disabled={false}
       >
         <Text h14 green>

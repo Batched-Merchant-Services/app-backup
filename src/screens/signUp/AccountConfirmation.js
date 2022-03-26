@@ -15,6 +15,7 @@ import rectangleConfirm from '@assets/icons/rectangleConfirm.png';
 import confirmationCheck from '@assets/icons/confirmationCheckRectangle.png';
 import Styles from './styles'
 import i18n from '@utils/i18n';
+import LottieView from 'lottie-react-native';
 
 const AccountConfirmation = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -25,13 +26,9 @@ const AccountConfirmation = ({ navigation, navigation: { goBack } }) => {
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
       <Divider height-10 />
-      <ImageBackground source={rectangleConfirm} resizeMode="cover" style={Styles.image}>
-        <ImageResize
-          source={confirmationCheck}
-          height={verticalScale(90)}
-          width={scale(90)}
-        />
-      </ImageBackground>
+      <View centerH >
+        <LottieView source={require('../../assets/animationsLottie/IconCheck.json')} autoPlay loop style={{ width: scale(120),height:verticalScale(120) }} />
+      </View>
       <Divider height-30 />
       <Text h18 regular blue02>{i18n.t('Register.textAccountSuccessfully')}</Text>
       <Text h18 regular blue02>{i18n.t('Register.textCreated')}</Text>

@@ -8,6 +8,7 @@ import HomeContact from '@screens/contact/HomeContact';
 import CustomDrawer from "./DrawerAware";
 const Drawer = createDrawerNavigator();
 const DrawerNavigator = () => {
+  console.log('')
  return (
 <Drawer.Navigator
       drawerContent={(props) => <CustomDrawer {...props} />} drawerStyle={{ width: "100%" }} backBehavior="none">

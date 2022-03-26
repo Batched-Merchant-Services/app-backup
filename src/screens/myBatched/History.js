@@ -96,7 +96,6 @@ const History = ({ navigation }) => {
   };
 
   useEffect(() => {
-    dispatch(cleanErrorPoints());
     dispatch(cleanHistoryPagination());
     dispatch(toggleSnackbarClose());
     someFetchActionCreator();

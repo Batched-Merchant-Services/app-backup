@@ -15,8 +15,6 @@ import { scale, verticalScale } from "react-native-size-matters";
 import FadeInView from "./FadeInView";
 import { changeStatusTimers } from "@store/actions/app.actions";
 import { getTotalLicensesInNetwork } from '@store/actions/licenses.actions';
-
-
 import ovalBlueInactive from '@assets/home/ovalBlueInactive.png';
 import ovalBlue from '@assets/home/ovalBlue.png';
 import firstLayer from '@assets/home/firstLayer.png';
@@ -25,6 +23,8 @@ import firstLayerInactive from '@assets/home/firstLayerInactive.png';
 import secondLayerInactive from '@assets/home/secondLayerInactive.png';
 import arrow from '@assets/home/white-arrow.png';
 import { setValidateRewardsProcess } from "@store/actions/rewards.actions";
+import { useTheme } from '@react-navigation/native';
+import IconPoints from "../../../assets/iconSVG/IconPoints";
 
 const CountDownSeconds = ({ navigation, ...props }) => {
   const dispatch = useDispatch();
@@ -38,9 +38,7 @@ const CountDownSeconds = ({ navigation, ...props }) => {
   const [showButtonStart, setShowButtonStart] = useState(false);
   const inProcess = rewardsData?.inProcess;
   let rotateValueHolder = new Animated.Value(0);
-
-
-
+  const { colors } = useTheme();
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -109,8 +107,20 @@ const CountDownSeconds = ({ navigation, ...props }) => {
   const percent = counterPercent.toFixed(2)
 
   return (
-    <View flex-1 height-280>
+    <View flex-1 height-360 >
       <View flex-1>
+      <IconPoints
+          fill={colors?.blue04}
+          style={{
+            width:'100%',
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            
+          }}
+        />
         <View style={Styles.box}>
           {appResources?.changeStatus === 0 && (
             <ImageResize
@@ -129,13 +139,8 @@ const CountDownSeconds = ({ navigation, ...props }) => {
 
         </View>
         {showButtonStart && (
-          <FadeInView style={{ flex: 1 }}>
+          <FadeInView style={{ flex:1,justifyContent: "center", alignItems: 'center' }}>
             <View style={Styles.imageContainer}>
-              <ImageBackground source={firstLayer} resizeMode="contain" style={Styles.image}>
-                <Animated.Image
-                  style={[Styles.containerArrow, { transform: [{ rotate: RotateData }] }]}
-                  source={arrow}
-                />
                 <ImageBackground source={secondLayer} resizeMode="contain" style={Styles.imageSecond}>
                   <TouchableOpacity onPress={() => handlePressStart()}>
                     <View marginT-40 style={Styles.containerTime}>
@@ -143,15 +148,14 @@ const CountDownSeconds = ({ navigation, ...props }) => {
                     </View>
                   </TouchableOpacity>
                 </ImageBackground>
-              </ImageBackground>
             </View>
-            <LottieView source={require('../../../assets/animationsLottie/distributionEnable.json')} autoPlay loop style={{ position: 'absolute', top: 0 }} />
+            <LottieView source={require('../../../assets/animationsLottie/distributionEnable.json')} autoPlay loop style={{ position: 'absolute', top: 0,width:verticalScale(290) }} />
           </FadeInView>
         )}
         {!showButtonStart && (
-          <FadeInView style={{ flex: 1 }}>
-            <LottieView source={require('../../../assets/animationsLottie/distributionDisable.json')} autoPlay loop style={{ position: 'absolute', top: 0, justifyContent: "center", alignItems: 'center' }} />
-            <View style={Styles.imageContainer}>
+          <FadeInView style={{ flex:1,justifyContent: "center", alignItems: 'center' }}>
+            <LottieView source={require('../../../assets/animationsLottie/distributionDisable.json')} autoPlay loop style={{ position: 'absolute', top: 0, justifyContent: "center", alignItems: 'center',width:verticalScale(290) }} />
+            <View flex-1 style={[Styles.imageContainer]}>
               <ImageBackground source={firstLayerInactive} resizeMode="contain" style={Styles.image}>
                 <Animated.Image
                   style={[Styles.containerArrow, { transform: [{ rotate: RotateData }] }]}

@@ -26,6 +26,7 @@ import { toggleSnackbarClose } from '@store/actions/app.actions';
 import { cleanDataUser, getDataUser } from '../../store/actions/user.action';
 import { saveStateModal2fa, userInactivity } from '../../store/actions/app.actions';
 import ModalInfo2fa from '../ModalInfo2fa';
+import { cleanErrorPoints } from '../../store/actions/points.actions';
 
 
 const Login = ({ navigation }) => {
@@ -44,6 +45,7 @@ const Login = ({ navigation }) => {
 
   useEffect(() => {
     dispatch(cleanError());
+    dispatch(cleanErrorPoints());
     dispatch(toggleSnackbarClose());
     dispatch(cleanDataUser());
     dispatch(userInactivity(false));
@@ -105,11 +107,11 @@ const Login = ({ navigation }) => {
     <BackgroundWrapper showNavigation={false} navigation={navigation}>
       <Logo width={scale(169)} height={verticalScale(24)} fill="green" />
       <Divider height-30 />
-      <Text h18 blue02>{i18n.t('Login.textAnIncredible')}{' '}<Text white>{i18n.t('Login.textInRewardPoints')}</Text></Text>
-      <Divider height-10 />
+      <Text h24 blue02>{i18n.t('Login.textAnIncredible')}{' '}<Text white>{i18n.t('Login.textInRewardPoints')}</Text></Text>
+      <Divider height-20 />
+      <Text h12 white>Earn reward points that will give you daily renewable benefits.</Text>
+      <Divider height-20 />
       <StepButton navigation={navigation} />
-      <Divider height-10 />
-      <Text h10 white>{i18n.t('Login.textIfYouHave')}{' '}<Text white bold>{i18n.t('Login.textUulalaRegistration')}{' '}</Text>{i18n.t('Login.textYouCanAccess')}</Text>
       <Divider height-25 />
       <FloatingInput
         {...email}
@@ -136,6 +138,9 @@ const Login = ({ navigation }) => {
 
       <Divider height-35 />
       <View flex-1 bottom>
+      <Divider height-10 />
+      <Text h10 white>{i18n.t('Login.textIfYouHave')}{' '}<Text white bold>{i18n.t('Login.textUulalaRegistration')}{' '}</Text>{i18n.t('Login.textYouCanAccess')}</Text>
+      <Divider height-20 />
         <ButtonRounded
           onPress={fetchSession}
           disabled={!isValid}

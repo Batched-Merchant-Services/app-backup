@@ -115,11 +115,12 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
   return (
     <Fragment>
       <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
-        <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
+        <View flex-1 row centerV>
+          <Text h14 blue02 regular>{i18n.t('myProfile.textContactInformation')}</Text>
+          <View flex-1 right>
           <StepIndicator step={2} totalSteps={5} />
+          </View>
         </View>
-        <Divider height-10 />
-        <Text h14 blue02 regular>{i18n.t('myProfile.textContactInformation')}</Text>
         <Divider height-10 />
         <View style={Styles.container}>
           <FloatingInput

@@ -33,7 +33,7 @@ const ConfirmationContact = ({ navigation, navigation: { goBack } }) => {
       <View flex-1 bottom>
         <ButtonRounded
           onPress={() => {
-            navigation.navigate('Dashboard')
+            navigation.push('Dashboard')
           }}
           disabled={false}
           blue

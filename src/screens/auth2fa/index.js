@@ -46,7 +46,6 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
 
   useEffect(() => {
     dispatch(cleanErrorLicenses());
-    dispatch(cleanErrorPoints());
   }, []);
   
 

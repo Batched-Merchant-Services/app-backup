@@ -112,11 +112,12 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
   return (
     <Fragment>
       <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
-        <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
-          <StepIndicator step={5} totalSteps={5} />
-        </View>
-        <Divider height-10 />
+        <View flex-1 row centerV>
         <Text h14 blue02 regular>{i18n.t('myProfile.bankInformation.titleBankInformation')}</Text>
+          <View flex-1 right>
+            <StepIndicator step={5} totalSteps={5} />
+          </View>
+        </View>
         <Divider height-10 />
         <View style={Styles.container}>
           <FloatingInput
@@ -201,7 +202,7 @@ const BankInformation = ({ navigation, navigation: { goBack } }) => {
           <Divider width-10 />
           <ButtonRounded
             onPress={() => {
-              navigation.navigate('HomeProfile');
+              navigation.push('HomeProfile');
             }}
             //disabled={!isValid}
             dark

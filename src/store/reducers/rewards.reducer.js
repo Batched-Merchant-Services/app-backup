@@ -1,6 +1,8 @@
 import {
 	VALIDATE_REWARDS_BY_USER,
 	VALIDATE_REWARDS_BY_USER_SUCCESS,
+	VALIDATE_REWARDS_IN_NETWORK,
+	VALIDATE_REWARDS_IN_NETWORK_SUCCESS,
 	VALIDATE_REWARDS_STATUS,
 	VALIDATE_REWARDS,
   VALIDATE_REWARDS_SUCCESS,
@@ -15,6 +17,7 @@ export const initialState = {
 	showErrorRewards: false,
 	inProcess: false,
 	successReward:false,
+	totalRewardInNetwork: 0,
 	isStart:false,
 	configRewards: null,
 	error: {},
@@ -34,6 +37,20 @@ export default rewardsReducer = (state = initialState, action) => {
 				inProcess: action.payload,
 				error: {},
 			};
+
+			case VALIDATE_REWARDS_IN_NETWORK:
+			return { ...state, isLoadingRewards: true, showErrorRewards: false };
+
+		case VALIDATE_REWARDS_IN_NETWORK_SUCCESS:
+			return {
+				...state,
+				isLoadingRewards: false,
+				showErrorRewards: false,
+				totalRewardInNetwork: action.payload,
+				error: {},
+			};
+
+
 		case VALIDATE_REWARDS_STATUS:
 			return {
 				...state,

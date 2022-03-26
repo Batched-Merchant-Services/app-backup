@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ModalDropdown from 'react-native-modal-dropdown';
+import {TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import { View, Text, Divider } from '@components';
 import Styles from './styles';
@@ -22,6 +23,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
   const appData = redux.user;
   const brandTheme = appData?.Theme?.colors;
   const brandThemeImages = appData?.Theme?.images;
+  const DropDownRef = useRef(null);
 
   useEffect(() => {
       getTypeIdentity();
@@ -88,16 +90,17 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
   const renderButtonText = (rowData) => {
     const { name, value } = rowData;
     return (
-      <View flex-1 marginL-2 marginB-4>
+      <View style={{width:'100%', height:40}}>
         <Text h12 white>{name}</Text>
       </View>
 
     );
   };
-  const dropSize = { width: !size ==='lg' ? getSize(size): getSize(width) };
+  const dropSize = { width: !size ==='lg' ? getSize(size): getSize(width-10) };
 
   return (
     <View onLayout={handleWrapperLayout}>
+    <TouchableOpacity  onPress = {()=>{DropDownRef?.current?.show()}}>
       <View style={[
         Styles.dropDown, dropSize, { borderColor: styleBorder, backgroundColor: styleBackground },
         ...(error === 'pending' ? [] : error ? [{ borderColor: brandTheme?.error ?? Colors.error }] : [{ borderColor: brandTheme?.success ?? Colors.success }])
@@ -106,6 +109,7 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
           <Text h11 blue02>{label}</Text>
         </View>
         <ModalDropdown
+          ref={DropDownRef}
           options={options}
           defaultValue={labelDefault ? labelDefault : i18n.t('General.dropDownSelectOption')}
           //defaultValue={}
@@ -135,7 +139,9 @@ const DropDownPicker = ({ error, label, value, options, size, onSelect, language
         </View>
       </View>
       <InputError error={error} />
+      </TouchableOpacity>
     </View>
+
   );
 };
 function getSize(size) {

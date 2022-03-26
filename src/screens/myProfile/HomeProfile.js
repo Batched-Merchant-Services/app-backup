@@ -3,6 +3,7 @@ import {
   Text,
   View,
   Divider,
+  SnackNotice,
   ImageResize,
   ButtonRounded,
   BackgroundWrapper
@@ -18,6 +19,7 @@ import Styles from './styles'
 import { useTheme } from '@react-navigation/native';
 import IconUpload from '../../assets/iconSVG/IconsKYC/IconUpload';
 import { generateColorRandom } from '../../utils/formatters';
+import { toggleSnackbarOpen } from '../../store/actions/app.actions';
 
 const HomeProfile = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -31,6 +33,7 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
 
   const copyToClipboard = () => {
     Clipboard.setString(accounts?.id);
+    dispatch(toggleSnackbarOpen(i18n.t('General.snackCopiedReferenceCode'),'warning'));
   }
 
   function handleProfilePicture() {
@@ -75,7 +78,7 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
             <Text h12 blue02 light>{i18n.t('myProfile.textReferenceCode')}</Text>
             <Text h12 green semibold>{accounts?.id}</Text>
           </View>
-          <View right width-90 height-80 centerH centerV style={{ borderColor: colors.blue02, borderWidth: 1 }}>
+          <View right width-80 height-80 centerH centerV style={{ borderColor: colors.blue02, borderWidth: 1 }}>
             {accounts?.avatarImage !== '' && (
               <ImageResize
                 source={{ uri: accounts?.avatarImage }}
@@ -85,7 +88,7 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
               />
             )}
             {accounts?.avatarImage === '' && (
-              <View width-90 height-80  centerH centerV style={{backgroundColor:generateColorRandom()}}>
+              <View width-80 height-80  centerH centerV style={{backgroundColor:generateColorRandom()}}>
                 <Text h30 semibold>{accounts?.alias}</Text>
               </View>
             )}
@@ -126,6 +129,9 @@ const HomeProfile = ({ navigation, navigation: { goBack } }) => {
         <Text h14 white semibold>{i18n.t('myProfile.buttonCompleteInformation')}</Text>
       </ButtonRounded>
       <Divider height-15 />
+      <View flex-1 bottom>
+        <SnackNotice/>
+      </View>
     </BackgroundWrapper>
   );
 }

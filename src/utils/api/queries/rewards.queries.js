@@ -17,6 +17,11 @@ export const GET_VALIDATE_REWARDS_PROCESS_BY_USER = gql`
     getTotalLicensesInNetworkByUser(token: $token) 
   }`;
 
+  export const GET_TOTAL_LICENSES_IN_NETWORK = gql`
+  query($token:String!) {
+    getTotalLicensesInNetwork(token: $token) 
+  }`;
+
   export const SET_RESET_PROCESS_REWARDS = gql`
   query($token:String!) {
     getResetValidateSessionToken(token: $token) 

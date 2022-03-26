@@ -21,6 +21,7 @@ import { toggleSnackbarClose } from '@store/actions/app.actions';
 import { cleanErrorLicenses } from '@store/actions/licenses.actions';
 import { getAddressCurrency } from '../../store/actions/licenses.actions';
 import { cleanErrorPoints } from '@store/actions/points.actions';
+import { toggleSnackbarOpen } from '../../store/actions/app.actions';
 
 const TransferCryptoCurrency = ({ navigation, route }) => {
   const id = route?.params?.id;
@@ -42,9 +43,13 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanErrorLicenses());
-      dispatch(cleanErrorPoints());
       dispatch(toggleSnackbarClose());
-      dispatch(getAddressCurrency(id))
+      dispatch(getAddressCurrency(id));
+      console.log('currency',currency)
+      const uul = 18000 * 1
+      if(currency !== 'UUL' ) amount?.onChangeText('amount')
+      else amount?.onChangeText(uul.toString() +' '+currency)
+     
     });
     return unsubscribe;
   }, []);
@@ -79,9 +84,12 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
 
   const copyToClipboard = () => {
     Clipboard.setString(licensesData?.addressCurrency?.address)
+    dispatch(toggleSnackbarOpen(i18n.t('General.snackCopiedReferenceCode'),'warning'));
   }
 
-  console.log('file transfer',authData,twoFactors)
+
+
+
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
       <NavigationBar childrenLeft navigation={navigation} />
@@ -96,6 +104,7 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
         label={i18n.t('Licenses.inputAmountRequired')}
         keyboardType={'number-pad'}
         autoCapitalize={'none'}
+        editable={false}
       />
       <Divider height-10 />
       {id !== 'undefined' && (

@@ -9,7 +9,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { useTheme } from '@react-navigation/native';
-import Clipboard from '@react-native-community/clipboard';
+
 import IconSecurityLock from '@assets/iconSVG/IconAuth2fa/IconSecurityLock';
 import i18n from '@utils/i18n';
 import LottieView from 'lottie-react-native';

@@ -19,6 +19,7 @@ import Styles from './styles';
 import IconKey from '@assets/iconSVG/IconAuth2fa/IconKey';
 import ModalAuth2fa from './ModalAuth2fa';
 import LottieView from 'lottie-react-native';
+import { toggleSnackbarOpen } from '../../store/actions/app.actions';
 
 const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
 
   const copyToClipboard = () => {
     Clipboard.setString(clabe);
+    dispatch(toggleSnackbarOpen(i18n.t('General.snackCopiedReferenceCode'),'warning'));
   }
 
   function handleGoToAuth() {
@@ -50,9 +52,9 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
       setShowDisabled(false);
     }, 3000); 
   };
- 
+
+ console.log('showModalDates',showModalDates)
   return (
-    <>
     <BackgroundWrapper showNavigation={true}  navigation={navigation}>
      <Divider height-20 />
       <View centerH>
@@ -99,12 +101,16 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
           timeout={3000}
         /> */}
       </View>
-    </BackgroundWrapper>
-    <ModalAuth2fa visible={showModalDates}
+      {showModalDates&&(
+      <ModalAuth2fa visible={showModalDates}
       onRequestClose={() => { setShowModalDates(false)}}
       onPressOverlay={handleClose}
-    />
-    </>
+      />
+    )}
+    </BackgroundWrapper>
+
+    
+
 
 
   );

@@ -51,6 +51,7 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
       },
       fetchPolicy: 'no-cache'
     }).then(async (response) => {
+      console.log('response',response.data)
       if (response.data) {
         const { token,uuid,left,isTwoFactor,type2fa } = response?.data['getLoggin'];
         dispatch({ type: LOGIN_SUCCESS, payload: response?.data['getLoggin'] });
@@ -254,14 +255,17 @@ export const validateCodeSms = () => async (dispatch) => {
       fetchPolicy : 'network-only' ,  
       nextFetchPolicy : 'network-only'
     }).then(async (response) => {
+      console.log('response validateCodeSms',response)
       if (response.data) {
         dispatch({ type: VALIDATE_CODE_SMS_SUCCESS, payload: response?.data['getSecurityCodeDirect'] });
       }
     }).catch((error) => {
+      console.log('error 1 validateCodeSms',error)
       dispatch({ type: LOGIN_ERROR, payload: error });
       dispatch(toggleSnackbarOpen(error));
     })
   } catch (error) {
+    console.log('error 2 validateCodeSms',error)
     dispatch({ type: LOGIN_ERROR, payload: error });
   }
 

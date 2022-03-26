@@ -65,6 +65,7 @@ export const getRewardsPoints = ({ id }) => async (dispatch) => {
         pool: pointsConstants.POOLS.REWARDS
       },
     }).then(async (response) => {
+      console.log('response.data getRewardsPoints',response)
       if (response.data) {
         dispatch({ type: REWARDS_POINTS_SUCCESS, payload: response?.data['getBalanceTokens'] });
       }

@@ -4,6 +4,7 @@ import {
   View,
   Link,
   Divider,
+  Snackbar,
   ImageResize,
   SnackNotice,
   ButtonRounded,
@@ -21,6 +22,7 @@ import { getAuth2faQr } from '@store/actions/auth.actions';
 import i18n from '@utils/i18n';
 import Loading from '../Loading';
 import { cleanError } from '../../store/actions/auth.actions';
+import { toggleSnackbarOpen } from '../../store/actions/app.actions';
 
 
 
@@ -35,6 +37,7 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
   const { colors } = useTheme();
 
   const [clabe, setClabe] = useState('QrCode');
+  const [showSnack, setShowSnack] = useState(false);
 
   function handleCodeActivation() {
     navigation.navigate('TwoFactorCodeActivation',{ page:'change'});
@@ -42,6 +45,7 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
 
   const copyToClipboard = () => {
     Clipboard.setString(clabe);
+    dispatch(toggleSnackbarOpen(i18n.t('General.snackCopiedReferenceCode'),'warning'));
   }
 
   useEffect(() => {
@@ -49,12 +53,16 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
     dispatch(cleanError());
   }, []);
 
-
   
   useEffect(() => {
     console.log('authData',authData)
     setClabe(authData?.dataQrCode?.secretCode)
   }, [authData?.dataQrCode]);
+
+
+  const handleClose = () => {
+    setShowSnack(false)
+  };
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>

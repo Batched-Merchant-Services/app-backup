@@ -10,6 +10,7 @@ const styles = StyleSheet.create({
     height: verticalScale(140),
   },
   imageContainer:{
+    flex:1,
     justifyContent: "center",
     alignItems: 'center',
     width: '100%',

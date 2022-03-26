@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import Clipboard from '@react-native-community/clipboard';
-import { View, Text, Divider, ImageResize, ButtonRounded } from '@components';
+import { View, Text, Divider, ImageResize, ButtonRounded, Snackbar } from '@components';
 import { scale, verticalScale } from 'react-native-size-matters';
 import { useSelector, useDispatch } from 'react-redux';
 import i18n from '@utils/i18n';
 import { moneyFormatter, thousandsSeparator } from '../../../utils/formatters';
-import { cleanErrorPoints } from '../../../store/actions/points.actions';
-import { toggleSnackbarClose } from '../../../store/actions/app.actions';
+import { cleanErrorPoints, getCommissionPoints, getGatewayPointsBalance, getLiquidPointsBalance, getRewardsPoints } from '../../../store/actions/points.actions';
+import { toggleSnackbarClose, toggleSnackbarOpen } from '../../../store/actions/app.actions';
 import IconLineDotted from '../../../assets/iconSVG/IconLineDotted';
 import { useTheme } from '@react-navigation/native';
 // import IconRowBack from '../../../assets/iconSVG/IconRowBack';
 import LottieView from 'lottie-react-native';
+import { SnackNotice } from '../../../components';
 const IconRowBack = require('../../../assets/animationsLottie/LineDown.json');
 
 const HomeBalance = ({ navigation }) => {
@@ -23,6 +24,7 @@ const HomeBalance = ({ navigation }) => {
   const accounts = userProfile?.accounts;
   const [liquidPoints, setLiquidPoints] = useState(0);
   const [totalLicenses, setTotalLicenses] = useState(0);
+  const [showSnack, setShowSnack] = useState(false);
   const RewardsData = points?.rewardsData;
   const gatewayData = points?.gatewayData;
   const liquidData = points?.liquidData;
@@ -31,12 +33,20 @@ const HomeBalance = ({ navigation }) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(cleanErrorPoints());
       dispatch(toggleSnackbarClose());
+      getBatchedTransaction();
     });
     return unsubscribe;
 
   }, []);
+
+  function getBatchedTransaction() {
+    const id = dataUser?.dataUser?.clients ? dataUser?.dataUser?.clients[0]?.account?.id : 0;
+    dispatch(getRewardsPoints({ id }));
+    dispatch(getCommissionPoints({ id }));
+    dispatch(getGatewayPointsBalance({ id }));
+    dispatch(getLiquidPointsBalance({ id }));
+  }
 
 
   useEffect(() => {
@@ -46,6 +56,7 @@ const HomeBalance = ({ navigation }) => {
 
   const copyToClipboard = () => {
     Clipboard.setString(accounts?.id);
+    dispatch(toggleSnackbarOpen(i18n.t('General.snackCopiedReferenceCode'),'warning'));
   }
 
 
@@ -56,18 +67,24 @@ const HomeBalance = ({ navigation }) => {
   }
 
   function handleGetLicenses() {
-    navigation.navigate('GetLicenses', {page: 'myBatched' });
+    navigation.navigate('GetLicenses', { page: 'myBatched' });
   }
+
+  const handleClose = () => {
+    setShowSnack(false)
+  };
+
   return (
     <View flex-1>
-      <View height-100 blue03 paddingH-10 centerV>
+     <Divider height-5 />
+      <View flex-1 blue03 paddingH-10 paddingV-13 centerV>
         <View row>
           <View flex-1>
             <Text h12 blue02>{accounts?.email}</Text>
             <Divider height-5 />
             <Text h14 white semibold>{accounts?.firstName}{' '}{accounts?.middleName || accounts?.secondLastName}{' '}{accounts?.lastName}</Text>
           </View>
-          <View width-38 height-36 centerH centerV style={{borderColor:colors.blue02,borderWidth:1}}>
+          <View width-38 height-36 centerH centerV style={{ borderColor: colors.blue02, borderWidth: 1 }}>
             {accounts?.avatarImage !== '' && (
               <ImageResize
                 source={{ uri: accounts?.avatarImage }}
@@ -79,16 +96,11 @@ const HomeBalance = ({ navigation }) => {
             {accounts?.avatarImage === '' && (
               <Text h20 semibold>{accounts?.alias}</Text>
             )}
-            
+
           </View>
         </View>
-        <Divider height-8 />
+        <Divider height-10 />
         <View row>
-          {/* <View flex-1>
-            <Text h12 blue02>{i18n.t('home.myBatchedBalance.textReferenceCode')}</Text>
-            <Divider height-5 />
-            <Text h12 semibold green>udefinode.com/cni4w7y3u</Text>
-          </View> */}
           <View >
             <Text h12 blue02>{i18n.t('home.myBatchedBalance.textUulalaID')}</Text>
             <Divider height-5 />
@@ -96,7 +108,7 @@ const HomeBalance = ({ navigation }) => {
           </View>
         </View>
       </View>
-      <Divider height-12 />
+      <Divider height-20 />
       <View flex-1 row centerH>
         <ButtonRounded
           onPress={copyToClipboard}
@@ -150,7 +162,7 @@ const HomeBalance = ({ navigation }) => {
       <Divider height-5 />
       <Text h10 white>{i18n.t('home.myBatchedBalance.textCommissionBalanceCan')}</Text>
       <Divider height-15 />
-      <LottieView source={IconRowBack} autoPlay loop style={{ width: scale(20),height:verticalScale(20) }} />
+      <LottieView source={IconRowBack} autoPlay loop style={{ width: scale(20), height: verticalScale(20) }} />
       {/* <View row centerV>
         <View flex-1 style={Styles.borderDoted} />
         <Divider width-5 />
@@ -173,7 +185,7 @@ const HomeBalance = ({ navigation }) => {
       <Divider height-10 />
       <View flex-1>
         <Text h12 blue02>{i18n.t('home.myBatchedBalance.textLiquidityPool')}</Text>
-        <Text h16 semibold>{moneyFormatter(liquidPoints * 0.1)}</Text>
+        <Text h16 semibold>{moneyFormatter(liquidData?.total * 0.1)}</Text>
       </View>
       <Divider height-15 />
       <Text h10 white>{i18n.t('home.myBatchedBalance.textLiquidityPoolBalance')}</Text>

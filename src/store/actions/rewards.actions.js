@@ -1,6 +1,8 @@
 import {
   VALIDATE_REWARDS_BY_USER,
   VALIDATE_REWARDS_BY_USER_SUCCESS,
+  VALIDATE_REWARDS_IN_NETWORK,
+  VALIDATE_REWARDS_IN_NETWORK_SUCCESS,
   VALIDATE_REWARDS,
   VALIDATE_REWARDS_SUCCESS,
   CONFIG_REWARDS,
@@ -41,8 +43,34 @@ export const getValidateRewardsByUser = () => async (dispatch) => {
     dispatch({ type: REWARDS_ERROR, payload: error });
     //dispatch(toggleSnackbarOpen(error));
   }
+};
+
+
+export const getValidateRewardsInNetwork = () => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: VALIDATE_REWARDS_IN_NETWORK });
+
+    client.query({
+      query: GET_TOTAL_LICENSES_IN_NETWORK,
+      variables: {
+        token: token
+      },
+    }).then(async (response) => {
+      if (response.data) {
+        dispatch({ type: VALIDATE_REWARDS_IN_NETWORK_SUCCESS, payload: response?.data['getTotalLicensesInNetwork'] });
+      }
+    }).catch((error) => {
+      dispatch({ type: REWARDS_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    dispatch({ type: REWARDS_ERROR, payload: error });
+    //dispatch(toggleSnackbarOpen(error));
+  }
 
 };
+
 
 export const setValidateRewardsProcess = ({isStart}) => async (dispatch) => {
   const token = await LocalStorage.get('auth_token');

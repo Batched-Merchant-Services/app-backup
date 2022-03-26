@@ -18,46 +18,58 @@ import i18n from '@utils/i18n';
 import { formatDate, moneyFormatter } from '../../utils/formatters';
 import { cleanError } from '@store/actions/auth.actions';
 import { cleanErrorPoints } from '@store/actions/points.actions';
-
+import LottieView from 'lottie-react-native';
 
 const ConfirmationTransfer = ({ navigation, navigation: { goBack },route }) => {
   const dispatch = useDispatch();
-  
   const redux = useSelector(state => state);
   const points = redux?.points;
   const params = route?.params;
-  const paramsAmount = params;
-  
   const transferData = points?.transferData;
+  const [setName, setSetName] = useState('');
   const NewDate = new Date();
   
   useEffect(() => {
     dispatch(cleanError());
+    handleStateChange();
   }, [dispatch])
 
   function handleGoToHomeBatched() {
-    navigation.navigate('HomeMyBatched');
+    navigation.navigate('Dashboard');
     dispatch(cleanErrorPoints());
   }
 
+  function handleStateChange() {
+    const sub = params?.data?.value
+    switch (sub) {
+      case 'rewards':
+        return setSetName('Reward points to Transaction Gateway');
+      case 'gateway':
+        return setSetName('Gateway to Rewards point');
+      case 'commission':
+        return setSetName('Commission balance to Liquidity Pool Balance');
+      case 'wallet':
+        return setSetName('Liquidity pool Balance to Uulala Wallet');
+
+      default:
+        return setSetName('Transaction');
+    }
+  }
+
+
+  console.log('transferData',transferData)
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
       <Divider height-20 />
-      <ImageBackground source={rectangleConfirm} resizeMode="cover" style={Styles.image}>
-        <ImageResize
-          source={confirmationCheck}
-          height={verticalScale(90)}
-          width={scale(90)}
-        />
-      </ImageBackground>
+      <View centerH >
+        <LottieView source={require('../../assets/animationsLottie/IconCheck.json')} autoPlay loop style={{ width: scale(120),height:verticalScale(120) }} />
+      </View>
       <Divider height-30 />
       <Text h18 regular blue02>{i18n.t('home.myBatchedTransfer.confirmation.textMovementConfirmed')}</Text>
       <Divider height-20 />
       <View blue01 width-36 height-1 />
-      <Divider height-20 />
-      <Text h16 white>{i18n.t('home.myBatchedTransfer.confirmation.textTransactionGateway')}</Text>
       <Divider height-25 />
-      <Text h12 white >{i18n.t('home.myBatchedTransfer.confirmation.textBalanceTransferredToCard')}</Text>
+      <Text h12 white >{setName}</Text>
       <Text h16 green semibold>{moneyFormatter(params?.amount)}</Text>
       <Divider height-15 />
       <Text h12 white light>{i18n.t('home.myBatchedTransfer.confirmation.textDate')}</Text>

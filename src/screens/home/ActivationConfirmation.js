@@ -17,6 +17,7 @@ import confirmationCheck from '@assets/icons/confirmationCheck.png';
 import startConfirmation from '@assets/icons/startConfirmation.png';
 import Styles from './styles'
 import i18n from '@utils/i18n';
+import LottieView from 'lottie-react-native';
 
 const ActivationConfirmation = ({ navigation, navigation: { goBack } }) => {
   const redux = useSelector(state => state);
@@ -25,6 +26,9 @@ const ActivationConfirmation = ({ navigation, navigation: { goBack } }) => {
 
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
+      <View centerH >
+        <LottieView source={require('../../assets/animationsLottie/IconCheck.json')} autoPlay loop style={{ width: scale(120),height:verticalScale(120) }} />
+      </View>
       <ImageBackground source={rectangleConfirm} resizeMode="contain" style={Styles.image}>
         <ImageResize
           source={startConfirmation}

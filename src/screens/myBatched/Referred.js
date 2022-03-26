@@ -8,6 +8,7 @@ import Styles from './styles';
 import i18n from '@utils/i18n';
 import { formatDate, generateColorRandom } from '../../utils/formatters';
 import Clipboard from '@react-native-community/clipboard';
+import { toggleSnackbarOpen } from '../../store/actions/app.actions';
 
 const Referred = ({ navigation, step, onPress, label }) => {
   const dispatch = useDispatch();
@@ -46,6 +47,7 @@ const Referred = ({ navigation, step, onPress, label }) => {
 
   const copyToClipboard = () => {
     Clipboard.setString(accounts?.id);
+    dispatch(toggleSnackbarOpen(i18n.t('General.snackCopiedReferenceCode') ,'warning'));
   }
 
 

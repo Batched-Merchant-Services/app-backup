@@ -78,10 +78,7 @@ const FloatingLabelInput = ({
   const handleChangePass = () => {
     setShowPass(!showPass);
   };
-  const handleSubmit = () => {
-   
-  };
- 
+  
   if (value) {
     toMax();
   }

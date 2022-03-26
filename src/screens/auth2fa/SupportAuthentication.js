@@ -9,7 +9,6 @@ import {
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTheme } from '@react-navigation/native';
-import Clipboard from '@react-native-community/clipboard';
 import i18n from '@utils/i18n';
 
 const SupportAuthentication = ({ navigation, route, navigation: { goBack } }) => {

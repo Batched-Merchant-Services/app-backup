@@ -5,7 +5,7 @@ import Colors from '@styles/Colors';
 
 const Styles = StyleSheet.create({
   wrapper: {
-    borderRadius     : moderateScale(8, 0.2),
+    borderRadius     : moderateScale(4, 0.2),
     borderWidth      : moderateScale(1, 0.2),
     height           : moderateScale(50, 0.2),
     paddingTop       : moderateScale(5, 0.2),

@@ -96,11 +96,12 @@ const ProfilePicture = ({ navigation, navigation: { goBack } }) => {
   return (
     <Fragment>
       <BackgroundWrapper showNavigation={true} navigation={navigation} childrenLeft>
-        <View flex-1 style={{ position: 'absolute', right: 0, top: 0 }}>
+        <View flex-1 row centerV>
+          <Text h14 blue02 regular>Profile picture:</Text>
+          <View flex-1 right>
           <StepIndicator step={4} totalSteps={5} />
+          </View>
         </View>
-        <Divider height-10 />
-        <Text h14 blue02 regular>Profile picture:</Text>
         <View flex-1 centerH centerV>
           <View width-320 height-320 centerH style={{backgroundColor: generateColorRandom()}}>
             {accounts?.avatarImage !== '' && nameAvatar === 'pending' && (
