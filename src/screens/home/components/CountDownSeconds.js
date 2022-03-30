@@ -17,7 +17,7 @@ import { changeStatusTimers } from "@store/actions/app.actions";
 import { getTotalLicensesInNetwork } from '@store/actions/licenses.actions';
 import ovalBlueInactive from '@assets/home/ovalBlueInactive.png';
 import ovalBlue from '@assets/home/ovalBlue.png';
-import firstLayer from '@assets/home/firstLayer.png';
+import Points from '@assets/brandBatched/blue-points.png';
 import secondLayer from '@assets/home/secondLayer.png';
 import firstLayerInactive from '@assets/home/firstLayerInactive.png';
 import secondLayerInactive from '@assets/home/secondLayerInactive.png';
@@ -108,70 +108,69 @@ const CountDownSeconds = ({ navigation, ...props }) => {
 
   return (
     <View flex-1 height-360 >
-      <View flex-1>
-      <IconPoints
-          fill={colors?.blue04}
-          style={{
-            width:'100%',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            
-          }}
-        />
-        <View style={Styles.box}>
-          {appResources?.changeStatus === 0 && (
-            <ImageResize
-              source={ovalBlueInactive}
-              height={verticalScale(270)}
-              width={scale(270)}
-            />
-          )}
-          {appResources?.changeStatus !== 0 && (
-            <ImageResize
-              source={ovalBlue}
-              height={verticalScale(270)}
-              width={scale(270)}
-            />
-          )}
+      <View flex-1 >
+        <ImageBackground source={Points} resizeMode="cover" style={{ width: '100%', height: '100%' }}>
+          <View style={Styles.box}>
+            {appResources?.changeStatus === 0 && (
+              <ImageResize
+                source={ovalBlueInactive}
+                height={verticalScale(270)}
+                width={scale(270)}
+              />
+            )}
+            {appResources?.changeStatus !== 0 && (
+              <ImageResize
+                source={ovalBlue}
+                height={verticalScale(270)}
+                width={scale(270)}
+              />
+            )}
 
-        </View>
-        {showButtonStart && (
-          <FadeInView style={{ flex:1,justifyContent: "center", alignItems: 'center' }}>
-            <View style={Styles.imageContainer}>
-                <ImageBackground source={secondLayer} resizeMode="contain" style={Styles.imageSecond}>
-                  <TouchableOpacity onPress={() => handlePressStart()}>
-                    <View marginT-40 style={Styles.containerTime}>
-                      <Text h15 white semibold>{i18n.t('home.buttonStart')}</Text>
-                    </View>
-                  </TouchableOpacity>
-                </ImageBackground>
-            </View>
-            <LottieView source={require('../../../assets/animationsLottie/distributionEnable.json')} autoPlay loop style={{ position: 'absolute', top: 0.8,width:verticalScale(285) }} />
-          </FadeInView>
-        )}
-        {!showButtonStart && (
-          <FadeInView style={{ flex:1,justifyContent: "center", alignItems: 'center' }}>
-            <LottieView source={require('../../../assets/animationsLottie/distributionDisable.json')} autoPlay loop style={{ position: 'absolute', top: 0.8, justifyContent: "center", alignItems: 'center',width:verticalScale(285) }} />
-            <View flex-1 style={[Styles.imageContainer]}>
-              <ImageBackground source={firstLayerInactive} resizeMode="contain" style={Styles.image}>
-                <Animated.Image
-                  style={[Styles.containerArrow, { transform: [{ rotate: RotateData }] }]}
-                  source={arrow}
-                />
-                <ImageBackground source={secondLayerInactive} resizeMode="contain" style={Styles.imageSecond}>
-                  <View flex-1 marginT-22>
-                    <Text h18 white semibold>{percent}</Text>
-                  </View>
-                </ImageBackground>
-              </ImageBackground>
-            </View>
-          </FadeInView>
-        )}
+          </View>
+          {showButtonStart && (
+            <>
+              <Divider height-2 />
+              <FadeInView style={{ flex: 1, justifyContent: "center", alignItems: 'center' }}>
+                <View style={Styles.imageContainer}>
+                  <ImageBackground source={secondLayer} resizeMode="contain" style={Styles.imageSecond}>
+                    <TouchableOpacity onPress={() => handlePressStart()}>
+                      <View marginT-40 style={Styles.containerTime}>
+                        <Text h15 white semibold>{i18n.t('home.buttonStart')}</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </ImageBackground>
+                </View>
+                <LottieView source={require('../../../assets/animationsLottie/distributionEnable.json')} autoPlay loop style={{ position: 'absolute', top: 0 }} />
+              </FadeInView>
+              <Divider height-2 />
+            </>
+          )}
+          {!showButtonStart && (
+            <>
+              <Divider height-2 />
+              <FadeInView style={{ flex: 1, justifyContent: "center", alignItems: 'center' }}>
+
+                <LottieView source={require('../../../assets/animationsLottie/distributionDisable.json')} autoPlay loop style={{ position: 'absolute', top: 0 }} />
+                <View flex-1 style={[Styles.imageContainer]}>
+                  <ImageBackground source={firstLayerInactive} resizeMode="contain" style={Styles.image}>
+                    <Animated.Image
+                      style={[Styles.containerArrow, { transform: [{ rotate: RotateData }] }]}
+                      source={arrow}
+                    />
+                    <ImageBackground source={secondLayerInactive} resizeMode="contain" style={Styles.imageSecond}>
+                      <View flex-1 marginT-22>
+                        <Text h18 white semibold>{percent}</Text>
+                      </View>
+                    </ImageBackground>
+                  </ImageBackground>
+                </View>
+              </FadeInView>
+              <Divider height-2 />
+            </>
+          )}
+        </ImageBackground>
       </View>
-      <Divider height-20 />
+      <Divider height-10 />
       <View centerH>
         <Text h14 blue02 center>{i18n.t('home.textDistributionCycle')}</Text>
         <Text h16 semibold center>

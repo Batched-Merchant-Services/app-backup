@@ -16,18 +16,27 @@ import {
   CREATE_LICENSE_SUCCESS,
   GET_ADDRESS_CURRENCIES,
   GET_ADDRESS_CURRENCIES_SUCCESS,
-	GET_TOTAL_LICENSES_IN_NETWORK,
+  GET_TOTAL_LICENSES_IN_NETWORK,
   GET_TOTAL_LICENSES_IN_NETWORK_SUCCESS,
   GET_TOTAL_LICENSES_FOR_USER,
-  GET_TOTAL_LICENSES_FOR_USER_SUCCESS
+  GET_TOTAL_LICENSES_FOR_USER_SUCCESS,
+  GET_PRICE_CRYPTO,
+  GET_PRICE_CRYPTO_SUCCESS,
+  GET_TYPE_CURRENCIES_CRYPTO,
+  GET_TYPE_CURRENCIES_CRYPTO_SUCCESS,
+  GENERATE_CRYPTO_ADDRESS,
+  GET_TYPE_CURRENCIES_FEE_SUCCESS,
+  GENERATE_CRYPTO_ADDRESS_SUCCESS,
+  GET_FESS,
+  GET_FESS_SUCCESS
 } from '../constants';
 
 export const initialState = {
   isLoadingLicenses: false,
-  isGetAddress:false,
-  isGetLicenses:false,
-  isGetListLicense:false,
-  isCreateLicense:false,
+  isGetAddress: false,
+  isGetLicenses: false,
+  isGetListLicense: false,
+  isCreateLicense: false,
   successLicenses: false,
   successGetLicenses: false,
   successListLicense: false,
@@ -35,7 +44,10 @@ export const initialState = {
   successCryptoCurrencies: false,
   successCreateLicense: false,
   showErrorLicenses: false,
-  statusCodeReferral:false,
+  statusCodeReferral: false,
+  getPriceCrypto:false,
+  getTypeCurrency:false,
+  getFee:false,
   dataLicenses: [],
   getLicenses: [],
   getListLicenses: [],
@@ -44,8 +56,13 @@ export const initialState = {
   currentLicense: [],
   createLicenses: [],
   totalLicensesNetwork: null,
-  totalLicensesForUsers:null,
+  totalLicensesForUsers: null,
   addressCurrency: null,
+  priceCrypto: null,
+  typeCryptoCurrencies:null,
+  dataAddress:null,
+  totalFee:0,
+  feeCurrency:0,
   error: {},
   success: {},
 };
@@ -63,7 +80,7 @@ export default licensesReducer = (state = initialState, action) => {
         successLicenses: true,
         showErrorLicenses: false,
         dataLicenses: action.payload,
-        statusCodeReferral:action?.payload?.firstName !== ''?true:false,
+        statusCodeReferral: action?.payload?.firstName !== '' ? true : false,
         error: {},
         success: {},
       };
@@ -164,7 +181,7 @@ export default licensesReducer = (state = initialState, action) => {
         error: {},
       };
 
-      case GET_TOTAL_LICENSES_FOR_USER:
+    case GET_TOTAL_LICENSES_FOR_USER:
       return { ...state, isLoadingLicenses: true, showErrorLicenses: false };
 
     case GET_TOTAL_LICENSES_FOR_USER_SUCCESS:
@@ -175,11 +192,69 @@ export default licensesReducer = (state = initialState, action) => {
         totalLicensesForUsers: action.payload,
         error: {},
       };
+    case GET_PRICE_CRYPTO:
+      return { ...state, getPriceCrypto: true, showErrorLicenses: false };
+
+    case GET_PRICE_CRYPTO_SUCCESS:
+      return {
+        ...state,
+        getPriceCrypto: false,
+        showErrorLicenses: false,
+        priceCrypto: action.payload,
+        error: {},
+      };
+
+    case GET_TYPE_CURRENCIES_CRYPTO:
+      return { ...state, getTypeCurrency: true, showErrorLicenses: false };
+
+    case GET_TYPE_CURRENCIES_CRYPTO_SUCCESS:
+      return {
+        ...state,
+        getTypeCurrency: false,
+        showErrorLicenses: false,
+        typeCryptoCurrencies: action.payload,
+        error: {},
+      };
+      case GET_TYPE_CURRENCIES_FEE_SUCCESS:
+      return {
+        ...state,
+        getTypeCurrency: false,
+        showErrorLicenses: false,
+        feeCurrency: action.payload,
+        error: {},
+      };
+
+      
+    case GENERATE_CRYPTO_ADDRESS:
+      return { ...state, generateAddress: true, showErrorLicenses: false };
+
+    case GENERATE_CRYPTO_ADDRESS_SUCCESS:
+      return {
+        ...state,
+        generateAddress: false,
+        showErrorLicenses: false,
+        dataAddress: action.payload,
+        error: {},
+      };
+    case GET_FESS:
+      return { ...state, getFee: true, showErrorLicenses: false };
+
+    case GET_FESS_SUCCESS:
+      return {
+        ...state,
+        getFee: false,
+        showErrorLicenses: false,
+        totalFee: action.payload,
+        error: {},
+      };
 
     case LICENSES_ERROR:
       return {
         ...state,
         isLoadingLicenses: false,
+        getPriceCrypto:false,
+        getTypeCurrency:false,
+        generateAddress:false,
         successLicenses: false,
         successGetLicenses: false,
         successListLicense: false,
@@ -187,7 +262,7 @@ export default licensesReducer = (state = initialState, action) => {
         successCryptoCurrencies: false,
         successCreateLicense: false,
         showErrorLicenses: true,
-        statusCodeReferral:false,
+        statusCodeReferral: false,
         error: action.payload,
         success: {},
       };
@@ -197,6 +272,9 @@ export default licensesReducer = (state = initialState, action) => {
         ...state,
         isLoadingLicenses: false,
         successLicenses: false,
+        getPriceCrypto:false,
+        getTypeCurrency:false,
+        generateAddress:false,
         successListLicense: false,
         successTotalLicense: false,
         successGetLicenses: false,

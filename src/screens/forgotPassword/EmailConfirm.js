@@ -75,6 +75,7 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
   function handleSendCode() {
     const countryCode = userData?.dataUser?.lada;
     let dataRecovery = {
+      company: 320,
       email: email?.value,
       phone: '+'+countryCode + phone?.value,
       type: typeAuthentication

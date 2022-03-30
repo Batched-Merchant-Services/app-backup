@@ -20,7 +20,16 @@ import {
 	GET_TOTAL_LICENSES_IN_NETWORK,
   GET_TOTAL_LICENSES_IN_NETWORK_SUCCESS,
   GET_TOTAL_LICENSES_FOR_USER,
-  GET_TOTAL_LICENSES_FOR_USER_SUCCESS
+  GET_TOTAL_LICENSES_FOR_USER_SUCCESS,
+  GET_PRICE_CRYPTO,
+  GET_PRICE_CRYPTO_SUCCESS,
+  GET_TYPE_CURRENCIES_CRYPTO,
+  GET_TYPE_CURRENCIES_CRYPTO_SUCCESS,
+  GENERATE_CRYPTO_ADDRESS,
+  GET_TYPE_CURRENCIES_FEE_SUCCESS,
+  GENERATE_CRYPTO_ADDRESS_SUCCESS,
+  GET_FESS,
+  GET_FESS_SUCCESS
 
 } from '../constants';
 import { GET_REFERRED_ID, GET_CURRENT_TYPE_LICENSES, GET_LICENSES_QUERY,
@@ -31,7 +40,7 @@ import { client } from '@utils/api/apollo';
 import LocalStorage from '@utils/localStorage';
 import { toggleSnackbarOpen } from './app.actions';
 import i18n from '@utils/i18n';
-import { GET_TOTAL_LICENSES_FOR_USER_QUERY } from '../../utils/api/queries/licenses.queries';
+import { GENERATE_ADDRESS_CRYPTO_QUERY, GET_FEE_FIAT_QUERY, GET_PRICE_CRYPTO_QUERY, GET_TOTAL_LICENSES_FOR_USER_QUERY, GET_TYPE_CURRENCY_CRYPTO } from '../../utils/api/queries/licenses.queries';
 
 
 export const validateReference = ({ referenceCode }) => async (dispatch) => {
@@ -287,6 +296,124 @@ export const getTotalLicensesInNetworkUser = () => async (dispatch) => {
     }).then(async (response) => {
       if (response.data) {
         dispatch({ type: GET_TOTAL_LICENSES_FOR_USER_SUCCESS, payload: response?.data['getTotalLicensesInNetworkByUser'] });
+      }
+    }).catch((error) => {
+      dispatch({ type: LICENSES_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    dispatch({ type: LICENSES_ERROR, payload: error });
+    //dispatch(toggleSnackbarOpen(error));
+  }
+};
+
+
+export const getPriceCrypto = (symbol) => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: GET_PRICE_CRYPTO });
+
+    client.query({
+      query: GET_PRICE_CRYPTO_QUERY,
+      variables: {
+        token: token,
+        symbol:symbol
+      },
+    }).then(async (response) => {
+      if (response.data) {
+        dispatch({ type: GET_PRICE_CRYPTO_SUCCESS, payload: response.data['getTickers'][0] });
+      }
+    }).catch((error) => {
+      dispatch({ type: LICENSES_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    dispatch({ type: LICENSES_ERROR, payload: error });
+    //dispatch(toggleSnackbarOpen(error));
+  }
+};
+
+
+export const getTypeCurrenciesCrypto = (parameter) => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: GET_TYPE_CURRENCIES_CRYPTO });
+
+    client.query({
+      query: GET_TYPE_CURRENCY_CRYPTO,
+      variables: {
+        token: token,
+        parameter:parameter
+      },
+    }).then(async (response) => {
+      if (response.data) {
+        dispatch({ type: parameter ==='LicencesPurchaseCurrencies' ?GET_TYPE_CURRENCIES_CRYPTO_SUCCESS:GET_TYPE_CURRENCIES_FEE_SUCCESS , payload: parameter ==='LicencesPurchaseCurrencies' ? nameTypeCurrenciesCrypto(response.data) :response.data['getBankParameter']});
+      }
+    }).catch((error) => {
+      dispatch({ type: LICENSES_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    dispatch({ type: LICENSES_ERROR, payload: error });
+    //dispatch(toggleSnackbarOpen(error));
+  }
+};
+
+export const nameTypeCurrenciesCrypto = (data) => {
+  console.log('data',data)
+  const obj = JSON.parse(data['getBankParameter']);
+  const typeCrypto = [{value: 'UUL',name: 'Uulala Tokens'}];
+  obj.forEach(cryptoCurrencies => {
+  
+    typeCrypto.push(
+      {
+        value: cryptoCurrencies.value,
+        name : `${cryptoCurrencies.description}`
+      }
+    )
+  });
+  return typeCrypto;
+};
+
+export const generateAddressCryptoLicenses = (currency) => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: GENERATE_CRYPTO_ADDRESS });
+
+    client.query({
+      query: GENERATE_ADDRESS_CRYPTO_QUERY,
+      variables: {
+        token: token,
+        currency:currency
+      },
+    }).then(async (response) => {
+      if (response.data) {
+        dispatch({ type: GENERATE_CRYPTO_ADDRESS_SUCCESS, payload: response.data['createExternalAddress'] });
+      }
+    }).catch((error) => {
+      dispatch({ type: LICENSES_ERROR, payload: error });
+      dispatch(toggleSnackbarOpen(error));
+    })
+  } catch (error) {
+    dispatch({ type: LICENSES_ERROR, payload: error });
+    //dispatch(toggleSnackbarOpen(error));
+  }
+};
+
+export const getFees = (id) => async (dispatch) => {
+  const token = await LocalStorage.get('auth_token');
+  try {
+    dispatch({ type: GET_FESS });
+
+    client.query({
+      query: GET_FEE_FIAT_QUERY,
+      variables: {
+        token: token,
+        id:id
+      },
+    }).then(async (response) => {
+      if (response.data) {
+        dispatch({ type: GET_FESS_SUCCESS, payload: response.data['getTotalFee'] });
       }
     }).catch((error) => {
       dispatch({ type: LICENSES_ERROR, payload: error });

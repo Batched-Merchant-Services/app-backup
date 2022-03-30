@@ -94,7 +94,7 @@ const Dashboard = ({ navigation }) => {
 
 
   function handleNavigationWallet() {
-    navigation.navigate("HomeMyBatched")
+    navigation.navigate("HomeMyBatchedB")
   }
 
   function handleStateChange(value) {
@@ -111,7 +111,7 @@ const Dashboard = ({ navigation }) => {
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft childrenRight={MenuWallet} menu onPressRight={handleNavigationWallet} navigation={navigation}>
-      <Divider height-10 />
+      <Divider height-5 />
       {appResources?.showStatusTimers === 'blueLight' && inRange && (
         <>
           <View style={Styles.borderBlue}>
@@ -172,7 +172,7 @@ const Dashboard = ({ navigation }) => {
       <Text h14 blue02 center>{i18n.t('home.textValidatingReward')}</Text>
       <Divider height-5 />
       <Text h16 white semibold center>{thousandsSeparator(rewardsData?.configRewards?.amount)}</Text>
-      <Divider height-15 />
+      <Divider height-10 />
       <View row>
         <IconLineVertical height={'100%'} width={verticalScale(1)} fill={brandTheme?.blue04 ?? colors.blue04} />
         <View flex-1 >
@@ -189,22 +189,22 @@ const Dashboard = ({ navigation }) => {
         </View>
         <IconLineVertical height={'100%'} width={verticalScale(1)} fill={brandTheme?.blue04 ?? colors.blue04} />
       </View>
-      <Divider height-20 />
+      <Divider height-10 />
       <CountDownSeconds navigation={navigation} />
-      <Divider height-20 />
+      <Divider height-10 />
       <View marginV-5 row>
         <IconLineVertical height={'100%'} width={verticalScale(1)} fill={brandTheme?.blue04 ?? colors.blue04} />
-        <View flex-1 paddingH-15>
+        <View flex-1 paddingH-15 centerV>
           <Text h9 blue02 right>{i18n.t('home.textDistributedPerDay')}</Text>
           <Text h11 white right semibold>{thousandsSeparator(parseInt(rewardsData?.configRewards?.amount))}</Text>
         </View>
         <IconLineVertical height={'100%'} width={verticalScale(1)} fill={brandTheme?.blue04 ?? colors.blue04} />
-        <View flex-1 paddingH-15>
+        <View flex-1 paddingH-15 centerV>
           <Text h9 blue02 center>{i18n.t('home.textPointsPerLicence')}</Text>
           <Text h11 white center semibold>{thousandsSeparator(rewardsPerUser)}</Text>
         </View>
         <IconLineVertical height={'100%'} width={verticalScale(1)} fill={brandTheme?.blue04 ?? colors.blue04} />
-        <View flex-1 paddingH-15>
+        <View flex-1 paddingH-15 centerV>
           <Text h9 blue02 left>{i18n.t('home.textAvailableThisMonth')}</Text>
           <Text h11 white left semibold>12 000 000</Text>
         </View>

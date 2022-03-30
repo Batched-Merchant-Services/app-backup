@@ -78,7 +78,7 @@ const ModalInfo2fa = ({ visible, onRequestClose, getData, onPressOverlay,navigat
             </View>
             <Divider height-20 />
             <Link onPress={handleGoToDashboard}>
-              <Text h12 blue02>{i18n.t('General.modal2fa.buttonActivateNow')}</Text>
+              <Text h12 blue02>{i18n.t('General.modal2fa.linkLater')}</Text>
             </Link>
           </View>
           <Divider height-25 />

@@ -48,7 +48,7 @@ const SnackNotice = ({
     }).start();
     setTimeout(() => {
       handleTimeout()
-    }, 5000);
+    }, 3000);
   }, [SHOW]);
 
 

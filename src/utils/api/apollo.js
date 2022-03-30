@@ -50,7 +50,7 @@ const activityMiddleware = new ApolloLink((operation, forward) => {
 
 
 const errorLink = onError(({ forward, networkError, operation, graphQLErrors }) => {
-  console.log('operation',operation,graphQLErrors,networkError)
+  console.log('operation',operation,graphQLErrors,networkError?.result?.Message)
   if (networkError) {
     const trimMessage = networkError?.result?.Message?.replace('GraphQL.ExecutionError:', '').replace('|', '').trim();
     switch (trimMessage) {

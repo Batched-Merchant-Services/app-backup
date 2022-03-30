@@ -38,6 +38,15 @@ export const GET_USER_BATCHED = gql`
           name 
           feePhysicalCard
         }
+        accountCrypto 
+            {
+                id
+                clientId
+                groupId
+                currency
+                address
+                isEnabled
+            }
       }
       usersProfile
       {

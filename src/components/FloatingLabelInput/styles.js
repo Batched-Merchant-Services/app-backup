@@ -18,7 +18,8 @@ const Styles = StyleSheet.create({
   input: {
     ...Typography.weight.medium,
     ...Typography.sizes.h14,
-    height      : '100%'
+    height      : '100%',
+    top: verticalScale(Platform.OS === 'ios' ? 1 : 5),
   },
   inputSecure: {
     color        : 'transparent',

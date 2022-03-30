@@ -49,9 +49,10 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
         groupid: "320",
         reference:''
       },
-      fetchPolicy: 'no-cache'
+      fetchPolicy : 'network-only' ,  
+      nextFetchPolicy : 'network-only'
     }).then(async (response) => {
-      console.log('response',response.data)
+      console.log('response',response?.data)
       if (response.data) {
         const { token,uuid,left,isTwoFactor,type2fa } = response?.data['getLoggin'];
         dispatch({ type: LOGIN_SUCCESS, payload: response?.data['getLoggin'] });
@@ -59,6 +60,7 @@ export const getLogin = ({ email, password }) => async (dispatch) => {
         await LocalStorage.set('auth_token', token);
         await LocalStorage.set('uuid', uuid);
         await LocalStorage.set('left', left);
+        dispatch(userInactivity(true));
         if(!isTwoFactor) {
           dispatch(getLicenses());
           dispatch(getDataUser());
@@ -255,7 +257,7 @@ export const validateCodeSms = () => async (dispatch) => {
       fetchPolicy : 'network-only' ,  
       nextFetchPolicy : 'network-only'
     }).then(async (response) => {
-      console.log('response validateCodeSms',response)
+      console.log('response ',response)
       if (response.data) {
         dispatch({ type: VALIDATE_CODE_SMS_SUCCESS, payload: response?.data['getSecurityCodeDirect'] });
       }

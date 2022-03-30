@@ -66,7 +66,7 @@ const Confirmation = ({ navigation, route }) => {
           blue
         >
           <Text h14 semibold white>
-            {i18n.t('General.buttonBackToLogin')}
+            {i18n.t('General.buttonBack')}
           </Text>
         </ButtonRounded>
         <Divider height-10 />

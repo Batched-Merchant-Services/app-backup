@@ -15,6 +15,7 @@ import i18n from '@utils/i18n';
 import { cleanErrorLicenses, getLicenses, saveCurrentLicense } from '@store/actions/licenses.actions';
 import { toggleSnackbarClose } from '@store/actions/app.actions';
 import { cleanError } from '../../store/actions/auth.actions';
+import { getTypeCurrenciesCrypto } from '../../store/actions/licenses.actions';
 
 
 const GetLicenses = ({ navigation, route }) => {
@@ -34,6 +35,7 @@ const GetLicenses = ({ navigation, route }) => {
       dispatch(cleanErrorLicenses());
       dispatch(cleanError());
       dispatch(toggleSnackbarClose());
+  
     });
     return unsubscribe;
   }, []);
@@ -61,10 +63,12 @@ const GetLicenses = ({ navigation, route }) => {
 
 
   function handleSelectLicense(license) {
+    console.log('licensesData?.getLicenses',licensesData?.getLicenses)
     const selectLicense = {
       numberStep: license,
       percentStep: '100%',
-      amountStep: licensesData?.getLicenses?.cost
+      amountStep: licensesData?.getLicenses?.cost * license,
+      typeLicenses: licensesData?.getLicenses?.id
     }
     dispatch(saveCurrentLicense({ selectLicense }));
     navigation.push("SelectLicense")
@@ -72,7 +76,7 @@ const GetLicenses = ({ navigation, route }) => {
 
   const handleDashboard = () => {
     if (params?.page === 'myBatched') {
-      navigation.navigate('HomeMyBatched')
+      navigation.navigate('HomeMyBatchedB')
     } else if (params?.page === 'dashboard') {
       navigation.navigate('Dashboard')
     } else {

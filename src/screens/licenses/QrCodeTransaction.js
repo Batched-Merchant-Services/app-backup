@@ -16,6 +16,9 @@ const QrCodeTransaction = ({ navigation,navigation: { goBack }  }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const licensesData = redux?.licenses;
+  const user = redux?.user;
+  const userProfile = user?.dataUser?.clients ? user?.dataUser?.clients[0] : '';
+  const accountCrypto = userProfile?.accountCrypto ? userProfile?.accountCrypto[0] : '';
 
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft={true} navigation={navigation}>
@@ -26,13 +29,13 @@ const QrCodeTransaction = ({ navigation,navigation: { goBack }  }) => {
       <View centerH>
         <View blue02 width-320 height-30 centerH centerV><Text h12 white semibold>Ethereum{' '}{i18n.t('Licenses.textQRCode')} </Text></View>
         <QRCode
-          value={licensesData?.addressCurrency?.address}
+          value={licensesData?.dataAddress?.address || accountCrypto?.address}
           size={scale(320)}
           quietZone={scale(30)}
         />
       </View>
       <Divider height-30 />
-      <View flex-1 row bottom >
+      <View flex-1  bottom >
         <ButtonRounded
           onPress={() => goBack()}
           disabled={false}
@@ -41,18 +44,6 @@ const QrCodeTransaction = ({ navigation,navigation: { goBack }  }) => {
         >
           <Text h14 semibold blue02>
             {i18n.t('General.buttonBack')}
-          </Text>
-        </ButtonRounded>
-        <Divider width-10 />
-        
-        <ButtonRounded
-          onPress={() => navigation.navigate("ConfirmationLicenses")}
-          disabled={false}
-          dark
-          size='sm'
-        >
-          <Text h14 semibold blue02>
-            {i18n.t('Licenses.buttonDownload')}
           </Text>
         </ButtonRounded>
       </View>

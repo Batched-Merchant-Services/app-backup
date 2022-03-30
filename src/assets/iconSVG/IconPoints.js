@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { scale, verticalScale } from 'react-native-size-matters';
 import Svg, { Path } from 'react-native-svg';
 
 const IconPoints = ({
@@ -12,9 +13,8 @@ const IconPoints = ({
   return (
     <Svg
     xmlns="http://www.w3.org/2000/svg"
-    width={width}
-    height={height}
-    viewBox="0 0 690 650"
+
+
     {...props}
   >
     <Path

@@ -108,4 +108,81 @@ query ($token:String!,$currencyId:Int!)
     }
 }`
 
+export const GET_PRICE_CRYPTO_QUERY = gql`
+query($token:String!,$symbol:String!) {
+  getTickers(token:$token,symbol:$symbol)
+  {
+      symbol
+      open
+      high
+      {
+          valueToday
+          value24H
+      }
+       low
+      {
+          valueToday
+          value24H
+      }
+       trades
+      {
+          valueToday
+          value24H
+      }
+       volumeWeightedAveragePrice
+      {
+          valueToday
+          value24H
+      }
+       volume
+      {
+          valueToday
+          value24H
+      }
+      lastTrade
+      {
+         price
+         quantity
+      }
+     bestAsks
+      {
+          price
+          lotQuantity
+          quantity
+      }
+      bestBids
+      {
+          price
+          lotQuantity
+          quantity
+      }
+  }
+}`
+
+export const GET_TYPE_CURRENCY_CRYPTO = gql`
+query ($token:String!,$parameter:String!){
+  getBankParameter(token:$token,parameter:$parameter)
+}`
+
+export const GENERATE_ADDRESS_CRYPTO_QUERY = gql`
+mutation($token:String!,$currency:String!){
+  createExternalAddress(token:$token,currency:$currency)
+  {
+      id
+      clientId
+      groupId
+      currency
+      address
+      isEnabled
+  }
+}`
+
+
+export const GET_FEE_FIAT_QUERY = gql`
+query($token:String!, $id:Int!) {
+  getTotalFee(token:$token,id:$id)
+  
+}`
+
+
 

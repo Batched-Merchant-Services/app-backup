@@ -151,7 +151,6 @@ const Auth2fa = ({ navigation, route, navigation: { goBack } }) => {
         </View>
         <Divider height-10 />
         <IconLineDotted height={verticalScale(1)} width={'100%'} fill={brandTheme?.blue04 ?? colors.blue04} />
-
         <Divider height-10 />
         <View row>
           <View flex-1 left>

@@ -231,7 +231,7 @@ const CustomDrawer = props => {
               label={({ focused }) => <CustomLabel label={i18n.t('General.menu.buttonMyProfile')} />}
             />
           </Ripple>
-          <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('HomeMyBatched')}>
+          <Ripple color={'rgb(0, 106, 200)'} centered={true} onPress={() => navigation.navigate('HomeMyBatchedB')}>
             <DrawerItem
               label={({ focused }) => <CustomLabel label={i18n.t('General.menu.buttonMyBatched')} />}
             />

@@ -40,6 +40,7 @@ const ChangePasswordInside = ({ navigation, route }) => {
   function handleChangePass() {
     const countryCode = dataUser?.dataUser?.lada;
     let dataRecovery = {
+      company: 320,
       email: userProfile?.email,
       phone: '+'+countryCode + userProfile?.phoneNumber,
       type: auth?.type2fa === 2?1:auth?.type2fa === 3?2:3

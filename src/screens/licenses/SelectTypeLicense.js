@@ -18,16 +18,18 @@ import i18n from '@utils/i18n';
 import Loading from '../Loading';
 import { getDataUser } from '@store/actions/user.action';
 import { cleanErrorPoints } from '@store/actions/points.actions';
+import { getTypeCurrenciesCrypto } from '../../store/actions/licenses.actions';
 const SelectTypeLicense = ({ navigation }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const licensesData = redux?.licenses;
   const dataUser = redux?.user;
-  const [maximumLicenses, setMaximumLicenses] = useState(5);
+  const [maximumLicenses, setMaximumLicenses] = useState(0);
   const [totalLicenses, setTotalLicenses] = useState(0);
   const [currencyLicense, setCurrencyLicense] = useState(0);
   const [idCurrency, setIdCurrency] = useState(0);
   const [itemTypeLicenses, setItemTypeLicenses] = useState([]);
+  const [typeCurrencyCrypto, setTypeCurrencyCrypto] = useState([]);
   const [currentLicense] = useState(licensesData?.currentLicense);
   const [showDropDownLicenses,setShowDropDownLicenses] = useState(false);
   const typeLicenses = useValidatedInput('select', '',{
@@ -45,10 +47,11 @@ const SelectTypeLicense = ({ navigation }) => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanErrorLicenses());
       dispatch(toggleSnackbarClose());   
-      dispatch(getListLicenses()); 
-      dispatch(getCryptoCurrency());
+      //dispatch(getListLicenses()); 
+      dispatch(getTypeCurrenciesCrypto('LicencesPurchaseCurrencies'));
       getInfoData();
-
+      setShowDropDownLicenses(false);
+     
     });
     return unsubscribe;
   }, []);
@@ -68,7 +71,15 @@ const SelectTypeLicense = ({ navigation }) => {
     getArrayLicense();
   }
 
+  useEffect(() => {
+    setTypeCurrencyCrypto(licensesData?.typeCryptoCurrencies);
+  }, [licensesData?.typeCryptoCurrencies]);
+
+
+
   function getArrayLicense(end) {
+    const totalLicensesBuy =dataUser?.dataUser?.bachedTransaction? dataUser?.dataUser?.bachedTransaction[0]:[];
+    console.log(totalLicensesBuy.length)
     const arrayLicenses =  Array(end??0 - 1 + 1).fill().map((_, idx) =>{
       const value = 1+idx
       return { name:1 + idx, value:value?.toString()}
@@ -89,12 +100,14 @@ const SelectTypeLicense = ({ navigation }) => {
     if (code?.value === 'UUL') {
       setMaximumLicenses(5)
       const licenseUUl = ( 5 - totalLicenses )
+      setMaximumLicenses(licenseUUl)
       const validateNumber = licenseUUl >= 0 ?licenseUUl: 0
       getArrayLicense(validateNumber)
   
     }else{
       setMaximumLicenses(15)
       const licenseOthers = ( 15 - totalLicenses)
+      setMaximumLicenses(licenseOthers)
       const validateNumber = licenseOthers >= 0 ?licenseOthers: 0
       getArrayLicense(validateNumber)
     }
@@ -121,7 +134,7 @@ const SelectTypeLicense = ({ navigation }) => {
       <View row>
       <View flex-1 >
         <Text h12 regular blue02>{i18n.t('Licenses.textPricePerLicense')}</Text>
-        <Text h16 regular white>{currentLicense?.amountStep*currentLicense?.numberStep}{' '}USD</Text>
+        <Text h16 regular white>{currentLicense?.amountStep}{' '}USD</Text>
       </View>
       <View flex-1 centerH>
         <Text h12 regular blue02>{i18n.t('Licenses.textMaximumLicenses')}</Text>
@@ -137,8 +150,8 @@ const SelectTypeLicense = ({ navigation }) => {
       <Divider height-10 />
       <DropDownPicker
         {...cryptoCurrency}
-        label={'Criptocurrency'}
-        options={licensesData?.cryptoCurrencies}
+        label={i18n.t('Licenses.dropDownCriptocurrency')}
+        options={typeCurrencyCrypto}
         onSelect={(code)=> typeCurrency(code)}
        />
       <Divider height-5 />
@@ -152,7 +165,7 @@ const SelectTypeLicense = ({ navigation }) => {
           ]}>
         <DropDownPicker
         {...typeLicenses}
-        label={'Licenses'}
+        label={i18n.t('Licenses.dropDownLicenses')}
         options={itemTypeLicenses}
         //onFill={(code)=> filterPays(code)}
        />
@@ -164,7 +177,7 @@ const SelectTypeLicense = ({ navigation }) => {
       <View flex-1  bottom>
       <ButtonRounded
       onPress={() => {
-          navigation.push('TransferCryptoCurrency',{ id: idCurrency,currency: currencyLicense?.value});
+          navigation.push('TransferCryptoCurrency',{ id: idCurrency,currency: currencyLicense?.value,typeLicenses: typeLicenses?.value});
         }}
         disabled={!isValid}
         blue
@@ -179,7 +192,7 @@ const SelectTypeLicense = ({ navigation }) => {
         message={licensesData?.error?.message}
         timeout={3000}
       />
-      <Loading modalVisible={licensesData?.isGetListLicense} />
+      <Loading modalVisible={licensesData?.getTypeCurrency} />
     </BackgroundWrapper>
   );
 }

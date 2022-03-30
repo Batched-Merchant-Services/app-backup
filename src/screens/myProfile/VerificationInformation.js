@@ -13,6 +13,7 @@ import {
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput } from '@hooks/validation-hooks';
+import { Alert } from 'react-native';
 import Styles from './styles'
 import i18n from '@utils/i18n';
 import { cleanErrorProfile, createKYC, editKYC, getTypeIdentification } from '../../store/actions/profile.actions';
@@ -101,6 +102,7 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
     }
     dispatch(createKYC({ dataCreateKYC }))
   }
+ console.log('isLoadingFile',dataUser)
 
   return (
     <Fragment>
@@ -199,6 +201,7 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
           </ButtonRounded>
         </View>
         <Loading modalVisible={profile?.isLoadingProfile} />
+        <Loading modalVisible={dataUser?.isLoadingFile} />
       </BackgroundWrapper>
       <View blue04 paddingH-20 centerH>
         <SnackNotice

@@ -97,7 +97,7 @@ const FloatingLabelInput = ({
               multiline={multiline}
             >
               <FloatingLabel label={label} scale={scale} />
-                <View row height-50 style={{width:'100%'}}>
+                <View row height-40 style={{width:'100%'}}>
                   <View flex-1 >
                     <TextInput
                       {...props}
