@@ -69,8 +69,8 @@ query ($token:String!,$filter:String!)
 }`
 
 export const GET_CREATE_LICENSES_CRYPTO = gql`
-mutation($token:String!,$total:Int!,$address:String!,$currency:String!,$type:Int!,$voucherCrypto:String!, $transactionId:String!,$code:String!){
-  createLicensesCryptoTransactionDeposit(token:$token,total:$total,address:$address,type:$type,currency:$currency,voucherCrypto:$voucherCrypto, transactionId:$transactionId,code:$code){
+mutation($code:String!,$token:String!,$total:Int!,$address:String!,$currency:String!,$type:Int!,$voucherCrypto:String!, $transactionId:String!, $isDisabled:Boolean!){
+  createLicensesCryptoTransactionDeposit(code:$code,token:$token,total:$total,address:$address,type:$type,currency:$currency,voucherCrypto:$voucherCrypto, transactionId:$transactionId, isDisabled:$isDisabled){
       id
       referenceTrx
   }

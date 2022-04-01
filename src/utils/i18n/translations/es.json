@@ -243,7 +243,13 @@
       "textIfTheAdvisorShownIsCorrect":"2.- If the advisor shown is correct, click on send the request.",
       "textOneOfOurAdvisorsWill":"One of our advisors will review your request and notify you when it is completed.",
       "buttonSearch":"Search",
-      "buttonContinue":"Continue"
+      "buttonContinue":"Continue",
+      "textCheckout":"Checkout",
+      "textYourWalletBalance": "Your Wallet Balance",
+      "textLicenses": "Licenses",
+      "textTransactionFees": "Transaction Fees",
+      "textRemanentBalance":"Remanent balance",
+      "textIAuthorizeToWithdraw":"I authorize to withdraw the required balance from my wallet."
     },
     "pinConfirmation":{
       "textDefineAConfirmationPIN":"Define a confirmation PIN",

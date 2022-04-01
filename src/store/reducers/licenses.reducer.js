@@ -253,6 +253,7 @@ export default licensesReducer = (state = initialState, action) => {
         ...state,
         isLoadingLicenses: false,
         getPriceCrypto:false,
+        getFee:false,
         getTypeCurrency:false,
         generateAddress:false,
         successLicenses: false,
@@ -273,6 +274,7 @@ export default licensesReducer = (state = initialState, action) => {
         isLoadingLicenses: false,
         successLicenses: false,
         getPriceCrypto:false,
+        getFee:false,
         getTypeCurrency:false,
         generateAddress:false,
         successListLicense: false,
@@ -281,6 +283,7 @@ export default licensesReducer = (state = initialState, action) => {
         successCryptoCurrencies: false,
         successCreateLicense: false,
         showErrorLicenses: false,
+        statusCodeReferral: false,
         error: {},
         success: {},
       };

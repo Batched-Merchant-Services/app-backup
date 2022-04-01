@@ -31,6 +31,14 @@ export const GET_USER_BATCHED = gql`
             total
             currency
           }
+          balance {
+            year
+            account
+            deposit
+            withdrawal
+            total
+            currency
+          }
         }
         companies {
           id 

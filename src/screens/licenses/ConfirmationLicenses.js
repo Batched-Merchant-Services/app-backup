@@ -47,7 +47,7 @@ const ConfirmationLicenses = ({ navigation,navigation: { goBack }  }) => {
         blue
       >
         <Text h14 semibold white>
-          {i18n.t('Licenses.buttonGoToDistribution')}
+          {i18n.t('General.buttonBack')}
         </Text>
       </ButtonRounded>
       </View>

@@ -26,7 +26,6 @@ import { getLocalDateFromUTC } from '@utils/formatters';
 import { cleanError } from '@store/actions/auth.actions';
 import IconLineVertical from '../../assets/iconSVG/IconLineVertical';
 import { useTheme } from '@react-navigation/native';
-import IconPoints from '../../assets/iconSVG/IconPoints';
 const MenuWallet = require('../../assets/animationsLottie/MenuWallet.json');
 import { useWindowDimensions } from 'react-native';
 
@@ -41,7 +40,6 @@ const Dashboard = ({ navigation }) => {
   const appResources = redux?.app;
   const rewardsData = redux?.rewards;
   const brandTheme = infoUser?.Theme?.colors;
-  const { colors } = useTheme();
   const [statusAvailable, setStatusAvailable] = useState(false);
   const [statusStayOnline, setStatusStayOnline] = useState(false);
   const [totalLicenses, setTotalLicenses] = useState(0);
@@ -51,7 +49,7 @@ const Dashboard = ({ navigation }) => {
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
   const currentDate = new Date();
   const { height, width } = useWindowDimensions();
-
+  const { colors } = useTheme();
 
 
   useEffect(() => {
@@ -70,9 +68,6 @@ const Dashboard = ({ navigation }) => {
   }, [infoUser?.successDataUser]);
 
 
-
-
-
   function getBatchedTransaction() {
     const startDate = rewardsData?.configRewards?.startDate ? getLocalDateFromUTC(rewardsData?.configRewards?.startDate) : 0;
     const endDate = rewardsData?.configRewards?.endDate ? getLocalDateFromUTC(rewardsData?.configRewards?.endDate) : 0;
@@ -80,11 +75,7 @@ const Dashboard = ({ navigation }) => {
       if (transaction.status === 1 || transaction.status === 3) setTotalLicenses(totalLicenses + transaction.routingNumber ? parseInt(transaction.routingNumber) : transaction.routingNumber);
     });
     const id = infoUser?.dataUser?.clients ? infoUser?.dataUser?.clients[0]?.account?.id : 0;
-    console.log('infoUser', id)
     dispatch(getRewardsPoints({ id }));
-    dispatch(getCommissionPoints({ id }));
-    dispatch(getGatewayPointsBalance({ id }));
-    dispatch(getLiquidPointsBalance({ id }));
     if (totalLicenses !== 0) setRewardsPerUser(rewardsData?.configRewards?.amount) / totalLicenses;
     if (currentDate <= endDate) setInRange(currentDate <= endDate)
     if (currentDate >= startDate) setInRange(currentDate >= startDate)

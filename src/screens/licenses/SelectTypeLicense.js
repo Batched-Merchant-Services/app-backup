@@ -12,13 +12,14 @@ import {
 import { Animated } from "react-native";
 import { useSelector, useDispatch } from 'react-redux';
 import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
-import { cleanErrorLicenses,getListLicenses,getTotalLicenses,getCryptoCurrency } from '@store/actions/licenses.actions';
+import { cleanErrorLicenses } from '@store/actions/licenses.actions';
 import { toggleSnackbarClose } from '@store/actions/app.actions';
 import i18n from '@utils/i18n';
 import Loading from '../Loading';
-import { getDataUser } from '@store/actions/user.action';
-import { cleanErrorPoints } from '@store/actions/points.actions';
 import { getTypeCurrenciesCrypto } from '../../store/actions/licenses.actions';
+
+
+
 const SelectTypeLicense = ({ navigation }) => {
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
@@ -68,6 +69,8 @@ const SelectTypeLicense = ({ navigation }) => {
         setTotalLicenses(transaction.routingNumber??0);
       })
     }
+    cryptoCurrency?.onChangeText('');
+    typeLicenses?.onChangeText('');
     getArrayLicense();
   }
 

@@ -67,7 +67,7 @@ const Login = ({ navigation }) => {
   useEffect(() => { 
     console.log('app?.stateModalInfo2fa',(!authData?.user?.isTwoFactor || authData?.user?.type2fa === 0 ) )
     if (authData?.isSession) {
-      if (!authData?.user?.isTwoFactor ) {
+      if (!authData?.user?.isTwoFactor) {
         if (app?.stateModalInfo2fa ) {
           if(dataUser?.successDataUser){
             if (dataUser?.dataUser?.bachedTransaction?.length > 0) {

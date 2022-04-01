@@ -20,6 +20,11 @@ import { cleanErrorLicenses } from '@store/actions/licenses.actions';
 import { generateAddressCryptoLicenses, getPriceCrypto } from '@store/actions/licenses.actions';
 import { toggleSnackbarOpen } from '@store/actions/app.actions';
 import { getFees, getTypeCurrenciesCrypto } from '../../store/actions/licenses.actions';
+import { thousandsSeparator } from '../../utils/formatters';
+import IconLineDotted from '../../assets/iconSVG/IconLineDotted';
+import { verticalScale } from 'react-native-size-matters';
+import { useTheme } from '@react-navigation/native';
+import { color } from 'react-native-reanimated';
 
 const TransferCryptoCurrency = ({ navigation, route }) => {
   const id = route?.params?.id;
@@ -32,16 +37,19 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
   const user = redux?.user;
   const userProfile = user?.dataUser?.clients ? user?.dataUser?.clients[0] : '';
   const accountCrypto = userProfile?.accountCrypto ? userProfile?.accountCrypto[0] : '';
+  const brandTheme = user?.Theme?.colors;
   const amount = useValidatedInput('amount', '');
   const address = useValidatedInput('address', '');
-  const transactionIdValue = useValidatedInput(currency === 'BTC'  ? 'transactionIdBTC' : currency === 'ETH' ? 'transactionIdETH' : 'transactionId', '');
+  const transactionIdValue = useValidatedInput(currency === 'BTC' ? 'transactionIdBTC' : currency === 'ETH' ? 'transactionIdETH' : 'transactionId', '');
   const file = useValidatedInput('file', '');
-  const isValidId = isFormValid(amount, file);
+  const isValidId = isFormValid(amount);
   const isValid = isFormValid(amount, address, transactionIdValue, file);
-  const [addressCurrency, setAddressCurrency] = useState(licensesData?.addressCurrency?.address);
+  const [valueLicenses, setValueLicenses] = useState('');
+  const [validateButton, setValidateButton] = useState(true);
   const [currentLicense] = useState(licensesData?.currentLicense);
   const [twoFactors, setTwoFactors] = useState(authData?.user?.isTwoFactor);
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
+  const { colors } = useTheme();
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -50,7 +58,8 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
       dispatch(getPriceCrypto(currency === 'BTC' ? `XBTUSD` : 'XETHZUSD'));
       dispatch(getTypeCurrenciesCrypto('LicensePurchaseFee'));
       getGenerateAddress();
-
+      if (currency === 'UUL') setValidateButton(userProfile?.account?.balanceTokens?.total === 0 ? true:false)
+      if (currency === 'FIAT') setValidateButton(userProfile?.account?.balance?.total === 0 ? true:false)
     });
     return unsubscribe;
   }, []);
@@ -67,7 +76,7 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
   }, [licensesData?.feeCurrency]);
 
   useEffect(() => {
-    if (currency === 'FIAT') amount?.onChangeText((currentLicense?.amountStep * totalLicenses?.name) + licensesData?.totalFee + ' ' + currency);
+    if (currency === 'FIAT') amount?.onChangeText((currentLicense?.amountStep * totalLicenses?.name) + licensesData?.totalFee + ' ' + 'USD');
   }, [licensesData?.totalFee]);
 
 
@@ -75,6 +84,7 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
   useEffect(() => {
     const uul = 18000 * totalLicenses?.name;
     const otherCurrency = (1 / licensesData?.priceCrypto?.bestAsks?.price) * (currentLicense?.amountStep + 15) * totalLicenses?.name;
+    setValueLicenses(currency === 'UUL'?uul:currency === 'BTC' || currency === 'ETH'? otherCurrency:(currentLicense?.amountStep * totalLicenses?.name) + licensesData?.totalFee);
     if (currency === 'UUL') amount?.onChangeText(uul.toString() + ' ' + currency);
     if (currency === 'BTC' || currency === 'ETH') amount?.onChangeText(otherCurrency.toString() + ' ' + currency);
   }, [licensesData?.priceCrypto]);
@@ -85,15 +95,15 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
   }, [authData]);
 
   async function handleBuyLicense() {
-    console.log('licensesData?.dataAddress', currentLicense)
-    const typeId = currentLicense?.numberStep
+    const typeId = currentLicense?.typeLicenses
     const createLicenses = {
-      total: amount?.value ? parseInt(amount?.value) : amount?.value ?? 0,
-      address: addressCurrency ?? '',
+      total: totalLicenses?.name,
+      address: currency === 'UUL' ? userProfile?.account?.address : currency !== 'FIAT' ? address?.value : '',
       currency: currency ?? '',
       type: typeId ?? 0,
       voucherCrypto: file?.value ?? null,
-      transactionId: transactionIdValue?.value ?? ''
+      transactionId: transactionIdValue?.value ?? '',
+      isDisabled: false
     }
     if (!twoFactors || twoFactors === 0) {
       navigation.push("Auth2fa");
@@ -104,11 +114,9 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
   }
 
   const copyToClipboard = () => {
-    Clipboard.setString(licensesData?.addressCurrency?.address)
+    Clipboard.setString(licensesData?.addressCurrency?.address || accountCrypto?.address)
     dispatch(toggleSnackbarOpen(i18n.t('General.snackCopiedReferenceCode'), 'warning'));
   }
-
-
 
 
   return (
@@ -128,7 +136,83 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
         editable={false}
       />
       <Divider height-10 />
-        {(currency === 'BTC' || currency === 'ETH') && (
+      {(currency === 'UUL' || currency === 'FIAT') && (
+        <Fragment>
+          <View row>
+            <View>
+              <Text h13 light white>{i18n.t('Licenses.textCheckout')}</Text>
+            </View>
+            <View flex-1 right>
+              <Text h13 semibold white>{currency}</Text>
+            </View>
+          </View>
+          <Divider height-20 />
+          <View height-1 width-35 white/>
+          <Divider height-20 />
+          <View row>
+            <View>
+              <Text h12 light white>{i18n.t('Licenses.textYourWalletBalance')}</Text>
+            </View>
+            {currency === 'UUL' && (
+              <View flex-1 right>
+                <Text h16 semibold style={{color: userProfile?.account?.balanceTokens?.total === 0? colors.error: colors.blue02}}>{thousandsSeparator(userProfile?.account?.balanceTokens?.total)}</Text>
+              </View>
+            )}
+            {currency === 'FIAT' && (
+              <View flex-1 right>
+                <Text h16 semibold style={{color: userProfile?.account?.balance?.total === 0? colors.error: colors.blue02}}>{thousandsSeparator(userProfile?.account?.balance?.total) + ' ' + 'USD'}</Text>
+              </View>
+            )}
+
+          </View>
+          <Divider height-20 />
+          <View row>
+            <View >
+              <Text h12 light white>{i18n.t('Licenses.textLicenses')}</Text>
+            </View>
+            {currency === 'UUL' && (
+              <View flex-1 right>
+                <Text h16 semibold white>{valueLicenses}</Text>
+              </View>
+            )}
+            {currency === 'FIAT' && (
+              <View flex-1 right>
+                <Text h16 semibold white>{valueLicenses -  licensesData?.totalFee +' ' +'USD'}</Text>
+              </View>
+            )}
+          </View>
+            <Divider height-20 />
+          <View row>
+            <View>
+              <Text h12 light white>{i18n.t('Licenses.textTransactionFees')}</Text>
+            </View>
+            {currency === 'UUL' && (
+              <View flex-1 right>
+              <Text h16 semibold white>{thousandsSeparator(0)}</Text>
+              </View>
+            )}
+            {currency === 'FIAT' && (
+              <View flex-1 right>
+                <Text h16 semibold white>{thousandsSeparator(licensesData?.totalFee) + ' ' + 'USD'}</Text>
+              </View>
+            )}
+           
+          </View>
+            <Divider height-20 />
+          <IconLineDotted height={verticalScale(1)} width={'100%'} fill={brandTheme?.blue04 ?? colors.blue04} />
+          <Divider height-20 />
+          <View row>
+            <View>
+              <Text h12 light white>{i18n.t('Licenses.textRemanentBalance')}</Text>
+            </View>
+            <View flex-1 right>
+              <Text h16 semibold white>{amount?.value}</Text>
+            </View>
+          </View>
+          <Divider height-15 />
+        </Fragment>
+      )}
+      {(currency === 'BTC' || currency === 'ETH') && (
         <Fragment>
           <FloatingInput
             {...address}
@@ -181,7 +265,7 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
       <View flex-1 bottom>
         <ButtonRounded
           onPress={handleBuyLicense}
-          disabled={false}
+          disabled={currency === 'BTC' || currency === 'ETH' ? !isValid : validateButton}
         >
           <Text h14 semibold white>
             {i18n.t('Licenses.buttonCheckTransaction')}

@@ -41,8 +41,8 @@ const activityMiddleware = new ApolloLink((operation, forward) => {
     },
   }));
   return forward(operation).map(result => {
-    // console.info('request',operation?.variables)
-    // console.info('response',result?.data)
+    console.info('request',operation?.variables)
+    console.info('response',result?.data)
     return result
   })
 })
