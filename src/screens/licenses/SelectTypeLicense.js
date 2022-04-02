@@ -81,8 +81,6 @@ const SelectTypeLicense = ({ navigation }) => {
 
 
   function getArrayLicense(end) {
-    const totalLicensesBuy =dataUser?.dataUser?.bachedTransaction? dataUser?.dataUser?.bachedTransaction[0]:[];
-    console.log(totalLicensesBuy.length)
     const arrayLicenses =  Array(end??0 - 1 + 1).fill().map((_, idx) =>{
       const value = 1+idx
       return { name:1 + idx, value:value?.toString()}

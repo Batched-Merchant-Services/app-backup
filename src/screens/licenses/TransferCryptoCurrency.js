@@ -36,7 +36,8 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
   const authData = redux?.auth;
   const user = redux?.user;
   const userProfile = user?.dataUser?.clients ? user?.dataUser?.clients[0] : '';
-  const accountCrypto = userProfile?.accountCrypto ? userProfile?.accountCrypto[0] : '';
+  const accountCrypto = userProfile?.accountCrypto?.length > 0 ? userProfile?.accountCrypto : [];
+  const accountCryptoData = accountCrypto?.length > 0 ? userProfile?.accountCrypto[0] : [];
   const brandTheme = user?.Theme?.colors;
   const amount = useValidatedInput('amount', '');
   const address = useValidatedInput('address', '');
@@ -45,6 +46,7 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
   const isValidId = isFormValid(amount);
   const isValid = isFormValid(amount, address, transactionIdValue, file);
   const [valueLicenses, setValueLicenses] = useState('');
+  const [showGenerateAddress, setShowGenerateAddress] = useState(false);
   const [validateButton, setValidateButton] = useState(true);
   const [currentLicense] = useState(licensesData?.currentLicense);
   const [twoFactors, setTwoFactors] = useState(authData?.user?.isTwoFactor);
@@ -57,34 +59,73 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
       dispatch(toggleSnackbarClose());
       dispatch(getPriceCrypto(currency === 'BTC' ? `XBTUSD` : 'XETHZUSD'));
       dispatch(getTypeCurrenciesCrypto('LicensePurchaseFee'));
-      getGenerateAddress();
-      if (currency === 'UUL') setValidateButton(userProfile?.account?.balanceTokens?.total === 0 ? true:false)
-      if (currency === 'FIAT') setValidateButton(userProfile?.account?.balance?.total === 0 ? true:false)
+      getStatusAddress();
     });
     return unsubscribe;
   }, []);
 
-  function getGenerateAddress() {
-    if (accountCrypto?.address === '' && currency === 'BTC' || currency === 'ETH') dispatch(generateAddressCryptoLicenses(currency));
-    if (accountCrypto?.address !== '' && currency === 'BTC' || currency === 'ETH') address?.onChangeText(accountCrypto?.address ?? '')
-    else address?.onChangeText(licensesData?.dataAddress?.address ?? '')
 
+  function getStatusAddress() {
+    if (accountCrypto?.length > 0) {
+      if (accountCryptoData?.address !== '') {
+        console.log('true')
+        getAddressCrypto();
+        setShowGenerateAddress(false);
+      }
+    } else {
+      if (licensesData?.dataAddress !== null) {
+        if (licensesData?.dataAddress?.address !== '' || licensesData?.dataAddress?.address !== undefined) {
+          address?.onChangeText(licensesData?.dataAddress?.address ?? '')
+          setShowGenerateAddress(false);
+        } else {
+          setShowGenerateAddress(true);
+        }
+      } else {
+        setShowGenerateAddress(true);
+      }
+    }
+    if (currency === 'UUL') setValidateButton(userProfile?.account?.balanceTokens?.total === 0 ? true : false)
+    if (currency === 'FIAT') setValidateButton(userProfile?.account?.balance?.total === 0 ? true : false)
+  }
+
+  function getAddressCrypto() {
+    if (accountCryptoData?.address !== '' && currency === 'BTC' || currency === 'ETH') address?.onChangeText(accountCryptoData?.address)
+    else address?.onChangeText(licensesData?.dataAddress?.address ?? '')
+    setShowGenerateAddress(false);
+  }
+
+  function getGenerateAddress() {
+    if (accountCrypto?.length === 0) {
+      if (currency === 'BTC' || currency === 'ETH') dispatch(generateAddressCryptoLicenses(currency));
+      setShowGenerateAddress(false);
+    } else {
+      setShowGenerateAddress(true);
+    }
   }
 
   useEffect(() => {
     if (currency === 'FIAT') dispatch(getFees(licensesData?.feeCurrency));
   }, [licensesData?.feeCurrency]);
 
+
   useEffect(() => {
     if (currency === 'FIAT') amount?.onChangeText((currentLicense?.amountStep * totalLicenses?.name) + licensesData?.totalFee + ' ' + 'USD');
   }, [licensesData?.totalFee]);
 
 
+  useEffect(() => {
+    if (licensesData?.successGenerateAddress) {
+      if (licensesData?.dataAddress?.address !== '' || licensesData?.dataAddress?.address !== undefined) { } setShowGenerateAddress(false);
+      address?.onChangeText(licensesData?.dataAddress?.address ?? '')
+    }
+
+  }, [licensesData?.dataAddress]);
+
 
   useEffect(() => {
     const uul = 18000 * totalLicenses?.name;
     const otherCurrency = (1 / licensesData?.priceCrypto?.bestAsks?.price) * (currentLicense?.amountStep + 15) * totalLicenses?.name;
-    setValueLicenses(currency === 'UUL'?uul:currency === 'BTC' || currency === 'ETH'? otherCurrency:(currentLicense?.amountStep * totalLicenses?.name) + licensesData?.totalFee);
+    setValueLicenses(currency === 'UUL' ? uul : currency === 'BTC' || currency === 'ETH' ? otherCurrency : (currentLicense?.amountStep * totalLicenses?.name) + licensesData?.totalFee);
     if (currency === 'UUL') amount?.onChangeText(uul.toString() + ' ' + currency);
     if (currency === 'BTC' || currency === 'ETH') amount?.onChangeText(otherCurrency.toString() + ' ' + currency);
   }, [licensesData?.priceCrypto]);
@@ -114,7 +155,7 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
   }
 
   const copyToClipboard = () => {
-    Clipboard.setString(licensesData?.addressCurrency?.address || accountCrypto?.address)
+    Clipboard.setString(licensesData?.addressCurrency?.address || accountCryptoData?.address)
     dispatch(toggleSnackbarOpen(i18n.t('General.snackCopiedReferenceCode'), 'warning'));
   }
 
@@ -147,7 +188,7 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
             </View>
           </View>
           <Divider height-20 />
-          <View height-1 width-35 white/>
+          <View height-1 width-35 white />
           <Divider height-20 />
           <View row>
             <View>
@@ -155,12 +196,12 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
             </View>
             {currency === 'UUL' && (
               <View flex-1 right>
-                <Text h16 semibold style={{color: userProfile?.account?.balanceTokens?.total === 0? colors.error: colors.blue02}}>{thousandsSeparator(userProfile?.account?.balanceTokens?.total)}</Text>
+                <Text h16 semibold style={{ color: userProfile?.account?.balanceTokens?.total === 0 ? colors.error : colors.blue02 }}>{thousandsSeparator(userProfile?.account?.balanceTokens?.total)}</Text>
               </View>
             )}
             {currency === 'FIAT' && (
               <View flex-1 right>
-                <Text h16 semibold style={{color: userProfile?.account?.balance?.total === 0? colors.error: colors.blue02}}>{thousandsSeparator(userProfile?.account?.balance?.total) + ' ' + 'USD'}</Text>
+                <Text h16 semibold style={{ color: userProfile?.account?.balance?.total === 0 ? colors.error : colors.blue02 }}>{thousandsSeparator(userProfile?.account?.balance?.total) + ' ' + 'USD'}</Text>
               </View>
             )}
 
@@ -177,18 +218,18 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
             )}
             {currency === 'FIAT' && (
               <View flex-1 right>
-                <Text h16 semibold white>{valueLicenses -  licensesData?.totalFee +' ' +'USD'}</Text>
+                <Text h16 semibold white>{valueLicenses - licensesData?.totalFee + ' ' + 'USD'}</Text>
               </View>
             )}
           </View>
-            <Divider height-20 />
+          <Divider height-20 />
           <View row>
             <View>
               <Text h12 light white>{i18n.t('Licenses.textTransactionFees')}</Text>
             </View>
             {currency === 'UUL' && (
               <View flex-1 right>
-              <Text h16 semibold white>{thousandsSeparator(0)}</Text>
+                <Text h16 semibold white>{thousandsSeparator(0)}</Text>
               </View>
             )}
             {currency === 'FIAT' && (
@@ -196,9 +237,9 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
                 <Text h16 semibold white>{thousandsSeparator(licensesData?.totalFee) + ' ' + 'USD'}</Text>
               </View>
             )}
-           
+
           </View>
-            <Divider height-20 />
+          <Divider height-20 />
           <IconLineDotted height={verticalScale(1)} width={'100%'} fill={brandTheme?.blue04 ?? colors.blue04} />
           <Divider height-20 />
           <View row>
@@ -212,15 +253,32 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
           <Divider height-15 />
         </Fragment>
       )}
+
+
       {(currency === 'BTC' || currency === 'ETH') && (
         <Fragment>
-          <FloatingInput
-            {...address}
-            label={i18n.t('Licenses.inputAddressToTransfer')}
-            editable={false}
-            keyboardType={'default'}
-            autoCapitalize={'none'}
-          />
+          {showGenerateAddress && (
+            <View>
+              <ButtonRounded
+                onPress={getGenerateAddress}
+                blue
+              >
+                <Text h14 semibold white>
+                  Generate Address
+                </Text>
+              </ButtonRounded>
+              <Divider height-15 />
+            </View>
+          )}
+          {!showGenerateAddress && (
+            <FloatingInput
+              {...address}
+              label={i18n.t('Licenses.inputAddressToTransfer')}
+              editable={false}
+              keyboardType={'default'}
+              autoCapitalize={'none'}
+            />
+          )}
           <Divider height-10 />
           <FloatingInput
             {...transactionIdValue}

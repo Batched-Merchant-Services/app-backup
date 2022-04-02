@@ -48,6 +48,7 @@ export const initialState = {
   getPriceCrypto:false,
   getTypeCurrency:false,
   getFee:false,
+  successGenerateAddress:false,
   dataLicenses: [],
   getLicenses: [],
   getListLicenses: [],
@@ -226,13 +227,14 @@ export default licensesReducer = (state = initialState, action) => {
 
       
     case GENERATE_CRYPTO_ADDRESS:
-      return { ...state, generateAddress: true, showErrorLicenses: false };
+      return { ...state, generateAddress: true, showErrorLicenses: false,successGenerateAddress:false };
 
     case GENERATE_CRYPTO_ADDRESS_SUCCESS:
       return {
         ...state,
         generateAddress: false,
         showErrorLicenses: false,
+        successGenerateAddress:true,
         dataAddress: action.payload,
         error: {},
       };
@@ -264,6 +266,7 @@ export default licensesReducer = (state = initialState, action) => {
         successCreateLicense: false,
         showErrorLicenses: true,
         statusCodeReferral: false,
+        successGenerateAddress:false,
         error: action.payload,
         success: {},
       };
@@ -284,6 +287,7 @@ export default licensesReducer = (state = initialState, action) => {
         successCreateLicense: false,
         showErrorLicenses: false,
         statusCodeReferral: false,
+        successGenerateAddress:false,
         error: {},
         success: {},
       };
