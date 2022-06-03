@@ -9,13 +9,11 @@ import {
 } from '@components';
 import { useSelector, useDispatch } from 'react-redux';
 import { Linking,Animated } from 'react-native';
-import { useValidatedInput } from '@hooks/validation-hooks';
 import BoxLicenses from './components/BoxLicenses';
 import i18n from '@utils/i18n';
-import { cleanErrorLicenses, getLicenses, saveCurrentLicense } from '@store/actions/licenses.actions';
+import { cleanErrorLicenses, saveCurrentLicense } from '@store/actions/licenses.actions';
 import { toggleSnackbarClose } from '@store/actions/app.actions';
 import { cleanError } from '../../store/actions/auth.actions';
-import { getTypeCurrenciesCrypto } from '../../store/actions/licenses.actions';
 
 
 const GetLicenses = ({ navigation, route }) => {
@@ -24,11 +22,9 @@ const GetLicenses = ({ navigation, route }) => {
   const licensesData = redux?.licenses;
   const params = route?.params;
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
-  const [animated, setAnimated] = useState(new Animated.Value(0));
-  const [animatedTwo, setAnimatedTwo] = useState(new Animated.Value(0));
-  const [animatedThree, setAnimatedThree] = useState(new Animated.Value(0));
-  const duration = 1000;
-
+  const [animated] = useState(new Animated.Value(0));
+  const [animatedTwo] = useState(new Animated.Value(0));
+  const [animatedThree] = useState(new Animated.Value(0));
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
@@ -63,7 +59,6 @@ const GetLicenses = ({ navigation, route }) => {
 
 
   function handleSelectLicense(license) {
-    console.log('licensesData?.getLicenses',licensesData?.getLicenses)
     const selectLicense = {
       numberStep: license,
       percentStep: '100%',

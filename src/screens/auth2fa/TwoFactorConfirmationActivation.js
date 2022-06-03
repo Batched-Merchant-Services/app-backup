@@ -20,6 +20,7 @@ import IconKey from '@assets/iconSVG/IconAuth2fa/IconKey';
 import ModalAuth2fa from './ModalAuth2fa';
 import LottieView from 'lottie-react-native';
 import { toggleSnackbarOpen } from '../../store/actions/app.actions';
+import { cleanError } from '../../store/actions/auth.actions';
 
 const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBack } }) => {
   const dispatch = useDispatch();
@@ -34,11 +35,11 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
 
   const copyToClipboard = () => {
     Clipboard.setString(clabe);
-    dispatch(toggleSnackbarOpen(i18n.t('General.snackCopiedReferenceCode'),'warning'));
+    dispatch(toggleSnackbarOpen(i18n.t('General.snackCopiedReferenceCode'), 'warning'));
   }
 
   function handleGoToAuth() {
-    console.log('new')
+    dispatch(cleanError());
     navigation.push("Auth2fa");
   }
   useEffect(() => {
@@ -50,68 +51,66 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
 
     setTimeout(() => {
       setShowDisabled(false);
-    }, 3000); 
+    }, 3000);
   };
 
- console.log('showModalDates',showModalDates)
+  console.log('showModalDates', showModalDates)
   return (
-    <BackgroundWrapper showNavigation={true}  navigation={navigation}>
-     <Divider height-20 />
-      <View centerH>
-        <LottieView source={require('../../assets/animationsLottie/IconSecurityLock.json')} autoPlay loop style={{ width: '90%' }} />
-        {/* <IconSecurityLock width={scale(180)} height={verticalScale(180)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} /> */}
-      </View>
-      <Divider height-20 />
-      <Text h16 regular blue02>{i18n.t('Auth2fa.textTwoFactorAuthenticationActivated')}</Text>
-      <Divider height-20 />
-      <Text h10 white semibold>{i18n.t('Auth2fa.textRememberToEnter')}</Text>
-      <Divider height-20 />
-      <View row padding-10 centerV style={{ borderColor: colors.blue02, borderWidth: 1 }}>
-        <IconKey width={scale(25)} height={verticalScale(25)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
-        <Divider width-5 />
-        <Text white h10 semibold>{clabe}</Text>
-        <Divider width-5 />
-        <Link onPress={copyToClipboard}>
-          <Text h10 blue02>{i18n.t('Auth2fa.linkCopy')}</Text>
-        </Link>
-      </View>
-      <Divider height-20 />
-      <View row paddingH-10 centerV warning height-55>
-        <IconWarning width={scale(18)} height={verticalScale(18)} fill={brandTheme?.white ?? colors?.white} fillSecondary={brandTheme?.warning ?? colors?.warning} />
-        <Divider width-10 />
-        <View flex-1>
-          <Text h12 semibold white>{i18n.t('Auth2fa.textKeepYourKeyWhere')},{' '}<Text regular white>{i18n.t('Auth2fa.textItWillBeRequired')}</Text></Text>
+    <>
+      <BackgroundWrapper showNavigation={true} navigation={navigation}>
+        <Divider height-20 />
+        <View centerH>
+          <LottieView source={require('../../assets/animationsLottie/IconSecurityLock.json')} autoPlay loop style={{ width: '90%' }} />
+          {/* <IconSecurityLock width={scale(180)} height={verticalScale(180)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} /> */}
         </View>
-      </View>
-      <Divider height-20 />
-      <Text h12 regular white>{i18n.t('Auth2fa.textNeverShareYour')}</Text>
-      {/* <Loading modalVisible={points?.isLoadingRewardsPoints} /> */}
-      <View flex-1 bottom>
-        <ButtonRounded
-          blue
-          onPress={handleGoToAuth}
-        >
-          <Text h13 semibold white center>
-            {i18n.t('Auth2fa.buttonBackToSecurity')}
-          </Text>
-        </ButtonRounded>
-        {/* <SnackNotice
+        <Divider height-20 />
+        <Text h16 regular blue02>{i18n.t('Auth2fa.textTwoFactorAuthenticationActivated')}</Text>
+        <Divider height-20 />
+        <Text h10 white semibold>{i18n.t('Auth2fa.textRememberToEnter')}</Text>
+        <Divider height-20 />
+        <View row padding-10 centerV style={{ borderColor: colors.blue02, borderWidth: 1 }}>
+          <IconKey width={scale(25)} height={verticalScale(25)} fill={brandTheme?.blue02 ?? colors?.blue02} fillSecondary={brandTheme?.white ?? colors?.white} />
+          <Divider width-5 />
+          <Text white h10 semibold>{clabe}</Text>
+          <Divider width-5 />
+          <Link onPress={copyToClipboard}>
+            <Text h10 blue02>{i18n.t('Auth2fa.linkCopy')}</Text>
+          </Link>
+        </View>
+        <Divider height-20 />
+        <View row paddingH-10 centerV warning height-55>
+          <IconWarning width={scale(18)} height={verticalScale(18)} fill={brandTheme?.white ?? colors?.white} fillSecondary={brandTheme?.warning ?? colors?.warning} />
+          <Divider width-10 />
+          <View flex-1>
+            <Text h12 semibold white>{i18n.t('Auth2fa.textKeepYourKeyWhere')},{' '}<Text regular white>{i18n.t('Auth2fa.textItWillBeRequired')}</Text></Text>
+          </View>
+        </View>
+        <Divider height-20 />
+        <Text h12 regular white>{i18n.t('Auth2fa.textNeverShareYour')}</Text>
+        {/* <Loading modalVisible={points?.isLoadingRewardsPoints} /> */}
+        <View flex-1 bottom>
+          <ButtonRounded
+            blue
+            onPress={handleGoToAuth}
+          >
+            <Text h13 semibold white center>
+              {i18n.t('Auth2fa.buttonBackToSecurity')}
+            </Text>
+          </ButtonRounded>
+          {/* <SnackNotice
           visible={error}
           message={points?.error?.message}
           timeout={3000}
         /> */}
-      </View>
-      {showModalDates&&(
-      <ModalAuth2fa visible={showModalDates}
-      onRequestClose={() => { setShowModalDates(false)}}
-      onPressOverlay={handleClose}
-      />
-    )}
-    </BackgroundWrapper>
-
-    
-
-
+        </View>
+      </BackgroundWrapper>
+      {showModalDates && (
+        <ModalAuth2fa visible={showModalDates}
+          onRequestClose={() => { setShowModalDates(false) }}
+          onPressOverlay={handleClose}
+        />
+      )}
+    </>
 
   );
 }

@@ -249,7 +249,8 @@
       "textLicenses": "Licenses",
       "textTransactionFees": "Transaction Fees",
       "textRemanentBalance":"Remanent balance",
-      "textIAuthorizeToWithdraw":"I authorize to withdraw the required balance from my wallet."
+      "textIAuthorizeToWithdraw":"I authorize to withdraw the required balance from my wallet.",
+      "textGenerateAddress":"Generate Address"
     },
     "pinConfirmation":{
       "textDefineAConfirmationPIN":"Define a confirmation PIN",

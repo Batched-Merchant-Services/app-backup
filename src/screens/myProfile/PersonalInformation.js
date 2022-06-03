@@ -79,7 +79,11 @@ const PersonalInformation = ({ navigation, navigation: { goBack } }) => {
       gender: genderValues?.value ?? gender?.value,
       alias: accounts?.alias ?? "",
       countryCode: accounts?.countryCode ?? "",
-      isComplete: true
+      isComplete: true,
+      websiteUrl:'',
+      corporationType:'',
+      businessType:'',
+      webSocialMediaPresense:''
     }
     dispatch(updateUserProfileInfo({ dataProfile }))
   }

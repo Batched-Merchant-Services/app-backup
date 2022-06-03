@@ -53,6 +53,7 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
   const error = useSelector(state => state?.licenses?.showErrorLicenses);
   const { colors } = useTheme();
 
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       dispatch(cleanErrorLicenses());
@@ -68,7 +69,6 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
   function getStatusAddress() {
     if (accountCrypto?.length > 0) {
       if (accountCryptoData?.address !== '') {
-        console.log('true')
         getAddressCrypto();
         setShowGenerateAddress(false);
       }
@@ -114,12 +114,16 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
 
 
   useEffect(() => {
+    console.log('licensesData?.dataAddress',licensesData?.successGenerateAddress)
     if (licensesData?.successGenerateAddress) {
       if (licensesData?.dataAddress?.address !== '' || licensesData?.dataAddress?.address !== undefined) { } setShowGenerateAddress(false);
       address?.onChangeText(licensesData?.dataAddress?.address ?? '')
+    }else{
+      console.log()
+      setShowGenerateAddress(true);
     }
-
   }, [licensesData?.dataAddress]);
+
 
 
   useEffect(() => {
@@ -151,7 +155,6 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
     } else {
       navigation.push("ConfirmSms", { page: 'BuyLicenses', data: createLicenses })
     }
-
   }
 
   const copyToClipboard = () => {
@@ -264,7 +267,7 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
                 blue
               >
                 <Text h14 semibold white>
-                  Generate Address
+                  {i18n.t('Licenses.textGenerateAddress')}
                 </Text>
               </ButtonRounded>
               <Divider height-15 />

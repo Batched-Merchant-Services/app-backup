@@ -88,7 +88,6 @@ const RegisterProfileBasic = ({ navigation, navigation: { goBack },route }) => {
 
   }
 
-  console.log('registerData?.gender',registerData?.isLoading)
 
   return (
     <BackgroundWrapper navigation={navigation}>

@@ -60,10 +60,10 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
       )}
       <Divider height-20 />
       {params?.page !== 'change' &&(
-        <Text h10 white semibold>{i18n.t('Auth2fa.textEnterTheCodeYou')}{' '}<Text white regular>{i18n.t('Auth2fa.textIfTimeRunsOut')}</Text></Text>
+        <Text h10 white semibold>{i18n.t('Auth2fa.textEnterTheCodeYou')}{' '}<Text textGray regular>{i18n.t('Auth2fa.textIfTimeRunsOut')}</Text></Text>
       )}
       {params?.page === 'change' &&(
-        <Text h10 white semibold>{i18n.t('Auth2fa.textEnterTheCodeYouGot')}<Text white regular>{i18n.t('Auth2fa.textIfTimeRunsOut')}</Text></Text>
+        <Text h10 white semibold>{i18n.t('Auth2fa.textEnterTheCodeYouGot')}<Text textGray regular>{i18n.t('Auth2fa.textIfTimeRunsOut')}</Text></Text>
       )}
       <Divider height-30 />
       <Text h12 blue02>{i18n.t('home.myBatchedTransfer.textConfirmationCode')}</Text>

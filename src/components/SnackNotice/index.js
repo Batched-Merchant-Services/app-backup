@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, Divider, ImageResize } from '@components';
 import { Animated, TouchableOpacity } from 'react-native'
 import styles from './styles';
@@ -23,8 +23,8 @@ const SnackNotice = ({
   const SHOW = useSelector(state => state?.app?.toggleSnackbar);
   const MESSAGE = useSelector((state) => state?.app?.snackbarMessage);
   const TYPE = useSelector((state) => state?.app?.typeSnack);
-  const [animated,setAnimated] = useState(new Animated.Value(0))
-  const duration = 1000;
+  const [animated, setAnimated] = useState(new Animated.Value(0))
+  const duration = 2000;
 
   const TIME = (timeout - 500) / 1000 + "s";
 
@@ -47,7 +47,7 @@ const SnackNotice = ({
       useNativeDriver: true
     }).start();
     setTimeout(() => {
-      handleTimeout()
+      fadeOut();
     }, 3000);
   }, [SHOW]);
 

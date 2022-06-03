@@ -133,6 +133,7 @@ export const nameGender= (data) =>  {
 };
 
 export const setRegister = ({ dataRegister }) => async (dispatch) => {
+  console.log('phone?.value',dataRegister)
   try {
     dispatch({ type: REGISTER });
    
@@ -182,6 +183,7 @@ export const validateSMS = ({codeSms}) => async (dispatch) => {
 
 
 export const registerProfile = ({ dataRegisterProf,term }) => async (dispatch) => {
+
   const token = await LocalStorage.get('auth_token');
   try {
     dispatch({ type: REGISTER_PROFILE });

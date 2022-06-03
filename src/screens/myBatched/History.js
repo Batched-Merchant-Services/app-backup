@@ -5,9 +5,9 @@ import { useValidatedInput, isFormValid } from '@hooks/validation-hooks';
 import { useSelector, useDispatch } from 'react-redux';
 import EmptyState from '../EmptyState';
 import i18n from '@utils/i18n';
-import { formatDateSend, getLocalDateFromUTC, moneyFormatter } from '../../utils/formatters';
+import { formatDateSend, moneyFormatter } from '../../utils/formatters';
 import { pointsConstants } from '../../store/constants';
-import { cleanErrorPoints, getExecutedPointsTransactions } from '../../store/actions/points.actions';
+import { getExecutedPointsTransactions } from '../../store/actions/points.actions';
 import { cleanHistoryPagination, saveHistoryPagination, toggleSnackbarClose } from '../../store/actions/app.actions';
 import { useTheme } from '@react-navigation/native';
 import Loading from '../Loading';
@@ -48,10 +48,10 @@ const History = ({ navigation }) => {
   const year = useValidatedInput('select', '', {
     changeHandlerSelect: 'onSelect'
   });
-  const [showData, setShowData] = useState(false);
+  const [showData, setShowData] = useState(true);
   const [showLastMovement, setShowLastMovement] = useState(true);
   const [showDowland, setShowDowland] = useState(false);
-  const [dataHistory, setDataHistory] = useState([]);
+  const [dataHistory, setDataHistory] = useState(infoUser?.dataUser?.bachedTransaction?.length > 0?infoUser?.dataUser?.bachedTransaction:[]);
   const [showFilter, setShowFilter] = useState(false);
   const [valuePool, setValuePool] = useState(0);
   const [newArray, setNewArray] = useState([]);
@@ -119,33 +119,36 @@ const History = ({ navigation }) => {
   useEffect(() => {
     var arrayBuy = [];
     var newArrayExecute = [];
+    console.log('infoUser?.dataUser?.bachedTransaction',dataHistory)
     if (infoUser?.dataUser?.bachedTransaction) {
       if (infoUser?.dataUser?.bachedTransaction?.length > 0) {
-        arrayBuy.push(...infoUser?.dataUser?.bachedTransaction);
-        if (points?.executeDataCommission?.length > 0) {
-          const newBuy = [...arrayBuy, ...points?.executeDataCommission];
-          setDataHistory(newBuy);
-          if (points?.executeDataCommission?.length < 9) setShowMore(false)
-          else setShowMore(true)
+        if (points?.executeDataCommission?.length > 0 || points?.executeData?.length > 0) {
+          arrayBuy.push(...infoUser?.dataUser?.bachedTransaction);
+          if (points?.executeDataCommission?.length > 0) {
+            const newBuy = [...arrayBuy, ...points?.executeDataCommission];
+            setDataHistory(newBuy);
+            if (points?.executeDataCommission?.length < 9) setShowMore(false)
+            else setShowMore(true)
+          }
+          if (points?.executeData?.length > 0) {
+            newArrayExecute?.push(...points?.executeData, ...dataHistory)
+          }
+          setShowData(true);
         }
-        if (points?.executeData?.length > 0) {
-          newArrayExecute?.push(...points?.executeData,...dataHistory)
-        }
-        setShowData(true);
       }
     }
 
     if (showNewPagination && points?.executeData?.length > 0) {
-      dispatch(saveHistoryPagination({ data: points?.executeData , page: offset }));
+      dispatch(saveHistoryPagination({ data: points?.executeData, page: offset }));
       const newData = [...newArrayExecute];
       const sort = newData.sort((a, b) => a?.id?.toString()?.localeCompare(b.id?.toString()));
-      const filter = sort.filter(function(item, pos) {
+      const filter = sort.filter(function (item, pos) {
         return sort.indexOf(item) == pos;
       })
       setShowMore(true)
       setDataHistory(filter);
     }
-  }, [points?.executeData, showNewPagination,points?.executeDataCommission]);
+  }, [points?.executeData, showNewPagination, points?.executeDataCommission]);
 
 
 
@@ -311,7 +314,7 @@ const History = ({ navigation }) => {
           </View>
           <DataHistory dataHistory={dataHistory} />
           <Divider height-10 />
-          { points?.executeData?.length > 0 && (
+          {points?.executeData?.length > 0 && (
             showMore && (
               <Link onPress={pagination}>
                 <Text h12 white>{i18n.t('home.history.linkShowMore')}</Text>

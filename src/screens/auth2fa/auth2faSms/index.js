@@ -19,8 +19,6 @@ const Auth2faSms = ({ navigation, route, navigation: { goBack } }) => {
   const appData = redux.app;
   const brandTheme = appData?.Theme?.colors;
   const { colors } = useTheme();
-
-  const [clabe, setClabe] = useState('BCWFNUJDXPOLQW4E5LEITVS');
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
 
 

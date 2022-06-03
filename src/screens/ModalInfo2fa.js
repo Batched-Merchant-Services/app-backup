@@ -18,14 +18,9 @@ const ModalInfo2fa = ({ visible, onRequestClose, getData, onPressOverlay,navigat
   const appData = redux.user;
   const authData = redux?.auth;
   const brandTheme = appData?.Theme?.colors;
-  const [showButtonModal, setShowButtonModal] = useState(true);
-  const [clabe, setClabe] = useState('BCWFNUJDXPOLQW4E5LEITVS');
   const { colors } = useTheme();
 
 
-  useEffect(() => {
-    setClabe(authData?.dataQrCode?.secretCode)
-  }, [authData?.dataQrCode]);
 
   function handleGoToDashboard() {
     console.log('appData?.successDataUser',appData?.dataUser?.bachedTransaction?.length)
