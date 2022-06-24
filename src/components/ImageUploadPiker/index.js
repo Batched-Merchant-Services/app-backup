@@ -89,7 +89,7 @@ const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, Image
           return typeImage;
       }
     if (errorFile) {
-      setFileError('Imagen rechazada, favor de volver a tomarla.');
+      setFileError('Image rejected, please retake it.');
     }
   };
 
@@ -109,7 +109,7 @@ const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, Image
             uploadImage(source, valueImage);  
           }
         }else{
-          setFileError('Imagen rechazada, favor de volver a tomarla.');
+          setFileError('Image rejected, please retake it.');
         }
         
       }
@@ -144,12 +144,13 @@ const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, Image
               uploadImage(source, valueImage);
             }
           }else{
-            setFileError('Imagen rechazada, favor de volver a tomarla.');
+            setFileError('Image rejected, please retake it.');
           }
         }
       });
     }
   }
+  
   return (
     <Fragment>
       <View blue02 padding-5>
@@ -157,14 +158,13 @@ const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, Image
       </View>
       <TouchableOpacity onPress={() => typeImage === 'selfie' ? handleImagesSelfie(typeImage) : handleImages(typeImage)}>
         <View flex-1 centerH centerV height-160 textBlue01 style={fileError === 'pending' ? { borderColor: brandTheme?.blue02 ?? Colors.blue02, borderWidth: 1 } : fileError ? { borderColor: brandTheme?.error ?? Colors.error, borderWidth: 1 } : { borderColor: brandTheme?.success ?? Colors.success, borderWidth: 1 }}>
-          {value !== '' &&(
+          {value !== '' || value !== undefined &&(
             <ImageResize
             source={{uri: value}}
             width={'80%'}
             height={'80%'}
           />
           )}
-           
           {value === '' &&(
             <ImageEmpty  height={'75%'} width={'75%'} fill={brandTheme?.blue02??colors.blue02}/>
           )}

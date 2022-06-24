@@ -30,7 +30,7 @@ export const setContact = ({ dataContact }) => async (dispatch) => {
             },
             {
               "name": "template",
-              "value": getLanguageName() === 'es' ? "user_template_contact_client_es" : "user_template_contact_client_en"
+              "value": "SupportContactClient"
             },
             {
               "name": "subject",

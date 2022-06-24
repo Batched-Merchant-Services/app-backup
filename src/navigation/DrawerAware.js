@@ -87,7 +87,7 @@ const CustomDrawer = props => {
   }, []);
 
   const handlePressLicenses = useCallback(async () => {
-    const url = 'https://uulala-public.s3-us-west-2.amazonaws.com/panel/legal/PrivacyPolicy.pdf'
+    const url = 'https://uulala-public.s3-us-west-2.amazonaws.com/Dispersion/UUPay000001/AttachFiles/322-560-vGMmwuB2-Batched_Privacy_policy.pdf'
     const supported = await Linking.canOpenURL(url);
     if (supported) {
       await Linking.openURL(url);

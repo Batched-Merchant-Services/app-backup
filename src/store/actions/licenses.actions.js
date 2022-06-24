@@ -361,7 +361,7 @@ export const getTypeCurrenciesCrypto = (parameter) => async (dispatch) => {
 
 export const nameTypeCurrenciesCrypto = (data) => {
   console.log('data',data)
-  const obj = JSON.parse(data['getBankParameter']);
+  const obj = data['getBankParameter']? JSON.parse(data['getBankParameter']):[];
   const typeCrypto = [{value: 'UUL',name: 'Uulala Tokens'}];
   obj.forEach(cryptoCurrencies => {
   
