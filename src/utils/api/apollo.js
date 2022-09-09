@@ -8,23 +8,17 @@ import {
 import { onError } from "@apollo/client/link/error";
 import { API_URL_STAGING, PUBLIC_KEY } from '@env';
 import i18n from '@utils/i18n';
-import { getUTCDateString } from "../formatters";
-import { generateRSA } from "./encrypt";
+import { generateRSA,getTicks } from "./encrypt";
 import { Alert } from "react-native";
 
 
-console.log('API_URL_STAGING', API_URL_STAGING, PUBLIC_KEY);
+//console.log('API_URL_STAGING', API_URL_STAGING, PUBLIC_KEY);
 
-
-const getTicks = () => {
-  const date = new Date(getUTCDateString());
-  return ((new Date(date.getTime() + date.getTimezoneOffset() * 60000) * 10000) + 621355968000000000);
-}
 
 const httpLink = new HttpLink({
   //test: ``https://services-test.apps-uulala.io/UulalaAuth/graphql`,
   //staging uri: `http://52.13.23.229/UulalaOAuth/graphql`,
-  uri: `http://52.13.23.229/UulalaOAuth/graphql`,
+  uri: `https://core.batchedservices.com/AccessPoint/graphql`,
   headers: {
     //prod https://batched-services.apps-uulala.io/UulalaOAuth/graphql
   }
@@ -37,7 +31,8 @@ const activityMiddleware = new ApolloLink((operation, forward) => {
       ...headers,
       'content-hash': generateRSA('AppBatched' + '|' + getTicks()),
       'Content-Type': 'application/json',
-      'Accept':'application/json'
+      'Accept':'application/json',
+      'User-Agent': 'QXBwOkJhdGNoZWROb2Rvcw=='
     },
   }));
   return forward(operation).map(result => {
@@ -45,8 +40,7 @@ const activityMiddleware = new ApolloLink((operation, forward) => {
     console.info('response',result?.data)
     return result
   })
-})
-
+});
 
 
 const errorLink = onError(({ forward, networkError, operation, graphQLErrors }) => {

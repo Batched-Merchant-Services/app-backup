@@ -1,4 +1,5 @@
 import { PUBLIC_KEY } from '@env';
+import { getUTCDateString } from '../formatters';
 export const generateRSA = (text) => {
   try {
     var JSEncrypt = require('jsencrypt');
@@ -10,4 +11,14 @@ export const generateRSA = (text) => {
     dispatch({ type: LOGIN_ERROR, payload: error });
   }
 
+};
+
+
+export const getTicks = () => {
+  try {
+    let date = getUTCDateString();
+    return (((date.getTime() + (date.getTimezoneOffset() * 60000)) * 10000) + 621355968000000000);
+  } catch (error) {
+    console.log('error',error);
+  }
 };

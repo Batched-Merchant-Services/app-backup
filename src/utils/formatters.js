@@ -26,20 +26,23 @@ export const convertUtc = (value)  =>{
   return dt.toLocaleString()
 }
 
-
-
 export const getUTCDateString = ()  =>{
-  let utcDate = new Date();
-  const year = utcDate.getUTCFullYear();
-  const month = ('0' + (utcDate.getUTCMonth()+1)).slice(-2);
-  const day = ('0' + utcDate.getUTCDate()).slice(-2);
-  const hours = ('0' + utcDate.getUTCHours()).slice(-2);
-  const mins = ('0' + utcDate.getUTCMinutes()).slice(-2);
-  const secs = ('0' + utcDate.getUTCSeconds()).slice(-2);
+  let localDate = new Date();
+  return new Date(Date.UTC(localDate.getFullYear(), localDate.getMonth(), localDate.getDate(), localDate.getHours(), localDate.getMinutes(), localDate.getSeconds(), localDate.getMilliseconds()));
+};
+
+// export const getUTCDateString = ()  =>{
+//   let utcDate = new Date();
+//   const year = utcDate.getUTCFullYear();
+//   const month = ('0' + (utcDate.getUTCMonth()+1)).slice(-2);
+//   const day = ('0' + utcDate.getUTCDate()).slice(-2);
+//   const hours = ('0' + utcDate.getUTCHours()).slice(-2);
+//   const mins = ('0' + utcDate.getUTCMinutes()).slice(-2);
+//   const secs = ('0' + utcDate.getUTCSeconds()).slice(-2);
   
-  let response = `${year}-${ month}-${day} ${hours }:${ mins }:${ secs }`
-  return response;
-}
+//   let response = `${year}-${ month}-${day} ${hours }:${ mins }:${ secs }`
+//   return response;
+// }
 
 export const formatDate = stringDate => {
   const date = new Date(stringDate);

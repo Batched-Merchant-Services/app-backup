@@ -257,7 +257,6 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
         </Fragment>
       )}
 
-
       {(currency === 'BTC' || currency === 'ETH') && (
         <Fragment>
           {showGenerateAddress && (
