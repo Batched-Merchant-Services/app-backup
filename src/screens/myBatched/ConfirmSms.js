@@ -62,7 +62,6 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
     dispatch(cleanErrorLicenses());
     dispatch(toggleSnackbarClose());
     dispatch(cleanErrorForgot());
-    console.log('params?.page',params?.page !== 'Login' || params?.page !== 'LoginChange')
     if(params?.page !== 'ChangePass')  dispatch(cleanError());
     if (params?.page !== 'Login') {
       if(params?.page !== 'LoginChange'){
@@ -162,7 +161,6 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
 
   useEffect(() => {
     if (auth?.isSessionTwoFactors) {
-      console.log('dataUser?.dataUser?.bachedTransaction?.length',dataUser)
       if(dataUser?.successDataUser){
         if (dataUser?.dataUser?.bachedTransaction?.length > 0) {
          navigation.navigate('Dashboard');
@@ -190,7 +188,7 @@ const TransferOption = ({ navigation, route, navigation: { goBack } }) => {
   if (licensesData?.successCreateLicense) {
     navigation.push("ConfirmationLicenses")
   }
-  console.log('points?.isLoadingRewardsPoints || auth?.isSessionTwoFactors',auth?.type2fa)
+
   return (
     <BackgroundWrapper showNavigation={true}  childrenLeft  onPressLeft={()=> goBack(null)}>
       <Divider height-20 />

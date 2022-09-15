@@ -36,6 +36,9 @@ const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, Image
   const dispatch = useDispatch();
   const redux = useSelector(state => state);
   const userData = redux?.user;
+  const userProfile = userData?.userData?.usersProfile ? userData?.userData?.usersProfile[0] : ''
+  const accounts = userProfile?.accounts;
+  const kyc = accounts?.kyc?.length > 0 ? accounts?.kyc[0] : '';
   const brandTheme = userData?.Theme?.colors;
   const [fileError, setFileError] = useState('pending');
   const [typeImagesSend, setTypeImagesSend] = useState('');
@@ -50,7 +53,7 @@ const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, Image
 
   function onchangeSendImage( file ){
     if (typeImagesSend === 'front') {
-      onChangeText(userData?.fileFront??'');
+      onChangeText(userData?.fileFront ??'');
     }else if (typeImagesSend === 'back') {
       onChangeText(userData?.fileBack??'');
     }else if (typeImagesSend === 'address') {
@@ -158,7 +161,7 @@ const ImageUploadPiker = ({ value, error, onChangeText, navigation, label, Image
       </View>
       <TouchableOpacity onPress={() => typeImage === 'selfie' ? handleImagesSelfie(typeImage) : handleImages(typeImage)}>
         <View flex-1 centerH centerV height-160 textBlue01 style={fileError === 'pending' ? { borderColor: brandTheme?.blue02 ?? Colors.blue02, borderWidth: 1 } : fileError ? { borderColor: brandTheme?.error ?? Colors.error, borderWidth: 1 } : { borderColor: brandTheme?.success ?? Colors.success, borderWidth: 1 }}>
-          {value !== '' || value !== undefined &&(
+          {(value !== '') &&(
             <ImageResize
             source={{uri: value}}
             width={'80%'}

@@ -64,7 +64,6 @@ const NewPassword = ({ navigation, navigation: { goBack }, route }) => {
 
   }
 
-  console.log('auth?.type2fa ',auth?.type2fa,error)
   return (
     <BackgroundWrapper navigation={navigation}>
       <Logo width={scale(169)} height={verticalScale(24)} fill="green" />

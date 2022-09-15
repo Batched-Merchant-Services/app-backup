@@ -100,6 +100,7 @@ const EmailConfirm = ({ navigation, navigation: { goBack } }) => {
 
   if (forgotData?.sendMessage) {
     const countryCode = userData?.dataUser?.lada;
+    console.log('countryCode',userData);
     navigation.push("ConfirmSms", {
       page: 'LoginChange',
       typeAuth: typeAuthentication,

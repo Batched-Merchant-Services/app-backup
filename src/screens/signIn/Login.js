@@ -50,7 +50,6 @@ const Login = ({ navigation }) => {
     dispatch(cleanDataUser());
     dispatch(userInactivity(false));
     setValues(true);
-    console.log('app',app)
   }, [dispatch]);
 
   useEffect(() => {
@@ -65,7 +64,6 @@ const Login = ({ navigation }) => {
   }
 
   useEffect(() => { 
-    console.log('app?.stateModalInfo2fa',(!authData?.user?.isTwoFactor || authData?.user?.type2fa === 0 ) )
     if (authData?.isSession) {
       if (!authData?.user?.isTwoFactor || authData?.user?.type2fa === 0) {
         if (app?.stateModalInfo2fa ) {

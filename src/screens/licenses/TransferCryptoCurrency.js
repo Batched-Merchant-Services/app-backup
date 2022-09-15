@@ -114,12 +114,10 @@ const TransferCryptoCurrency = ({ navigation, route }) => {
 
 
   useEffect(() => {
-    console.log('licensesData?.dataAddress',licensesData?.successGenerateAddress)
     if (licensesData?.successGenerateAddress) {
       if (licensesData?.dataAddress?.address !== '' || licensesData?.dataAddress?.address !== undefined) { } setShowGenerateAddress(false);
       address?.onChangeText(licensesData?.dataAddress?.address ?? '')
     }else{
-      console.log()
       setShowGenerateAddress(true);
     }
   }, [licensesData?.dataAddress]);

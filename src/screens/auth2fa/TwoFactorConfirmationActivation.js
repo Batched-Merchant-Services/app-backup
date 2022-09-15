@@ -54,7 +54,6 @@ const TwoFactorConfirmationActivation = ({ navigation, route, navigation: { goBa
     }, 3000);
   };
 
-  console.log('showModalDates', showModalDates)
   return (
     <>
       <BackgroundWrapper showNavigation={true} navigation={navigation}>

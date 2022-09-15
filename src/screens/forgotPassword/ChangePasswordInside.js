@@ -39,6 +39,7 @@ const ChangePasswordInside = ({ navigation, route }) => {
   
   function handleChangePass() {
     const countryCode = dataUser?.dataUser?.lada;
+    console.log('countryCode',countryCode);
     let dataRecovery = {
       company: 320,
       email: userProfile?.email,
@@ -52,7 +53,6 @@ const ChangePasswordInside = ({ navigation, route }) => {
    navigation.push('ConfirmSms', { page: 'ChangePass' });
   }
 
-  console.log('lsss')
   return (
     <BackgroundWrapper showNavigation={true} childrenLeft navigation={navigation}>
       <Divider height-15 />

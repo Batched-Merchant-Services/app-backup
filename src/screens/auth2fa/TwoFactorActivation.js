@@ -55,7 +55,6 @@ const TwoFactorActivation = ({ navigation, route, navigation: { goBack } }) => {
 
   
   useEffect(() => {
-    console.log('authData',authData)
     setClabe(authData?.dataQrCode?.secretCode)
   }, [authData?.dataQrCode]);
 

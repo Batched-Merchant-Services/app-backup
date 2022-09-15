@@ -56,12 +56,10 @@ const ContactInformation = ({ navigation, navigation: { goBack } }) => {
 
 
   useEffect(() => {
-    console.log('registerData?.countries',registerData?.countries)
     if (registerData?.countries) {
       if (registerData?.countries?.length > 0) {
         setItems(registerData?.countries)
-        const valueCountry = registerData?.countries?.filter(key => key?.value === address?.country);
-       
+        const valueCountry = registerData?.countries?.filter(key => key?.countryNumber === address?.country);
         setValueCountries(...valueCountry);
       }
     }

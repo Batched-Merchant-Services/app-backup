@@ -119,7 +119,6 @@ const History = ({ navigation }) => {
   useEffect(() => {
     var arrayBuy = [];
     var newArrayExecute = [];
-    console.log('infoUser?.dataUser?.bachedTransaction',dataHistory)
     if (infoUser?.dataUser?.bachedTransaction) {
       if (infoUser?.dataUser?.bachedTransaction?.length > 0) {
         if (points?.executeDataCommission?.length > 0 || points?.executeData?.length > 0) {
@@ -153,7 +152,6 @@ const History = ({ navigation }) => {
 
 
   useEffect(() => {
-    console.log('showFilter', points?.executeData?.length);
     if (showFilter) {
       if (points?.executeData) {
         if (points?.executeData?.length > 0) {

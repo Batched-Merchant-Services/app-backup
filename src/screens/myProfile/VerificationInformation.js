@@ -62,6 +62,7 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
       if (profile?.dropDownIdentification?.length > 0) {
         setTypeIdentity(profile?.dropDownIdentification)
         const valueCountry = profile?.dropDownIdentification?.filter(key => key?.value?.toString() === kyc?.typeIdentification);
+        console.log('valueCountry',profile?.dropDownIdentification,'kyc?.typeIdentification',kyc?.typeIdentification)
         setValueIdentity(...valueCountry);
       }
     }
@@ -102,7 +103,6 @@ const VerificationInformation = ({ navigation, navigation: { goBack } }) => {
     }
     dispatch(createKYC({ dataCreateKYC }))
   }
- console.log('isLoadingFile',dataUser)
 
   return (
     <Fragment>

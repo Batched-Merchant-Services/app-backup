@@ -23,7 +23,6 @@ const ModalInfo2fa = ({ visible, onRequestClose, getData, onPressOverlay,navigat
 
 
   function handleGoToDashboard() {
-    console.log('appData?.successDataUser',appData?.dataUser?.bachedTransaction?.length)
     if(appData?.successDataUser){
       if (appData?.dataUser?.bachedTransaction?.length > 0) {
        navigation.navigate('Dashboard');

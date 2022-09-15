@@ -56,8 +56,6 @@ const ConfirmationTransfer = ({ navigation, navigation: { goBack },route }) => {
     }
   }
 
-
-  console.log('transferData',transferData)
   return (
     <BackgroundWrapper showNavigation={true} navigation={navigation}>
       <Divider height-20 />
